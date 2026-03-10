@@ -963,6 +963,137 @@ export class EditorController extends ViewController {
     document.addEventListener("fullscreenchange", () => {
       this.updateFullscreenButton();
     });
+
+    // Initialize draggable toolbar
+    this.initDraggableToolbar();
+  }
+
+  initDraggableToolbar() {
+    const toolsDraggable = document.getElementById("tools-draggable");
+    if (!toolsDraggable) {
+      return;
+    }
+
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+
+    const onMouseDown = (e) => {
+      // Don't start drag if clicking on a tool button
+      if (e.target.closest(".tool-button") || e.target.closest(".subtool-button")) {
+        return;
+      }
+
+      isDragging = true;
+      toolsDraggable.classList.add("dragging");
+
+      const rect = toolsDraggable.getBoundingClientRect();
+      const parentRect = toolsDraggable.parentElement.getBoundingClientRect();
+
+      startX = e.clientX;
+      startY = e.clientY;
+      initialLeft = rect.left - parentRect.left;
+      initialTop = rect.top - parentRect.top;
+
+      e.preventDefault();
+    };
+
+    const onMouseMove = (e) => {
+      if (!isDragging) {
+        return;
+      }
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      const parent = toolsDraggable.parentElement;
+      const parentRect = parent.getBoundingClientRect();
+      const toolsRect = toolsDraggable.getBoundingClientRect();
+
+      // Calculate new position
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      // Constrain to parent bounds
+      const maxLeft = parentRect.width - toolsRect.width;
+      const maxTop = parentRect.height - toolsRect.height;
+
+      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+      newTop = Math.max(0, Math.min(newTop, maxTop));
+
+      toolsDraggable.style.left = newLeft + "px";
+      toolsDraggable.style.top = newTop + "px";
+      toolsDraggable.style.right = "auto";
+    };
+
+    const onMouseUp = () => {
+      if (isDragging) {
+        isDragging = false;
+        toolsDraggable.classList.remove("dragging");
+      }
+    };
+
+    toolsDraggable.addEventListener("mousedown", onMouseDown);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+
+    // Handle touch events for mobile
+    const onTouchStart = (e) => {
+      if (e.target.closest(".tool-button") || e.target.closest(".subtool-button")) {
+        return;
+      }
+
+      isDragging = true;
+      toolsDraggable.classList.add("dragging");
+
+      const touch = e.touches[0];
+      const rect = toolsDraggable.getBoundingClientRect();
+      const parentRect = toolsDraggable.parentElement.getBoundingClientRect();
+
+      startX = touch.clientX;
+      startY = touch.clientY;
+      initialLeft = rect.left - parentRect.left;
+      initialTop = rect.top - parentRect.top;
+
+      e.preventDefault();
+    };
+
+    const onTouchMove = (e) => {
+      if (!isDragging) {
+        return;
+      }
+
+      const touch = e.touches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+
+      const parent = toolsDraggable.parentElement;
+      const parentRect = parent.getBoundingClientRect();
+      const toolsRect = toolsDraggable.getBoundingClientRect();
+
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      const maxLeft = parentRect.width - toolsRect.width;
+      const maxTop = parentRect.height - toolsRect.height;
+
+      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+      newTop = Math.max(0, Math.min(newTop, maxTop));
+
+      toolsDraggable.style.left = newLeft + "px";
+      toolsDraggable.style.top = newTop + "px";
+      toolsDraggable.style.right = "auto";
+    };
+
+    const onTouchEnd = () => {
+      if (isDragging) {
+        isDragging = false;
+        toolsDraggable.classList.remove("dragging");
+      }
+    };
+
+    toolsDraggable.addEventListener("touchstart", onTouchStart, { passive: false });
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
+    document.addEventListener("touchend", onTouchEnd);
   }
 
   addEditTool(tool) {

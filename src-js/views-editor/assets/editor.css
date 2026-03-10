@@ -16,76 +16,36 @@
 }
 
 :root {
-  --editor-tool-button-hover-background-color: var(
-    --editor-tool-button-hover-background-color-light
-  );
-  --editor-tool-button-active-background-color: var(
-    --editor-tool-button-active-background-color-light
-  );
-  --editor-tool-button-selected-background-color: var(
-    --editor-tool-button-selected-background-color-light
-  );
-  --editor-mini-console-background-color: var(
-    --editor-mini-console-background-color-light
-  );
-  --editor-mini-console-foreground-color: var(
-    --editor-mini-console-foreground-color-light
-  );
+  --editor-tool-button-hover-background-color: var(--editor-tool-button-hover-background-color-light);
+  --editor-tool-button-active-background-color: var(--editor-tool-button-active-background-color-light);
+  --editor-tool-button-selected-background-color: var(--editor-tool-button-selected-background-color-light);
+  --editor-mini-console-background-color: var(--editor-mini-console-background-color-light);
+  --editor-mini-console-foreground-color: var(--editor-mini-console-foreground-color-light);
 }
 
 :root.dark-theme {
-  --editor-tool-button-hover-background-color: var(
-    --editor-tool-button-hover-background-color-dark
-  );
-  --editor-tool-button-active-background-color: var(
-    --editor-tool-button-active-background-color-dark
-  );
-  --editor-tool-button-selected-background-color: var(
-    --editor-tool-button-selected-background-color-dark
-  );
-  --editor-mini-console-background-color: var(
-    --editor-mini-console-background-color-dark
-  );
-  --editor-mini-console-foreground-color: var(
-    --editor-mini-console-foreground-color-dark
-  );
+  --editor-tool-button-hover-background-color: var(--editor-tool-button-hover-background-color-dark);
+  --editor-tool-button-active-background-color: var(--editor-tool-button-active-background-color-dark);
+  --editor-tool-button-selected-background-color: var(--editor-tool-button-selected-background-color-dark);
+  --editor-mini-console-background-color: var(--editor-mini-console-background-color-dark);
+  --editor-mini-console-foreground-color: var(--editor-mini-console-foreground-color-dark);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --editor-tool-button-hover-background-color: var(
-      --editor-tool-button-hover-background-color-dark
-    );
-    --editor-tool-button-active-background-color: var(
-      --editor-tool-button-active-background-color-dark
-    );
-    --editor-tool-button-selected-background-color: var(
-      --editor-tool-button-selected-background-color-dark
-    );
-    --editor-mini-console-background-color: var(
-      --editor-mini-console-background-color-dark
-    );
-    --editor-mini-console-foreground-color: var(
-      --editor-mini-console-foreground-color-dark
-    );
+    --editor-tool-button-hover-background-color: var(--editor-tool-button-hover-background-color-dark);
+    --editor-tool-button-active-background-color: var(--editor-tool-button-active-background-color-dark);
+    --editor-tool-button-selected-background-color: var(--editor-tool-button-selected-background-color-dark);
+    --editor-mini-console-background-color: var(--editor-mini-console-background-color-dark);
+    --editor-mini-console-foreground-color: var(--editor-mini-console-foreground-color-dark);
   }
 
   :root.light-theme {
-    --editor-tool-button-hover-background-color: var(
-      --editor-tool-button-hover-background-color-light
-    );
-    --editor-tool-button-active-background-color: var(
-      --editor-tool-button-active-background-color-light
-    );
-    --editor-tool-button-selected-background-color: var(
-      --editor-tool-button-selected-background-color-light
-    );
-    --editor-mini-console-background-color: var(
-      --editor-mini-console-background-color-light
-    );
-    --editor-mini-console-foreground-color: var(
-      --editor-mini-console-foreground-color-light
-    );
+    --editor-tool-button-hover-background-color: var(--editor-tool-button-hover-background-color-light);
+    --editor-tool-button-active-background-color: var(--editor-tool-button-active-background-color-light);
+    --editor-tool-button-selected-background-color: var(--editor-tool-button-selected-background-color-light);
+    --editor-mini-console-background-color: var(--editor-mini-console-background-color-light);
+    --editor-mini-console-foreground-color: var(--editor-mini-console-foreground-color-light);
   }
 }
 
@@ -195,7 +155,8 @@ body {
 
   box-shadow: 0px 0px 8px #0006;
   top: 0;
-  width: 50px; /* arbitrary > blur radius */
+  width: 50px;
+  /* arbitrary > blur radius */
   height: 100%;
 }
 
@@ -203,18 +164,19 @@ body {
   display: inherit;
 }
 
-.tab-overlay-container.left > .sidebar-shadow-box {
+.tab-overlay-container.left>.sidebar-shadow-box {
   left: -50px;
 }
 
-.tab-overlay-container.right > .sidebar-shadow-box {
+.tab-overlay-container.right>.sidebar-shadow-box {
   right: -50px;
 }
 
 .sidebar-tab {
   display: flex;
   align-items: center;
-  z-index: 1; /* below the shadow box but above the tools*/
+  z-index: 1;
+  /* below the shadow box but above the tools*/
   width: var(--sidebar-tab-width);
   height: 2.8em;
   background-color: var(--ui-element-background-color);
@@ -229,7 +191,8 @@ body {
 }
 
 .sidebar-tab.selected {
-  z-index: 20; /* elevate it above the shadow box */
+  z-index: 20;
+  /* elevate it above the shadow box */
 }
 
 @keyframes tab-slide-out-animation {
@@ -252,19 +215,19 @@ body {
   animation-name: tab-slide-in-animation;
 }
 
-.tab-overlay-container.left > .sidebar-tab {
+.tab-overlay-container.left>.sidebar-tab {
   border-radius: 0 0.8em 0.8em 0;
   padding-right: 0.25em;
   justify-content: flex-end;
 }
 
-.tab-overlay-container.right > .sidebar-tab {
+.tab-overlay-container.right>.sidebar-tab {
   border-radius: 0.8em 0 0 0.8em;
   padding-left: 0.25em;
   justify-content: flex-start;
 }
 
-.tab-overlay-container.right > .sidebar-tab .icon-tabler {
+.tab-overlay-container.right>.sidebar-tab .icon-tabler {
   stroke-width: 1.5px;
 }
 
@@ -274,17 +237,17 @@ body {
   width: 100%;
 }
 
-.sidebar-container.left > .sidebar-content {
+.sidebar-container.left>.sidebar-content {
   float: right;
   width: var(--sidebar-content-width-left);
 }
 
-.sidebar-container.right > .sidebar-content {
+.sidebar-container.right>.sidebar-content {
   float: left;
   width: var(--sidebar-content-width-right);
 }
 
-.sidebar-container > .sidebar-content.selected {
+.sidebar-container>.sidebar-content.selected {
   display: inherit;
 }
 
@@ -292,8 +255,8 @@ body {
 
 .tool-overlay-container {
   display: flex;
-  justify-content: center;
   margin: 0;
+  position: relative;
 }
 
 #text-entry-overlay {
@@ -317,7 +280,7 @@ body {
   left: -2px;
 }
 
-.sidebar-tab > inline-svg {
+.sidebar-tab>inline-svg {
   display: block;
   width: 2.2em;
   height: 2.2em;
@@ -330,14 +293,16 @@ body {
 }
 
 .canvas-container {
-  position: relative; /* for the children */
+  position: relative;
+  /* for the children */
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 #edit-canvas {
-  position: absolute; /* but relative to canvas-container */
+  position: absolute;
+  /* but relative to canvas-container */
   padding: 0;
   margin: 0;
   overscroll-behavior: none;
@@ -360,6 +325,25 @@ body {
   gap: 1em;
   padding: 1em;
   position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Draggable toolbar styles */
+#tools-draggable {
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#tools-draggable.dragging {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  opacity: 0.8;
+}
+
+#tools-draggable .tools-item {
+  pointer-events: auto;
 }
 
 .tools-item {
@@ -384,7 +368,8 @@ body {
   padding: 0.1rem;
   transition: 0.15s;
   display: inline-grid;
-  box-sizing: content-box; /* FIXME: use border-box */
+  box-sizing: content-box;
+  /* FIXME: use border-box */
 }
 
 .tool-button:first-child,
@@ -392,9 +377,7 @@ body {
   border-radius: 0.65em 0 0 0.65em;
 }
 
-.tool-button:first-child:has(
-    .subtool-button:nth-child(2)[style*="visibility: visible;"]
-  ) {
+.tool-button:first-child:has(.subtool-button:nth-child(2)[style*="visibility: visible;"]) {
   border-radius: 0.65em 0 0 0;
 }
 
@@ -480,7 +463,8 @@ body {
 }
 
 #mini-console {
-  display: none; /* will be set to 'inherit' when needed */
+  display: none;
+  /* will be set to 'inherit' when needed */
   z-index: 3;
   position: absolute;
   color: var(--editor-mini-console-foreground-color);
@@ -508,9 +492,9 @@ sidebearing-handle {
   white-space: nowrap;
 }
 
-sidebearing-handle > .advance,
-sidebearing-handle > .left-sidebearing,
-sidebearing-handle > .right-sidebearing {
+sidebearing-handle>.advance,
+sidebearing-handle>.left-sidebearing,
+sidebearing-handle>.right-sidebearing {
   --sb-bg-color: var(--metrics-handle-color);
   position: absolute;
   box-sizing: border-box;
@@ -522,35 +506,35 @@ sidebearing-handle > .right-sidebearing {
   pointer-events: auto;
 }
 
-sidebearing-handle > .positive {
+sidebearing-handle>.positive {
   --sb-bg-color: var(--positive-metrics-handle-color);
 }
 
-sidebearing-handle > .negative {
+sidebearing-handle>.negative {
   --sb-bg-color: var(--negative-metrics-handle-color);
 }
 
-sidebearing-handle > .selected {
+sidebearing-handle>.selected {
   background-color: var(--sb-bg-color);
 }
 
-sidebearing-handle > .hovered {
+sidebearing-handle>.hovered {
   box-shadow: 0 0 0.7em var(--sb-bg-color);
 }
 
-sidebearing-handle > .advance {
+sidebearing-handle>.advance {
   left: 50%;
   pointer-events: none;
 }
 
-sidebearing-handle > .left-sidebearing {
+sidebearing-handle>.left-sidebearing {
   transform: translate(0%, 100%);
   left: 0%;
   cursor: w-resize;
   border-radius: 0.1em 0.66em 0.66em 0.1em;
 }
 
-sidebearing-handle > .right-sidebearing {
+sidebearing-handle>.right-sidebearing {
   transform: translate(-100%, 100%);
   left: 100%;
   cursor: e-resize;
@@ -576,11 +560,11 @@ kerning-handle {
   transform: translate(-50%, 50%);
 }
 
-kerning-handle > .value {
+kerning-handle>.value {
   grid-column-start: span 2;
 }
 
-kerning-handle > .group {
+kerning-handle>.group {
   font-weight: bold;
 }
 
