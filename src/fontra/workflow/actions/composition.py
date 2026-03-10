@@ -154,21 +154,20 @@ def get_glyph_metrics(glyph: StaticGlyph) -> dict[str, float]:
         "width": glyph.xAdvance or 0.0,
     }
 
-    if not glyph.path:
+    if not glyph.path or glyph.path.isEmpty():
         return metrics
 
-    # Get all points from the glyph
-    all_points = []
-    for contour in glyph.path:
-        for point in contour:
-            if hasattr(point, "x") and hasattr(point, "y"):
-                all_points.append((point.x, point.y))
-
-    if not all_points:
+    # PackedPath stores coordinates as a flat list [x0, y0, x1, y1, ...]
+    # Extract all y values to find min/max
+    coordinates = glyph.path.coordinates
+    if not coordinates:
         return metrics
 
-    # Find min/max y values
-    y_values = [p[1] for p in all_points]
+    # Get all y values (every other element starting at index 1)
+    y_values = coordinates[1::2]
+    if not y_values:
+        return metrics
+
     min_y = min(y_values)
     max_y = max(y_values)
 
@@ -253,7 +252,8 @@ class AutoPositionDiacritics(BaseFilter):
         new_layers = {}
 
         for layer_name, layer in glyph.layers.items():
-            static_glyph = layer.glyph
+            # Handle both Layer objects and direct StaticGlyph (for backwards compatibility)
+            static_glyph = layer.glyph if hasattr(layer, 'glyph') else layer
 
             # Skip glyphs with components (they inherit anchors from base glyphs)
             if self.skip_components and static_glyph.components:
@@ -281,10 +281,18 @@ class AutoPositionDiacritics(BaseFilter):
             # Position anchors based on metrics
             anchors = self._calculate_anchors(base_name, metrics)
 
-            new_layers[layer_name] = replace(
-                layer,
-                glyph=replace(static_glyph, anchors=anchors),
-            )
+            # Handle both Layer objects and direct StaticGlyph
+            if hasattr(layer, 'glyph'):
+                # It's a Layer object
+                new_layers[layer_name] = replace(
+                    layer,
+                    glyph=replace(static_glyph, anchors=anchors),
+                )
+            else:
+                # It's a direct StaticGlyph, wrap it in a new Layer
+                new_layers[layer_name] = Layer(
+                    glyph=replace(static_glyph, anchors=anchors)
+                )
 
         return replace(glyph, layers=new_layers)
 
@@ -501,12 +509,23 @@ class SuggestComponents(BaseFilter):
             # Add suggestions to customData
             new_layers = {}
             for layer_name, layer in glyph.layers.items():
-                new_custom_data = dict(layer.glyph.customData)
-                new_custom_data["component_suggestions"] = suggestions
-                new_layers[layer_name] = replace(
-                    layer,
-                    glyph=replace(layer.glyph, customData=new_custom_data),
-                )
+                # Handle both Layer objects and direct StaticGlyph
+                if hasattr(layer, 'glyph'):
+                    static_glyph = layer.glyph
+                    new_custom_data = dict(static_glyph.customData)
+                    new_custom_data["component_suggestions"] = suggestions
+                    new_layers[layer_name] = replace(
+                        layer,
+                        glyph=replace(static_glyph, customData=new_custom_data),
+                    )
+                else:
+                    # Direct StaticGlyph - create a new Layer wrapping it
+                    static_glyph = layer
+                    new_custom_data = dict(static_glyph.customData)
+                    new_custom_data["component_suggestions"] = suggestions
+                    new_layers[layer_name] = Layer(
+                        glyph=replace(static_glyph, customData=new_custom_data)
+                    )
             glyph = replace(glyph, layers=new_layers)
 
         return glyph
@@ -535,23 +554,27 @@ def analyze_glyph_composition(glyph: VariableGlyph) -> dict[str, Any]:
 
     # Check for components
     for layer in glyph.layers.values():
-        if layer.glyph.components:
+        # Handle both Layer objects and direct StaticGlyph (for backwards compatibility)
+        static_glyph = layer.glyph if hasattr(layer, 'glyph') else layer
+        if static_glyph.components:
             result["is_composite"] = True
-            result["components"] = [c.name for c in layer.glyph.components]
+            result["components"] = [c.name for c in static_glyph.components]
             break
 
     # Check for anchors
     for layer in glyph.layers.values():
-        if layer.glyph.anchors:
+        static_glyph = layer.glyph if hasattr(layer, 'glyph') else layer
+        if static_glyph.anchors:
             result["has_anchors"] = True
             result["anchor_positions"] = {
-                a.name: (a.x, a.y) for a in layer.glyph.anchors
+                a.name: (a.x, a.y) for a in static_glyph.anchors
             }
             break
 
     # Get metrics and suggest anchors
     for layer in glyph.layers.values():
-        metrics = get_glyph_metrics(layer.glyph)
+        static_glyph = layer.glyph if hasattr(layer, 'glyph') else layer
+        metrics = get_glyph_metrics(static_glyph)
         if metrics["width"] > 0:
             result["suggested_anchors"] = {
                 "top": (metrics["width"] / 2, metrics.get("cap_height", 700)),
