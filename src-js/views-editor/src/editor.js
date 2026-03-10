@@ -1013,12 +1013,14 @@ export class EditorController extends ViewController {
       let newLeft = initialLeft + dx;
       let newTop = initialTop + dy;
 
-      // Constrain to parent bounds
-      const maxLeft = parentRect.width - toolsRect.width;
-      const maxTop = parentRect.height - toolsRect.height;
+      // Constrain to window bounds
+      const minLeft = -parentRect.left;
+      const minTop = -parentRect.top;
+      const maxLeft = window.innerWidth - parentRect.left - toolsRect.width;
+      const maxTop = window.innerHeight - parentRect.top - toolsRect.height;
 
-      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-      newTop = Math.max(0, Math.min(newTop, maxTop));
+      newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+      newTop = Math.max(minTop, Math.min(newTop, maxTop));
 
       toolsDraggable.style.left = newLeft + "px";
       toolsDraggable.style.top = newTop + "px";
@@ -1073,11 +1075,13 @@ export class EditorController extends ViewController {
       let newLeft = initialLeft + dx;
       let newTop = initialTop + dy;
 
-      const maxLeft = parentRect.width - toolsRect.width;
-      const maxTop = parentRect.height - toolsRect.height;
+      const minLeft = -parentRect.left;
+      const minTop = -parentRect.top;
+      const maxLeft = window.innerWidth - parentRect.left - toolsRect.width;
+      const maxTop = window.innerHeight - parentRect.top - toolsRect.height;
 
-      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-      newTop = Math.max(0, Math.min(newTop, maxTop));
+      newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+      newTop = Math.max(minTop, Math.min(newTop, maxTop));
 
       toolsDraggable.style.left = newLeft + "px";
       toolsDraggable.style.top = newTop + "px";
