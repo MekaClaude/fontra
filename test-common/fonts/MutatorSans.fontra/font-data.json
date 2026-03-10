@@ -256,5 +256,20 @@
 "width": 0
 }
 }
+},
+"customData": {
+"fontra.sourceStatusFieldDefinitions": [
+{
+"color": [
+1,
+0,
+0,
+1
+],
+"isDefault": true,
+"label": "In progress",
+"value": 0
+}
+]
 }
 }
