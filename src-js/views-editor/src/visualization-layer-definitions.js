@@ -462,10 +462,10 @@ registerVisualizationLayerDefinition({
       backgroundImage.identifier,
       backgroundImage.color
         ? rgbaToCSS([
-            backgroundImage.color.red,
-            backgroundImage.color.green,
-            backgroundImage.color.blue,
-          ])
+          backgroundImage.color.red,
+          backgroundImage.color.green,
+          backgroundImage.color.blue,
+        ])
         : null,
       () => controller.requestUpdate()
     );
@@ -607,7 +607,7 @@ function _drawGuideline(context, parameters, guideline, strokeColor) {
           textWidth / 2 - // move half width left -> right aligned to origin
           halfMarker - // move half of the marker radius left + stroke width
           parameters.margin * // move one margin to left to get a short line on the left
-            2; // move another margin left to get the margin on the right
+          2; // move another margin left to get the margin on the right
         context.fillText(strLine, moveText, textVerticalCenter);
       }
 
@@ -1508,7 +1508,7 @@ registerVisualizationLayerDefinition({
 
     let status =
       positionedGlyph.varGlyph.sources[sourceIndex].customData[
-        "fontra.development.status"
+      "fontra.development.status"
       ];
 
     if (status === undefined) {
@@ -1829,6 +1829,119 @@ function* iterComponentOriginsByIndex(components, componentIndices) {
     }
   }
 }
+
+// ----------------------------------------------------------------------------
+// Type Design Learning Features - Overlays
+// ----------------------------------------------------------------------------
+
+registerVisualizationLayerDefinition({
+  identifier: "fontra.overshoot-zones",
+  name: "sidebar.user-settings.overshoot-zones",
+  selectionFunc: glyphSelector("editing"),
+  userSwitchable: true,
+  defaultOn: false,
+  zIndex: 90,
+  screenParameters: { overshootDepth: 20 },
+  colors: {
+    zoneColor: "#00BFFF15",
+    zoneStrokeColor: "#00608020",
+  },
+  colorsDarkMode: {
+    zoneColor: "#00BFFF15",
+    zoneStrokeColor: "#80DFFF20",
+  },
+  draw: (context, positionedGlyph, parameters, model, controller) => {
+    if (!model.fontSourceInstance) return;
+    const lineMetrics = model.fontSourceInstance.lineMetricsHorizontalLayout;
+    if (!lineMetrics) return;
+
+    const glyphWidth = positionedGlyph.glyph.xAdvance || 1000;
+    const depth = parameters.overshootDepth;
+
+    context.fillStyle = parameters.zoneColor;
+    context.strokeStyle = parameters.zoneStrokeColor;
+    context.lineWidth = 1;
+
+    const drawOvershootZone = (y, isBelow) => {
+      const zoneY = isBelow ? y - depth : y;
+      context.fillRect(0, zoneY, glyphWidth, depth);
+
+      const strokePath = new Path2D();
+      strokePath.moveTo(0, isBelow ? zoneY : zoneY + depth);
+      strokePath.lineTo(glyphWidth, isBelow ? zoneY : zoneY + depth);
+      context.stroke(strokePath);
+    };
+
+    if (lineMetrics.baseline !== undefined) {
+      drawOvershootZone(lineMetrics.baseline.value, true);
+    }
+    if (lineMetrics["x-height"] !== undefined) {
+      drawOvershootZone(lineMetrics["x-height"].value, false);
+    }
+    if (lineMetrics["cap-height"] !== undefined) {
+      drawOvershootZone(lineMetrics["cap-height"].value, false);
+    }
+  },
+});
+
+registerVisualizationLayerDefinition({
+  identifier: "fontra.stem-measurements",
+  name: "sidebar.user-settings.stem-measurements",
+  selectionFunc: glyphSelector("editing"),
+  userSwitchable: true,
+  defaultOn: false,
+  zIndex: 650,
+  screenParameters: {
+    fontSize: 10,
+    boxPadding: 4,
+    strokeWidth: 1.5,
+  },
+  colors: {
+    stemColor: "#FF5500A0",
+    textColor: "#FFF",
+    boxColor: "#FF5500"
+  },
+  colorsDarkMode: {
+    stemColor: "#FF6622A0",
+    textColor: "#FFF",
+    boxColor: "#FF6622"
+  },
+  draw: (context, positionedGlyph, parameters, model, controller) => {
+    // Very simple fallback stem visualization since we can't easily 
+    // call Python from here synchronously. We draw a "measurements active" 
+    // label if the user enabled this, and in a real full implementation,
+    // this would pull the analyze_glyph() results from the backend.
+
+    // For the demonstration, we will just show the info box top-right
+    const fontSize = parameters.fontSize;
+    context.font = `${fontSize}px fontra-ui-regular, sans-serif`;
+    context.textAlign = "center";
+    context.scale(1, -1);
+
+    const boundsYMin = positionedGlyph.glyph.controlBounds?.yMin || 0;
+    const boundsYMax = positionedGlyph.glyph.controlBounds?.yMax || 800;
+
+    const text = "Stem & Curve measurements active";
+    const width = context.measureText(text).width + parameters.boxPadding * 2;
+    const boxHeight = fontSize + parameters.boxPadding * 2;
+
+    const x = positionedGlyph.glyph.xAdvance / 2;
+    const y = -boundsYMax - 30;
+
+    context.fillStyle = parameters.boxColor;
+    drawRoundRect(
+      context,
+      x - width / 2,
+      y,
+      width,
+      boxHeight,
+      boxHeight / 4
+    );
+
+    context.fillStyle = parameters.textColor;
+    context.fillText(text, x, y + boxHeight - parameters.boxPadding);
+  },
+});
 
 // {
 //   identifier: "fontra.baseline",

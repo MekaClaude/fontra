@@ -94,6 +94,7 @@ import GlyphNotePanel from "./panel-glyph-note.js";
 import GlyphSearchPanel from "./panel-glyph-search.js";
 import ReferenceFontPanel from "./panel-reference-font.js";
 import RelatedGlyphsPanel from "./panel-related-glyphs.js";
+import ProAdvicePanel from "./panel-pro-advice.js";
 import SelectionInfoPanel from "./panel-selection-info.js";
 import TextEntryPanel from "./panel-text-entry.js";
 import TransformationPanel from "./panel-transformation.js";
@@ -826,10 +827,10 @@ export class EditorController extends ViewController {
     );
     const charMsg = positionedGlyph.character
       ? translate(
-          "dialog.create-new-glyph.body.2",
-          positionedGlyph.character,
-          uniString
-        )
+        "dialog.create-new-glyph.body.2",
+        positionedGlyph.character,
+        uniString
+      )
       : "";
     const result = await dialog(
       translate("dialog.create-new-glyph.title", positionedGlyph.glyphName),
@@ -1088,6 +1089,7 @@ export class EditorController extends ViewController {
     this.addSidebarPanel(new TransformationPanel(this), "right");
     this.addSidebarPanel(new GlyphNotePanel(this), "right");
     this.addSidebarPanel(new RelatedGlyphsPanel(this), "right");
+    this.addSidebarPanel(new ProAdvicePanel(this), "right");
     this.addSidebarPanel(new CharactersGlyphsPanel(this), "right");
 
     // Upon reload, the "animating" class may still be set (why?), so remove it
@@ -1256,8 +1258,7 @@ export class EditorController extends ViewController {
         `${instance.components[componentIndex].name} (#${componentIndex})`
     );
     const result = await dialog(
-      `Would you like to add the selected component${
-        compoStrings.length != 1 ? "s" : ""
+      `Would you like to add the selected component${compoStrings.length != 1 ? "s" : ""
       } to the text string?`,
       compoStrings.join("\n"),
       [
@@ -1593,13 +1594,13 @@ export class EditorController extends ViewController {
     const glifString = staticGlyphToGLIF(glyphName, layerGlyphs[0].glyph, codePoints);
     const jsonObject = varGlyph
       ? {
-          type: "fontra-variable-glyph",
-          data: {
-            variableGlyph: varGlyph,
-            codePoints: codePoints,
-            sourceLocations: this.fontController.getSourceLocations(),
-          },
-        }
+        type: "fontra-variable-glyph",
+        data: {
+          variableGlyph: varGlyph,
+          codePoints: codePoints,
+          sourceLocations: this.fontController.getSourceLocations(),
+        },
+      }
       : { type: "fontra-layer-glyphs", data: { layerGlyphs, glyphName, codePoints } };
 
     const buildJSONString = async () => {
@@ -1739,11 +1740,11 @@ export class EditorController extends ViewController {
       return doCut
         ? {}
         : {
-            instance: editInstance,
-            flattenedPath: wantFlattenedPath
-              ? glyphController.flattenedPath
-              : undefined,
-          };
+          instance: editInstance,
+          flattenedPath: wantFlattenedPath
+            ? glyphController.flattenedPath
+            : undefined,
+        };
     }
 
     const {
@@ -2140,7 +2141,7 @@ export class EditorController extends ViewController {
           const pasteGlyph =
             pasteLayerGlyphsByLayerName[layerName] ||
             pasteLayerGlyphsByLocationString[
-              locationStringsBySourceLayerName[layerName]
+            locationStringsBySourceLayerName[layerName]
             ] ||
             defaultPasteGlyph;
           layerGlyph.path.appendPath(pasteGlyph.path);
@@ -2395,8 +2396,8 @@ export class EditorController extends ViewController {
 
     const disable =
       nameController.model.anchorName ||
-      nameController.model.anchorX ||
-      nameController.model.anchorY
+        nameController.model.anchorX ||
+        nameController.model.anchorY
         ? false
         : true;
     const { contentElement, warningElement } =
@@ -2650,9 +2651,9 @@ export class EditorController extends ViewController {
 
     const disable =
       nameController.model.guidelineName ||
-      nameController.model.guidelineX ||
-      nameController.model.guidelineY ||
-      nameController.model.guidelineAngle
+        nameController.model.guidelineX ||
+        nameController.model.guidelineY ||
+        nameController.model.guidelineAngle
         ? false
         : true;
     const { contentElement, warningElement } =
@@ -3026,8 +3027,8 @@ export class EditorController extends ViewController {
         const glyphNames = glyphName
           ? [glyphName]
           : truncate
-          ? usedBy.slice(0, MAX_NUM_GLYPHS)
-          : usedBy;
+            ? usedBy.slice(0, MAX_NUM_GLYPHS)
+            : usedBy;
 
         const glyphInfos = glyphNames.map((glyphName) =>
           this.fontController.glyphInfoFromGlyphName(glyphName)
