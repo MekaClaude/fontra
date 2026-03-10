@@ -12,6 +12,7 @@ export class ObservableController {
     this._generalListeners = [];
     this._keyListeners = {};
     this._senderInfoStack = [];
+    this._storageListener = null;
   }
 
   addListener(listener, immediate = false) {
@@ -66,6 +67,13 @@ export class ObservableController {
       prefix,
       readItemsFromLocalStorage
     );
+    // Store the listener reference so it can be removed later
+    this._storageListener = (event) => {
+      if (event.key in this._mapKeyToObject) {
+        this._setItemOnObject(this._mapKeyToObject[event.key], event.newValue);
+      }
+    };
+    window.addEventListener("storage", this._storageListener);
   }
 
   waitForKeyChange(keyOrKeys, immediate = false) {
@@ -116,6 +124,22 @@ export class ObservableController {
       }
     }
   }
+
+  // Clean up method to remove event listeners and prevent memory leaks
+  destroy() {
+    // Remove the storage event listener if it exists
+    if (this._storageListener) {
+      window.removeEventListener("storage", this._storageListener);
+      this._storageListener = null;
+    }
+    // Clear all listeners
+    this._generalListeners = [];
+    this._keyListeners = {};
+    this._senderInfoStack = [];
+    this._addSynchronizedItem = null;
+    this._mapKeyToObject = null;
+    this._setItemOnObject = null;
+  }
 }
 
 function newModelProxy(controller, model) {
@@ -157,6 +181,10 @@ function synchronizeWithLocalStorage(
   const mapKeyToObject = {};
   const mapKeyToStorage = {};
   const stringKeys = {};
+  // Store references for cleanup
+  controller._mapKeyToObject = mapKeyToObject;
+  controller._setItemOnObject = setItemOnObject;
+
   for (const [key, value] of Object.entries(controller.model)) {
     addItem(key, value, false);
   }
@@ -210,12 +238,6 @@ function synchronizeWithLocalStorage(
   controller.addListener((event) => {
     if (event.key in mapKeyToStorage) {
       setItemOnStorage(event.key, event.newValue);
-    }
-  });
-
-  window.addEventListener("storage", (event) => {
-    if (event.key in mapKeyToObject) {
-      setItemOnObject(mapKeyToObject[event.key], event.newValue);
     }
   });
 
