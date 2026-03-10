@@ -259,6 +259,7 @@ async def _prepareEndPoints(
 def _loadActionsEntryPoints():
     from .actions import axes  # noqa: F401
     from .actions import base  # noqa: F401
+    from .actions import composition  # noqa: F401
     from .actions import features  # noqa: F401
     from .actions import glyph  # noqa: F401
     from .actions import misc  # noqa: F401
