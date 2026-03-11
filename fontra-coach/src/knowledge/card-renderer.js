@@ -25,7 +25,7 @@ export class CardRenderer {
       ul.className = 'tips';
       for (const tip of card.tips) {
         const li = document.createElement('li');
-        li.innerHTML = this.sanitize(tip);
+        li.textContent = this.sanitize(tip);
         ul.appendChild(li);
       }
       cardDiv.appendChild(ul);

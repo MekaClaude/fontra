@@ -113,7 +113,7 @@ export class DNAPanel extends HTMLElement {
     button.title = 'Toggle Ghost Overlay';
     button.style.cssText = 'background:none; border:1px solid #555; color:inherit; cursor:pointer;';
     button.textContent = '👁';
-    button.onclick = () => console.log(`Toggle ghost for ${rel.glyph}`);
+    button.addEventListener('click', () => console.log(`Toggle ghost for ${rel.glyph}`));
     div.appendChild(button);
 
     return div;
