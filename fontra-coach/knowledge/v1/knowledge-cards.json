@@ -1,0 +1,54 @@
+{
+  "$schema": "../schema/knowledge-cards.schema.json",
+  "version": "1.0.0",
+  "cards": [
+    {
+      "id": "lc-n-001",
+      "glyph": "n",
+      "title": "Start here: n is the foundation",
+      "tags": ["foundation", "workflow", "spacing"],
+      "verbosity": "learner",
+      "body": "The lowercase n establishes the core DNA of your font: stem weight, arch shape, and the fundamental spacing unit. Take your time here — every other letter will be judged against n.\n\nThe n gives you m, h, u, r, and i almost for free. The quality you put into n multiplies across the entire character set.",
+      "tips": [
+        "Draw the left stem first — it sets stem width for the whole font",
+        "The arch should emerge naturally from calligraphic movement, not be constructed mechanically",
+        "Space the n alongside itself (nnn) before moving to other letters",
+        "The counter (white interior) width sets your spacing rhythm"
+      ],
+      "related_cards": ["lc-o-001", "workflow-001"],
+      "sources": ["Design with FontForge — Creating o and n", "Type Together workshop methodology"]
+    },
+    {
+      "id": "lc-s-001",
+      "glyph": "s",
+      "title": "Draw s early — it's the hardest letter",
+      "tags": ["difficulty", "terminals", "spine"],
+      "verbosity": "learner",
+      "body": "The s is notoriously difficult to get right. Its spine angle, terminal style, weight distribution, and optical balance all interact in complex ways. Start s early in your process so you have time to iterate.\n\nCritically: your s terminals will predict the terminal style of a, c, f, j, and y. The decisions you make here ripple through the whole font.",
+      "tips": [
+        "The spine (central diagonal) should align with your overall stress axis",
+        "The two counters (white spaces inside s) should appear roughly equal in area — not equal in size",
+        "Upper counter is typically slightly smaller than lower to look balanced",
+        "Test at small sizes constantly — s problems are invisible at 200% zoom"
+      ],
+      "related_cards": ["lc-c-001", "lc-a-001"],
+      "sources": ["Design with FontForge — Creating Your Type DNA"]
+    },
+    {
+      "id": "uc-H-001",
+      "glyph": "H",
+      "title": "H and O: your capital foundation",
+      "tags": ["capitals", "foundation", "proportion"],
+      "verbosity": "learner",
+      "body": "Just as lowercase starts with n and o, capitals begin with H and O. These two letters define the relationship between your lowercase and uppercase — a critical proportion decision.\n\nH establishes: vertical stroke weight, cap height, and the structural DNA for B, D, E, F, I, J, K, L, P, R, T, U.",
+      "tips": [
+        "Capital stroke weights are typically 5–15% heavier than lowercase to appear equal",
+        "The crossbar of H must be optically thinned (see OPT-001)",
+        "H width sets the reference for N (slightly wider) and other wide caps",
+        "Establish cap-to-x-height ratio now — changing it later is painful"
+      ],
+      "related_cards": ["uc-O-001", "OPT-001"],
+      "sources": ["Design with FontForge — Capital Letters"]
+    }
+  ]
+}

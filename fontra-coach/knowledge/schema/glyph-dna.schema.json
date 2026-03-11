@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string" },
+    "updated": { "type": "string" },
+    "glyphs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "unicode": { "type": "string" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "dna_role": { 
+            "type": "string",
+            "enum": ["primary_foundation", "secondary", "diagonal_family", "bowl_family", "arch_family", "capital_foundation", "figure"]
+          },
+          "builds_from": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/relationship" }
+          },
+          "feeds_into": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/relationship" }
+          },
+          "shares_dna_with": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "glyph": { "type": "string" },
+                "relationship": { "type": "string" },
+                "description": { "type": "string" },
+                "check": { "type": "string" },
+                "expected_ratio": {
+                  "type": "object",
+                  "properties": {
+                    "min": { "type": "number" },
+                    "max": { "type": "number" }
+                  }
+                }
+              },
+              "required": ["glyph", "relationship"]
+            }
+          },
+          "terminal_family": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "knowledge_card_id": { "type": "string" },
+          "optical_issues": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "sets_rhythm": { "type": "boolean" },
+          "rhythm_note": { "type": "string" }
+        },
+        "required": ["unicode", "name", "category", "dna_role", "builds_from", "feeds_into"]
+      }
+    }
+  },
+  "required": ["version", "glyphs"],
+  "definitions": {
+    "relationship": {
+      "type": "object",
+      "properties": {
+        "glyph": { "type": "string" },
+        "method": { 
+          "type": "string",
+          "enum": [
+            "extend_arch", "add_ascender", "add_descender", "vertical_flip",
+            "horizontal_flip", "truncate_arch", "extract_stem", "bowl_plus_stem",
+            "assemble_with_stem", "add_crossbar", "open_right", "open_left",
+            "mirror_horizontal", "rotate_180", "add_diagonal", "bowl_plus_descender",
+            "left_stem_with_arms", "left_stem_with_bowl", "left_stem_with_bowls",
+            "spine_modification", "terminal_modification", "add_stem_left",
+            "mirror_d", "extract_stem", "crossbar_with_centered_stem", "bowled_stems",
+            "left_stem_with_diagonals", "left_stem_with_foot", "left_stem_with_top_bowl",
+            "p_with_leg", "e_minus_bottom_arm"
+          ] 
+        },
+        "description": { "type": "string" },
+        "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+        "visual_hint": { "type": "string" },
+        "parts_used": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "caveats": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["glyph", "method", "parts_used", "confidence"]
+    }
+  }
+}

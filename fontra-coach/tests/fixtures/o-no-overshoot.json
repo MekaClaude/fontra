@@ -1,0 +1,13 @@
+{
+  "name": "o",
+  "path": {
+    "contours": [
+      {
+        "points": [
+          { "x": 250, "y": 0, "type": "curve" },
+          { "x": 100, "y": 250, "type": "curve" }
+        ]
+      }
+    ]
+  }
+}

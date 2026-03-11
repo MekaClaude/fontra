@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema/workflow-sequences.schema.json",
+  "version": "1.0.0",
+  "sequences": [
+    {
+      "id": "workflow-001",
+      "name": "Recommended Latin Lowercase Build Order",
+      "description": "Evidence-based sequence for building a Latin lowercase efficiently, minimizing rework.",
+      "stages": [
+        {
+          "stage": 1,
+          "name": "Anchors",
+          "glyphs": ["o", "n"],
+          "rationale": "o establishes counter shape and spacing unit. n establishes stem weight, arch, and serves as the arch template.",
+          "completion_criteria": "o and n spaced and looking balanced together in 'nonn' string",
+          "unlocks": [2]
+        },
+        {
+          "stage": 2,
+          "name": "DNA Expansion — Reading Method",
+          "glyphs": ["a", "d", "h", "e", "s", "i"],
+          "rationale": "University of Reading method. Provides enough variety to test texture and reveal systemic issues before committing to the full set.",
+          "alternatives": [
+            {
+              "name": "Type Together method",
+              "glyphs": ["v", "i", "d", "e", "o", "s", "p", "a", "n"],
+              "rationale": "Preferred when diagonal variety is important early"
+            }
+          ],
+          "completion_criteria": "Can set real words with available letters; spacing feels consistent",
+          "unlocks": [3]
+        },
+        {
+          "stage": 3,
+          "name": "Arch Family",
+          "glyphs": ["m", "u", "r"],
+          "rationale": "All derive directly from n. Should be fast to build.",
+          "completion_criteria": "All consistent with n in arch weight and spacing",
+          "unlocks": [4]
+        },
+        {
+          "stage": 4,
+          "name": "Bowl Family",
+          "glyphs": ["b", "p", "q"],
+          "rationale": "All derive from d (which derives from o + h). Should be fast.",
+          "completion_criteria": "All consistent with d in bowl shape",
+          "unlocks": [5]
+        },
+        {
+          "stage": 5,
+          "name": "Diagonal & Difficult",
+          "glyphs": ["v", "w", "x", "y", "z", "g", "f", "t", "j", "k", "l"],
+          "rationale": "Letters without close structural relatives. Each needs fresh drawing.",
+          "completion_criteria": "All 26 lowercase letters complete and consistently spaced",
+          "unlocks": [6]
+        },
+        {
+          "stage": 6,
+          "name": "Capitals",
+          "glyphs_first": ["H", "O"],
+          "glyphs_second": ["A", "E", "S", "I", "N", "P", "D", "V"],
+          "glyphs_third": ["B", "C", "F", "G", "J", "K", "L", "M", "Q", "R", "T", "U", "W", "X", "Y", "Z"],
+          "rationale": "H and O establish cap-to-lowercase proportion. Then high-frequency and structurally-generative letters. Then remainder.",
+          "completion_criteria": "All 26 capitals complete",
+          "unlocks": [7]
+        },
+        {
+          "stage": 7,
+          "name": "Figures",
+          "glyphs_first": ["zero", "one"],
+          "glyphs_remainder": ["two", "three", "four", "five", "six", "seven", "eight", "nine"],
+          "rationale": "zero establishes figure oval; one establishes figure stem. Same DNA approach as letterforms.",
+          "completion_criteria": "All 10 figures consistent in weight and spacing"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z]+-[0-9]+$" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "applies_to_glyphs": {
+            "type": ["array", "string"],
+            "items": { "type": "string" }
+          },
+          "scope": { "type": "string", "enum": ["per_glyph", "font_wide"] },
+          "severity": { "type": "string", "enum": ["info", "warning", "error"] },
+          "verbosity_threshold": { "type": "string", "enum": ["learner", "practitioner", "expert"] },
+          "detection": {
+            "type": "object",
+            "properties": {
+              "method": { 
+                "type": "string",
+                "enum": ["compare_stroke_widths", "check_extrema_vs_metrics", "compare_diagonal_to_vertical", "check_crossing_point_offset", "compare_overshoot_across_glyphs"]
+              },
+              "trigger_when": { "type": "string" },
+              "note": { "type": "string" },
+              "measure_horizontal": { "type": "boolean" },
+              "measure_vertical": { "type": "boolean" },
+              "check_baseline": { "type": "boolean" },
+              "check_xheight": { "type": "boolean" },
+              "check_capheight": { "type": "boolean" },
+              "comparison": { "type": "string" },
+              "glyph_groups": { 
+                "type": "array",
+                "items": {
+                  "type": "array", "items": { "type": "string" }
+                }
+              }
+            },
+            "required": ["method", "trigger_when"]
+          },
+          "display": {
+            "type": "object",
+            "properties": {
+              "overlay_type": { "type": "string" },
+              "color": { "type": "string" },
+              "label_template": { "type": "string" },
+              "suggestion_formula": { "type": "string" },
+              "show_comparison": { "type": "boolean" },
+              "show_metric_line": { "type": "boolean" }
+            },
+            "required": ["overlay_type"]
+          },
+          "knowledge": {
+            "type": ["object", "string"]
+          }
+        },
+        "required": ["id", "name", "description", "severity", "detection"]
+      }
+    }
+  },
+  "required": ["version", "rules"]
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "../schema/optical-rules.schema.json",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "OPT-001",
+      "name": "Horizontal Bar Weight",
+      "description": "Horizontal strokes appear heavier than verticals of identical width due to how the eye scans text. Horizontal bars must be thinned to look equal.",
+      "applies_to_glyphs": ["H", "A", "E", "F", "L", "T", "f", "t", "z", "G", "Z"],
+      "severity": "warning",
+      "verbosity_threshold": "learner",
+      "detection": {
+        "method": "compare_stroke_widths",
+        "measure_horizontal": true,
+        "measure_vertical": true,
+        "comparison": "ratio",
+        "trigger_when": "horizontal_width >= vertical_width * 0.95",
+        "note": "If horizontal is 95% or more of vertical width, it will appear heavier"
+      },
+      "display": {
+        "overlay_type": "highlight_stroke",
+        "color": "#FF6B35",
+        "label_template": "Crossbar is {horizontal_width}u — consider thinning to ~{suggested_width}u",
+        "suggestion_formula": "vertical_width * 0.80",
+        "show_comparison": true
+      },
+      "knowledge": {
+        "why": "The human visual system processes horizontal and vertical strokes differently. Horizontal strokes occupy more of the visual field per unit width, making them appear heavier. Type designers compensate by making horizontal strokes 15–25% lighter than verticals.",
+        "historical_note": "This correction appears in Roman inscriptions — stone cutters intuitively thinned crossbars. The same principle was formalized in 18th-century punch-cutting manuals.",
+        "reference_glyphs": ["H", "E"],
+        "fix_steps": [
+          "Select the horizontal stroke",
+          "Reduce its width by moving the inner edge outward",
+          "Compare visually at small sizes — the eye is the final judge",
+          "Typical correction: 15–25% thinner than vertical stems"
+        ]
+      }
+    },
+    {
+      "id": "OPT-002",
+      "name": "Overshoot Missing on Round Glyphs",
+      "description": "Round and pointed glyphs must extend slightly beyond the baseline and x-height to appear optically aligned with flat-topped/bottomed glyphs.",
+      "applies_to_glyphs": ["o", "c", "e", "b", "d", "p", "q", "g", "O", "C", "G", "Q", "D", "S", "s", "0"],
+      "severity": "error",
+      "verbosity_threshold": "learner",
+      "detection": {
+        "method": "check_extrema_vs_metrics",
+        "check_baseline": true,
+        "check_xheight": true,
+        "check_capheight": true,
+        "trigger_when": "lowest_point >= baseline - 1",
+        "note": "If the lowest point of a round glyph is at or above baseline, overshoot is missing"
+      },
+      "display": {
+        "overlay_type": "dimension_arrow",
+        "color": "#E63946",
+        "label_template": "Round glyph sits exactly on baseline. Add {recommended_overshoot}u overshoot.",
+        "suggestion_formula": "upm * 0.012",
+        "show_metric_line": true
+      },
+      "knowledge": {
+        "why": "A circle sitting exactly on a flat baseline appears to float above it. The eye perceives the tangent point as higher than a flat edge at the same y-coordinate. Overshoot corrects this illusion.",
+        "typical_values": {
+          "small_text": "Overshoot is typically 1–2% of UPM",
+          "display_type": "Overshoot can be 2–4% of UPM",
+          "example": "For UPM=1000: overshoot of 10–20 units for text, 20–40 for display"
+        },
+        "fix_steps": [
+          "Select the bottommost on-curve point of the round glyph",
+          "Move it down by the overshoot amount (start with 1% of UPM)",
+          "Apply the same overshoot to ALL round glyphs consistently",
+          "Verify visually — all round glyphs should appear to sit on the baseline equally"
+        ]
+      }
+    },
+    {
+      "id": "OPT-003",
+      "name": "Diagonal Stroke Compensation",
+      "description": "Diagonal strokes appear heavier than verticals of the same mathematical width and require thinning.",
+      "applies_to_glyphs": ["k", "K", "N", "v", "V", "w", "W", "x", "X", "y", "Y", "7", "A", "Z", "z"],
+      "severity": "warning",
+      "verbosity_threshold": "practitioner",
+      "detection": {
+        "method": "compare_diagonal_to_vertical",
+        "trigger_when": "diagonal_width >= vertical_width * 0.92",
+        "note": "Diagonal should be lighter than vertical; threshold depends on angle"
+      },
+      "display": {
+        "overlay_type": "highlight_stroke",
+        "color": "#FFA500",
+        "label_template": "Diagonal ({angle}°) width {diag_width}u equals vertical {vert_width}u — consider thinning",
+        "suggestion_formula": "vertical_width * 0.85"
+      },
+      "knowledge": {
+        "why": "A diagonal stroke covers more pixel area per length than a vertical of the same width because it presents a wider cross-section to horizontal eye movement. The correction amount depends on the angle — more extreme diagonals need more correction.",
+        "correction_by_angle": {
+          "45deg": "Thin by ~15% vs vertical",
+          "30deg": "Thin by ~10% vs vertical",
+          "60deg": "Thin by ~20% vs vertical"
+        }
+      }
+    },
+    {
+      "id": "OPT-004",
+      "name": "Crossing Diagonal Alignment",
+      "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong.",
+      "applies_to_glyphs": ["x", "X", "k", "K", "#"],
+      "severity": "warning",
+      "verbosity_threshold": "practitioner",
+      "detection": {
+        "method": "check_crossing_point_offset",
+        "trigger_when": "crossing_x_offset == 0 AND crossing_y_offset == 0",
+        "note": "Perfect geometric center crossing will appear misaligned — an offset is required"
+      },
+      "display": {
+        "overlay_type": "crosshair_with_offset",
+        "color": "#8B5CF6",
+        "label_template": "Crossing diagonals need offset to appear aligned"
+      },
+      "knowledge": {
+        "why": "Due to how the eye tracks diagonal strokes, two diagonals crossing at their exact geometric midpoints will appear to be misaligned — one will seem to be shifted up or down relative to the other. A small offset (typically 2–5% of glyph width) at the crossing point corrects this illusion.",
+        "fix_steps": [
+          "Find the crossing point of the two strokes",
+          "Shift one of the stroke crossing points slightly upward or downward",
+          "Test at small sizes — the crossing should look clean and centered",
+          "Typical offset: 2–5% of glyph width"
+        ]
+      }
+    },
+    {
+      "id": "OPT-005",
+      "name": "Overshoot Inconsistency",
+      "description": "All round glyphs in a font should share a consistent overshoot value. Mixed overshoot values create visual inconsistency.",
+      "scope": "font_wide",
+      "severity": "warning",
+      "verbosity_threshold": "practitioner",
+      "detection": {
+        "method": "compare_overshoot_across_glyphs",
+        "glyph_groups": [
+          ["o", "c", "e", "b", "d", "p", "q"],
+          ["O", "C", "G", "Q", "D"]
+        ],
+        "trigger_when": "overshoot_stddev > 2",
+        "note": "Standard deviation of overshoot across group members exceeds 2 units"
+      },
+      "display": {
+        "overlay_type": "comparison_panel",
+        "label_template": "Overshoot varies: min {min_val}u, max {max_val}u, avg {avg_val}u. Standardize to one value."
+      }
+    }
+  ]
+}
