@@ -1393,7 +1393,7 @@ export class EditorController extends ViewController {
       if (location) {
         glyphLocations[glyphName] = location;
       }
-      glyphInfos.push(this.fontController.glyphInfoFromGlyphName(glyphName));
+      glyphInfos.push(this.sceneController.glyphInfoFromGlyphName(glyphName));
     }
     this.sceneController.updateGlyphLocations(glyphLocations);
     this.insertGlyphInfos(glyphInfos, 1, true);
@@ -3144,7 +3144,7 @@ export class EditorController extends ViewController {
             : usedBy;
 
         const glyphInfos = glyphNames.map((glyphName) =>
-          this.fontController.glyphInfoFromGlyphName(glyphName)
+          this.sceneController.glyphInfoFromGlyphName(glyphName)
         );
         const selectedGlyphInfo = this.sceneSettings.selectedGlyph;
         const characterLines = [...this.sceneSettings.characterLines];
@@ -3211,7 +3211,7 @@ export class EditorController extends ViewController {
     if (!glyphName) {
       return;
     }
-    const glyphInfo = this.fontController.glyphInfoFromGlyphName(glyphName);
+    const glyphInfo = this.sceneController.glyphInfoFromGlyphName(glyphName);
     this.insertGlyphInfos([glyphInfo], where, true);
   }
 
