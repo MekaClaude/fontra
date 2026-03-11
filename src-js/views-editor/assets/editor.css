@@ -322,6 +322,8 @@ body {
 .tools-overlay {
   display: flex;
   flex-direction: row;
+  gap: 1em;
+  padding: 1em;
   position: absolute;
   top: 0;
   left: 0;
@@ -405,7 +407,7 @@ body {
 }
 
 .subtool-button:not(:first-child) {
-  visibility: hidden;
+  visibility: visible;
   transition-duration: 100ms;
   background-color: var(--ui-element-background-color);
   fill: var(--foreground-color);
