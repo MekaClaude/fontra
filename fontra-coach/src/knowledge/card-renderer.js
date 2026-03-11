@@ -3,25 +3,51 @@
  */
 export class CardRenderer {
   renderFull(card, container, options = {}) {
-    container.innerHTML = `
-      <div class="coach-card full">
-        <h3>${card.title}</h3>
-        <div class="body-text">${this.sanitize(card.body)}</div>
-        ${card.tips && card.tips.length > 0 ? `
-          <ul class="tips">
-            ${card.tips.map(tip => `<li>${this.sanitize(tip)}</li>`).join('')}
-          </ul>
-        ` : ''}
-      </div>
-    `;
+    // Clear container safely
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'coach-card full';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = card.title || '';
+    cardDiv.appendChild(h3);
+
+    const bodyDiv = document.createElement('div');
+    bodyDiv.className = 'body-text';
+    bodyDiv.innerHTML = this.sanitize(card.body) || '';
+    cardDiv.appendChild(bodyDiv);
+
+    if (card.tips && card.tips.length > 0) {
+      const ul = document.createElement('ul');
+      ul.className = 'tips';
+      for (const tip of card.tips) {
+        const li = document.createElement('li');
+        li.innerHTML = this.sanitize(tip);
+        ul.appendChild(li);
+      }
+      cardDiv.appendChild(ul);
+    }
+
+    container.appendChild(cardDiv);
   }
 
   renderCompact(card, container) {
-    container.innerHTML = `
-      <div class="coach-card compact">
-        <strong>${card.title}</strong>
-      </div>
-    `;
+    // Clear container safely
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'coach-card compact';
+
+    const strong = document.createElement('strong');
+    strong.textContent = card.title || '';
+    cardDiv.appendChild(strong);
+
+    container.appendChild(cardDiv);
   }
 
   renderAnnotation(card) {
@@ -31,6 +57,7 @@ export class CardRenderer {
   sanitize(text) {
     if (!text) return '';
     let html = text
+      .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')

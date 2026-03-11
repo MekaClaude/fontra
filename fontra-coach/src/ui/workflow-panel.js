@@ -28,17 +28,34 @@ export class WorkflowPanel extends HTMLElement {
 
   renderStages() {
     const container = this.shadowRoot.getElementById('stages-container');
+    // Clear existing content safely
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
     if (this.kb && this.kb.workflowSequences) {
       const seq = this.kb.workflowSequences.sequences[0];
       if (seq && seq.stages) {
-        container.innerHTML = seq.stages.map(s => `
-          <div class="stage">
-            <strong>Stage ${s.stage}: ${s.name}</strong><br>
-            <span style="font-size:0.8em; color:#888;">${s.glyphs ? s.glyphs.join(', ') : (s.glyphs_first ? s.glyphs_first.join(', ') : '')}</span>
-          </div>
-        `).join('');
+        for (const s of seq.stages) {
+          const stageDiv = document.createElement('div');
+          stageDiv.className = 'stage';
+
+          const strong = document.createElement('strong');
+          strong.textContent = `Stage ${s.stage}: ${s.name}`;
+          stageDiv.appendChild(strong);
+          stageDiv.appendChild(document.createElement('br'));
+
+          const span = document.createElement('span');
+          span.style.cssText = 'font-size:0.8em; color:#888;';
+          const glyphsText = s.glyphs ? s.glyphs.join(', ') : (s.glyphs_first ? s.glyphs_first.join(', ') : '');
+          span.textContent = glyphsText;
+          stageDiv.appendChild(span);
+
+          container.appendChild(stageDiv);
+        }
       } else {
-        container.innerHTML = `<p>No workflow selected</p>`;
+        const p = document.createElement('p');
+        p.textContent = 'No workflow selected';
+        container.appendChild(p);
       }
     }
   }
