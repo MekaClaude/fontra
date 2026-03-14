@@ -2,7 +2,7 @@ import { applicationSettingsController } from "@fontra/core/application-settings
 import * as html from "@fontra/core/html-utils.js";
 import { addStyleSheet } from "@fontra/core/html-utils.js";
 import { MultiPanelBasePanel } from "@fontra/core/multi-panel.js";
-import { labeledCheckbox } from "@fontra/core/ui-utils.js";
+import { labeledCheckbox, labeledPopupSelect } from "@fontra/core/ui-utils.js";
 
 addStyleSheet(`
   .fontra-ui-editor-behavior-panel-card {
@@ -30,6 +30,22 @@ export class EditorBehaviorPanel extends MultiPanelBasePanel {
         {}
       )
     );
+
+    const menuPositionItems = [
+      { label: "Top", value: "top" },
+      { label: "Bottom", value: "bottom" },
+    ];
+
+    const menuPositionRow = labeledPopupSelect(
+      "Tools menu position",
+      applicationSettingsController,
+      "toolsMenuPosition",
+      menuPositionItems,
+      {}
+    );
+    container.appendChild(menuPositionRow[0]);
+    menuPositionRow[0].style.marginTop = "1em";
+
     this.panelElement.appendChild(container);
   }
 }

@@ -1,6 +1,8 @@
 /**
  * Renders Knowledge Cards
  */
+import DOMPurify from 'dompurify';
+
 export class CardRenderer {
   renderFull(card, container, options = {}) {
     // Clear container safely
@@ -56,14 +58,27 @@ export class CardRenderer {
 
   sanitize(text) {
     if (!text) return '';
-    let html = text
+
+    // First, escape HTML entities to prevent XSS
+    let escaped = text
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
+      .replace(/>/g, "&gt;");
+
+    // Then process markdown-like formatting
+    let html = escaped
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`(.*?)`/g, '<code>$1</code>')
       .replace(/\n\n/g, '</p><p>');
-    return `<p>${html}</p>`;
+
+    // Wrap in paragraph tags and sanitize with DOMPurify
+    html = `<p>${html}</p>`;
+
+    // Use DOMPurify to allow safe HTML tags while preventing XSS
+    return DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['p', 'strong', 'em', 'code', 'br', 'ul', 'ol', 'li', 'a'],
+      ALLOWED_ATTR: ['href', 'target', 'rel'],
+    });
   }
 }

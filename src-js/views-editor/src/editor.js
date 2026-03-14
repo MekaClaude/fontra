@@ -4,6 +4,7 @@ import {
   registerAction,
   registerActionCallbacks,
 } from "@fontra/core/actions.js";
+import { applicationSettingsController } from "@fontra/core/application-settings.js";
 import { Backend } from "@fontra/core/backend-api.js";
 import { CanvasController } from "@fontra/core/canvas-controller.js";
 import { recordChanges } from "@fontra/core/change-recorder.js";
@@ -1140,120 +1141,50 @@ export class EditorController extends ViewController {
     this._onToolbarTouchEnd = null;
     this._isDragging = false;
   }
-}
 
-addEditTool(tool) {
-  this.tools[tool.identifier] = tool;
-  this.topLevelTools[tool.identifier] = tool;
+  addEditTool(tool) {
+    this.tools[tool.identifier] = tool;
+    this.topLevelTools[tool.identifier] = tool;
 
-  let wrapperID = "edit-tools";
+    const editToolsElement = document.querySelector("#edit-tools");
 
-  const toolDefs = [];
+    const toolDefs = [];
 
-  if (tool.subTools) {
-    for (const subToolClass of tool.subTools) {
-      const subTool = new subToolClass(this);
-      toolDefs.push(subTool);
-      this.tools[subTool.identifier] = subTool;
+    if (tool.subTools) {
+      for (const subToolClass of tool.subTools) {
+        const subTool = new subToolClass(this);
+        toolDefs.push(subTool);
+        this.tools[subTool.identifier] = subTool;
+      }
+    } else {
+      toolDefs.push(tool);
     }
 
-    wrapperID = `edit-tools-multi-wrapper-${tool.identifier}`;
-    const editToolsElement = document.querySelector("#edit-tools");
-    editToolsElement.appendChild(
-      html.div({
-        "id": wrapperID,
-        "data-tool": tool.identifier,
-        "class": "tool-button multi-tool",
-      })
-    );
-  } else {
-    toolDefs.push(tool);
-  }
+    for (const [index, toolDef] of enumerate(toolDefs)) {
+      const toolButton = html.div(
+        {
+          "class": "tool-button",
+          "data-tool": toolDef.identifier,
+          "data-tooltip": translate("editor." + toolDef.identifier),
+          "data-tooltipposition": "bottom",
+        },
+        [
+          html.createDomElement("inline-svg", {
+            class: "tool-icon",
+            src: toolDef.iconPath,
+          }),
+        ]
+      );
 
-  const editToolsElement = document.querySelector("#" + wrapperID);
-
-  for (const [index, tool] of enumerate(toolDefs)) {
-    const toolButton = html.div(
-      {
-        "class":
-          wrapperID === "edit-tools" ? "tool-button selected" : "subtool-button",
-        "data-tool": tool.identifier,
-        "data-tooltip": translate("editor." + tool.identifier),
-        "data-tooltipposition": index ? "right" : "bottom",
-      },
-      [
-        html.createDomElement("inline-svg", {
-          class: "tool-icon",
-          src: tool.iconPath,
-        }),
-      ]
-    );
-
-    if (wrapperID === "edit-tools") {
       toolButton.onclick = () => {
-        this.setSelectedTool(tool.identifier);
+        this.setSelectedTool(toolDef.identifier);
         this.canvasController.canvas.focus();
       };
       toolButton.oncontextmenu = (event) => event.preventDefault();
-    } else {
-      const globalListener = {
-        handleEvent: (event) => {
-          if (event.type != "keydown" || event.key == "Escape") {
-            collapseSubtoolsAndCleanUp(editToolsElement);
-          }
-        },
-      };
 
-      const collapseSubtoolsAndCleanUp = (editToolsElement) => {
-        window.removeEventListener("mousedown", globalListener);
-        window.removeEventListener("keydown", globalListener);
-        collapseSubTools(editToolsElement);
-      };
-
-      const showSubTools = (event, withTimeOut) => {
-        clearTimeout(this._multiToolMouseDownTimer);
-        this._multiToolMouseDownTimer = (withTimeOut ? setTimeout : noTimeout)(() => {
-          // Show sub tools
-          for (const child of editToolsElement.children) {
-            // When shown, make sure all tooltips are shown on the right, so as
-            // to not obscure the subtool(s) with the tooltip. This will get reset
-            // in collapseSubTools().
-            child.dataset["tooltipposition"] = "right";
-            child.style.visibility = "visible";
-          }
-          window.addEventListener("mousedown", globalListener);
-          window.addEventListener("keydown", globalListener);
-        }, 500);
-        if (!withTimeOut || toolButton !== editToolsElement.children[0]) {
-          // ensure the multi-tool mousedown timer only affects the first child
-          event.preventDefault();
-          event.stopImmediatePropagation();
-        }
-      };
-
-      toolButton.oncontextmenu = (event) => showSubTools(event, false);
-      toolButton.onmousedown = (event) => showSubTools(event, true);
-
-      toolButton.onmouseup = () => {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-        clearTimeout(this._multiToolMouseDownTimer);
-
-        this.setSelectedTool(tool.identifier);
-        this.canvasController.canvas.focus();
-
-        if (toolButton === editToolsElement.children[0]) {
-          // do nothing. Still the same tool
-          return;
-        }
-
-        editToolsElement.prepend(toolButton);
-        collapseSubtoolsAndCleanUp(editToolsElement);
-      };
+      editToolsElement.appendChild(toolButton);
     }
-    editToolsElement.appendChild(toolButton);
   }
-}
 
 initSidebars() {
   this.addSidebar(new Sidebar("left"));

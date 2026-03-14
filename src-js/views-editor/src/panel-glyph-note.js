@@ -1,6 +1,7 @@
 import * as html from "@fontra/core/html-utils.js";
 import { translate } from "@fontra/core/localization.js";
 import { throttleCalls } from "@fontra/core/utils.js";
+import { escapeHTML } from "@fontra/core/sanitize.js";
 import Panel from "./panel.js";
 
 export default class GlyphNotePanel extends Panel {
@@ -110,7 +111,7 @@ export default class GlyphNotePanel extends Panel {
     this._selectedGlyphName = varGlyph?.name;
 
     this.glyphNoteHeaderElement.innerHTML = varGlyph
-      ? `<b>${translate("sidebar.glyph-note.glyph-note-for-glyph", varGlyph.name)}</b>`
+      ? `<b>${translate("sidebar.glyph-note.glyph-note-for-glyph", escapeHTML(varGlyph.name))}</b>`
       : `<b>${translate("sidebar.glyph-note")}</b> ${translate(
           "sidebar.glyph-note.no-glyph-selected"
         )}`;

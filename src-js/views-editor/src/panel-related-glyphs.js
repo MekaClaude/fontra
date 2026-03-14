@@ -5,6 +5,7 @@ import {
 import * as html from "@fontra/core/html-utils.js";
 import { translate } from "@fontra/core/localization.js";
 import { unicodeMadeOf, unicodeUsedBy } from "@fontra/core/unicode-utils.js";
+import { escapeHTML } from "@fontra/core/sanitize.js";
 import Panel from "./panel.js";
 
 import { getCharFromCodePoint, throttleCalls } from "@fontra/core/utils.js";
@@ -119,7 +120,7 @@ export default class RelatedGlyphPanel extends Panel {
       character && character != glyphName ? `“${character}”, ${glyphName}` : glyphName;
 
     this.relatedGlyphsHeaderElement.innerHTML = glyphName
-      ? `<b>${translate("sidebar.related-glyphs.title", displayGlyphString)}</b>`
+      ? `<b>${translate("sidebar.related-glyphs.title", escapeHTML(displayGlyphString))}</b>`
       : `<b>${translate("sidebar.related-glyphs")}</b>`;
 
     if (glyphName) {

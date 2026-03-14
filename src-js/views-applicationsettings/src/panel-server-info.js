@@ -2,6 +2,7 @@ import * as html from "@fontra/core/html-utils.js";
 import { addStyleSheet } from "@fontra/core/html-utils.js";
 import { MultiPanelBasePanel } from "@fontra/core/multi-panel.js";
 import { fetchJSON } from "@fontra/core/utils.js";
+import { escapeHTML } from "@fontra/core/sanitize.js";
 
 const serverInfo = await fetchJSON("/serverinfo");
 
@@ -29,13 +30,13 @@ export class ServerInfoPanel extends MultiPanelBasePanel {
       container.appendChild(
         html.createDomElement("div", {
           class: "fontra-ui-server-info-panel-header",
-          innerHTML: entry[0] + ":",
+          innerHTML: escapeHTML(entry[0]) + ":",
         })
       );
       container.appendChild(
         html.createDomElement("div", {
           class: "fontra-ui-server-info-panel-plain",
-          innerHTML: entry[1],
+          innerHTML: escapeHTML(entry[1]),
         })
       );
       this.panelElement.appendChild(container);

@@ -2,6 +2,7 @@ import * as html from "@fontra/core/html-utils.js";
 import { SimpleElement } from "@fontra/core/html-utils.js";
 import { translate } from "@fontra/core/localization.js";
 import { enumerate } from "@fontra/core/utils.js";
+import { sanitizeHTML, escapeHTML } from "@fontra/core/sanitize.js";
 
 export async function dialog(headline, message, buttonDefs, autoDismissTimeout) {
   const dialogContentElement = await dialogSetup(
@@ -233,7 +234,11 @@ export class ModalDialog extends SimpleElement {
 
     this.dialogContent = html.div({ class: "message" });
     if (message) {
-      this.dialogContent.innerHTML = message.replaceAll("\n", "\n<br>\n");
+      // Escape HTML first, then convert newlines to <br> tags
+      const escapedMessage = escapeHTML(message);
+      this.dialogContent.innerHTML = sanitizeHTML(escapedMessage.replaceAll("\n", "<br>"), {
+        ALLOWED_TAGS: ['br'],
+      });
     }
     this.dialogBox.appendChild(this.dialogContent);
 

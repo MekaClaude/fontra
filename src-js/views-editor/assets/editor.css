@@ -326,7 +326,13 @@ body {
   padding: 1em;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tools-overlay.tools-overlay--bottom {
+  top: auto;
+  bottom: 0;
 }
 
 /* Draggable toolbar styles */
@@ -372,46 +378,16 @@ body {
   /* FIXME: use border-box */
 }
 
-#edit-tools .tool-button:first-child,
-#edit-tools .subtool-button:first-child {
+#edit-tools .tool-button:first-child {
   border-radius: 0.65em 0 0 0.65em;
 }
 
-#edit-tools .tool-button:first-child:has(.subtool-button:nth-child(2)[style*="visibility: visible;"]) {
-  border-radius: 0.65em 0 0 0;
+#edit-tools .tool-button:last-child {
+  border-radius: 0 0.65em 0.65em 0;
 }
 
 #zoom-tools .tool-button:last-child {
   border-radius: 0 0.65em 0.65em 0;
-}
-
-.subtool-button {
-  margin-top: -0.1rem;
-  fill: unset;
-  background-color: unset;
-}
-
-.multi-tool::after {
-  position: absolute;
-  content: "";
-  border-top: 5px solid transparent;
-  border-right: 5px solid var(--foreground-color);
-  margin-right: -5px;
-  margin-left: 1.8rem;
-  margin-top: calc(1.9rem - 6px);
-  pointer-events: none;
-}
-
-.subtool-button:last-child {
-  border-radius: 0 0 0.65em 0.65em;
-}
-
-.subtool-button:not(:first-child) {
-  visibility: visible;
-  transition-duration: 100ms;
-  background-color: var(--ui-element-background-color);
-  fill: var(--foreground-color);
-  box-shadow: 1px 3px 3px #0006;
 }
 
 .tool-icon {
@@ -433,17 +409,14 @@ body {
   stroke-width: 1.7px;
 }
 
-.subtool-button:hover,
 .tool-button:hover {
   background-color: var(--editor-tool-button-hover-background-color);
 }
 
-.subtool-button:active,
 .tool-button:active {
   background-color: var(--editor-tool-button-active-background-color);
 }
 
-.selected .subtool-button:first-child,
 .tool-button.selected {
   background-color: var(--editor-tool-button-selected-background-color);
   fill: var(--background-color);
@@ -451,14 +424,6 @@ body {
 
 .tool-button.selected .icon-tabler {
   stroke: var(--background-color);
-}
-
-.multi-tool.selected::after {
-  border-right: 5px solid var(--background-color);
-}
-
-.subtool-button:not(:first-child) .icon-tabler {
-  stroke: var(--foreground-color);
 }
 
 #mini-console {
