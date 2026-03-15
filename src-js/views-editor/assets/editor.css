@@ -328,6 +328,8 @@ body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: auto;
+  z-index: 1000;
 }
 
 .tools-overlay.tools-overlay--bottom {

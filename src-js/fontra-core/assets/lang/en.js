@@ -336,6 +336,18 @@ export const strings = {
   "sidebar.reference-font.language": "Language",
   "sidebar.reference-font.warning.could-not-store":
     "Could not store some reference fonts",
+  "sidebar.pro-advice": "Glyph Advisor",
+  "sidebar.pro-advice.construction-tips": "Construction Tips",
+  "sidebar.pro-advice.common-mistakes": "Common Mistakes",
+  "sidebar.pro-advice.letter-relationships": "Letter Relationships",
+  "sidebar.pro-advice.this-letter-informs": "This letter informs the design of:",
+  "sidebar.pro-advice.informed-by": "Informed by:",
+  "sidebar.pro-advice.reusable-components": "Reusable Components",
+  "sidebar.pro-advice.optical-corrections": "Optical Corrections",
+  "sidebar.pro-advice.spacing-fundamentals": "Spacing Fundamentals",
+  "sidebar.pro-advice.design-phase": "Design Phase",
+  "sidebar.pro-advice.no-specific-tips": "No specific tips found for this glyph.",
+  "sidebar.pro-advice.select-glyph": "Select a glyph to see design advice",
   "sidebar.related-glyphs": "Related Glyphs & Characters",
   "sidebar.related-glyphs.alternate-glyphs": "Alternate glyphs",
   "sidebar.related-glyphs.character-decompose-with-character":

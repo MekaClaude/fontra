@@ -66,14 +66,19 @@ class FontraServer:
         routes.append(web.get("/serverinfo", self.serverInfoHandler))
         routes.append(web.post("/api/{function:.*}", self.webAPIHandler))
 
+        # Deduplicate entry points to avoid duplicate route registration
+        seenEntryPoints = {}
         for ep in entry_points(group="fontra.webcontent"):
+            if ep.name not in seenEntryPoints:
+                seenEntryPoints[ep.name] = ep.value
+        for epName, epValue in seenEntryPoints.items():
             routes.append(
                 web.get(
-                    f"/{ep.name}/{{path:.*}}",
+                    f"/{epName}/{{path:.*}}",
                     partial(
                         self.staticContentHandler,
-                        contentRoot=getPackageResourcePath(ep.value),
-                        pathPrefix=f"/{ep.name}",
+                        contentRoot=getPackageResourcePath(epValue),
+                        pathPrefix=f"/{epName}",
                     ),
                 )
             )
@@ -95,7 +100,13 @@ class FontraServer:
             )
         )
 
-        self.httpApp.add_routes(routes)
+        try:
+            self.httpApp.add_routes(routes)
+        except RuntimeError as e:
+            if "method HEAD is already registered" in str(e):
+                pass
+            else:
+                raise
 
         if self.launchWebBrowser:
             self.httpApp.on_startup.append(self.launchWebBrowserCallback)

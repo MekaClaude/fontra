@@ -4,7 +4,6 @@ import {
   registerAction,
   registerActionCallbacks,
 } from "@fontra/core/actions.js";
-import { applicationSettingsController } from "@fontra/core/application-settings.js";
 import { Backend } from "@fontra/core/backend-api.js";
 import { CanvasController } from "@fontra/core/canvas-controller.js";
 import { recordChanges } from "@fontra/core/change-recorder.js";
@@ -123,6 +122,13 @@ export class EditorController extends ViewController {
     canvas.ondragover = (event) => this._onDragOver(event);
     canvas.ondragleave = (event) => this._onDragLeave(event);
     canvas.ondrop = (event) => this._onDrop(event);
+
+    // Apply tools menu position based on setting
+    this._applyToolsMenuPosition();
+    applicationSettingsController.addListener(
+      { toolsMenuPosition: null },
+      () => this._applyToolsMenuPosition()
+    );
 
     const canvasController = new CanvasController(canvas, (magnification) =>
       this.canvasMagnificationChanged(magnification)
@@ -969,6 +975,19 @@ export class EditorController extends ViewController {
     this.initDraggableToolbar();
   }
 
+  _applyToolsMenuPosition() {
+    const toolsOverlay = document.querySelector(".tools-overlay");
+    if (!toolsOverlay) {
+      return;
+    }
+    const position = applicationSettingsController.model.toolsMenuPosition;
+    if (position === "bottom") {
+      toolsOverlay.classList.add("tools-overlay--bottom");
+    } else {
+      toolsOverlay.classList.remove("tools-overlay--bottom");
+    }
+  }
+
   initDraggableToolbar() {
     const toolsDraggable = document.getElementById("tools-draggable");
     if (!toolsDraggable) {
@@ -1147,6 +1166,10 @@ export class EditorController extends ViewController {
     this.topLevelTools[tool.identifier] = tool;
 
     const editToolsElement = document.querySelector("#edit-tools");
+    if (!editToolsElement) {
+      console.error("editToolsElement not found!");
+      return;
+    }
 
     const toolDefs = [];
 
