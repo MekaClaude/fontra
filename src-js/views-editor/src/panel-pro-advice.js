@@ -19,7 +19,7 @@ async function loadKnowledgeBase() {
 
 export default class ProAdvicePanel extends Panel {
     identifier = "pro-advice";
-    iconPath = "/tabler-icons/bulb.svg";
+    iconPath = "/tabler-icons/pencil.svg";
 
     static styles = `
     .pro-advice-container {
