@@ -19,7 +19,7 @@ async function loadKnowledgeBase() {
 
 export default class ProAdvicePanel extends Panel {
     identifier = "pro-advice";
-    iconPath = "/tabler-icons/pencil.svg";
+    iconPath = "/tabler-icons/bulb.svg";
 
     static styles = `
     .pro-advice-container {
@@ -46,10 +46,10 @@ export default class ProAdvicePanel extends Panel {
     }
 
     .pro-advice-section-title {
-      font-weight: 600;
+      font-weight: bold;
       font-size: 0.92em;
       margin-bottom: 0.35em;
-      color: var(--fontra-ui-on-surface-color, #333);
+      color: white;
     }
 
     .pro-advice-tip {

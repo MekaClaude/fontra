@@ -3,6 +3,7 @@
   <advance width="396"/>
   <unicode hex="0041"/>
   <unicode hex="0061"/>
+  <guideline x="-5" y="0" angle="0" name="lol"/>
   <outline>
     <contour>
       <point x="20" y="0" type="line"/>
