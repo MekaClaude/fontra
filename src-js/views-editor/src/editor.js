@@ -96,6 +96,7 @@ import ReferenceFontPanel from "./panel-reference-font.js";
 import RelatedGlyphsPanel from "./panel-related-glyphs.js";
 import ProAdvicePanel from "./panel-pro-advice.js";
 import SelectionInfoPanel from "./panel-selection-info.js";
+import SpacingStudioPanel from "./panel-spacing-studio.js";
 import TextEntryPanel from "./panel-text-entry.js";
 import TransformationPanel from "./panel-transformation.js";
 import Panel from "./panel.js";
@@ -1217,6 +1218,7 @@ initSidebars() {
   this.addSidebarPanel(new DesignspaceNavigationPanel(this), "left");
   this.addSidebarPanel(new ReferenceFontPanel(this), "left");
   this.addSidebarPanel(new SelectionInfoPanel(this), "right");
+  this.addSidebarPanel(new SpacingStudioPanel(this), "right");
   this.addSidebarPanel(new TransformationPanel(this), "right");
   this.addSidebarPanel(new GlyphNotePanel(this), "right");
   this.addSidebarPanel(new RelatedGlyphsPanel(this), "right");
