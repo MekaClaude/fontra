@@ -212,10 +212,12 @@ export default class ProAdvicePanel extends Panel {
         }
 
         const kb = await loadKnowledgeBase();
-        const glyphData = kb.glyphs?.[glyphName];
-        const corrections = kb.opticalCorrections || {};
-        const phases = kb.designOrder?.phases || [];
-        const terms = kb.commonTerms || {};
+        const glyphData = kb.glyphDna?.glyphs?.[glyphName];
+        const corrections = kb.opticalRules || {};
+        const knowledgeCards = kb.knowledgeCards || {};
+        const phases = knowledgeCards.phases || [];
+        const terms = knowledgeCards.commonTerms || {};
+        const spacing = knowledgeCards.spacingPrinciples || {};
 
         container.innerHTML = "";
         container.appendChild(
@@ -364,7 +366,8 @@ export default class ProAdvicePanel extends Panel {
     }
 
     _addSpacingSection(container, kb) {
-        const spacing = kb.spacingPrinciples;
+        const knowledgeCards = kb.knowledgeCards || {};
+        const spacing = knowledgeCards.spacingPrinciples;
         if (!spacing) return;
 
         const section = html.div({ class: "pro-advice-section" }, [
