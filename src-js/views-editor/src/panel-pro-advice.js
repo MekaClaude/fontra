@@ -26,103 +26,138 @@ export default class ProAdvicePanel extends Panel {
       height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 0.75em;
+      gap: 1em;
       overflow-y: auto;
-      font-size: 0.88em;
-      line-height: 1.45;
+      font-size: 0.95em;
+      line-height: 1.5;
+      padding: 0.5em;
     }
 
     .pro-advice-header {
-      font-weight: bold;
-      font-size: 1em;
-      padding-bottom: 0.25em;
-      border-bottom: 1px solid var(--horizontal-rule-color, #ccc);
+      font-weight: 700;
+      font-size: 1.15em;
+      padding: 0.5em 0.75em;
+      background: var(--fontra-ui-accent-color, #0078d4);
+      color: white;
+      border-radius: 6px;
+      margin-bottom: 0.25em;
     }
 
     .pro-advice-section {
-      background: var(--ui-element-background-color, #f5f5f5);
-      border-radius: 6px;
-      padding: 0.6em 0.75em;
+      background: var(--ui-element-background-color, #f0f4f8);
+      border: 1px solid var(--ui-element-border-color, #d0d7de);
+      border-radius: 8px;
+      padding: 0.8em 1em;
     }
 
     .pro-advice-section-title {
-      font-weight: 600;
-      font-size: 0.92em;
-      margin-bottom: 0.35em;
-      color: var(--fontra-ui-on-surface-color, #333);
+      font-weight: 700;
+      font-size: 1em;
+      margin-bottom: 0.5em;
+      color: var(--fontra-ui-on-surface-color, #1a1a1a);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--fontra-ui-accent-color, #0078d4);
+      padding-bottom: 0.3em;
     }
 
     .pro-advice-tip {
-      margin: 0.25em 0;
-      padding-left: 0.9em;
+      margin: 0.4em 0;
+      padding-left: 1.2em;
       position: relative;
+      color: var(--fontra-ui-on-surface-color, #24292f);
     }
 
     .pro-advice-tip::before {
-      content: "•";
+      content: "▸";
       position: absolute;
       left: 0;
-      color: var(--fontra-ui-accent-color, #09f);
+      color: var(--fontra-ui-accent-color, #0078d4);
+      font-weight: bold;
     }
 
     .pro-advice-warning {
-      margin: 0.25em 0;
-      padding-left: 0.9em;
+      margin: 0.4em 0;
+      padding-left: 1.2em;
       position: relative;
-      color: var(--fontra-ui-warning-color, #cc6600);
+      color: #c41a20;
+      font-weight: 500;
+      background: #fff5f5;
+      padding: 0.5em 0.75em;
+      border-radius: 4px;
+      border-left: 3px solid #c41a20;
     }
 
     .pro-advice-warning::before {
       content: "⚠";
       position: absolute;
-      left: 0;
+      left: 0.25em;
     }
 
     .pro-advice-related {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35em;
+      gap: 0.5em;
     }
 
     .pro-advice-glyph-tag {
-      background: var(--fontra-ui-accent-color, #09f);
+      background: var(--fontra-ui-accent-color, #0078d4);
       color: white;
-      padding: 0.15em 0.5em;
+      padding: 0.25em 0.75em;
       border-radius: 4px;
-      font-size: 0.85em;
-      font-weight: 500;
+      font-size: 0.9em;
+      font-weight: 600;
       cursor: default;
+      border: 1px solid var(--fontra-ui-accent-color, #005a9e);
     }
 
     .pro-advice-glyph-tag.informed-by {
-      background: var(--fontra-ui-secondary-color, #6c757d);
+      background: #5a6268;
+      border-color: #454a4e;
     }
 
     .pro-advice-phase-badge {
       display: inline-block;
-      background: var(--fontra-ui-accent-color, #09f);
+      background: #28a745;
       color: white;
-      padding: 0.1em 0.5em;
-      border-radius: 10px;
-      font-size: 0.82em;
-      font-weight: 600;
+      padding: 0.25em 0.75em;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: 700;
+      border: 1px solid #1e7e34;
     }
 
     .pro-advice-correction-name {
-      font-weight: 600;
-      color: var(--fontra-ui-accent-color, #09f);
+      font-weight: 700;
+      color: #d32f2f;
+      background: #ffebee;
+      padding: 0.1em 0.4em;
+      border-radius: 3px;
     }
 
     .pro-advice-empty {
-      color: #999;
-      padding-top: 1em;
+      color: #666;
+      padding: 1.5em;
       font-style: italic;
+      text-align: center;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px dashed #dee2e6;
     }
 
     .pro-advice-term {
-      color: var(--fontra-ui-accent-color, #09f);
-      border-bottom: 1px dotted var(--fontra-ui-accent-color, #09f);
+      color: var(--fontra-ui-accent-color, #0078d4);
+      border-bottom: 1px dotted var(--fontra-ui-accent-color, #0078d4);
       cursor: help;
+      font-weight: 500;
+    }
+
+    .pro-advice-glyph-title {
+      font-size: 1.4em;
+      font-weight: 800;
+      color: #1a1a1a;
+      padding: 0.25em 0;
+      margin-bottom: 0.25em;
     }
   `;
 
@@ -146,9 +181,9 @@ export default class ProAdvicePanel extends Panel {
                     { class: "panel-section panel-section--flex panel-section--scrollable" },
                     [
                         html.div({ class: "pro-advice-container", id: "pro-advice-content" }, [
-                            html.div({ class: "pro-advice-header" }, ["Pro Advice"]),
+                            html.div({ class: "pro-advice-header" }, [translate("sidebar.pro-advice")]),
                             html.div({ class: "pro-advice-empty" }, [
-                                "Select a glyph to see design advice",
+                                translate("sidebar.pro-advice.select-glyph"),
                             ]),
                         ]),
                     ]
@@ -166,11 +201,11 @@ export default class ProAdvicePanel extends Panel {
         if (!glyphName) {
             container.innerHTML = "";
             container.appendChild(
-                html.div({ class: "pro-advice-header" }, ["Pro Advice"])
+                html.div({ class: "pro-advice-header" }, ["Glyph Advisor"])
             );
             container.appendChild(
                 html.div({ class: "pro-advice-empty" }, [
-                    "Select a glyph to see design advice",
+                    "Select a glyph in the editor to see design advice",
                 ])
             );
             return;
@@ -184,14 +219,17 @@ export default class ProAdvicePanel extends Panel {
 
         container.innerHTML = "";
         container.appendChild(
-            html.div({ class: "pro-advice-header" }, [`Pro Advice: "${glyphName}"`])
+            html.div({ class: "pro-advice-glyph-title" }, [`${glyphName}`])
+        );
+        container.appendChild(
+            html.div({ class: "pro-advice-header" }, ["Glyph Advisor"])
         );
 
         if (!glyphData) {
             container.appendChild(
                 html.div({ class: "pro-advice-section" }, [
                     html.div({ class: "pro-advice-tip" }, [
-                        `No specific tips found for "${glyphName}". General spacing and design principles still apply.`,
+                        translate("sidebar.pro-advice.no-specific-tips"),
                     ]),
                 ])
             );
@@ -204,7 +242,7 @@ export default class ProAdvicePanel extends Panel {
         if (phase) {
             container.appendChild(
                 html.div({ class: "pro-advice-section" }, [
-                    html.div({ class: "pro-advice-section-title" }, ["Design Phase"]),
+                    html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.design-phase")]),
                     html.div({}, [
                         html.span({ class: "pro-advice-phase-badge" }, [
                             `Phase ${phase.phase}`,
@@ -218,7 +256,7 @@ export default class ProAdvicePanel extends Panel {
         // Construction Tips
         if (glyphData.tips?.length) {
             const tipsSection = html.div({ class: "pro-advice-section" }, [
-                html.div({ class: "pro-advice-section-title" }, ["Construction Tips"]),
+                html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.construction-tips")]),
             ]);
             for (const tip of glyphData.tips) {
                 tipsSection.appendChild(
@@ -231,7 +269,7 @@ export default class ProAdvicePanel extends Panel {
         // Common Mistakes
         if (glyphData.commonMistakes?.length) {
             const mistakesSection = html.div({ class: "pro-advice-section" }, [
-                html.div({ class: "pro-advice-section-title" }, ["Common Mistakes"]),
+                html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.common-mistakes")]),
             ]);
             for (const mistake of glyphData.commonMistakes) {
                 mistakesSection.appendChild(
@@ -249,12 +287,12 @@ export default class ProAdvicePanel extends Panel {
 
         if (allInforms.length || informedBy.length) {
             const relSection = html.div({ class: "pro-advice-section" }, [
-                html.div({ class: "pro-advice-section-title" }, ["Letter Relationships"]),
+                html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.letter-relationships")]),
             ]);
 
             if (allInforms.length) {
                 relSection.appendChild(
-                    html.div({}, [`This letter informs the design of:`])
+                    html.div({}, [translate("sidebar.pro-advice.this-letter-informs")])
                 );
                 const tagsDiv = html.div({ class: "pro-advice-related" });
                 for (const g of allInforms) {
@@ -267,7 +305,7 @@ export default class ProAdvicePanel extends Panel {
 
             if (informedBy.length) {
                 relSection.appendChild(
-                    html.div({ style: "margin-top: 0.4em" }, [`Informed by:`])
+                    html.div({ style: "margin-top: 0.4em" }, [translate("sidebar.pro-advice.informed-by")])
                 );
                 const tagsDiv = html.div({ class: "pro-advice-related" });
                 for (const g of informedBy) {
@@ -284,7 +322,7 @@ export default class ProAdvicePanel extends Panel {
         // Reusable Components
         if (glyphData.reusableComponents?.length) {
             const compSection = html.div({ class: "pro-advice-section" }, [
-                html.div({ class: "pro-advice-section-title" }, ["Reusable Components"]),
+                html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.reusable-components")]),
             ]);
             for (const comp of glyphData.reusableComponents) {
                 const definition = terms[comp] || "";
@@ -300,7 +338,7 @@ export default class ProAdvicePanel extends Panel {
         const correctionIds = glyphData.opticalCorrections || [];
         if (correctionIds.length) {
             const corrSection = html.div({ class: "pro-advice-section" }, [
-                html.div({ class: "pro-advice-section-title" }, ["Optical Corrections"]),
+                html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.optical-corrections")]),
             ]);
             for (const corrId of correctionIds) {
                 const corr = corrections[corrId];
@@ -330,7 +368,7 @@ export default class ProAdvicePanel extends Panel {
         if (!spacing) return;
 
         const section = html.div({ class: "pro-advice-section" }, [
-            html.div({ class: "pro-advice-section-title" }, ["Spacing Fundamentals"]),
+            html.div({ class: "pro-advice-section-title" }, [translate("sidebar.pro-advice.spacing-fundamentals")]),
         ]);
         for (const principle of (spacing.fundamentals || []).slice(0, 3)) {
             section.appendChild(
