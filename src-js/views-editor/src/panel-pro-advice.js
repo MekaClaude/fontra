@@ -124,6 +124,50 @@ export default class ProAdvicePanel extends Panel {
       border-bottom: 1px dotted var(--fontra-ui-accent-color, #09f);
       cursor: help;
     }
+
+    .pro-advice-strategy {
+      font-style: italic;
+      color: var(--fontra-ui-on-surface-color, #444);
+      margin-bottom: 0.5em;
+    }
+
+    .pro-advice-next {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border-left: 3px solid #4caf50;
+    }
+
+    .pro-advice-next .pro-advice-section-title {
+      color: #2e7d32;
+    }
+
+    .pro-advice-builds-from {
+      margin-top: 0.5em;
+    }
+
+    .pro-advice-relationship-card {
+      background: var(--ui-element-background-color, #f5f5f5);
+      border-radius: 4px;
+      padding: 0.5em;
+      margin: 0.25em 0;
+    }
+
+    .pro-advice-method {
+      font-size: 0.85em;
+      color: var(--fontra-ui-accent-color, #09f);
+      font-weight: 500;
+    }
+
+    .pro-advice-category {
+      display: inline-block;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      background: #eee;
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      margin-left: 0.5em;
+    }
   `;
 
     constructor(editorController) {
@@ -204,7 +248,10 @@ export default class ProAdvicePanel extends Panel {
         if (phase) {
             container.appendChild(
                 html.div({ class: "pro-advice-section" }, [
-                    html.div({ class: "pro-advice-section-title" }, ["Design Phase"]),
+                    html.div({ class: "pro-advice-section-title" }, [
+                        "Design Phase",
+                        html.span({ class: "pro-advice-category" }, [glyphData.category || "letter"])
+                    ]),
                     html.div({}, [
                         html.span({ class: "pro-advice-phase-badge" }, [
                             `Phase ${phase.phase}`,
@@ -213,6 +260,34 @@ export default class ProAdvicePanel extends Panel {
                     ]),
                 ])
             );
+        }
+
+        // Construction Strategy
+        const buildsFrom = glyphData.builds_from || [];
+        const dnaRole = glyphData.dna_role || "";
+        if (dnaRole || buildsFrom.length) {
+            const strategySection = html.div({ class: "pro-advice-section" }, [
+                html.div({ class: "pro-advice-section-title" }, ["Construction Strategy"]),
+            ]);
+            
+            if (dnaRole) {
+                strategySection.appendChild(
+                    html.div({ class: "pro-advice-strategy" }, [dnaRole])
+                );
+            }
+            
+            if (buildsFrom.length) {
+                const buildsDiv = html.div({ class: "pro-advice-builds-from" });
+                buildsDiv.appendChild(
+                    html.div({}, [
+                        "Built from: ",
+                        html.span({ class: "pro-advice-glyph-tag informed-by" }, [buildsFrom.join(", ")])
+                    ])
+                );
+                strategySection.appendChild(buildsDiv);
+            }
+            
+            container.appendChild(strategySection);
         }
 
         // Construction Tips
@@ -322,6 +397,34 @@ export default class ProAdvicePanel extends Panel {
                 }
             }
             container.appendChild(corrSection);
+        }
+
+        // Do This Next
+        const feedsInto = glyphData.feeds_into || [];
+        if (feedsInto.length) {
+            const nextSection = html.div({ class: "pro-advice-section pro-advice-next" }, [
+                html.div({ class: "pro-advice-section-title" }, ["Do This Next"]),
+            ]);
+            
+            for (const next of feedsInto.slice(0, 3)) {
+                const card = html.div({ class: "pro-advice-relationship-card" });
+                card.appendChild(
+                    html.div({ class: "pro-advice-glyph-tag" }, [next.glyph])
+                );
+                if (next.method) {
+                    card.appendChild(
+                        html.div({ class: "pro-advice-method" }, [next.method.replace(/_/g, " ")])
+                    );
+                }
+                if (next.description) {
+                    card.appendChild(
+                        html.div({ style: "font-size: 0.9em; margin-top: 0.25em" }, [next.description])
+                    );
+                }
+                nextSection.appendChild(card);
+            }
+            
+            container.appendChild(nextSection);
         }
     }
 
