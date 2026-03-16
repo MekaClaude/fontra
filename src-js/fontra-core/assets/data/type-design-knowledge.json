@@ -2,8 +2,8 @@
   "glyphs": {
     "n": {
       "unicode": "U+006E",
-      "name": "n",
-      "category": "lowercase",
+      "name": "lowercase n: The Foundation",
+      "category": "unknown",
       "dna_role": "primary_foundation",
       "phase": "1",
       "builds_from": [],
@@ -13,13 +13,20 @@
         "u",
         "r"
       ],
-      "informedBy": [],
+      "informedBy": [
+        "h",
+        "m",
+        "u",
+        "r"
+      ],
       "tips": [
         "Draw n before almost everything else. Its stem weight, arch shape, and counter proportions are the DNA for h, m, u, and r — and indirectly for nearly every other lowercase letter.",
-        "Start with a rectangle for stem width.",
-        "Draw arch as separate overlapping shape.",
-        "Counter affects readability at text sizes.",
-        "Duplicate first stem for second leg."
+        "Start with a rectangle to establish stem width. This exact width flows unchanged into h, m, u, b, d, p, q, r, and i.",
+        "Draw the arch (shoulder) as a separate overlapping shape on top of the left stem — not as a continuous path. This lets you adjust the arch angle independently without touching the stem.",
+        "The arch transition (where the curve leaves the stem) defines the personality of your entire font. A high arch exit feels more geometric; a low arch exit feels more humanist.",
+        "The second stem and its foot are their own separate component. Duplicate the first stem exactly — do not redraw it — to guarantee identical weight.",
+        "The counter (interior negative space) should be actively designed. Its shape and openness affect readability at text sizes.",
+        "Side bearings rule of thumb: measure the inner counter width, divide by 4, use that value on both sides. For n, this typically yields consistent rhythm with h and m."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -27,8 +34,8 @@
     },
     "o": {
       "unicode": "U+006F",
-      "name": "o",
-      "category": "lowercase",
+      "name": "lowercase o: The Curve Master",
+      "category": "unknown",
       "dna_role": "primary_foundation",
       "phase": "1",
       "builds_from": [],
@@ -39,13 +46,21 @@
         "p",
         "q"
       ],
-      "informedBy": [],
+      "informedBy": [
+        "b",
+        "d",
+        "q",
+        "c",
+        "g"
+      ],
       "tips": [
-        "The lowercase o is the curve master. Its bowl, stress axis, and stroke weights are reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
-        "Requires overshoot at top and bottom.",
-        "Stress axis must be consistent across curves.",
-        "Do not just scale down uppercase O.",
-        "Bowl weight = n crossbar weight in low contrast."
+        "The lowercase o is the curve master of the alphabet. Its bowl, stress axis, and stroke weights are directly reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
+        "Copy the capital O and scale it down to x-height — but do not just shrink it. Scaling reduces stroke width proportionally, so you must manually compensate by expanding the outer shape or tightening the counter.",
+        "The o must have overshoot: its top curve extends above the x-height and its bottom extends below the baseline. Without this, o will appear shorter than n in text.",
+        "The stress axis (the angle through the thinnest points) must be decided here and held consistent through all curved letters. Vertical axis = sans/geometric; tilted ~10–15° = humanist/oldstyle.",
+        "Use your measuring stick component to verify that the curve stroke widths match the horizontal crossbar weight of n — they should be the same in a low-contrast design.",
+        "The counter of o should feel open and breathing — if it starts to look like a closed pill, the counter is too small.",
+        "Side bearings for o: use ~20% of the outer width (slightly less than n's 25%) because the curves of o provide visual padding."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -53,10 +68,10 @@
     },
     "h": {
       "unicode": "U+0068",
-      "name": "h",
-      "category": "lowercase",
+      "name": "lowercase h: Extension from n",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "n"
       ],
@@ -64,13 +79,18 @@
         "b"
       ],
       "informedBy": [
-        "n"
+        "n",
+        "l",
+        "b"
       ],
       "tips": [
-        "h = n with the left stem extended to the ascender line. Everything below x-height is identical to n.",
-        "Arch begins at same height as n.",
-        "Serif at top should match l and b ascenders.",
-        "Ascender height must match l exactly."
+        "h = n with the left stem extended to the ascender line. If n is finished, h takes about 30 seconds.",
+        "Copy the complete n and paste it into h. Simply pull the left stem up to the ascender line — that is literally the only change.",
+        "The arch of h must begin at exactly the same position as in n so that h and n feel like they belong to the same family.",
+        "Serif treatment at the top of the ascender is a key design detail. The foot shape here should match your l and b ascenders.",
+        "Side bearings: copy directly from n — same inner space, same spacing rhythm.",
+        "Check that the ascender height of h matches your l exactly. These should be identical in a well-made font.",
+        "In serif fonts, the ascender serif (at the top of the left stem) is usually lighter than the foot serif — this is classical proportion."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -78,10 +98,10 @@
     },
     "m": {
       "unicode": "U+006D",
-      "name": "m",
-      "category": "lowercase",
+      "name": "lowercase m: Doubled Rhythm",
+      "category": "unknown",
       "dna_role": "arch_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "n"
       ],
@@ -90,10 +110,13 @@
         "n"
       ],
       "tips": [
-        "m = n doubled. Copy arch and second leg from n, duplicate it rightward. Three stems must be identical weight.",
-        "Counters should feel optically equal to n counter.",
-        "Widen letter if counters feel pinched.",
-        "Tighter side bearings than n."
+        "m = n doubled. Copy the arch and second leg from n, duplicate it, attach it to the right — done.",
+        "Copy the n and paste into m. Select the arch and right leg portion, hold Option and drag to duplicate it rightward.",
+        "The three stems of m must be identical in weight — measure them. Even a 1-unit difference reads as unevenness in text.",
+        "The two counters inside m should have the same visual area as the single counter in n — if m's counters feel pinched compared to n, widen the letter.",
+        "In narrow typefaces, the second arch of m may be drawn slightly shallower to avoid crowding. But do this carefully — it can make m feel inconsistent with n.",
+        "Preview at small sizes early: m is the first place where spacing errors compound and become visible.",
+        "Side bearings: tighter than n because the additional counter space provides visual padding."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -101,10 +124,10 @@
     },
     "u": {
       "unicode": "U+0075",
-      "name": "u",
-      "category": "lowercase",
+      "name": "lowercase u: The Light Catcher",
+      "category": "unknown",
       "dna_role": "arch_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "n"
       ],
@@ -113,10 +136,13 @@
         "n"
       ],
       "tips": [
-        "u is not a mirror of n. The open top catches more light, making u appear wider. Narrow the bowl ~5-8 units for balance.",
-        "Bottom curve needs overshoot like o.",
-        "Exit stroke top-right matches n arch exit.",
-        "Transition from stem to curve must be smooth."
+        "u is not a mirror of n. The open top catches more light, making u appear wider. Make it slightly narrower than n to achieve optical balance.",
+        "Copy n, flip vertically, move to baseline — but this is only the starting point, not the finished letter.",
+        "Reduce the bowl width by approximately 5–8 units compared to n. The 'cup' shape of u collects light and makes the interior look larger, requiring compensation.",
+        "The curve at the bottom needs overshoot — it should extend just below the baseline, exactly like o.",
+        "The exit stroke at the top right should match the style and angle of the arch exit in n — they are the same stroke, one ascending and one descending.",
+        "Check side bearings match n when placed in text — run 'nun' and 'unu' to compare rhythm.",
+        "The transition from the straight stem into the curved bottom must be smooth — no corners or flat tangent points."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -124,8 +150,8 @@
     },
     "l": {
       "unicode": "U+006C",
-      "name": "l",
-      "category": "lowercase",
+      "name": "lowercase l: The Standard Stem",
+      "category": "unknown",
       "dna_role": "primary_foundation",
       "phase": "1",
       "builds_from": [],
@@ -134,12 +160,21 @@
         "j",
         "d"
       ],
-      "informedBy": [],
+      "informedBy": [
+        "h",
+        "i",
+        "d",
+        "t",
+        "k"
+      ],
       "tips": [
-        "l is your pure stem. Width, weight, and terminal treatment define DNA for i, j, b, d, h, k, p.",
-        "Height sets ascender benchmark.",
-        "Foot/serif treatment must match all ascending letters.",
-        "Side bearings are reference for uprights."
+        "l is your pure stem. Its width, weight, and serif treatment define the DNA for i, j, b, d, h, k, p — everything that has a vertical stroke.",
+        "Draw l before n if you prefer to establish your stem weight first. It is the simplest possible shape.",
+        "The ascender height of l sets the benchmark for all other ascending letters (b, d, f, h, k). Make sure they all match.",
+        "The foot serif or exit treatment at the bottom must be identical across i, j, l, r, b, d, h, and all other letters that share this stem.",
+        "In sans-serif, l may have a slight curve at the top (curved entry stroke) or a flat top — decide this style now as it affects all ascending letters.",
+        "Side bearings should be set here first. The l spacing becomes the reference for the width of the vertical strokes in other letters.",
+        "The stem weight of l is the single most important measurement in your font — everything else is calibrated against it."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -147,22 +182,26 @@
     },
     "i": {
       "unicode": "U+0069",
-      "name": "i",
-      "category": "lowercase",
+      "name": "lowercase i: Stem and Tittle",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "l"
       ],
       "informsDesignOf": [],
       "informedBy": [
-        "l"
+        "l",
+        "j"
       ],
       "tips": [
-        "i = l stem + tittle (dot). Tittle size requires careful optical calibration.",
-        "Tittle larger than feels right — check at small sizes.",
-        "Tittle shape should match period/punctuation.",
-        "Position between x-height and ascender line."
+        "i = l (stem) + tittle. Simple, but the tittle size requires careful optical calibration.",
+        "Copy the stem from l. The i stem is identical to l — do not redraw it.",
+        "The tittle (dot) appears small in isolation because it is surrounded by white space. Make it larger than feels right — check at small sizes in text to confirm.",
+        "Tittle shape: round, square, or diamond? This choice should match the style of your period, colon, and other punctuation dots.",
+        "Vertical position: center the tittle between the x-height line and the ascender line — slightly above x-height midpoint.",
+        "The tittle needs its own overshoot logic — if it is round, make it slightly taller than its width to appear circular at text sizes.",
+        "In sans-serif, the i stem may need a 2–3 unit optical width increase because single isolated strokes appear thinner than the same stroke in a letter like n."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -170,22 +209,27 @@
     },
     "j": {
       "unicode": "U+006A",
-      "name": "j",
-      "category": "lowercase",
+      "name": "lowercase j: Descending Hook",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "l"
       ],
       "informsDesignOf": [],
       "informedBy": [
-        "l"
+        "i",
+        "f",
+        "y"
       ],
       "tips": [
-        "j = i + descending hook. Hook style should match f, r, and c terminal vocabulary.",
-        "Reach descender line with overshoot.",
-        "Hook style matches your curved terminals.",
-        "Narrow side bearings like i."
+        "j = i + descending hook. The hook style should match your f, r, and c terminal vocabulary.",
+        "Start from i (stem + tittle) and add a curved descender hook at the bottom.",
+        "The hook direction and curvature should match your curved terminal vocabulary — same arc radius as your c terminal or f hook.",
+        "The hook tip must reach the descender line, with a slight overshoot beyond it.",
+        "In serif fonts, the hook end can terminate with a ball, teardrop, or slight serif — match your r terminal.",
+        "The width of j is very narrow — side bearings are tight and the letter should feel slender.",
+        "Test j alongside i in text — they should feel consistent in rhythm and visual weight."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -193,10 +237,10 @@
     },
     "b": {
       "unicode": "U+0062",
-      "name": "b",
-      "category": "lowercase",
+      "name": "lowercase b: Stem and Bowl",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "h",
         "o"
@@ -204,13 +248,18 @@
       "informsDesignOf": [],
       "informedBy": [
         "o",
-        "h"
+        "h",
+        "l",
+        "p"
       ],
       "tips": [
-        "b = h stem + o bowl. Not a mirror of d. Bowl attaches at x-height and baseline.",
-        "Narrower bowl than standalone o.",
-        "Smooth junction at attachment points.",
-        "Baseline overshoot like o."
+        "b is NOT a mirror of d. Build b from h's left stem + o's bowl. The construction is different even though the final form may look similar.",
+        "Borrow the stem from h (or l) for the left upright, then borrow the o bowl for the right side.",
+        "Bring the o bowl in and make it slightly narrower than the standalone o — about the same width as the n counter.",
+        "The junction where the bowl meets the stem at the top and bottom must be smooth — no flat tangent points or kinks.",
+        "The bowl of b should touch the baseline with overshoot, just as o does.",
+        "The bowl attachment at x-height (top) requires care — the transition from stem to curve must feel natural.",
+        "Compare b and d often: they should look like siblings. Their bowls use the same shape but are attached to the stem differently."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -218,10 +267,10 @@
     },
     "d": {
       "unicode": "U+0064",
-      "name": "d",
-      "category": "lowercase",
+      "name": "lowercase d: Ascender and Bowl",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "o",
         "l"
@@ -232,13 +281,20 @@
       ],
       "informedBy": [
         "o",
-        "l"
+        "l",
+        "b",
+        "p",
+        "q",
+        "a"
       ],
       "tips": [
-        "d = o bowl + ascender stem. Source for single-story a.",
-        "Ascender height matches l and h.",
-        "Smooth transition bowl-to-ascender.",
-        "Baseline overshoot matches o."
+        "d = o bowl + ascending stem on the right. The ascender is the same height as h and l — keep all three consistent.",
+        "Use the o bowl directly as the left half, then attach an ascending stem on the right side.",
+        "The ascender of d should be exactly the same height as l and h. These three define the ascender line.",
+        "The bowl attachment at the top of the stem (where bowl exits into ascender) needs a smooth transition.",
+        "At the baseline, the bowl should touch with overshoot — same as o.",
+        "The exit at the top of the ascender should match your h and l ascender terminus style.",
+        "d is the source shape for a — the bowl of d is directly used when constructing the single-story a."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -246,23 +302,28 @@
     },
     "p": {
       "unicode": "U+0070",
-      "name": "p",
-      "category": "lowercase",
+      "name": "lowercase p: Descender and Bowl",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "b",
         "o"
       ],
       "informsDesignOf": [],
       "informedBy": [
-        "o"
+        "o",
+        "b",
+        "q"
       ],
       "tips": [
-        "p = b bowl + descending stem. Stem descends below baseline.",
-        "Descender length matches g, j, q, y.",
-        "Confirm ascender-to-descender ratio.",
-        "Stem starts at x-height top-left."
+        "p = b bowl + descending stem from q. The bowl sits at x-height, and the stem descends below the baseline.",
+        "Borrow the b bowl (or the d bowl flipped) for the right side, and the descending stem from q for the left.",
+        "The bowl sits between the baseline and x-height — same construction as b but positioned below the midpoint.",
+        "The descender should match the length of your other descenders (g, j, q, y).",
+        "The junction at the top of the bowl and stem (at x-height) should be clean and smooth.",
+        "This is a good moment to confirm your ascender-to-descender ratios — p shows all three major zones (x-height, bowl at x-height, descender below baseline).",
+        "Compare p, b, d, q side by side — they all use the same bowl shape. Rotating them should reveal any inconsistency."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -270,10 +331,10 @@
     },
     "q": {
       "unicode": "U+0071",
-      "name": "q",
-      "category": "lowercase",
+      "name": "lowercase q: The Tail Signature",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "d",
         "o"
@@ -283,13 +344,19 @@
       ],
       "informedBy": [
         "o",
-        "d"
+        "d",
+        "p",
+        "a",
+        "g"
       ],
       "tips": [
-        "q = o bowl + descending stem. Source for single-story g.",
-        "Tail matches j and g descender style.",
-        "Transition bowl-to-stem should be smooth.",
-        "Same descender depth as p."
+        "q = o bowl + descending stem on the right. The tail style should be consistent with your other descenders.",
+        "Start from the o bowl for the left half, attach a descending stem on the right side.",
+        "Bowl attachment at top-right should match the d construction — same inner shape and weight.",
+        "The tail of q can have a serif, angled cut, or curved terminal — decide early and match to j and g descender style.",
+        "The descender length must match your other descenders (g, j, p, y).",
+        "The transition from bowl to stem at x-height top-right should be smooth.",
+        "Some designs feature a distinctive q tail that adds personality — this is acceptable as long as it feels intentional and consistent."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -297,10 +364,10 @@
     },
     "c": {
       "unicode": "U+0063",
-      "name": "c",
-      "category": "lowercase",
+      "name": "lowercase c: Opening the Circle",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "o"
       ],
@@ -309,13 +376,19 @@
         "s"
       ],
       "informedBy": [
-        "o"
+        "o",
+        "e",
+        "s",
+        "r"
       ],
       "tips": [
-        "c = o opened on right. Terminal flows into e, f, r.",
-        "Aperture width is a stylistic signature.",
-        "Top and bottom terminals balanced.",
-        "Same overshoot as o."
+        "c = o opened on the right side. Terminal style defines the personality of your font and must be consistent with e, f, and r.",
+        "Copy the o and delete the right-side portion — c is simply an open o.",
+        "Terminal style is the biggest design decision in c: flat horizontal cut (grotesque), angled cut (transitional), round ball (humanist). This choice must be applied consistently to e, f, and r.",
+        "The aperture (opening width) is a design characteristic of your typeface: wider opening = more legible at small sizes and more open/friendly; narrower = more refined/formal.",
+        "Stroke weights must match o exactly — c is structurally the same shape.",
+        "Top and bottom terminals should be at corresponding heights or angles — they create visual balance across the opening.",
+        "After drawing c, the e requires only a crossbar addition, and c provides the top half of s."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -323,22 +396,27 @@
     },
     "e": {
       "unicode": "U+0065",
-      "name": "e",
-      "category": "lowercase",
+      "name": "lowercase e: Crossbar Stability",
+      "category": "unknown",
       "dna_role": "bowl_family",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "c"
       ],
       "informsDesignOf": [],
       "informedBy": [
-        "c"
+        "o",
+        "c",
+        "f"
       ],
       "tips": [
-        "e = c + crossbar. Crossbar slightly below vertical center.",
-        "Lower crossbar = optical stability.",
-        "Upper bowl smaller than lower bowl.",
-        "Top terminal matches c exactly."
+        "e = c + crossbar. The crossbar sits slightly below vertical center — this is intentional, not a mistake.",
+        "Copy c into e, then add the crossbar horizontally.",
+        "The crossbar sits below the mathematical center of the x-height. This optical adjustment makes the lower counter feel larger (more stable) than the upper counter.",
+        "Crossbar length determines aperture: shorter = more closed, elegant; longer = more open, legible. Design this as a stylistic choice.",
+        "The upper bowl of e is smaller than the lower because the crossbar 'cuts into' the interior space — adjust accordingly.",
+        "The top terminal of e must match c's top terminal exactly — they are the same form.",
+        "Preview c and e side by side constantly during drawing — they must read as sisters."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -346,10 +424,10 @@
     },
     "s": {
       "unicode": "U+0073",
-      "name": "s",
-      "category": "lowercase",
+      "name": "lowercase s: The Devil",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "c"
       ],
@@ -357,13 +435,19 @@
         "a"
       ],
       "informedBy": [
-        "c"
+        "c",
+        "e",
+        "a",
+        "g"
       ],
       "tips": [
-        "Copy c, mirror bottom. Spine carries same visual weight as thick strokes.",
-        "Use two o guides for optical center.",
-        "Spine angle steep = modern; flat = soft.",
-        "Top lobe smaller than bottom lobe."
+        "Copy c into s, mirror the bottom half to get the skeleton, then connect them. The spine (diagonal) must carry the same visual weight as your other thick strokes.",
+        "Start by copying c. This gives you the top lobe. Mirror the bottom half of c to create the bottom lobe — you now have the skeleton of s.",
+        "Use two o shapes as components (one above, one below, overlapping in the middle) to mark the exact center of s. The spine should pass through their overlap point.",
+        "The spine is the hardest part. It must carry the same visual weight as your other thick strokes — measure it carefully.",
+        "Spine angle: a steeper diagonal feels modern and aggressive; a flatter spine feels rounded and soft. Choose based on the character of your typeface.",
+        "Top and bottom terminals must be balanced — they should be at corresponding angles and heights even though s is asymmetric.",
+        "Iterate many times. s is often the most revised letter in any font project. Expect to draw it three to five times before it is right."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -371,10 +455,10 @@
     },
     "a": {
       "unicode": "U+0061",
-      "name": "a",
-      "category": "lowercase",
+      "name": "lowercase a: Double Story Devil",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": "1",
+      "phase": "3",
       "builds_from": [
         "s",
         "d"
@@ -382,36 +466,147 @@
       "informsDesignOf": [],
       "informedBy": [
         "d",
-        "s"
+        "s",
+        "g"
       ],
       "tips": [
-        "Mirror s vertically for body. Use d bowl and q stem.",
-        "Overhang (roof) is difficult — defined by angle/curve.",
-        "Bowl matches d and q shapes.",
-        "Ear echoes r arm or c terminal vocabulary."
+        "For the double-story a: mirror your finished s vertically to get the body curve. The s provides most of the DNA. For single-story a: combine the d bowl + q stem.",
+        "Double-story a: copy the completed s, mirror it vertically. You will immediately see the rough shape of the a body. The s provides the top curve, bowl, and spine.",
+        "The overhang at the top (the roof of a) is the most distinctive and difficult part. Its angle, curve, and how it terminates defines the character of your a.",
+        "The bowl uses the same curve logic as your d and q bowl — they are the same shape.",
+        "The junction where bowl meets stem at the baseline is critical: no flat tangent, no corner. It must be a smooth curve.",
+        "The ear (small terminal at top-right, if present) should echo your r arm terminal or c terminal family.",
+        "Single-story a is much easier: take the d bowl, remove the ascender, add the stem from q. Same proportions, far simpler construction."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
       "opticalCorrections": []
     },
-    "z": {
-      "unicode": "U+007A",
-      "name": "z",
-      "category": "lowercase",
-      "dna_role": "diagonal_family",
-      "phase": "1",
+    "g": {
+      "unicode": null,
+      "name": "lowercase g: Loop Specialist",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
       "builds_from": [],
-      "informsDesignOf": [
-        "k",
-        "v",
-        "x"
+      "informsDesignOf": [],
+      "informedBy": [
+        "q",
+        "s",
+        "a",
+        "y"
       ],
-      "informedBy": [],
       "tips": [
-        "Establish diagonal angle. Thick stroke is the diagonal.",
-        "Diagonal thickening is severe; measure it.",
-        "Terminals match C and S style.",
-        "Balance above and below counters."
+        "Choose your style early: single-story g (easier, from q + s curves) or double-story g (harder, from o + s). The double-story g is one of the most complex glyphs in the alphabet.",
+        "Single-story g: Start from q (bowl + descender stem), then add a spur on the right from the c or s terminal vocabulary.",
+        "Double-story g: Start from the o bowl for the upper half, borrow curves from s for the lower loop, add an ear at top-right.",
+        "The ear of g (top-right terminal) should use the same vocabulary as your r arm and c terminal — it is the same visual family.",
+        "The link (horizontal bar connecting upper bowl to lower loop in double-story) must be carefully balanced — it sits at approximately x-height.",
+        "The descender loop should have similar proportional depth to your other descenders (p, q, j, y).",
+        "The hardest part of double-story g is the junction between the link and both bowls — both must be smooth, invisible connections."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "r": {
+      "unicode": null,
+      "name": "lowercase r: Arm and Terminal",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "n",
+        "j",
+        "f",
+        "t",
+        "y"
+      ],
+      "tips": [
+        "r = n without the second leg. What remains is the left stem and a truncated arch whose terminal defines much of your font's personality.",
+        "Copy n, delete the second leg and foot. You have the r skeleton — now focus entirely on the terminal.",
+        "Terminal options: round teardrop (humanist), flat cut (grotesque), angled cut (transitional). This choice must match your c and f terminals — they form a vocabulary.",
+        "The arm of r should have enough weight at its tip to feel present — not a wispy ending — but not so heavy that it competes with the stem.",
+        "The transition from stem to arm at the shoulder should use the same arch angle as n.",
+        "The negative space under the arm (the counter) is significant in r — keep it open and visually balanced.",
+        "r is very narrow. It has some of the tightest side bearings in the lowercase."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "f": {
+      "unicode": null,
+      "name": "lowercase f: Hook and Crossbar",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "j",
+        "r",
+        "t"
+      ],
+      "tips": [
+        "f = j reversed + crossbar. The crossbar height must align with t and e crossbars when these letters appear together in text.",
+        "Start from j's arc shape (reversed direction) for the hooked top, attach the stem, then add the crossbar.",
+        "The crossbar sits slightly below the x-height — optically lower than it looks right, because horizontal strokes appear heavier than they are.",
+        "Crossbar height must match the t crossbar and align visually with the e crossbar in text. Test 'fe', 'ft', 'et' combinations to verify.",
+        "The top arc terminal matches your r, j, and c terminal vocabulary.",
+        "f is narrow — the crossbar may extend slightly more to the right than the left, or be centered. Decide based on your overall proportions.",
+        "In serif fonts, the crossbar often has a subtle serif treatment — match your other crossbars."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "t": {
+      "unicode": null,
+      "name": "lowercase t: The Short Ascender",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "f"
+      ],
+      "tips": [
+        "t = l with a crossbar. The crossbar is slightly below x-height, and the stem is shorter than an ascender letter. The top often hooks left.",
+        "Start from l (or i stem) and add a crossbar. The t stem typically reaches just above the x-height — shorter than b, d, h, l ascenders.",
+        "Crossbar sits slightly below the x-height — same optical logic as f and e crossbars.",
+        "The crossbar overhangs more to the right than the left in many designs — test both and choose.",
+        "Top of t: a leftward curve or hook is traditional and references calligraphic writing. A flat top is more geometric.",
+        "Bottom of t: the foot can be a slight curved tail, a flat cut, or a serif. This must harmonize with your other letter feet.",
+        "Compare f and t side by side — their crossbars should appear to sit at the same height when placed in text."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "k": {
+      "unicode": null,
+      "name": "lowercase k: Counter Balance",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "x",
+        "z"
+      ],
+      "tips": [
+        "k = l (ascender stem) + two diagonals from z. The upper diagonal is thin, the lower leg is thick — consistent with calligraphic logic.",
+        "Borrow the left stem from h or l, then use the diagonal stroke from z to construct the two arms.",
+        "The upper arm is thin (upstroke direction), the lower leg is thick (downstroke direction) — this is calligraphic stroke logic.",
+        "The junction at the stem: open junction (no touching, modern look) or touching junction (traditional) is a key design decision. Both are valid.",
+        "The three white counter spaces around the junction should feel visually equal in area — this is the hardest optical balance to achieve in k.",
+        "The lower leg nearly always needs to be thicker than it feels right — diagonal strokes thin out optically. Measure at small sizes.",
+        "Diagonal angles must match your z, v, and x family for consistency across the font."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -419,8 +614,8 @@
     },
     "v": {
       "unicode": "U+0076",
-      "name": "v",
-      "category": "lowercase",
+      "name": "lowercase v: Diagonal Foundation",
+      "category": "unknown",
       "dna_role": "diagonal_family",
       "phase": "1",
       "builds_from": [
@@ -431,13 +626,124 @@
         "y"
       ],
       "informedBy": [
+        "k",
+        "w",
+        "x",
+        "y",
         "z"
       ],
       "tips": [
-        "Sets diagonal angle for w, y, x, k. Heavy left, thin right.",
-        "Tapering creates extra visual space in bearings.",
-        "Apex style (sharp/flat) is key indicator.",
-        "Heavy = downstroke (left)."
+        "v establishes the diagonal angle for your entire font. w, y, and x all follow from v. Heavy left stroke, thin right stroke — calligraphic logic.",
+        "Borrow the diagonal stroke from z (rotate and mirror) to start constructing v.",
+        "The heavy stroke is on the left (downstroke direction), the thin on the right (upstroke direction) — this is consistent across all diagonal letters.",
+        "The apex (bottom point): can be a sharp point or a flat bottom — a key personality decision. Flat bottoms feel more contemporary; sharp points more classical.",
+        "Negative space: the v creates three visual triangles (left of stem, center counter, right of stem). These should feel balanced.",
+        "The diagonal angle of v is the reference for all other diagonal letters — w, y, x, k, and uppercase V, W, X, Y, K, N, M.",
+        "Side bearings: the triangular counters on either side of v create visual space — adjust bearings accordingly."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "w": {
+      "unicode": null,
+      "name": "lowercase w: Doubled v",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "v"
+      ],
+      "tips": [
+        "w = doubled v. The center junction (peak or valley) is the key design decision. Manage width carefully — w is naturally the widest lowercase letter.",
+        "Duplicate v and join them — the simplest approach to building w.",
+        "Center junction: raised peak between two Vs (more geometric) or overlapping V shapes creating a valley (more traditional). Decide early.",
+        "Width must be controlled — w is already the widest lowercase letter. Narrowing the center slightly is acceptable.",
+        "The two inner strokes may merge into a single shared thin stroke in some designs — a space-saving and elegant solution.",
+        "Outer strokes must use the same angle as your v. All five strokes should feel visually balanced.",
+        "Preview in text: w can feel heavy or dominant if not carefully weighted."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "x": {
+      "unicode": null,
+      "name": "lowercase x: Optical Crossing",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "k",
+        "v",
+        "z"
+      ],
+      "tips": [
+        "Two diagonals crossing — the crossing point sits slightly ABOVE vertical center for optical balance. The thick stroke runs top-right to bottom-left.",
+        "Borrow diagonal shapes from v and z — x is constructed from those two diagonal vocabularies.",
+        "The crossing point must be slightly above the mathematical center of the x-height. If it sits at center, it will read as too low.",
+        "At the crossing zone, strokes thin slightly — this is intentional optical correction to prevent a heavy ink buildup appearance.",
+        "The top-right to bottom-left stroke is thick (downstroke in calligraphic logic); top-left to bottom-right is thin.",
+        "Consider ink traps at the crossing — small notches cut into the junction to prevent fill at small sizes.",
+        "Four counters around the center must feel visually balanced. Check all four — not just the two obvious ones."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "y": {
+      "unicode": null,
+      "name": "lowercase y: Diagonal Loop",
+      "category": "unknown",
+      "dna_role": "",
+      "phase": "3",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "v"
+      ],
+      "tips": [
+        "y = v (top) + descending tail. The tail style should echo your j, g, and p descenders.",
+        "Copy v for the top half. The crotch of y is where the tail begins its descent.",
+        "The tail curves downward and to the left — its curve should echo your r teardrop terminal or j hook.",
+        "The tail ends at the descender line with a slight overshoot — match g, j, and p descender depth.",
+        "The junction where the right arm of v transitions into the tail should be smooth — no visible kink.",
+        "The left arm is heavy (downstroke), the right arm is thin (upstroke) — same as v.",
+        "The negative space created by the two arms and the tail transition is a key visual detail — keep it open."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "z": {
+      "unicode": "U+007A",
+      "name": "lowercase z: Diagonal Thinning",
+      "category": "unknown",
+      "dna_role": "diagonal_family",
+      "phase": "1",
+      "builds_from": [],
+      "informsDesignOf": [
+        "k",
+        "v",
+        "x"
+      ],
+      "informedBy": [
+        "k",
+        "v",
+        "x"
+      ],
+      "tips": [
+        "z provides the diagonal angle DNA for k, v, x, and all uppercase diagonal letters. Draw z before drawing k and v.",
+        "Three strokes: top horizontal, diagonal, bottom horizontal. The diagonal is the thick stroke (downstroke direction).",
+        "The diagonal requires significant thickening beyond what looks right — optical thinning on diagonals is severe. Check at small sizes.",
+        "Terminal style at the corners (where diagonal meets horizontals) should match your C and S terminal family.",
+        "The three white spaces (above-left, the diagonal counter, below-right) should feel balanced in visual area.",
+        "Consider ink traps at the diagonal/horizontal junctions — these corners accumulate ink and can fill at small sizes.",
+        "The horizontal strokes of z typically have consistent terminal treatment — flat, angled, or serif."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -445,7 +751,7 @@
     },
     "H": {
       "unicode": "U+0048",
-      "name": "H",
+      "name": "uppercase H: Capital Anchor",
       "category": "uppercase",
       "dna_role": "capital_foundation",
       "phase": "2",
@@ -456,12 +762,25 @@
         "T",
         "N"
       ],
-      "informedBy": [],
+      "informedBy": [
+        "O",
+        "I",
+        "D",
+        "P",
+        "N",
+        "M",
+        "K",
+        "U",
+        "Y"
+      ],
       "tips": [
-        "Primary capital foundation. Uprights and crossbar define DNA for 75% of caps.",
-        "Crossbar slightly above optical center.",
-        "Crossbar lighter than uprights.",
-        "Side bearing is reference for upright capitals."
+        "H is the first uppercase letter to draw. Its two uprights and crossbar define the vertical stroke weight, horizontal stroke weight, and spacing rhythm for ~75% of the uppercase alphabet.",
+        "Draw H as three separate overlapping rectangles (two uprights + one crossbar) — not as a single continuous path.",
+        "The crossbar sits slightly above optical center of the cap height — not mathematical center. Test by eye.",
+        "The crossbar is lighter than the uprights — horizontal strokes appear heavier optically, so they must be measured thinner.",
+        "Both uprights must be exactly equal in weight. Any discrepancy is immediately visible.",
+        "The side bearing of H becomes the reference for all upright uppercase letters: I, L, T, E, F, B, D, K, M, N, P, R.",
+        "The serif treatment (or lack thereof) on H defines the style of the entire uppercase family."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -469,7 +788,7 @@
     },
     "O": {
       "unicode": "U+004F",
-      "name": "O",
+      "name": "uppercase O: Curve Anchor",
       "category": "uppercase",
       "dna_role": "capital_foundation",
       "phase": "2",
@@ -479,33 +798,322 @@
         "D",
         "Q"
       ],
-      "informedBy": [],
+      "informedBy": [
+        "H",
+        "C",
+        "G",
+        "D",
+        "P",
+        "S",
+        "Q",
+        "U"
+      ],
       "tips": [
-        "Secondary foundation letter. All cap curves derive from O (C, G, Q, D).",
-        "Essential overshoot top and bottom.",
-        "Wider than H — classical proportion.",
-        "Stress axis match lowercase o."
+        "O is the second foundation letter. All curves in the uppercase come from this shape. The stress axis, bowl weight, and proportions of O flow into C, G, Q, D, B, P, R, S.",
+        "Overshoot is essential: O extends above cap-height and below baseline. Without overshoot, O looks shorter than H.",
+        "The stress axis must match your lowercase o — they should share the same angle.",
+        "O is noticeably wider than H — this is correct, not an error. Width ratio is a fundamental design decision.",
+        "Use a measuring tool to verify that curve stroke weights match the crossbar of H — they should be equal in a low-contrast design.",
+        "The counter of O should feel generous — if it starts to look like a closed pill, the counter is too tight.",
+        "Copy O directly when constructing C, G, Q — do not redraw the bowl from scratch."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
       "opticalCorrections": []
     },
-    "A": {
-      "unicode": "U+0041",
-      "name": "A",
+    "I": {
+      "unicode": null,
+      "name": "uppercase I: The Cap Stem",
       "category": "uppercase",
-      "dna_role": "diagonal_family",
+      "dna_role": "",
       "phase": "2",
-      "builds_from": [
-        "V"
-      ],
+      "builds_from": [],
       "informsDesignOf": [],
-      "informedBy": [],
+      "informedBy": [
+        "H",
+        "L",
+        "T",
+        "Y",
+        "J"
+      ],
       "tips": [
-        "A = inverted V + crossbar. Apex treatment and crossbar position are key design decisions.",
-        "Left diagonal is thick (downstroke), right is thin (upstroke).",
-        "Crossbar slightly below center.",
-        "Apex style determines tone."
+        "I = single stem from H. In sans-serif, consider crossbar serifs for disambiguation from lowercase l.",
+        "Copy the single upright from H — identical width and weight.",
+        "In sans-serif typefaces, a bare I can be confused with lowercase l or the number 1. Adding horizontal bars (crossbar serifs) at top and bottom is common.",
+        "Side bearings need special care — I must not feel squeezed but also not float.",
+        "The serif treatment at top and bottom defines the character of your capitals.",
+        "A slightly wider stem than lowercase l can help distinguish them.",
+        "Check I alongside l in mixed-case text to ensure legibility."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "L": {
+      "unicode": null,
+      "name": "uppercase L: The Cap Foot",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "H",
+        "I",
+        "T",
+        "E",
+        "F"
+      ],
+      "tips": [
+        "L = I + horizontal foot at baseline. The foot length determines the white space pocket at top-right.",
+        "Copy the I upright, add a horizontal stroke at the baseline.",
+        "The foot should not extend to the full H width — it would create too much negative space at top-right.",
+        "The foot terminal must match T and E crossbar ends — they are the same form.",
+        "The proportion of L's foot (short vs long) is a visible stylistic decision.",
+        "L provides the base structure for E and F — just add crossbars.",
+        "Side bearings: left = same as H. Right = depends on foot length."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "T": {
+      "unicode": null,
+      "name": "uppercase T: The Cap Crossbar",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "H",
+        "I",
+        "L",
+        "E",
+        "F"
+      ],
+      "tips": [
+        "T = I + crossbar at the top. Crossbar overhang and terminal style should match L's foot.",
+        "Copy the I upright, add a crossbar at cap-height.",
+        "Crossbar overhang: equal on both sides or slightly more to the right — test both visually.",
+        "Terminal treatment on crossbar ends should match your L foot ends exactly.",
+        "The crossbar is lighter than the upright — horizontal stroke contrast logic.",
+        "Width of the crossbar determines the overall proportion of T.",
+        "Compare T, E, F crossbar heights — they should be consistent."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "E": {
+      "unicode": null,
+      "name": "uppercase E: Balanced Arms",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "H",
+        "L",
+        "T",
+        "F"
+      ],
+      "tips": [
+        "E = L + two additional crossbars. The middle arm is slightly shorter than top and bottom, and positioned slightly above vertical center.",
+        "Start from L, add top arm at cap-height and middle arm slightly above center.",
+        "The middle arm is shorter than the top and bottom — this creates optical balance.",
+        "Middle arm position: slightly above mathematical center for visual stability.",
+        "The aperture (opening to the right) should feel proportionate — not too wide, not too tight.",
+        "All three horizontal strokes are lighter than the upright.",
+        "Serif on the middle arm (if serif font) is usually lighter than the top/bottom serifs."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "F": {
+      "unicode": null,
+      "name": "uppercase F: High Point",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "H",
+        "L",
+        "T",
+        "E"
+      ],
+      "tips": [
+        "F = E minus the bottom arm. But the middle arm position may shift slightly downward after removing the bottom for visual balance.",
+        "Remove the bottom arm from E — that is the starting point.",
+        "The middle arm may need to move slightly after the bottom is gone — the open space below changes the visual balance.",
+        "Check F does not look top-heavy after removing the bottom arm.",
+        "The foot of the upright (where E's bottom arm was) needs a clean terminal or serif.",
+        "Middle arm terminal should match E and L foot terminals.",
+        "Compare E and F side by side constantly during adjustment."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "C": {
+      "unicode": null,
+      "name": "uppercase C: Open Cap Bowl",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "O",
+        "G",
+        "S",
+        "Q",
+        "J"
+      ],
+      "tips": [
+        "C = O with the right side opened. Terminal style here flows through G and S.",
+        "Copy O and remove the right-side portion.",
+        "Cap C aperture should be wider than lowercase c — it is operating at cap scale.",
+        "Terminal options: flat horizontal (grotesque), angled (transitional), round ball (humanist).",
+        "The stroke weights must be identical to O.",
+        "After C, G requires only the addition of a spur.",
+        "Terminal angles on both top and bottom must be balanced."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "G": {
+      "unicode": null,
+      "name": "uppercase G: The Bar",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "O",
+        "C",
+        "Q"
+      ],
+      "tips": [
+        "G = C + horizontal spur. The spur height is the critical design decision — it determines the character of G.",
+        "Start from C and add the spur on the right interior.",
+        "Spur height: at or slightly below cap-height midpoint. Too high = cramped; too low = weak.",
+        "The spur terminal should match your C terminal family.",
+        "The inner counter of G is asymmetric because of the spur — this is normal.",
+        "The outer shape of G must be identical to C — the spur is the only addition.",
+        "Compare C and G constantly — everything except the spur should be identical."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "D": {
+      "unicode": null,
+      "name": "uppercase D: Cap Bowl Stability",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "O",
+        "B",
+        "R"
+      ],
+      "tips": [
+        "D = H left stem + right half of O. The bowl is slightly flatter than a perfect half-circle.",
+        "Take the H left stem and attach a bowl from the O on the right.",
+        "The bowl of D is not a perfect half-O — it is slightly flatter to account for the flat left edge.",
+        "Top and bottom bowl junctions to the stem must be smooth — no bumps at cap-height or baseline.",
+        "Compare width with H — D is often slightly wider.",
+        "No overshoot needed at top/bottom since the straight stem anchors those points.",
+        "D provides bowl logic for B, P, R."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "B": {
+      "unicode": null,
+      "name": "uppercase B: Visual Centers",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "O",
+        "D",
+        "P",
+        "R"
+      ],
+      "tips": [
+        "B has two bowls — the bottom is intentionally LARGER than the top. This classical proportion creates visual stability.",
+        "H left stem + two bowls (upper from P, lower from D). Upper bowl is smaller than lower.",
+        "Bottom bowl larger than top is not a mistake — it is classical type design proportioning that creates visual stability.",
+        "The middle junction bar sits slightly above cap-height center — same logic as E middle arm.",
+        "Bottom bowl width: slightly wider than top bowl.",
+        "The junction between both bowls at the middle bar must be smooth.",
+        "Compare B, P, D, R constantly — they all use the same stem and bowl vocabulary."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "P": {
+      "unicode": null,
+      "name": "uppercase P: Upper Bowl",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "D",
+        "B",
+        "R"
+      ],
+      "tips": [
+        "P = H left stem + top bowl only (like B but without the lower loop). The open space below the bowl must breathe.",
+        "H left stem + bowl connecting from cap-height down to midpoint.",
+        "The bowl of P is often slightly larger than the top bowl of B.",
+        "The white space below the bowl (inside P) defines legibility — keep it open.",
+        "Bowl width: slightly narrower than D since it occupies only the upper half.",
+        "After P, R requires only the addition of a diagonal leg.",
+        "Arm exit at bottom: clean terminal or subtle serif."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "R": {
+      "unicode": null,
+      "name": "uppercase R: Diagonal Leg",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "D",
+        "B",
+        "P",
+        "K"
+      ],
+      "tips": [
+        "R = P + diagonal leg. The leg style (straight, curved, or swept) is a major personality statement in your typeface.",
+        "Start from P, then add a diagonal leg extending from the lower-right of the bowl.",
+        "Leg options: straight (modern), slightly curved (classical), swept outward (dynamic). Each changes the character significantly.",
+        "The junction of leg and bowl must be smooth — no visible angle change.",
+        "A kicked or curved leg mirrors the calligraphic diagonal vocabulary from K and N.",
+        "The bowl of R may be slightly smaller than P to give the leg visual room.",
+        "The leg angle and curve are some of the most personality-defining details in the uppercase."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -513,7 +1121,7 @@
     },
     "S": {
       "unicode": "U+0053",
-      "name": "S",
+      "name": "uppercase S: Visual Stability",
       "category": "uppercase",
       "dna_role": "secondary",
       "phase": "2",
@@ -521,12 +1129,314 @@
         "O"
       ],
       "informsDesignOf": [],
+      "informedBy": [
+        "C",
+        "Z"
+      ],
+      "tips": [
+        "Uppercase S follows the same construction logic as lowercase s, but at cap height. Spine weight, terminal balance, and stress axis are all critical.",
+        "Reference C bowl for the top lobe construction.",
+        "The spine must carry the same visual weight as other thick strokes.",
+        "Top lobe is slightly smaller than bottom lobe — classical proportion for visual stability.",
+        "Terminal style should match C terminals.",
+        "Iterate many times — S is typically the most revised uppercase letter.",
+        "The stress axis through the spine should be consistent with your overall design axis."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "N": {
+      "unicode": null,
+      "name": "uppercase N: The Diagonal Connector",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "M",
+        "K",
+        "Z",
+        "A"
+      ],
+      "tips": [
+        "N = two H uprights + diagonal running from top-left to bottom-right. The diagonal is the thick stroke.",
+        "Two H-width uprights + diagonal connecting top-left corner to bottom-right corner.",
+        "The diagonal is the thick stroke (downstroke direction in calligraphic logic).",
+        "The diagonal begins at the top of the left stem and ends at the bottom of the right.",
+        "The serif or terminal where the diagonal meets the uprights creates dense ink areas — consider ink traps.",
+        "Width approximately equal to H.",
+        "Some N designs have the diagonal beginning inside the stem face rather than at the outer edge — a delicate classical detail."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "M": {
+      "unicode": null,
+      "name": "uppercase M: Double V",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "N"
+      ],
+      "tips": [
+        "M = two H uprights + two diagonals meeting at a center point. Typically the widest uppercase letter.",
+        "Four strokes: two outer uprights + two inner diagonals meeting at the center.",
+        "Center valley can be deep (pointing to baseline) or shallow (stopping partway) — two very different personalities.",
+        "M is often the widest letter — manage width so it does not feel out of proportion.",
+        "The thick/thin logic applies to outer diagonals: outer strokes go thin at top, thick going down.",
+        "All four foot serifs must be consistent — M has the most serif detail of any simple uppercase letter.",
+        "The center apex or valley depth defines the counter proportions — check all three counters."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "K": {
+      "unicode": null,
+      "name": "uppercase K: Cap Diagonals",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "R",
+        "N",
+        "V",
+        "X",
+        "Z"
+      ],
+      "tips": [
+        "K = H left stem + two diagonals. The junction (open or closed) is a key design decision. The three white spaces must be visually balanced.",
+        "H left stem + upper thin arm + lower thick leg meeting near the stem center.",
+        "Open junction (not touching stem) = modern; closed junction (touching) = classical. Major personality decision.",
+        "Three white counter spaces must feel visually equal in area — hardest optical balance in K.",
+        "Lower leg needs thickening — diagonal strokes thin out optically, especially at cap scale.",
+        "Diagonal angles must match your N, V, and Z diagonal family.",
+        "The junction height (where both diagonals meet) should be slightly above cap-height midpoint."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "Q": {
+      "unicode": null,
+      "name": "uppercase Q: The Tail Signature",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "O"
+      ],
+      "tips": [
+        "Q = O + tail. The tail is the most distinctive and expressive element in the uppercase — a design signature opportunity.",
+        "Copy O, add a tail — the simplest description, but the tail style demands care.",
+        "Tail can be internal (starts inside the counter) or external (sprouts from the bowl exterior).",
+        "Tail style is a major personality statement: straight, curved, swept, kicked. Choose to match your overall character.",
+        "The junction of tail and bowl should be either seamlessly merged or deliberately detached — not ambiguous.",
+        "Q is often the most memorable letter in a custom typeface — the tail is your design signature.",
+        "Test Q in words ('quality', 'quick') to ensure the tail does not create spacing problems."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "U": {
+      "unicode": null,
+      "name": "uppercase U: Straight to Curve",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
       "informedBy": [],
       "tips": [
-        "Uppercase S follows lowercase s logic at cap height. Top lobe slightly smaller than bottom.",
-        "Iterate multiple times.",
-        "Reference C/O for DNA.",
-        "Spine must match heavy weights."
+        "U = two H uprights connected by an O-style curve at the bottom. The transition from straight to curved is the key detail.",
+        "Two uprights (same as H) connected by a curve derived from the bottom of O.",
+        "Overshoot below baseline — the curve must extend past the baseline just like O.",
+        "In serif fonts, the transition from the straight upright into the curve has a subtle flare — handle carefully.",
+        "The curve weight at the bottom should match O at the same angular position.",
+        "Width approximately equal to H or slightly narrower.",
+        "The transition point from straight stem to curve on each side must be smooth and at the same height."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "V": {
+      "unicode": null,
+      "name": "uppercase V: Cap Diagonal Pivot",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "K",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "A"
+      ],
+      "tips": [
+        "V establishes the diagonal angle for W, Y, K, and uppercase A. Heavy left arm, thin right arm — calligraphic logic.",
+        "Heavy left arm (downstroke), thin right arm (upstroke) — same logic as lowercase v.",
+        "The crotch (bottom point) can be sharp, flat, or rounded — determines V's personality.",
+        "V creates three visual triangle spaces — balance them.",
+        "Diagonal angle established here applies to W, Y, K, N, M, A, and Z.",
+        "Width of V must create a visually harmonious negative space triangle in the center.",
+        "Side bearings: the tapering creates visual space — bearings should account for this."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "W": {
+      "unicode": null,
+      "name": "uppercase W: Double V",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "V"
+      ],
+      "tips": [
+        "W = doubled V. Typically the widest uppercase letter. The center junction design is the key decision.",
+        "Duplicate V and join — the center junction is where the design decision lives.",
+        "Center junction: raised peak (two Vs pointing up) or depressed valley — very different looks.",
+        "W is typically the widest uppercase letter — manage this width carefully.",
+        "Outer strokes must use exactly the same angle as V.",
+        "The middle two inner strokes may share a thin stroke — space-efficient and elegant.",
+        "Preview W in text — it can dominate if not carefully proportioned."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "X": {
+      "unicode": null,
+      "name": "uppercase X: Optical Crossing",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [],
+      "tips": [
+        "X = two crossing diagonals. The crossing point sits slightly ABOVE cap-height center. Optical thinning at the crossing zone is essential.",
+        "Heavy stroke: top-right to bottom-left (downstroke direction).",
+        "The crossing point must be above mathematical center — if centered, it reads too low.",
+        "The crossing zone thins out — this is deliberate to prevent heavy ink buildup appearance.",
+        "Consider ink traps at the crossing.",
+        "Four counters around the center must be balanced in visual weight.",
+        "Match diagonal angles to V and K family."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "Y": {
+      "unicode": null,
+      "name": "uppercase Y: Triple Junction",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "V"
+      ],
+      "tips": [
+        "Y = V top + vertical stem from the crotch down. The crotch must be clean; stem weight matches H upright.",
+        "Copy V for the top half, add a vertical stem from the crotch to the baseline.",
+        "Crotch: where V meets the stem — must be clean with no awkward thickening.",
+        "Stem weight must match your H upright stem exactly.",
+        "The stem descends from approximately the midpoint of cap height.",
+        "In some designs, the right arm of Y curves slightly at the top — match your V style.",
+        "Negative space above the crotch (two V counters) should be balanced left and right."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "Z": {
+      "unicode": null,
+      "name": "uppercase Z: Diagonal Thinning",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [
+        "X"
+      ],
+      "tips": [
+        "Z = same three-stroke construction as lowercase z, at cap height. Diagonal must be heavily thickened to compensate for optical thinning.",
+        "Three strokes: top horizontal (at cap height), diagonal, bottom horizontal (at baseline).",
+        "The diagonal is the thick stroke — same downstroke logic as N diagonal.",
+        "Terminal style at corners should match C and S terminal family.",
+        "Three white spaces must be balanced in visual area.",
+        "Consider ink traps at diagonal/horizontal corners — these accumulate ink.",
+        "Diagonal needs significant thickening beyond what feels right — check at small sizes."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "A": {
+      "unicode": "U+0041",
+      "name": "uppercase A: Apex and Crossbar",
+      "category": "uppercase",
+      "dna_role": "diagonal_family",
+      "phase": "2",
+      "builds_from": [
+        "V"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "V"
+      ],
+      "tips": [
+        "A = inverted V + crossbar. Apex treatment (sharp, flat, rounded) and crossbar position are the key design decisions.",
+        "Borrow V (inverted) for the two diagonal strokes.",
+        "The left stroke is thick (downstroke), the right is thin (upstroke) — calligraphic logic.",
+        "Crossbar sits slightly below vertical center — optical stability, same logic as E's middle bar.",
+        "The apex at the top can be pointed, flat (truncated), or rounded — a major personality choice.",
+        "The crossbar creates two enclosed counter spaces — they should feel visually balanced.",
+        "Serifs at the feet carry significant character — match your V feet."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "J": {
+      "unicode": null,
+      "name": "uppercase J: The Descender",
+      "category": "uppercase",
+      "dna_role": "",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [],
+      "informedBy": [],
+      "tips": [
+        "J = I + downward hook. Decide early whether J has a descender below baseline or sits entirely on the baseline.",
+        "I upright + hook at bottom right — matching your lowercase j and C terminal style.",
+        "Design decision: does J descend below the baseline? Some typefaces keep it on the baseline; some give it a full descender.",
+        "The hook arc radius should match O's curve at the same position.",
+        "Hook terminus: ball, flat, angled, or serif — match your C and lowercase j.",
+        "J is often narrower than other capitals — side bearings should reflect this.",
+        "In text, J rarely appears as a capital followed by a lowercase — test it in context."
       ],
       "commonMistakes": [],
       "reusableComponents": [],
@@ -560,39 +1470,60 @@
       {
         "phase": "1",
         "name": "Lowercase Foundation",
-        "description": "Build n, o, H, O first - they define the DNA"
+        "description": "Build n, o first - they define the DNA for ~80% of lowercase letters"
       },
       {
         "phase": "2",
         "name": "Lowercase Extensions",
-        "description": "Extend from foundation letters"
+        "description": "Extend from foundation letters to build h, m, u, r, and bowl letters"
       },
       {
         "phase": "3",
-        "name": "Uppercase",
-        "description": "Capitals derive from H and O"
+        "name": "The Devil Letters",
+        "description": "Complex curves: s, a, g - the most challenging lowercase"
       },
       {
         "phase": "4",
+        "name": "Diagonals",
+        "description": "v, w, x, y, z - establish diagonal angles"
+      },
+      {
+        "phase": "5",
+        "name": "Uppercase Foundation",
+        "description": "H and O define the uppercase DNA"
+      },
+      {
+        "phase": "6",
+        "name": "Uppercase Extensions",
+        "description": "Build remaining capitals from H and O"
+      },
+      {
+        "phase": "7",
         "name": "Numerals & Symbols",
         "description": "Final details"
       }
     ]
   },
   "commonTerms": {
-    "overshoot": "Small extension beyond baseline/cap-height for optical balance",
-    "counter": "Enclosed or partially enclosed space in a letter",
-    "stem": "Main vertical stroke",
-    "bowl": "Curved stroke that encloses a counter",
-    "ascender": "Part of lowercase letter extending above x-height",
-    "descender": "Part of lowercase letter extending below baseline",
-    "crossbar": "Horizontal stroke connecting two stems",
-    "terminal": "End of a stroke without a serif",
-    "serif": "Small stroke at the end of a main stroke",
-    "x-height": "Height of lowercase letters without ascenders/descenders",
-    "baseline": "Line on which most letters sit",
-    "cap-height": "Height of uppercase letters",
-    "sidebearing": "Space between glyph outline and advance width edges",
-    "aperture": "Opening of a partially enclosed letter"
+    "overshoot": "Small extension beyond baseline/cap-height for optical balance. Curved letters must extend past metric lines to appear optically aligned with straight letters.",
+    "counter": "Enclosed or partially enclosed negative space within a letterform. Active counter design affects readability.",
+    "stem": "Main vertical stroke in a letter. The stem weight is the primary measurement that all other strokes are calibrated against.",
+    "bowl": "Curved stroke that encloses a counter. Found in b, d, p, q, o, and uppercase B, D, P, R.",
+    "ascender": "Part of lowercase letter extending above x-height (b, d, f, h, k, l, t).",
+    "descender": "Part of lowercase letter extending below baseline (g, j, p, q, y).",
+    "crossbar": "Horizontal stroke connecting two stems or crossing a stem. Found in A, H, f, t, e.",
+    "terminal": "End of a stroke without a serif. Terminal style (round, flat, angled) is a key personality signature.",
+    "serif": "Small stroke at the end of a main stroke. Serif treatment defines typeface classification.",
+    "x-height": "Height of lowercase letters without ascenders/descenders (n, o, x). Critically important for text readability.",
+    "baseline": "Horizontal line on which most letters sit. The fundamental reference for all vertical measurements.",
+    "cap-height": "Height of uppercase letters. Usually references the flat-topped H.",
+    "sidebearing": "Space between glyph outline and advance width edges. Controls spacing rhythm.",
+    "aperture": "Opening of a partially enclosed letter (c, e, s). Wider aperture = more legible at small sizes.",
+    "stress axis": "Angle through the thinnest points of curved strokes. Vertical = geometric; tilted = humanist.",
+    "ink trap": "Negative space cut into tight junctions to prevent ink fill and improve legibility at small sizes.",
+    "spine": "Diagonal stroke in s that carries the same visual weight as thick strokes.",
+    "tittle": "The dot on i and j. Requires careful sizing - make it larger than feels right.",
+    "apex": "Top point where two strokes meet (A, V, W). Can be sharp, flat, or rounded - a key personality decision.",
+    "crotch": "Bottom point where strokes meet (V, W, Y, v, w, y)."
   }
 }

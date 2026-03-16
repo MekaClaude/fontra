@@ -127,7 +127,7 @@ export default class ProAdvicePanel extends Panel {
 
     .pro-advice-strategy {
       font-style: italic;
-      color: var(--fontra-ui-on-surface-color, #444);
+      color: var(--fontra-text-secondary, #888);
       margin-bottom: 0.5em;
     }
 
@@ -269,13 +269,13 @@ export default class ProAdvicePanel extends Panel {
             const strategySection = html.div({ class: "pro-advice-section" }, [
                 html.div({ class: "pro-advice-section-title" }, ["Construction Strategy"]),
             ]);
-            
+
             if (dnaRole) {
                 strategySection.appendChild(
                     html.div({ class: "pro-advice-strategy" }, [dnaRole])
                 );
             }
-            
+
             if (buildsFrom.length) {
                 const buildsDiv = html.div({ class: "pro-advice-builds-from" });
                 buildsDiv.appendChild(
@@ -286,7 +286,7 @@ export default class ProAdvicePanel extends Panel {
                 );
                 strategySection.appendChild(buildsDiv);
             }
-            
+
             container.appendChild(strategySection);
         }
 
@@ -405,7 +405,7 @@ export default class ProAdvicePanel extends Panel {
             const nextSection = html.div({ class: "pro-advice-section pro-advice-next" }, [
                 html.div({ class: "pro-advice-section-title" }, ["Do This Next"]),
             ]);
-            
+
             for (const next of feedsInto.slice(0, 3)) {
                 const card = html.div({ class: "pro-advice-relationship-card" });
                 card.appendChild(
@@ -423,7 +423,7 @@ export default class ProAdvicePanel extends Panel {
                 }
                 nextSection.appendChild(card);
             }
-            
+
             container.appendChild(nextSection);
         }
     }
