@@ -43,8 +43,8 @@ export class EditorBehaviorPanel extends MultiPanelBasePanel {
       menuPositionItems,
       {}
     );
-    container.appendChild(menuPositionRow[0]);
-    menuPositionRow[0].style.marginTop = "1em";
+    menuPositionRow.forEach((element) => container.appendChild(element));
+    container.lastElementChild.style.marginTop = "1em";
 
     this.panelElement.appendChild(container);
   }
