@@ -1210,1369 +1210,1369 @@ export class EditorController extends ViewController {
     }
   }
 
-initSidebars() {
-  this.addSidebar(new Sidebar("left"));
-  this.addSidebar(new Sidebar("right"));
-  this.addSidebarPanel(new TextEntryPanel(this), "left");
-  this.addSidebarPanel(new GlyphSearchPanel(this), "left");
-  this.addSidebarPanel(new DesignspaceNavigationPanel(this), "left");
-  this.addSidebarPanel(new ReferenceFontPanel(this), "left");
-  this.addSidebarPanel(new SelectionInfoPanel(this), "right");
-  this.addSidebarPanel(new SpacingStudioPanel(this), "right");
-  this.addSidebarPanel(new TransformationPanel(this), "right");
-  this.addSidebarPanel(new GlyphNotePanel(this), "right");
-  this.addSidebarPanel(new RelatedGlyphsPanel(this), "right");
-  this.addSidebarPanel(new ProAdvicePanel(this), "right");
-  this.addSidebarPanel(new CharactersGlyphsPanel(this), "right");
+  initSidebars() {
+    this.addSidebar(new Sidebar("left"));
+    this.addSidebar(new Sidebar("right"));
+    this.addSidebarPanel(new TextEntryPanel(this), "left");
+    this.addSidebarPanel(new GlyphSearchPanel(this), "left");
+    this.addSidebarPanel(new DesignspaceNavigationPanel(this), "left");
+    this.addSidebarPanel(new ReferenceFontPanel(this), "left");
+    this.addSidebarPanel(new SelectionInfoPanel(this), "right");
+    this.addSidebarPanel(new SpacingStudioPanel(this), "right");
+    this.addSidebarPanel(new TransformationPanel(this), "right");
+    this.addSidebarPanel(new GlyphNotePanel(this), "right");
+    this.addSidebarPanel(new RelatedGlyphsPanel(this), "right");
+    this.addSidebarPanel(new ProAdvicePanel(this), "right");
+    this.addSidebarPanel(new CharactersGlyphsPanel(this), "right");
 
-  // Upon reload, the "animating" class may still be set (why?), so remove it
-  for (const sidebarContainer of document.querySelectorAll(".sidebar-container")) {
-    sidebarContainer.classList.remove("animating");
-  }
-
-  // After the initial set up we want clicking the sidebar tabs to animate in and out
-  // (Here we can afford a longer delay.)
-  setTimeout(() => {
+    // Upon reload, the "animating" class may still be set (why?), so remove it
     for (const sidebarContainer of document.querySelectorAll(".sidebar-container")) {
-      sidebarContainer.classList.add("animating");
+      sidebarContainer.classList.remove("animating");
     }
-  }, 100);
 
-  const resizeObserver = new ResizeObserver(([element]) => {
-    const totalWidth = this.sidebars.reduce(
-      (total, sidebar) => total + sidebar.getDOMWidth(),
-      0
-    );
-    if (element.contentRect.width < totalWidth + MIN_CANVAS_SPACE) {
-      for (const sidebar of this.sidebars) {
-        sidebar.applyWidth(MIN_SIDEBAR_WIDTH, true);
+    // After the initial set up we want clicking the sidebar tabs to animate in and out
+    // (Here we can afford a longer delay.)
+    setTimeout(() => {
+      for (const sidebarContainer of document.querySelectorAll(".sidebar-container")) {
+        sidebarContainer.classList.add("animating");
       }
-    }
-  });
-  resizeObserver.observe(document.documentElement);
-}
+    }, 100);
 
-addSidebar(sidebar) {
-  const editorContainer = document.querySelector(".editor-container");
-  sidebar.attach(editorContainer);
-  this.sidebars.push(sidebar);
-}
-
-addSidebarPanel(panelElement, sidebarName) {
-  const sidebar = this.sidebars.find((sidebar) => sidebar.identifier === sidebarName);
-
-  if (!sidebar) {
-    throw new Error(
-      `"${sidebarName}" not a valid sidebar name. Available sidebars: ${this.sidebars
-        .map((sidebar) => `"${sidebar.identifier}"`)
-        .join(", ")}`
-    );
-  }
-
-  if (sidebar.panelIdentifiers.includes(panelElement.name)) {
-    throw new Error(
-      `Panel "${panelElement.identifier}" in "${sidebarName}" sidebar exists.`
-    );
-  }
-
-  sidebar.addPanel(panelElement);
-
-  const tabElement = document.querySelector(
-    `.sidebar-tab[data-sidebar-name="${panelElement.identifier}"]`
-  );
-
-  tabElement.addEventListener("click", () => {
-    this.toggleSidebar(panelElement.identifier, true);
-  });
-}
-
-getSidebarPanel(panelName) {
-  return document.querySelector(`.sidebar-content[data-sidebar-name="${panelName}"]`)
-    .children[0];
-}
-
-toggleSidebar(panelName, doFocus = false) {
-  const sidebar = this.sidebars.find((sidebar) =>
-    sidebar.panelIdentifiers.includes(panelName)
-  );
-  if (!sidebar) {
-    return;
-  }
-  const onOff = sidebar.toggle(panelName);
-  localStorage.setItem(
-    `fontra-selected-sidebar-${sidebar.identifier}`,
-    onOff ? panelName : ""
-  );
-  const panel = this.getSidebarPanel(panelName);
-  if (typeof panel.toggle === "function") {
-    panel.toggle(onOff, doFocus);
-  }
-  return onOff;
-}
-
-initMiniConsole() {
-  this.miniConsole = document.querySelector("#mini-console");
-  this._console_log = console.log.bind(console);
-  const clearMiniConsole = scheduleCalls(() => {
-    this.miniConsole.innerText = "";
-    this.miniConsole.style.display = "none";
-  }, 5000);
-  console.log = (...args) => {
-    this._console_log(...args);
-    this.miniConsole.innerText = args
-      .map((item) => {
-        try {
-          return typeof item == "string" ? item : JSON.stringify(item);
-        } catch (error) {
-          return item;
+    const resizeObserver = new ResizeObserver(([element]) => {
+      const totalWidth = this.sidebars.reduce(
+        (total, sidebar) => total + sidebar.getDOMWidth(),
+        0
+      );
+      if (element.contentRect.width < totalWidth + MIN_CANVAS_SPACE) {
+        for (const sidebar of this.sidebars) {
+          sidebar.applyWidth(MIN_SIDEBAR_WIDTH, true);
         }
-      })
-      .join(" ");
-    this.miniConsole.style.display = "inherit";
-    clearMiniConsole();
-  };
-}
+      }
+    });
+    resizeObserver.observe(document.documentElement);
+  }
 
-setSelectedTool(toolIdentifier, isSubtool = false) {
-  let selectedToolIdentifier = toolIdentifier;
+  addSidebar(sidebar) {
+    const editorContainer = document.querySelector(".editor-container");
+    sidebar.attach(editorContainer);
+    this.sidebars.push(sidebar);
+  }
 
-  for (const editToolItem of document.querySelectorAll(
-    "#edit-tools > .tool-button"
-  )) {
-    let shouldSelect = editToolItem.dataset.tool === toolIdentifier;
+  addSidebarPanel(panelElement, sidebarName) {
+    const sidebar = this.sidebars.find((sidebar) => sidebar.identifier === sidebarName);
 
-    if (editToolItem.classList.contains("multi-tool")) {
-      if (shouldSelect) {
-        selectedToolIdentifier = editToolItem.children[0].dataset.tool;
-      } else {
-        for (const childToolElement of editToolItem.children) {
-          if (childToolElement.dataset.tool === toolIdentifier) {
-            shouldSelect = true;
-            if (isSubtool) {
-              editToolItem.prepend(childToolElement);
-              collapseSubTools(editToolItem);
+    if (!sidebar) {
+      throw new Error(
+        `"${sidebarName}" not a valid sidebar name. Available sidebars: ${this.sidebars
+          .map((sidebar) => `"${sidebar.identifier}"`)
+          .join(", ")}`
+      );
+    }
+
+    if (sidebar.panelIdentifiers.includes(panelElement.name)) {
+      throw new Error(
+        `Panel "${panelElement.identifier}" in "${sidebarName}" sidebar exists.`
+      );
+    }
+
+    sidebar.addPanel(panelElement);
+
+    const tabElement = document.querySelector(
+      `.sidebar-tab[data-sidebar-name="${panelElement.identifier}"]`
+    );
+
+    tabElement.addEventListener("click", () => {
+      this.toggleSidebar(panelElement.identifier, true);
+    });
+  }
+
+  getSidebarPanel(panelName) {
+    return document.querySelector(`.sidebar-content[data-sidebar-name="${panelName}"]`)
+      .children[0];
+  }
+
+  toggleSidebar(panelName, doFocus = false) {
+    const sidebar = this.sidebars.find((sidebar) =>
+      sidebar.panelIdentifiers.includes(panelName)
+    );
+    if (!sidebar) {
+      return;
+    }
+    const onOff = sidebar.toggle(panelName);
+    localStorage.setItem(
+      `fontra-selected-sidebar-${sidebar.identifier}`,
+      onOff ? panelName : ""
+    );
+    const panel = this.getSidebarPanel(panelName);
+    if (typeof panel.toggle === "function") {
+      panel.toggle(onOff, doFocus);
+    }
+    return onOff;
+  }
+
+  initMiniConsole() {
+    this.miniConsole = document.querySelector("#mini-console");
+    this._console_log = console.log.bind(console);
+    const clearMiniConsole = scheduleCalls(() => {
+      this.miniConsole.innerText = "";
+      this.miniConsole.style.display = "none";
+    }, 5000);
+    console.log = (...args) => {
+      this._console_log(...args);
+      this.miniConsole.innerText = args
+        .map((item) => {
+          try {
+            return typeof item == "string" ? item : JSON.stringify(item);
+          } catch (error) {
+            return item;
+          }
+        })
+        .join(" ");
+      this.miniConsole.style.display = "inherit";
+      clearMiniConsole();
+    };
+  }
+
+  setSelectedTool(toolIdentifier, isSubtool = false) {
+    let selectedToolIdentifier = toolIdentifier;
+
+    for (const editToolItem of document.querySelectorAll(
+      "#edit-tools > .tool-button"
+    )) {
+      let shouldSelect = editToolItem.dataset.tool === toolIdentifier;
+
+      if (editToolItem.classList.contains("multi-tool")) {
+        if (shouldSelect) {
+          selectedToolIdentifier = editToolItem.children[0].dataset.tool;
+        } else {
+          for (const childToolElement of editToolItem.children) {
+            if (childToolElement.dataset.tool === toolIdentifier) {
+              shouldSelect = true;
+              if (isSubtool) {
+                editToolItem.prepend(childToolElement);
+                collapseSubTools(editToolItem);
+              }
             }
           }
         }
       }
+      editToolItem.classList.toggle("selected", shouldSelect);
     }
-    editToolItem.classList.toggle("selected", shouldSelect);
+    this.sceneController.setSelectedTool(this.tools[selectedToolIdentifier]);
+    this.selectedToolIdentifier = selectedToolIdentifier;
   }
-  this.sceneController.setSelectedTool(this.tools[selectedToolIdentifier]);
-  this.selectedToolIdentifier = selectedToolIdentifier;
-}
 
-themeChanged() {
-  this.visualizationLayers.darkTheme = this.isThemeDark;
-  this.cleanGlyphsLayers.darkTheme = this.isThemeDark;
-  this.canvasController.requestUpdate();
-}
+  themeChanged() {
+    this.visualizationLayers.darkTheme = this.isThemeDark;
+    this.cleanGlyphsLayers.darkTheme = this.isThemeDark;
+    this.canvasController.requestUpdate();
+  }
 
   get isThemeDark() {
-  const themeValue = themeController.model.theme;
-  if (themeValue === "automatic") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  } else {
-    return themeValue === "dark";
+    const themeValue = themeController.model.theme;
+    if (themeValue === "automatic") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } else {
+      return themeValue === "dark";
+    }
   }
-}
 
-canvasMagnificationChanged(magnification) {
-  this.visualizationLayers.scaleFactor = 1 / magnification;
-  this.cleanGlyphsLayers.scaleFactor = 1 / magnification;
-}
+  canvasMagnificationChanged(magnification) {
+    this.visualizationLayers.scaleFactor = 1 / magnification;
+    this.cleanGlyphsLayers.scaleFactor = 1 / magnification;
+  }
 
   async doubleClickedComponentsCallback(event) {
-  const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
-  const instance = glyphController.instance;
+    const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
+    const instance = glyphController.instance;
 
-  const compoStrings = this.sceneController.doubleClickedComponentIndices.map(
-    (componentIndex) =>
-      `${instance.components[componentIndex].name} (#${componentIndex})`
-  );
-  const result = await dialog(
-    `Would you like to add the selected component${compoStrings.length != 1 ? "s" : ""
-    } to the text string?`,
-    compoStrings.join("\n"),
-    [
-      { title: "Cancel", isCancelButton: true },
-      { title: "Add", isDefaultButton: true },
-    ]
-  );
-  if (!result) {
-    // User cancelled
-    return;
-  }
-
-  const glyphLocations = {};
-  const glyphInfos = [];
-
-  for (const componentIndex of this.sceneController.doubleClickedComponentIndices) {
-    const glyphName = instance.components[componentIndex].name;
-    const location = instance.components[componentIndex].location;
-    if (location) {
-      glyphLocations[glyphName] = location;
+    const compoStrings = this.sceneController.doubleClickedComponentIndices.map(
+      (componentIndex) =>
+        `${instance.components[componentIndex].name} (#${componentIndex})`
+    );
+    const result = await dialog(
+      `Would you like to add the selected component${compoStrings.length != 1 ? "s" : ""
+      } to the text string?`,
+      compoStrings.join("\n"),
+      [
+        { title: "Cancel", isCancelButton: true },
+        { title: "Add", isDefaultButton: true },
+      ]
+    );
+    if (!result) {
+      // User cancelled
+      return;
     }
-    glyphInfos.push(this.fontController.glyphInfoFromGlyphName(glyphName));
+
+    const glyphLocations = {};
+    const glyphInfos = [];
+
+    for (const componentIndex of this.sceneController.doubleClickedComponentIndices) {
+      const glyphName = instance.components[componentIndex].name;
+      const location = instance.components[componentIndex].location;
+      if (location) {
+        glyphLocations[glyphName] = location;
+      }
+      glyphInfos.push(this.fontController.glyphInfoFromGlyphName(glyphName));
+    }
+    this.sceneController.updateGlyphLocations(glyphLocations);
+    this.insertGlyphInfos(glyphInfos, 1, true);
   }
-  this.sceneController.updateGlyphLocations(glyphLocations);
-  this.insertGlyphInfos(glyphInfos, 1, true);
-}
 
   async insertGlyphInfos(glyphInfos, where = 0, select = false) {
-  // where == 0: replace selected glyph
-  // where == 1: insert after selected glyph
-  // where == -1: insert before selected glyph
-  const { lineIndex } = this.sceneSettings.selectedGlyph;
-  const { cluster: characterIndex } = this.sceneModel.getSelectedPositionedGlyph();
+    // where == 0: replace selected glyph
+    // where == 1: insert after selected glyph
+    // where == -1: insert before selected glyph
+    const { lineIndex } = this.sceneSettings.selectedGlyph;
+    const { cluster: characterIndex } = this.sceneModel.getSelectedPositionedGlyph();
 
-  const characterLines = [...this.sceneSettings.characterLines];
+    const characterLines = [...this.sceneSettings.characterLines];
 
-  const insertIndex = characterIndex + (where == 1 ? 1 : 0);
-  const selectionCharacterIndex =
-    characterIndex + (select ? (where == 1 ? 1 : 0) : where == -1 ? 1 : 0);
+    const insertIndex = characterIndex + (where == 1 ? 1 : 0);
+    const selectionCharacterIndex =
+      characterIndex + (select ? (where == 1 ? 1 : 0) : where == -1 ? 1 : 0);
 
-  characterLines[lineIndex].splice(insertIndex, where ? 0 : 1, ...glyphInfos);
-  this.sceneSettings.characterLines = characterLines;
+    characterLines[lineIndex].splice(insertIndex, where ? 0 : 1, ...glyphInfos);
+    this.sceneSettings.characterLines = characterLines;
 
-  await this.sceneSettingsController.waitForKeyChange("positionedLines");
+    await this.sceneSettingsController.waitForKeyChange("positionedLines");
 
-  const { glyphIndex } = this.sceneModel.characterSelectionToGlyphSelection({
-    lineIndex,
-    characterIndex: selectionCharacterIndex,
-  });
+    const { glyphIndex } = this.sceneModel.characterSelectionToGlyphSelection({
+      lineIndex,
+      characterIndex: selectionCharacterIndex,
+    });
 
-  const glyphExists = !!this.fontController.glyphMap[glyphInfos[0]?.glyphName];
+    const glyphExists = !!this.fontController.glyphMap[glyphInfos[0]?.glyphName];
 
-  this.sceneSettings.selectedGlyph = {
-    lineIndex: lineIndex,
-    glyphIndex: glyphIndex,
-    isEditing:
-      glyphExists &&
-      (where && select ? false : this.sceneSettings.selectedGlyph.isEditing),
-  };
-}
+    this.sceneSettings.selectedGlyph = {
+      lineIndex: lineIndex,
+      glyphIndex: glyphIndex,
+      isEditing:
+        glyphExists &&
+        (where && select ? false : this.sceneSettings.selectedGlyph.isEditing),
+    };
+  }
 
   async doubleClickedAnchorsCallback(event) {
-  const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
-  if (!glyphController.canEdit) {
-    this.sceneController._dispatchEvent("glyphEditLocationNotAtSource");
-    return;
-  }
-
-  const instance = glyphController.instance;
-
-  const anchorIndex = this.sceneController.doubleClickedAnchorIndices[0];
-  let anchor = instance.anchors[anchorIndex];
-  const { anchor: newAnchor } = await this.doAddEditAnchorDialog(anchor);
-  if (!newAnchor) {
-    return;
-  }
-
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      const oldAnchor = layerGlyph.anchors[anchorIndex];
-      layerGlyph.anchors[anchorIndex] = {
-        name: newAnchor.name ? newAnchor.name : oldAnchor.name,
-        x: !isNaN(newAnchor.x) ? newAnchor.x : oldAnchor.x,
-        y: !isNaN(newAnchor.y) ? newAnchor.y : oldAnchor.y,
-      };
+    const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
+    if (!glyphController.canEdit) {
+      this.sceneController._dispatchEvent("glyphEditLocationNotAtSource");
+      return;
     }
-    this.sceneController.selection = new Set([`anchor/${anchorIndex}`]);
-    return translate("action.edit-anchor");
-  });
-}
 
-  async doubleClickedGuidelinesCallback(event) {
-  const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
-  if (!glyphController.canEdit) {
-    this.sceneController._dispatchEvent("glyphEditLocationNotAtSource");
-    return;
-  }
+    const instance = glyphController.instance;
 
-  const instance = glyphController.instance;
-
-  const guidelineIndex = this.sceneController.doubleClickedGuidelineIndices[0];
-  let guideline = instance.guidelines[guidelineIndex];
-  const { guideline: newGuideline } = await this.doAddEditGuidelineDialog(guideline);
-  if (!newGuideline) {
-    return;
-  }
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      const oldGuideline = layerGlyph.guidelines[guidelineIndex];
-      layerGlyph.guidelines[guidelineIndex] = {
-        name: newGuideline.name,
-        x: !isNaN(newGuideline.x) ? newGuideline.x : oldGuideline.x,
-        y: !isNaN(newGuideline.y) ? newGuideline.y : oldGuideline.y,
-        angle: !isNaN(newGuideline.angle) ? newGuideline.angle : oldGuideline.angle,
-        locked: [true, false].includes(newGuideline.locked)
-          ? newGuideline.locked
-          : oldGuideline.locked,
-      };
+    const anchorIndex = this.sceneController.doubleClickedAnchorIndices[0];
+    let anchor = instance.anchors[anchorIndex];
+    const { anchor: newAnchor } = await this.doAddEditAnchorDialog(anchor);
+    if (!newAnchor) {
+      return;
     }
-    this.sceneController.selection = new Set([`guideline/${guidelineIndex}`]);
-    return translate("action.edit-guideline");
-  });
-}
 
-initContextMenuItems() {
-  this.basicContextMenuItems = [];
-  this.basicContextMenuItems.push({ actionIdentifier: "action.undo" });
-  this.basicContextMenuItems.push({ actionIdentifier: "action.redo" });
-
-  this.basicContextMenuItems.push(MenuItemDivider);
-
-  this.basicContextMenuItems.push(
-    { actionIdentifier: "action.cut" },
-    { actionIdentifier: "action.copy" },
-    { actionIdentifier: "action.paste" }
-  );
-
-  this.basicContextMenuItems.push({ actionIdentifier: "action.delete" });
-
-  this.basicContextMenuItems.push(MenuItemDivider);
-
-  this.basicContextMenuItems.push({
-    actionIdentifier: "action.select-all",
-  });
-
-  this.basicContextMenuItems.push({
-    actionIdentifier: "action.select-none",
-  });
-
-  this.glyphEditContextMenuItems = [];
-
-  this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-component" });
-  this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-anchor" });
-  this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-guideline" });
-  this.glyphEditContextMenuItems.push({
-    actionIdentifier: "action.add-guideline-between-points",
-  });
-
-  this.glyphEditContextMenuItems.push({ actionIdentifier: "action.lock-guideline" });
-
-  this.glyphEditContextMenuItems.push(...this.sceneController.getContextMenuItems());
-
-  this.glyphSelectedContextMenuItems = [];
-
-  this.glyphSelectedContextMenuItems.push({
-    title: translate("menubar.view.select-glyph-source-layer"),
-    getItems: () => [
-      { actionIdentifier: "action.select-previous-glyph" },
-      { actionIdentifier: "action.select-next-glyph" },
-      { actionIdentifier: "action.select-previous-source" },
-      { actionIdentifier: "action.select-next-source" },
-      { actionIdentifier: "action.select-previous-source-layer" },
-      { actionIdentifier: "action.select-next-source-layer" },
-    ],
-  });
-
-  this.glyphSelectedContextMenuItems.push({
-    actionIdentifier: "action.find-glyphs-that-use",
-  });
-  this.glyphSelectedContextMenuItems.push(MenuItemDivider);
-  this.glyphSelectedContextMenuItems.push({
-    actionIdentifier: "action.replace-selected-glyph-on-canvas",
-  });
-  this.glyphSelectedContextMenuItems.push({
-    actionIdentifier: "action.remove-selected-glyph-from-canvas",
-  });
-  this.glyphSelectedContextMenuItems.push({
-    actionIdentifier: "action.add-glyph-before-selected-glyph",
-  });
-  this.glyphSelectedContextMenuItems.push({
-    actionIdentifier: "action.add-glyph-after-selected-glyph",
-  });
-}
-
-  async keyDownHandler(event) {
-  const actionIdentifier = getActionIdentifierFromKeyEvent(event);
-  if (actionIdentifier) {
-    this.sceneController.updateContextMenuState(null);
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    doPerformAction(actionIdentifier, event);
-  }
-}
-
-callDelegateMethod(methodName, ...args) {
-  const tool = this.sceneController.selectedTool;
-  if (tool?.[methodName]) {
-    return tool[methodName](...args);
-  } else {
-    return this[methodName](...args);
-  }
-}
-
-getUndoRedoLabel(isRedo) {
-  const info = this.sceneController.getUndoRedoInfo(isRedo);
-  return (
-    (isRedo ? translate("action.redo") : translate("action.undo")) +
-    (info ? " " + info.label : "")
-  );
-}
-
-canUndoRedo(isRedo) {
-  return !!this.sceneController.getUndoRedoInfo(isRedo);
-}
-
-  async doUndoRedo(isRedo) {
-  await this.sceneController.doUndoRedo(isRedo);
-}
-
-canCut() {
-  if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
-    return false;
-  }
-  return (
-    (this.sceneSettings.selectedGlyph &&
-      !this.sceneSettings.selectedGlyph.isEditing) ||
-    this.sceneController.selection.size
-  );
-}
-
-  async doCut() {
-  if (
-    this.sceneSettings.selectedGlyph.isEditing &&
-    !this.sceneController.selection.size
-  ) {
-    return;
-  }
-
-  if (!this.sceneSettings.selectedGlyph.isEditing) {
-    await this.doCopy();
-    this.fontController.deleteGlyph(
-      this.sceneSettings.selectedGlyphName,
-      `cut glyph "${this.sceneSettings.selectedGlyphName}"`
-    );
-    return;
-  }
-
-  let copyResult;
-  await this.sceneController.editGlyphAndRecordChanges(
-    (glyph) => {
-      copyResult = this._prepareCopyOrCutLayers(glyph, true);
-      this.sceneController.selection = new Set();
-      return "Cut Selection"; // TODO: translation translate("action.edit-guideline");
-    },
-    undefined,
-    true
-  );
-
-  if (copyResult) {
-    const { layerGlyphs, flattenedPath, backgroundImageData } = copyResult;
-    await this._writeLayersToClipboard(
-      null,
-      layerGlyphs,
-      flattenedPath,
-      backgroundImageData
-    );
-  }
-}
-
-canCopy() {
-  return this.sceneSettings.selectedGlyph;
-}
-
-  async doCopy() {
-  if (!this.canCopy()) {
-    return;
-  }
-
-  if (this.sceneSettings.selectedGlyph.isEditing) {
-    const { layerGlyphs, flattenedPath, backgroundImageData } =
-      this._prepareCopyOrCutLayers(undefined, false);
-
-    await this._writeLayersToClipboard(
-      null,
-      layerGlyphs,
-      flattenedPath,
-      backgroundImageData
-    );
-  } else {
-    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
-    const varGlyph = positionedGlyph.varGlyph.glyph;
-    const backgroundImageData =
-      await this.fontController.collectBackgroundImageData(varGlyph);
-    const glyphController = positionedGlyph.glyph;
-    await this._writeLayersToClipboard(
-      varGlyph,
-      [{ glyph: glyphController.instance }],
-      glyphController.flattenedPath,
-      backgroundImageData
-    );
-  }
-}
-
-  async _writeLayersToClipboard(
-  varGlyph,
-  layerGlyphs,
-  flattenedPath,
-  backgroundImageData
-) {
-  if (!layerGlyphs?.length) {
-    // nothing to do
-    return;
-  }
-
-  let bounds = flattenedPath?.getControlBounds();
-  if (!bounds) {
-    bounds = { xMin: 0, yMin: 0, xMax: 0, yMax: 0 };
-  }
-
-  const svgString = pathToSVG(flattenedPath, bounds);
-  const glyphName = this.sceneSettings.selectedGlyphName;
-  const codePoints = this.fontController.glyphMap[glyphName] || [];
-  const glifString = staticGlyphToGLIF(glyphName, layerGlyphs[0].glyph, codePoints);
-  const jsonObject = varGlyph
-    ? {
-      type: "fontra-variable-glyph",
-      data: {
-        variableGlyph: varGlyph,
-        codePoints: codePoints,
-        sourceLocations: this.fontController.getSourceLocations(),
-      },
-    }
-    : { type: "fontra-layer-glyphs", data: { layerGlyphs, glyphName, codePoints } };
-
-  const buildJSONString = async () => {
-    const resolvedImageData = await backgroundImageData;
-    if (resolvedImageData && !isObjectEmpty(resolvedImageData)) {
-      jsonObject.data.backgroundImageData = resolvedImageData;
-    }
-    return JSON.stringify(jsonObject);
-  };
-
-  const jsonStringPromise = buildJSONString();
-
-  const mapping = {
-    "svg": svgString,
-    "glif": glifString,
-    "fontra-json": jsonStringPromise,
-  };
-
-  const plainTextString =
-    mapping[applicationSettingsController.model.clipboardFormat] || glifString;
-
-  if (plainTextString == jsonStringPromise) {
-    localStorage.removeItem("clipboardSelection.text-plain");
-    localStorage.removeItem("clipboardSelection.fontra-json");
-  } else {
-    localStorage.setItem("clipboardSelection.text-plain", plainTextString);
-    jsonStringPromise.then((jsonString) => {
-      localStorage.setItem("clipboardSelection.fontra-json", jsonString);
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        const oldAnchor = layerGlyph.anchors[anchorIndex];
+        layerGlyph.anchors[anchorIndex] = {
+          name: newAnchor.name ? newAnchor.name : oldAnchor.name,
+          x: !isNaN(newAnchor.x) ? newAnchor.x : oldAnchor.x,
+          y: !isNaN(newAnchor.y) ? newAnchor.y : oldAnchor.y,
+        };
+      }
+      this.sceneController.selection = new Set([`anchor/${anchorIndex}`]);
+      return translate("action.edit-anchor");
     });
   }
 
-  const clipboardObject = {
-    "text/plain": plainTextString,
-    "text/html": svgString,
-    "image/svg+xml": svgString,
-    "web image/svg+xml": svgString,
-    "web fontra/json-clipboard": jsonStringPromise,
-  };
+  async doubleClickedGuidelinesCallback(event) {
+    const glyphController = await this.sceneModel.getSelectedStaticGlyphController();
+    if (!glyphController.canEdit) {
+      this.sceneController._dispatchEvent("glyphEditLocationNotAtSource");
+      return;
+    }
 
-  this._addBackgroundImageToClipboard(clipboardObject, backgroundImageData);
+    const instance = glyphController.instance;
 
-  writeToClipboard(clipboardObject).catch((error) =>
-    console.error("error during clipboard write:", error)
-  );
-}
+    const guidelineIndex = this.sceneController.doubleClickedGuidelineIndices[0];
+    let guideline = instance.guidelines[guidelineIndex];
+    const { guideline: newGuideline } = await this.doAddEditGuidelineDialog(guideline);
+    if (!newGuideline) {
+      return;
+    }
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        const oldGuideline = layerGlyph.guidelines[guidelineIndex];
+        layerGlyph.guidelines[guidelineIndex] = {
+          name: newGuideline.name,
+          x: !isNaN(newGuideline.x) ? newGuideline.x : oldGuideline.x,
+          y: !isNaN(newGuideline.y) ? newGuideline.y : oldGuideline.y,
+          angle: !isNaN(newGuideline.angle) ? newGuideline.angle : oldGuideline.angle,
+          locked: [true, false].includes(newGuideline.locked)
+            ? newGuideline.locked
+            : oldGuideline.locked,
+        };
+      }
+      this.sceneController.selection = new Set([`guideline/${guidelineIndex}`]);
+      return translate("action.edit-guideline");
+    });
+  }
 
-_addBackgroundImageToClipboard(clipboardObject, backgroundImageData) {
-  if (
-    this.sceneController.selection.size == 1 &&
-    this.sceneController.selection.has("backgroundImage/0")
-  ) {
-    const imageDataURL = Object.values(backgroundImageData)[0];
-    const { type } = parseDataURL(imageDataURL);
-    clipboardObject[type] = fetch(Object.values(backgroundImageData)[0]).then(
-      (response) => response.blob()
+  initContextMenuItems() {
+    this.basicContextMenuItems = [];
+    this.basicContextMenuItems.push({ actionIdentifier: "action.undo" });
+    this.basicContextMenuItems.push({ actionIdentifier: "action.redo" });
+
+    this.basicContextMenuItems.push(MenuItemDivider);
+
+    this.basicContextMenuItems.push(
+      { actionIdentifier: "action.cut" },
+      { actionIdentifier: "action.copy" },
+      { actionIdentifier: "action.paste" }
+    );
+
+    this.basicContextMenuItems.push({ actionIdentifier: "action.delete" });
+
+    this.basicContextMenuItems.push(MenuItemDivider);
+
+    this.basicContextMenuItems.push({
+      actionIdentifier: "action.select-all",
+    });
+
+    this.basicContextMenuItems.push({
+      actionIdentifier: "action.select-none",
+    });
+
+    this.glyphEditContextMenuItems = [];
+
+    this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-component" });
+    this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-anchor" });
+    this.glyphEditContextMenuItems.push({ actionIdentifier: "action.add-guideline" });
+    this.glyphEditContextMenuItems.push({
+      actionIdentifier: "action.add-guideline-between-points",
+    });
+
+    this.glyphEditContextMenuItems.push({ actionIdentifier: "action.lock-guideline" });
+
+    this.glyphEditContextMenuItems.push(...this.sceneController.getContextMenuItems());
+
+    this.glyphSelectedContextMenuItems = [];
+
+    this.glyphSelectedContextMenuItems.push({
+      title: translate("menubar.view.select-glyph-source-layer"),
+      getItems: () => [
+        { actionIdentifier: "action.select-previous-glyph" },
+        { actionIdentifier: "action.select-next-glyph" },
+        { actionIdentifier: "action.select-previous-source" },
+        { actionIdentifier: "action.select-next-source" },
+        { actionIdentifier: "action.select-previous-source-layer" },
+        { actionIdentifier: "action.select-next-source-layer" },
+      ],
+    });
+
+    this.glyphSelectedContextMenuItems.push({
+      actionIdentifier: "action.find-glyphs-that-use",
+    });
+    this.glyphSelectedContextMenuItems.push(MenuItemDivider);
+    this.glyphSelectedContextMenuItems.push({
+      actionIdentifier: "action.replace-selected-glyph-on-canvas",
+    });
+    this.glyphSelectedContextMenuItems.push({
+      actionIdentifier: "action.remove-selected-glyph-from-canvas",
+    });
+    this.glyphSelectedContextMenuItems.push({
+      actionIdentifier: "action.add-glyph-before-selected-glyph",
+    });
+    this.glyphSelectedContextMenuItems.push({
+      actionIdentifier: "action.add-glyph-after-selected-glyph",
+    });
+  }
+
+  async keyDownHandler(event) {
+    const actionIdentifier = getActionIdentifierFromKeyEvent(event);
+    if (actionIdentifier) {
+      this.sceneController.updateContextMenuState(null);
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      doPerformAction(actionIdentifier, event);
+    }
+  }
+
+  callDelegateMethod(methodName, ...args) {
+    const tool = this.sceneController.selectedTool;
+    if (tool?.[methodName]) {
+      return tool[methodName](...args);
+    } else {
+      return this[methodName](...args);
+    }
+  }
+
+  getUndoRedoLabel(isRedo) {
+    const info = this.sceneController.getUndoRedoInfo(isRedo);
+    return (
+      (isRedo ? translate("action.redo") : translate("action.undo")) +
+      (info ? " " + info.label : "")
     );
   }
-}
 
-_prepareCopyOrCutLayers(varGlyph, doCut) {
-  let varGlyphController;
-  if (!varGlyph) {
-    varGlyphController = this.sceneModel.getSelectedPositionedGlyph().varGlyph;
-    varGlyph = varGlyphController.glyph;
-  } else {
-    varGlyphController = this.fontController.makeVariableGlyphController(varGlyph);
-  }
-  if (!varGlyph) {
-    return;
+  canUndoRedo(isRedo) {
+    return !!this.sceneController.getUndoRedoInfo(isRedo);
   }
 
-  const layerLocations = {};
-  for (const source of varGlyph.sources) {
-    if (!(source.layerName in layerLocations)) {
-      layerLocations[source.layerName] = makeSparseLocation(
-        source.location,
-        varGlyphController.combinedAxes
+  async doUndoRedo(isRedo) {
+    await this.sceneController.doUndoRedo(isRedo);
+  }
+
+  canCut() {
+    if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
+      return false;
+    }
+    return (
+      (this.sceneSettings.selectedGlyph &&
+        !this.sceneSettings.selectedGlyph.isEditing) ||
+      this.sceneController.selection.size
+    );
+  }
+
+  async doCut() {
+    if (
+      this.sceneSettings.selectedGlyph.isEditing &&
+      !this.sceneController.selection.size
+    ) {
+      return;
+    }
+
+    if (!this.sceneSettings.selectedGlyph.isEditing) {
+      await this.doCopy();
+      this.fontController.deleteGlyph(
+        this.sceneSettings.selectedGlyphName,
+        `cut glyph "${this.sceneSettings.selectedGlyphName}"`
+      );
+      return;
+    }
+
+    let copyResult;
+    await this.sceneController.editGlyphAndRecordChanges(
+      (glyph) => {
+        copyResult = this._prepareCopyOrCutLayers(glyph, true);
+        this.sceneController.selection = new Set();
+        return "Cut Selection"; // TODO: translation translate("action.edit-guideline");
+      },
+      undefined,
+      true
+    );
+
+    if (copyResult) {
+      const { layerGlyphs, flattenedPath, backgroundImageData } = copyResult;
+      await this._writeLayersToClipboard(
+        null,
+        layerGlyphs,
+        flattenedPath,
+        backgroundImageData
       );
     }
   }
 
-  const layerGlyphs = [];
-  let flattenedPath;
-  const backgroundImageData = {};
+  canCopy() {
+    return this.sceneSettings.selectedGlyph;
+  }
 
-  for (const [layerName, layerGlyph] of Object.entries(
-    this.sceneController.getEditingLayerFromGlyphLayers(varGlyph.layers)
-  )) {
-    const copyResult = this._prepareCopyOrCut(layerGlyph, doCut, !flattenedPath);
-    if (!copyResult.instance) {
+  async doCopy() {
+    if (!this.canCopy()) {
       return;
     }
-    if (!flattenedPath) {
-      flattenedPath = copyResult.flattenedPath;
+
+    if (this.sceneSettings.selectedGlyph.isEditing) {
+      const { layerGlyphs, flattenedPath, backgroundImageData } =
+        this._prepareCopyOrCutLayers(undefined, false);
+
+      await this._writeLayersToClipboard(
+        null,
+        layerGlyphs,
+        flattenedPath,
+        backgroundImageData
+      );
+    } else {
+      const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
+      const varGlyph = positionedGlyph.varGlyph.glyph;
+      const backgroundImageData =
+        await this.fontController.collectBackgroundImageData(varGlyph);
+      const glyphController = positionedGlyph.glyph;
+      await this._writeLayersToClipboard(
+        varGlyph,
+        [{ glyph: glyphController.instance }],
+        glyphController.flattenedPath,
+        backgroundImageData
+      );
     }
-    layerGlyphs.push({
-      layerName,
-      location: layerLocations[layerName],
-      glyph: copyResult.instance,
+  }
+
+  async _writeLayersToClipboard(
+    varGlyph,
+    layerGlyphs,
+    flattenedPath,
+    backgroundImageData
+  ) {
+    if (!layerGlyphs?.length) {
+      // nothing to do
+      return;
+    }
+
+    let bounds = flattenedPath?.getControlBounds();
+    if (!bounds) {
+      bounds = { xMin: 0, yMin: 0, xMax: 0, yMax: 0 };
+    }
+
+    const svgString = pathToSVG(flattenedPath, bounds);
+    const glyphName = this.sceneSettings.selectedGlyphName;
+    const codePoints = this.fontController.glyphMap[glyphName] || [];
+    const glifString = staticGlyphToGLIF(glyphName, layerGlyphs[0].glyph, codePoints);
+    const jsonObject = varGlyph
+      ? {
+        type: "fontra-variable-glyph",
+        data: {
+          variableGlyph: varGlyph,
+          codePoints: codePoints,
+          sourceLocations: this.fontController.getSourceLocations(),
+        },
+      }
+      : { type: "fontra-layer-glyphs", data: { layerGlyphs, glyphName, codePoints } };
+
+    const buildJSONString = async () => {
+      const resolvedImageData = await backgroundImageData;
+      if (resolvedImageData && !isObjectEmpty(resolvedImageData)) {
+        jsonObject.data.backgroundImageData = resolvedImageData;
+      }
+      return JSON.stringify(jsonObject);
+    };
+
+    const jsonStringPromise = buildJSONString();
+
+    const mapping = {
+      "svg": svgString,
+      "glif": glifString,
+      "fontra-json": jsonStringPromise,
+    };
+
+    const plainTextString =
+      mapping[applicationSettingsController.model.clipboardFormat] || glifString;
+
+    if (plainTextString == jsonStringPromise) {
+      localStorage.removeItem("clipboardSelection.text-plain");
+      localStorage.removeItem("clipboardSelection.fontra-json");
+    } else {
+      localStorage.setItem("clipboardSelection.text-plain", plainTextString);
+      jsonStringPromise.then((jsonString) => {
+        localStorage.setItem("clipboardSelection.fontra-json", jsonString);
+      });
+    }
+
+    const clipboardObject = {
+      "text/plain": plainTextString,
+      "text/html": svgString,
+      "image/svg+xml": svgString,
+      "web image/svg+xml": svgString,
+      "web fontra/json-clipboard": jsonStringPromise,
+    };
+
+    this._addBackgroundImageToClipboard(clipboardObject, backgroundImageData);
+
+    writeToClipboard(clipboardObject).catch((error) =>
+      console.error("error during clipboard write:", error)
+    );
+  }
+
+  _addBackgroundImageToClipboard(clipboardObject, backgroundImageData) {
+    if (
+      this.sceneController.selection.size == 1 &&
+      this.sceneController.selection.has("backgroundImage/0")
+    ) {
+      const imageDataURL = Object.values(backgroundImageData)[0];
+      const { type } = parseDataURL(imageDataURL);
+      clipboardObject[type] = fetch(Object.values(backgroundImageData)[0]).then(
+        (response) => response.blob()
+      );
+    }
+  }
+
+  _prepareCopyOrCutLayers(varGlyph, doCut) {
+    let varGlyphController;
+    if (!varGlyph) {
+      varGlyphController = this.sceneModel.getSelectedPositionedGlyph().varGlyph;
+      varGlyph = varGlyphController.glyph;
+    } else {
+      varGlyphController = this.fontController.makeVariableGlyphController(varGlyph);
+    }
+    if (!varGlyph) {
+      return;
+    }
+
+    const layerLocations = {};
+    for (const source of varGlyph.sources) {
+      if (!(source.layerName in layerLocations)) {
+        layerLocations[source.layerName] = makeSparseLocation(
+          source.location,
+          varGlyphController.combinedAxes
+        );
+      }
+    }
+
+    const layerGlyphs = [];
+    let flattenedPath;
+    const backgroundImageData = {};
+
+    for (const [layerName, layerGlyph] of Object.entries(
+      this.sceneController.getEditingLayerFromGlyphLayers(varGlyph.layers)
+    )) {
+      const copyResult = this._prepareCopyOrCut(layerGlyph, doCut, !flattenedPath);
+      if (!copyResult.instance) {
+        return;
+      }
+      if (!flattenedPath) {
+        flattenedPath = copyResult.flattenedPath;
+      }
+      layerGlyphs.push({
+        layerName,
+        location: layerLocations[layerName],
+        glyph: copyResult.instance,
+      });
+      if (copyResult.instance.backgroundImage) {
+        const imageIdentifier = copyResult.instance.backgroundImage.identifier;
+        const bgImage = this.fontController.getBackgroundImageCached(imageIdentifier);
+        if (bgImage) {
+          backgroundImageData[imageIdentifier] = bgImage.src;
+        }
+      }
+    }
+    if (!layerGlyphs.length && !doCut) {
+      const { instance, flattenedPath: instancePath } = this._prepareCopyOrCut(
+        undefined,
+        false,
+        true
+      );
+      flattenedPath = instancePath;
+      if (!instance) {
+        return;
+      }
+      layerGlyphs.push({ glyph: instance });
+    }
+    return { layerGlyphs, flattenedPath, backgroundImageData };
+  }
+
+  _prepareCopyOrCut(editInstance, doCut = false, wantFlattenedPath = false) {
+    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
+    const glyphController = positionedGlyph?.glyph;
+    if (!glyphController) {
+      return {};
+    }
+
+    if (!editInstance) {
+      editInstance = glyphController.instance;
+    }
+
+    if (!this.sceneController.selection.size) {
+      // No selection, fall back to "all", unless doCut is true
+      return doCut
+        ? {}
+        : {
+          instance: editInstance,
+          flattenedPath: wantFlattenedPath
+            ? glyphController.flattenedPath
+            : undefined,
+        };
+    }
+
+    const {
+      point: pointIndices,
+      component: componentIndicesFromComponent,
+      componentOrigin: componentIndicesFromOrigin,
+      componentTCenter: componentTCenterSelection,
+      anchor: anchorIndices,
+      guideline: guidelineIndices,
+      backgroundImage: backgroundImageIndices,
+    } = parseSelection(this.sceneController.selection);
+
+    const componentIndices = unionIndexSets(
+      componentIndicesFromComponent,
+      componentIndicesFromOrigin,
+      componentTCenterSelection
+    );
+
+    let path;
+    let components;
+    let anchors;
+    let guidelines;
+    let backgroundImage;
+    const flattenedPathList = wantFlattenedPath ? [] : undefined;
+    if (pointIndices) {
+      path = filterPathByPointIndices(editInstance.path, pointIndices, doCut);
+      flattenedPathList?.push(path);
+    }
+    if (componentIndices) {
+      flattenedPathList?.push(
+        ...componentIndices.map((i) => glyphController.components[i].path)
+      );
+      components = componentIndices.map((i) => editInstance.components[i]);
+      if (doCut) {
+        for (const componentIndex of reversed(componentIndices)) {
+          editInstance.components.splice(componentIndex, 1);
+        }
+      }
+    }
+    if (anchorIndices) {
+      anchors = anchorIndices.map((i) => editInstance.anchors[i]);
+      if (doCut) {
+        for (const anchorIndex of reversed(anchorIndices)) {
+          editInstance.anchors.splice(anchorIndex, 1);
+        }
+      }
+    }
+    if (guidelineIndices) {
+      guidelines = guidelineIndices.map((i) => editInstance.guidelines[i]);
+      if (doCut) {
+        for (const guidelineIndex of reversed(guidelineIndices)) {
+          editInstance.guidelines.splice(guidelineIndex, 1);
+        }
+      }
+    }
+    if (backgroundImageIndices) {
+      backgroundImage = editInstance.backgroundImage;
+      if (doCut) {
+        // TODO: don't delete if bg images are locked
+        // (even though we shouldn't be able to select them)
+        editInstance.backgroundImage = undefined;
+      }
+    }
+    const instance = StaticGlyph.fromObject({
+      ...editInstance,
+      path,
+      components,
+      anchors,
+      guidelines,
+      backgroundImage,
     });
-    if (copyResult.instance.backgroundImage) {
-      const imageIdentifier = copyResult.instance.backgroundImage.identifier;
-      const bgImage = this.fontController.getBackgroundImageCached(imageIdentifier);
-      if (bgImage) {
-        backgroundImageData[imageIdentifier] = bgImage.src;
-      }
-    }
+    return {
+      instance: instance,
+      flattenedPath: wantFlattenedPath ? joinPaths(flattenedPathList) : undefined,
+    };
   }
-  if (!layerGlyphs.length && !doCut) {
-    const { instance, flattenedPath: instancePath } = this._prepareCopyOrCut(
-      undefined,
-      false,
-      true
+
+  canPaste() {
+    return !!(
+      this.sceneSettings.selectedGlyph &&
+      !this.fontController.readOnly &&
+      !this.sceneModel.isSelectedGlyphLocked()
     );
-    flattenedPath = instancePath;
-    if (!instance) {
-      return;
-    }
-    layerGlyphs.push({ glyph: instance });
   }
-  return { layerGlyphs, flattenedPath, backgroundImageData };
-}
-
-_prepareCopyOrCut(editInstance, doCut = false, wantFlattenedPath = false) {
-  const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
-  const glyphController = positionedGlyph?.glyph;
-  if (!glyphController) {
-    return {};
-  }
-
-  if (!editInstance) {
-    editInstance = glyphController.instance;
-  }
-
-  if (!this.sceneController.selection.size) {
-    // No selection, fall back to "all", unless doCut is true
-    return doCut
-      ? {}
-      : {
-        instance: editInstance,
-        flattenedPath: wantFlattenedPath
-          ? glyphController.flattenedPath
-          : undefined,
-      };
-  }
-
-  const {
-    point: pointIndices,
-    component: componentIndicesFromComponent,
-    componentOrigin: componentIndicesFromOrigin,
-    componentTCenter: componentTCenterSelection,
-    anchor: anchorIndices,
-    guideline: guidelineIndices,
-    backgroundImage: backgroundImageIndices,
-  } = parseSelection(this.sceneController.selection);
-
-  const componentIndices = unionIndexSets(
-    componentIndicesFromComponent,
-    componentIndicesFromOrigin,
-    componentTCenterSelection
-  );
-
-  let path;
-  let components;
-  let anchors;
-  let guidelines;
-  let backgroundImage;
-  const flattenedPathList = wantFlattenedPath ? [] : undefined;
-  if (pointIndices) {
-    path = filterPathByPointIndices(editInstance.path, pointIndices, doCut);
-    flattenedPathList?.push(path);
-  }
-  if (componentIndices) {
-    flattenedPathList?.push(
-      ...componentIndices.map((i) => glyphController.components[i].path)
-    );
-    components = componentIndices.map((i) => editInstance.components[i]);
-    if (doCut) {
-      for (const componentIndex of reversed(componentIndices)) {
-        editInstance.components.splice(componentIndex, 1);
-      }
-    }
-  }
-  if (anchorIndices) {
-    anchors = anchorIndices.map((i) => editInstance.anchors[i]);
-    if (doCut) {
-      for (const anchorIndex of reversed(anchorIndices)) {
-        editInstance.anchors.splice(anchorIndex, 1);
-      }
-    }
-  }
-  if (guidelineIndices) {
-    guidelines = guidelineIndices.map((i) => editInstance.guidelines[i]);
-    if (doCut) {
-      for (const guidelineIndex of reversed(guidelineIndices)) {
-        editInstance.guidelines.splice(guidelineIndex, 1);
-      }
-    }
-  }
-  if (backgroundImageIndices) {
-    backgroundImage = editInstance.backgroundImage;
-    if (doCut) {
-      // TODO: don't delete if bg images are locked
-      // (even though we shouldn't be able to select them)
-      editInstance.backgroundImage = undefined;
-    }
-  }
-  const instance = StaticGlyph.fromObject({
-    ...editInstance,
-    path,
-    components,
-    anchors,
-    guidelines,
-    backgroundImage,
-  });
-  return {
-    instance: instance,
-    flattenedPath: wantFlattenedPath ? joinPaths(flattenedPathList) : undefined,
-  };
-}
-
-canPaste() {
-  return !!(
-    this.sceneSettings.selectedGlyph &&
-    !this.fontController.readOnly &&
-    !this.sceneModel.isSelectedGlyphLocked()
-  );
-}
 
   async doPaste() {
-  if (!this.sceneSettings.selectedGlyph) {
-    return;
+    if (!this.sceneSettings.selectedGlyph) {
+      return;
+    }
+
+    let { pasteVarGlyph, pasteLayerGlyphs, sourceLocations, backgroundImageData } =
+      await this._unpackClipboard();
+    if (!pasteVarGlyph && !pasteLayerGlyphs?.length) {
+      await this._pasteClipboardImage();
+      return;
+    }
+
+    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
+    const glyphName = positionedGlyph.glyphName;
+
+    if (backgroundImageData && !isObjectEmpty(backgroundImageData)) {
+      // Ensure background images are visible and not locked
+      this.visualizationLayersSettings.model["fontra.background-image"] = true;
+      this.sceneSettings.backgroundImagesAreLocked = false;
+    }
+
+    if (pasteVarGlyph && this.sceneSettings.selectedGlyph.isEditing) {
+      const result = await runDialogWholeGlyphPaste();
+      if (!result) {
+        return;
+      }
+      if (result === PASTE_BEHAVIOR_ADD) {
+        // We will paste an entire variable glyph onto the existing layers.
+        // Build pasteLayerGlyphs from the glyph's sources.
+        const varGlyphController =
+          this.fontController.makeVariableGlyphController(pasteVarGlyph);
+        const combinedAxes = varGlyphController.combinedAxes;
+        pasteLayerGlyphs = pasteVarGlyph.sources.map((source) => {
+          return {
+            layerName: source.layerName,
+            location: makeSparseLocation(source.location, combinedAxes),
+            glyph: pasteVarGlyph.layers[source.layerName].glyph,
+          };
+        });
+        // Sort so the default source comes first, as it is used as a fallback
+        pasteLayerGlyphs.sort((a, b) =>
+          !isObjectEmpty(a.location) && isObjectEmpty(b.location) ? 1 : -1
+        );
+        pasteVarGlyph = null;
+      }
+    } else if (!pasteVarGlyph && !this.sceneSettings.selectedGlyph.isEditing) {
+      // We're pasting layers onto a glyph in select mode. Build a VariableGlyph
+      // from the layers as good as we can.
+      if (pasteLayerGlyphs.length === 1) {
+        pasteVarGlyph = this.fontController.makeVariableGlyphFromSingleStaticGlyph(
+          glyphName,
+          pasteLayerGlyphs[0].glyph
+        );
+      } else {
+        const layers = {};
+        const sources = [];
+        for (const { layerName, location, glyph } of pasteLayerGlyphs) {
+          if (layerName) {
+            layers[layerName] = { glyph };
+            sources.push({ name: layerName, layerName, location: location || {} });
+          }
+        }
+        pasteVarGlyph = VariableGlyph.fromObject({ layers, sources });
+      }
+      pasteLayerGlyphs = null;
+    }
+
+    if (pasteVarGlyph) {
+      const {
+        glyphs: adjustedGlyphs,
+        backgroundImageData: adjustedBackgroundImageData,
+      } = this.fontController.adjustVariableGlyphsFromClipboard(
+        [pasteVarGlyph],
+        sourceLocations || {},
+        backgroundImageData
+      );
+
+      [pasteVarGlyph] = adjustedGlyphs;
+      backgroundImageData = adjustedBackgroundImageData;
+
+      if (positionedGlyph.isUndefined) {
+        await this.fontController.newGlyph(
+          glyphName,
+          positionedGlyph.character?.codePointAt(0),
+          pasteVarGlyph,
+          null,
+          `paste new glyph "${glyphName}"`
+        );
+      } else {
+        await this._pasteReplaceGlyph(pasteVarGlyph);
+      }
+      // Force even trigger for fontLocationSourceMapped, as the glyph's
+      // source list may have changed
+      this.sceneSettings.fontLocationSourceMapped = {
+        ...this.sceneSettings.fontLocationSourceMapped,
+      };
+      this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
+    } else {
+      const {
+        glyphs: adjustedGlyphs,
+        backgroundImageData: adjustedBackgroundImageData,
+      } = this.fontController.adjustStaticGlyphsFromClipboard(
+        pasteLayerGlyphs.map((layerInfo) => layerInfo.glyph),
+        backgroundImageData
+      );
+
+      for (const i of range(pasteLayerGlyphs.length)) {
+        pasteLayerGlyphs[i].glyph = adjustedGlyphs[i];
+      }
+      backgroundImageData = adjustedBackgroundImageData;
+
+      await this._pasteLayerGlyphs(pasteLayerGlyphs);
+    }
+
+    await this.fontController.writeBackgroundImages(backgroundImageData);
   }
 
-  let { pasteVarGlyph, pasteLayerGlyphs, sourceLocations, backgroundImageData } =
-    await this._unpackClipboard();
-  if (!pasteVarGlyph && !pasteLayerGlyphs?.length) {
-    await this._pasteClipboardImage();
-    return;
+  async _unpackClipboard() {
+    const acceptableClipboardTypes = [
+      "web fontra/json-clipboard",
+      "web image/svg+xml",
+      "image/svg+xml",
+      "text/plain",
+    ];
+
+    const clipboardString = await readFromClipboard(acceptableClipboardTypes);
+
+    if (!clipboardString) {
+      return {};
+    }
+
+    let jsonString = clipboardString.startsWith("{") ? clipboardString : null;
+
+    if (
+      !jsonString &&
+      clipboardString === localStorage.getItem("clipboardSelection.text-plain")
+    ) {
+      jsonString = localStorage.getItem("clipboardSelection.fontra-json");
+    }
+
+    let pasteLayerGlyphs;
+    let pasteVarGlyph;
+    let sourceLocations;
+    let backgroundImageData;
+
+    if (jsonString) {
+      try {
+        const clipboardObject = JSON.parse(jsonString);
+        if (clipboardObject.type === "fontra-layer-glyphs") {
+          pasteLayerGlyphs = clipboardObject.data.layerGlyphs?.map((layer) => {
+            return {
+              layerName: layer.layerName,
+              location: layer.location,
+              glyph: StaticGlyph.fromObject(layer.glyph),
+            };
+          });
+          backgroundImageData = clipboardObject.data.backgroundImageData;
+        } else if (clipboardObject.type === "fontra-variable-glyph") {
+          pasteVarGlyph = VariableGlyph.fromObject(clipboardObject.data.variableGlyph);
+          sourceLocations = clipboardObject.data.sourceLocations;
+          backgroundImageData = clipboardObject.data.backgroundImageData;
+        } else if (clipboardObject.type === "fontra-glyph-array") {
+          pasteVarGlyph = VariableGlyph.fromObject(
+            clipboardObject.data.glyphs[0].variableGlyph
+          );
+          sourceLocations = clipboardObject.data.sourceLocations;
+          backgroundImageData = clipboardObject.data.backgroundImageData;
+        }
+      } catch (error) {
+        console.log("couldn't paste from JSON:", error.toString());
+      }
+    } else {
+      const glyph = await Backend.parseClipboard(clipboardString);
+      if (glyph) {
+        pasteLayerGlyphs = [{ glyph }];
+      }
+    }
+    return { pasteVarGlyph, pasteLayerGlyphs, sourceLocations, backgroundImageData };
   }
 
-  const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
-  const glyphName = positionedGlyph.glyphName;
+  async _pasteClipboardImage() {
+    if (!this.canPlaceBackgroundImage()) {
+      return;
+    }
 
-  if (backgroundImageData && !isObjectEmpty(backgroundImageData)) {
+    const imageBlob = await readFromClipboard(["image/png", "image/jpeg"], false);
+
+    if (!imageBlob) {
+      return;
+    }
+
+    await this._placeBackgroundImage(await readFileOrBlobAsDataURL(imageBlob));
+  }
+
+  async _placeBackgroundImage(dataURL) {
     // Ensure background images are visible and not locked
     this.visualizationLayersSettings.model["fontra.background-image"] = true;
     this.sceneSettings.backgroundImagesAreLocked = false;
+
+    const imageIdentifiers = [];
+
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        const imageIdentifier = crypto.randomUUID();
+        layerGlyph.backgroundImage = {
+          identifier: imageIdentifier,
+          transformation: getDecomposedIdentity(),
+          opacity: 1.0,
+        };
+        imageIdentifiers.push(imageIdentifier);
+      }
+      this.sceneController.selection = new Set(["backgroundImage/0"]);
+      return "place background image"; // TODO: translate
+    });
+
+    for (const imageIdentifier of imageIdentifiers) {
+      await this.fontController.putBackgroundImageData(imageIdentifier, dataURL);
+    }
+    // Writing the background image data does not cause a refresh
+    this.canvasController.requestUpdate();
   }
 
-  if (pasteVarGlyph && this.sceneSettings.selectedGlyph.isEditing) {
-    const result = await runDialogWholeGlyphPaste();
+  async addBackgroundImageFromFileSystem() {
+    const file = await pickFile([".png", ".jpeg", ".jpg"]);
+    if (!file) {
+      // User cancelled
+      return;
+    }
+
+    await this._placeBackgroundImage(await readFileOrBlobAsDataURL(file));
+  }
+
+  async _pasteReplaceGlyph(varGlyph) {
+    await this.sceneController.editGlyphAndRecordChanges(
+      (glyph) => {
+        for (const [property, value] of Object.entries(varGlyph)) {
+          if (property !== "name") {
+            glyph[property] = value;
+          }
+        }
+        return "Paste";
+      },
+      undefined,
+      false
+    );
+  }
+
+  async _pasteLayerGlyphs(pasteLayerGlyphs) {
+    const defaultPasteGlyph = pasteLayerGlyphs[0].glyph;
+    const pasteLayerGlyphsByLayerName = Object.fromEntries(
+      pasteLayerGlyphs.map((layer) => [layer.layerName, layer.glyph])
+    );
+
+    const pasteLayerGlyphsByLocationString = Object.fromEntries(
+      pasteLayerGlyphs
+        .filter((layer) => layer.location)
+        .map((layer) => [locationToString(layer.location), layer.glyph])
+    );
+
+    const varGlyphController =
+      await this.sceneModel.getSelectedVariableGlyphController();
+    const locationStringsBySourceLayerName = Object.fromEntries(
+      varGlyphController.sources.map((source) => [
+        source.layerName,
+        locationToString(
+          makeSparseLocation(source.location, varGlyphController.combinedAxes)
+        ),
+      ])
+    );
+
+    await this.sceneController.editGlyphAndRecordChanges(
+      (glyph) => {
+        const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(
+          glyph.layers
+        );
+        const firstLayerGlyph = Object.values(editLayerGlyphs)[0];
+
+        const selection = new Set();
+        for (const pointIndex of range(defaultPasteGlyph.path.numPoints)) {
+          const pointType =
+            defaultPasteGlyph.path.pointTypes[pointIndex] &
+            VarPackedPath.POINT_TYPE_MASK;
+          if (pointType === VarPackedPath.ON_CURVE) {
+            selection.add(`point/${pointIndex + firstLayerGlyph.path.numPoints}`);
+          }
+        }
+        for (const componentIndex of range(
+          firstLayerGlyph.components.length,
+          firstLayerGlyph.components.length + defaultPasteGlyph.components.length
+        )) {
+          selection.add(`component/${componentIndex}`);
+        }
+
+        for (const anchorIndex of range(
+          firstLayerGlyph.anchors.length,
+          firstLayerGlyph.anchors.length + defaultPasteGlyph.anchors.length
+        )) {
+          selection.add(`anchor/${anchorIndex}`);
+        }
+
+        for (const guidelineIndex of range(
+          firstLayerGlyph.guidelines.length,
+          firstLayerGlyph.guidelines.length + defaultPasteGlyph.guidelines.length
+        )) {
+          selection.add(`guideline/${guidelineIndex}`);
+        }
+
+        for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
+          const pasteGlyph =
+            pasteLayerGlyphsByLayerName[layerName] ||
+            pasteLayerGlyphsByLocationString[
+            locationStringsBySourceLayerName[layerName]
+            ] ||
+            defaultPasteGlyph;
+          layerGlyph.path.appendPath(pasteGlyph.path);
+          layerGlyph.components.push(...pasteGlyph.components.map(copyComponent));
+          layerGlyph.anchors.push(...pasteGlyph.anchors);
+          layerGlyph.guidelines.push(...pasteGlyph.guidelines);
+          if (pasteGlyph.backgroundImage) {
+            layerGlyph.backgroundImage = pasteGlyph.backgroundImage;
+            if (!this.sceneSettings.backgroundImagesAreLocked) {
+              selection.add("backgroundImage/0");
+            }
+          }
+        }
+        this.sceneController.selection = selection;
+        return "Paste";
+      },
+      undefined,
+      true
+    );
+  }
+
+  getDeleteLabel() {
+    return translate(
+      this.sceneSettings.selectedGlyph
+        ? this.sceneSettings.selectedGlyph?.isEditing
+          ? "action.delete-selection"
+          : "action.delete-glyph"
+        : "action.delete"
+    );
+  }
+
+  canDelete() {
+    if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
+      return false;
+    }
+    return (
+      (this.sceneSettings.selectedGlyph &&
+        !this.sceneSettings.selectedGlyph.isEditing) ||
+      (this.sceneSettings.selectedGlyph?.isEditing &&
+        this.sceneController.selection.size > 0)
+    );
+  }
+
+  async doDelete(event) {
+    if (
+      this.sceneSettings.selectedGlyph &&
+      !this.sceneSettings.selectedGlyph.isEditing
+    ) {
+      await this._deleteCurrentGlyph(event);
+    } else {
+      await this._deleteSelection(event);
+    }
+  }
+
+  async _deleteCurrentGlyph(event) {
+    const glyphName = this.sceneSettings.selectedGlyphName;
+    const result = await dialog(
+      translate("dialog.delete-current-glyph.title", glyphName),
+      "",
+      [
+        { title: translate("dialog.cancel"), isCancelButton: true },
+        {
+          title: translate("action.delete-glyph"),
+          isDefaultButton: true,
+          resultValue: "ok",
+        },
+      ]
+    );
     if (!result) {
       return;
     }
-    if (result === PASTE_BEHAVIOR_ADD) {
-      // We will paste an entire variable glyph onto the existing layers.
-      // Build pasteLayerGlyphs from the glyph's sources.
-      const varGlyphController =
-        this.fontController.makeVariableGlyphController(pasteVarGlyph);
-      const combinedAxes = varGlyphController.combinedAxes;
-      pasteLayerGlyphs = pasteVarGlyph.sources.map((source) => {
-        return {
-          layerName: source.layerName,
-          location: makeSparseLocation(source.location, combinedAxes),
-          glyph: pasteVarGlyph.layers[source.layerName].glyph,
-        };
-      });
-      // Sort so the default source comes first, as it is used as a fallback
-      pasteLayerGlyphs.sort((a, b) =>
-        !isObjectEmpty(a.location) && isObjectEmpty(b.location) ? 1 : -1
-      );
-      pasteVarGlyph = null;
-    }
-  } else if (!pasteVarGlyph && !this.sceneSettings.selectedGlyph.isEditing) {
-    // We're pasting layers onto a glyph in select mode. Build a VariableGlyph
-    // from the layers as good as we can.
-    if (pasteLayerGlyphs.length === 1) {
-      pasteVarGlyph = this.fontController.makeVariableGlyphFromSingleStaticGlyph(
-        glyphName,
-        pasteLayerGlyphs[0].glyph
-      );
-    } else {
-      const layers = {};
-      const sources = [];
-      for (const { layerName, location, glyph } of pasteLayerGlyphs) {
-        if (layerName) {
-          layers[layerName] = { glyph };
-          sources.push({ name: layerName, layerName, location: location || {} });
-        }
-      }
-      pasteVarGlyph = VariableGlyph.fromObject({ layers, sources });
-    }
-    pasteLayerGlyphs = null;
+    this.fontController.deleteGlyph(glyphName);
   }
-
-  if (pasteVarGlyph) {
-    const {
-      glyphs: adjustedGlyphs,
-      backgroundImageData: adjustedBackgroundImageData,
-    } = this.fontController.adjustVariableGlyphsFromClipboard(
-      [pasteVarGlyph],
-      sourceLocations || {},
-      backgroundImageData
-    );
-
-    [pasteVarGlyph] = adjustedGlyphs;
-    backgroundImageData = adjustedBackgroundImageData;
-
-    if (positionedGlyph.isUndefined) {
-      await this.fontController.newGlyph(
-        glyphName,
-        positionedGlyph.character?.codePointAt(0),
-        pasteVarGlyph,
-        null,
-        `paste new glyph "${glyphName}"`
-      );
-    } else {
-      await this._pasteReplaceGlyph(pasteVarGlyph);
-    }
-    // Force even trigger for fontLocationSourceMapped, as the glyph's
-    // source list may have changed
-    this.sceneSettings.fontLocationSourceMapped = {
-      ...this.sceneSettings.fontLocationSourceMapped,
-    };
-    this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
-  } else {
-    const {
-      glyphs: adjustedGlyphs,
-      backgroundImageData: adjustedBackgroundImageData,
-    } = this.fontController.adjustStaticGlyphsFromClipboard(
-      pasteLayerGlyphs.map((layerInfo) => layerInfo.glyph),
-      backgroundImageData
-    );
-
-    for (const i of range(pasteLayerGlyphs.length)) {
-      pasteLayerGlyphs[i].glyph = adjustedGlyphs[i];
-    }
-    backgroundImageData = adjustedBackgroundImageData;
-
-    await this._pasteLayerGlyphs(pasteLayerGlyphs);
-  }
-
-  await this.fontController.writeBackgroundImages(backgroundImageData);
-}
-
-  async _unpackClipboard() {
-  const acceptableClipboardTypes = [
-    "web fontra/json-clipboard",
-    "web image/svg+xml",
-    "image/svg+xml",
-    "text/plain",
-  ];
-
-  const clipboardString = await readFromClipboard(acceptableClipboardTypes);
-
-  if (!clipboardString) {
-    return {};
-  }
-
-  let jsonString = clipboardString.startsWith("{") ? clipboardString : null;
-
-  if (
-    !jsonString &&
-    clipboardString === localStorage.getItem("clipboardSelection.text-plain")
-  ) {
-    jsonString = localStorage.getItem("clipboardSelection.fontra-json");
-  }
-
-  let pasteLayerGlyphs;
-  let pasteVarGlyph;
-  let sourceLocations;
-  let backgroundImageData;
-
-  if (jsonString) {
-    try {
-      const clipboardObject = JSON.parse(jsonString);
-      if (clipboardObject.type === "fontra-layer-glyphs") {
-        pasteLayerGlyphs = clipboardObject.data.layerGlyphs?.map((layer) => {
-          return {
-            layerName: layer.layerName,
-            location: layer.location,
-            glyph: StaticGlyph.fromObject(layer.glyph),
-          };
-        });
-        backgroundImageData = clipboardObject.data.backgroundImageData;
-      } else if (clipboardObject.type === "fontra-variable-glyph") {
-        pasteVarGlyph = VariableGlyph.fromObject(clipboardObject.data.variableGlyph);
-        sourceLocations = clipboardObject.data.sourceLocations;
-        backgroundImageData = clipboardObject.data.backgroundImageData;
-      } else if (clipboardObject.type === "fontra-glyph-array") {
-        pasteVarGlyph = VariableGlyph.fromObject(
-          clipboardObject.data.glyphs[0].variableGlyph
-        );
-        sourceLocations = clipboardObject.data.sourceLocations;
-        backgroundImageData = clipboardObject.data.backgroundImageData;
-      }
-    } catch (error) {
-      console.log("couldn't paste from JSON:", error.toString());
-    }
-  } else {
-    const glyph = await Backend.parseClipboard(clipboardString);
-    if (glyph) {
-      pasteLayerGlyphs = [{ glyph }];
-    }
-  }
-  return { pasteVarGlyph, pasteLayerGlyphs, sourceLocations, backgroundImageData };
-}
-
-  async _pasteClipboardImage() {
-  if (!this.canPlaceBackgroundImage()) {
-    return;
-  }
-
-  const imageBlob = await readFromClipboard(["image/png", "image/jpeg"], false);
-
-  if (!imageBlob) {
-    return;
-  }
-
-  await this._placeBackgroundImage(await readFileOrBlobAsDataURL(imageBlob));
-}
-
-  async _placeBackgroundImage(dataURL) {
-  // Ensure background images are visible and not locked
-  this.visualizationLayersSettings.model["fontra.background-image"] = true;
-  this.sceneSettings.backgroundImagesAreLocked = false;
-
-  const imageIdentifiers = [];
-
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      const imageIdentifier = crypto.randomUUID();
-      layerGlyph.backgroundImage = {
-        identifier: imageIdentifier,
-        transformation: getDecomposedIdentity(),
-        opacity: 1.0,
-      };
-      imageIdentifiers.push(imageIdentifier);
-    }
-    this.sceneController.selection = new Set(["backgroundImage/0"]);
-    return "place background image"; // TODO: translate
-  });
-
-  for (const imageIdentifier of imageIdentifiers) {
-    await this.fontController.putBackgroundImageData(imageIdentifier, dataURL);
-  }
-  // Writing the background image data does not cause a refresh
-  this.canvasController.requestUpdate();
-}
-
-  async addBackgroundImageFromFileSystem() {
-  const file = await pickFile([".png", ".jpeg", ".jpg"]);
-  if (!file) {
-    // User cancelled
-    return;
-  }
-
-  await this._placeBackgroundImage(await readFileOrBlobAsDataURL(file));
-}
-
-  async _pasteReplaceGlyph(varGlyph) {
-  await this.sceneController.editGlyphAndRecordChanges(
-    (glyph) => {
-      for (const [property, value] of Object.entries(varGlyph)) {
-        if (property !== "name") {
-          glyph[property] = value;
-        }
-      }
-      return "Paste";
-    },
-    undefined,
-    false
-  );
-}
-
-  async _pasteLayerGlyphs(pasteLayerGlyphs) {
-  const defaultPasteGlyph = pasteLayerGlyphs[0].glyph;
-  const pasteLayerGlyphsByLayerName = Object.fromEntries(
-    pasteLayerGlyphs.map((layer) => [layer.layerName, layer.glyph])
-  );
-
-  const pasteLayerGlyphsByLocationString = Object.fromEntries(
-    pasteLayerGlyphs
-      .filter((layer) => layer.location)
-      .map((layer) => [locationToString(layer.location), layer.glyph])
-  );
-
-  const varGlyphController =
-    await this.sceneModel.getSelectedVariableGlyphController();
-  const locationStringsBySourceLayerName = Object.fromEntries(
-    varGlyphController.sources.map((source) => [
-      source.layerName,
-      locationToString(
-        makeSparseLocation(source.location, varGlyphController.combinedAxes)
-      ),
-    ])
-  );
-
-  await this.sceneController.editGlyphAndRecordChanges(
-    (glyph) => {
-      const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(
-        glyph.layers
-      );
-      const firstLayerGlyph = Object.values(editLayerGlyphs)[0];
-
-      const selection = new Set();
-      for (const pointIndex of range(defaultPasteGlyph.path.numPoints)) {
-        const pointType =
-          defaultPasteGlyph.path.pointTypes[pointIndex] &
-          VarPackedPath.POINT_TYPE_MASK;
-        if (pointType === VarPackedPath.ON_CURVE) {
-          selection.add(`point/${pointIndex + firstLayerGlyph.path.numPoints}`);
-        }
-      }
-      for (const componentIndex of range(
-        firstLayerGlyph.components.length,
-        firstLayerGlyph.components.length + defaultPasteGlyph.components.length
-      )) {
-        selection.add(`component/${componentIndex}`);
-      }
-
-      for (const anchorIndex of range(
-        firstLayerGlyph.anchors.length,
-        firstLayerGlyph.anchors.length + defaultPasteGlyph.anchors.length
-      )) {
-        selection.add(`anchor/${anchorIndex}`);
-      }
-
-      for (const guidelineIndex of range(
-        firstLayerGlyph.guidelines.length,
-        firstLayerGlyph.guidelines.length + defaultPasteGlyph.guidelines.length
-      )) {
-        selection.add(`guideline/${guidelineIndex}`);
-      }
-
-      for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const pasteGlyph =
-          pasteLayerGlyphsByLayerName[layerName] ||
-          pasteLayerGlyphsByLocationString[
-          locationStringsBySourceLayerName[layerName]
-          ] ||
-          defaultPasteGlyph;
-        layerGlyph.path.appendPath(pasteGlyph.path);
-        layerGlyph.components.push(...pasteGlyph.components.map(copyComponent));
-        layerGlyph.anchors.push(...pasteGlyph.anchors);
-        layerGlyph.guidelines.push(...pasteGlyph.guidelines);
-        if (pasteGlyph.backgroundImage) {
-          layerGlyph.backgroundImage = pasteGlyph.backgroundImage;
-          if (!this.sceneSettings.backgroundImagesAreLocked) {
-            selection.add("backgroundImage/0");
-          }
-        }
-      }
-      this.sceneController.selection = selection;
-      return "Paste";
-    },
-    undefined,
-    true
-  );
-}
-
-getDeleteLabel() {
-  return translate(
-    this.sceneSettings.selectedGlyph
-      ? this.sceneSettings.selectedGlyph?.isEditing
-        ? "action.delete-selection"
-        : "action.delete-glyph"
-      : "action.delete"
-  );
-}
-
-canDelete() {
-  if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
-    return false;
-  }
-  return (
-    (this.sceneSettings.selectedGlyph &&
-      !this.sceneSettings.selectedGlyph.isEditing) ||
-    (this.sceneSettings.selectedGlyph?.isEditing &&
-      this.sceneController.selection.size > 0)
-  );
-}
-
-  async doDelete(event) {
-  if (
-    this.sceneSettings.selectedGlyph &&
-    !this.sceneSettings.selectedGlyph.isEditing
-  ) {
-    await this._deleteCurrentGlyph(event);
-  } else {
-    await this._deleteSelection(event);
-  }
-}
-
-  async _deleteCurrentGlyph(event) {
-  const glyphName = this.sceneSettings.selectedGlyphName;
-  const result = await dialog(
-    translate("dialog.delete-current-glyph.title", glyphName),
-    "",
-    [
-      { title: translate("dialog.cancel"), isCancelButton: true },
-      {
-        title: translate("action.delete-glyph"),
-        isDefaultButton: true,
-        resultValue: "ok",
-      },
-    ]
-  );
-  if (!result) {
-    return;
-  }
-  this.fontController.deleteGlyph(glyphName);
-}
 
   async _deleteSelection(event) {
-  const {
-    point: pointSelection,
-    component: componentSelection,
-    anchor: anchorSelection,
-    guideline: guidelineSelection,
-    backgroundImage: backgroundImageSelection,
-    //fontGuideline: fontGuidelineSelection,
-  } = parseSelection(this.sceneController.selection);
-  // TODO: Font Guidelines
-  // if (fontGuidelineSelection) {
-  //   for (const guidelineIndex of reversed(fontGuidelineSelection)) {
-  //     XXX
-  //   }
-  // }
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      if (event.altKey) {
-        // Behave like "cut", but don't put anything on the clipboard
-        this._prepareCopyOrCut(layerGlyph, true, false);
-      } else {
-        if (pointSelection) {
-          deleteSelectedPoints(layerGlyph.path, pointSelection);
-        }
-        if (componentSelection) {
-          for (const componentIndex of reversed(componentSelection)) {
-            layerGlyph.components.splice(componentIndex, 1);
+    const {
+      point: pointSelection,
+      component: componentSelection,
+      anchor: anchorSelection,
+      guideline: guidelineSelection,
+      backgroundImage: backgroundImageSelection,
+      //fontGuideline: fontGuidelineSelection,
+    } = parseSelection(this.sceneController.selection);
+    // TODO: Font Guidelines
+    // if (fontGuidelineSelection) {
+    //   for (const guidelineIndex of reversed(fontGuidelineSelection)) {
+    //     XXX
+    //   }
+    // }
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        if (event.altKey) {
+          // Behave like "cut", but don't put anything on the clipboard
+          this._prepareCopyOrCut(layerGlyph, true, false);
+        } else {
+          if (pointSelection) {
+            deleteSelectedPoints(layerGlyph.path, pointSelection);
           }
-        }
-        if (anchorSelection) {
-          for (const anchorIndex of reversed(anchorSelection)) {
-            layerGlyph.anchors.splice(anchorIndex, 1);
-          }
-        }
-        if (guidelineSelection) {
-          for (const guidelineIndex of reversed(guidelineSelection)) {
-            const guideline = layerGlyph.guidelines[guidelineIndex];
-            if (guideline.locked) {
-              // don't delete locked guidelines
-              continue;
+          if (componentSelection) {
+            for (const componentIndex of reversed(componentSelection)) {
+              layerGlyph.components.splice(componentIndex, 1);
             }
-            layerGlyph.guidelines.splice(guidelineIndex, 1);
           }
-        }
-        if (backgroundImageSelection) {
-          // TODO: don't delete if bg images are locked
-          // (even though we shouldn't be able to select them)
-          layerGlyph.backgroundImage = undefined;
+          if (anchorSelection) {
+            for (const anchorIndex of reversed(anchorSelection)) {
+              layerGlyph.anchors.splice(anchorIndex, 1);
+            }
+          }
+          if (guidelineSelection) {
+            for (const guidelineIndex of reversed(guidelineSelection)) {
+              const guideline = layerGlyph.guidelines[guidelineIndex];
+              if (guideline.locked) {
+                // don't delete locked guidelines
+                continue;
+              }
+              layerGlyph.guidelines.splice(guidelineIndex, 1);
+            }
+          }
+          if (backgroundImageSelection) {
+            // TODO: don't delete if bg images are locked
+            // (even though we shouldn't be able to select them)
+            layerGlyph.backgroundImage = undefined;
+          }
         }
       }
-    }
-    this.sceneController.selection = new Set();
-    return translate("action.delete-selection");
-  });
-}
+      this.sceneController.selection = new Set();
+      return translate("action.delete-selection");
+    });
+  }
 
   async doAddComponent() {
-  const glyphName = await this.runGlyphSearchDialog(
-    translate("action.add-component"),
-    translate("dialog.add")
-  );
-  if (!glyphName) {
-    return;
-  }
-
-  const baseGlyph = await this.fontController.getGlyph(glyphName);
-  const location = Object.fromEntries(
-    baseGlyph.glyph.axes.map((axis) => [axis.name, axis.defaultValue])
-  );
-  const newComponent = {
-    name: glyphName,
-    transformation: getDecomposedIdentity(),
-    location: location,
-  };
-
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      layerGlyph.components.push(copyComponent(newComponent));
+    const glyphName = await this.runGlyphSearchDialog(
+      translate("action.add-component"),
+      translate("dialog.add")
+    );
+    if (!glyphName) {
+      return;
     }
-    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
-    const newComponentIndex = instance.components.length - 1;
-    this.sceneController.selection = new Set([`component/${newComponentIndex}`]);
-    return translate("action.add-component");
-  });
-}
+
+    const baseGlyph = await this.fontController.getGlyph(glyphName);
+    const location = Object.fromEntries(
+      baseGlyph.glyph.axes.map((axis) => [axis.name, axis.defaultValue])
+    );
+    const newComponent = {
+      name: glyphName,
+      transformation: getDecomposedIdentity(),
+      location: location,
+    };
+
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        layerGlyph.components.push(copyComponent(newComponent));
+      }
+      const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+      const newComponentIndex = instance.components.length - 1;
+      this.sceneController.selection = new Set([`component/${newComponentIndex}`]);
+      return translate("action.add-component");
+    });
+  }
 
   async doAddAnchor() {
-  const point = this.sceneController.selectedGlyphPoint(this.contextMenuPosition);
-  const { anchor: tempAnchor } = await this.doAddEditAnchorDialog(undefined, point);
-  if (!tempAnchor) {
-    return;
-  }
-
-  const newAnchor = {
-    name: tempAnchor.name ? tempAnchor.name : "anchorName",
-    x: !isNaN(tempAnchor.x) ? tempAnchor.x : Math.round(point.x),
-    y: !isNaN(tempAnchor.y) ? tempAnchor.y : Math.round(point.y),
-  };
-  const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
-  const relativeScaleX = instance.xAdvance ? point.x / instance.xAdvance : null;
-
-  await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-    for (const layerGlyph of Object.values(layerGlyphs)) {
-      if (isNaN(tempAnchor.x) && relativeScaleX != null) {
-        newAnchor.x = Math.round(layerGlyph.xAdvance * relativeScaleX);
-      }
-      layerGlyph.anchors.push({ ...newAnchor });
+    const point = this.sceneController.selectedGlyphPoint(this.contextMenuPosition);
+    const { anchor: tempAnchor } = await this.doAddEditAnchorDialog(undefined, point);
+    if (!tempAnchor) {
+      return;
     }
-    const newAnchorIndex = instance.anchors.length - 1;
-    this.sceneController.selection = new Set([`anchor/${newAnchorIndex}`]);
-    return translate("action.add-anchor");
-  });
-}
+
+    const newAnchor = {
+      name: tempAnchor.name ? tempAnchor.name : "anchorName",
+      x: !isNaN(tempAnchor.x) ? tempAnchor.x : Math.round(point.x),
+      y: !isNaN(tempAnchor.y) ? tempAnchor.y : Math.round(point.y),
+    };
+    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+    const relativeScaleX = instance.xAdvance ? point.x / instance.xAdvance : null;
+
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        if (isNaN(tempAnchor.x) && relativeScaleX != null) {
+          newAnchor.x = Math.round(layerGlyph.xAdvance * relativeScaleX);
+        }
+        layerGlyph.anchors.push({ ...newAnchor });
+      }
+      const newAnchorIndex = instance.anchors.length - 1;
+      this.sceneController.selection = new Set([`anchor/${newAnchorIndex}`]);
+      return translate("action.add-anchor");
+    });
+  }
 
   async doAddEditAnchorDialog(anchor = undefined, point = undefined) {
-  const titleDialog = translate(anchor ? "action.edit-anchor" : "action.add-anchor");
-  const defaultButton = translate(anchor ? "dialog.edit" : "dialog.add");
-  if (!anchor && !point) {
-    // Need at least one of the two
-    return {};
-  }
-
-  const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
-
-  const validateInput = () => {
-    const warnings = [];
-    const editedAnchorName =
-      nameController.model.anchorName || nameController.model.suggestedAnchorName;
-    if (!editedAnchorName.length) {
-      warnings.push(`⚠️ ${translate("warning.name-must-not-be-empty")}`);
+    const titleDialog = translate(anchor ? "action.edit-anchor" : "action.add-anchor");
+    const defaultButton = translate(anchor ? "dialog.edit" : "dialog.add");
+    if (!anchor && !point) {
+      // Need at least one of the two
+      return {};
     }
-    if (
-      !(
-        nameController.model.anchorName ||
-        nameController.model.anchorX ||
-        nameController.model.anchorY
-      )
-    ) {
-      warnings.push("");
-    }
-    for (const n of ["X", "Y"]) {
-      const value = nameController.model[`anchor${n}`];
-      if (isNaN(value)) {
-        if (value !== undefined) {
-          warnings.push(`⚠️ ${translate("warning.must-be-number", n.toLowerCase())}`);
+
+    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+
+    const validateInput = () => {
+      const warnings = [];
+      const editedAnchorName =
+        nameController.model.anchorName || nameController.model.suggestedAnchorName;
+      if (!editedAnchorName.length) {
+        warnings.push(`⚠️ ${translate("warning.name-must-not-be-empty")}`);
+      }
+      if (
+        !(
+          nameController.model.anchorName ||
+          nameController.model.anchorX ||
+          nameController.model.anchorY
+        )
+      ) {
+        warnings.push("");
+      }
+      for (const n of ["X", "Y"]) {
+        const value = nameController.model[`anchor${n}`];
+        if (isNaN(value)) {
+          if (value !== undefined) {
+            warnings.push(`⚠️ ${translate("warning.must-be-number", n.toLowerCase())}`);
+          }
         }
       }
+      if (
+        editedAnchorName !== anchor?.name &&
+        instance.anchors.some((anchor) => anchor.name === editedAnchorName)
+      ) {
+        warnings.push(`⚠️ ${translate("warning.name-must-be-unique")}`);
+      }
+      warningElement.innerText = warnings.length ? warnings.join("\n") : "";
+      dialog.defaultButton.classList.toggle("disabled", warnings.length);
+    };
+
+    const anchorNameDefault = anchor ? anchor.name : "anchorName";
+    const nameController = new ObservableController({
+      anchorName: anchorNameDefault,
+      anchorX: undefined,
+      anchorY: undefined,
+      suggestedAnchorName: anchorNameDefault,
+      suggestedAnchorX: anchor ? anchor.x : Math.round(point.x),
+      suggestedAnchorY: anchor ? anchor.y : Math.round(point.y),
+    });
+
+    nameController.addKeyListener("anchorName", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("anchorX", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("anchorY", (event) => {
+      validateInput();
+    });
+
+    const disable =
+      nameController.model.anchorName ||
+        nameController.model.anchorX ||
+        nameController.model.anchorY
+        ? false
+        : true;
+    const { contentElement, warningElement } =
+      this._anchorPropertiesContentElement(nameController);
+
+    const dialog = await dialogSetup(titleDialog, null, [
+      { title: translate("dialog.cancel"), isCancelButton: true },
+      { title: defaultButton, isDefaultButton: true, disabled: disable },
+    ]);
+
+    dialog.setContent(contentElement);
+
+    setTimeout(() => {
+      const inputNameElement = contentElement.querySelector("#anchor-name-text-input");
+      inputNameElement.focus();
+      inputNameElement.select();
+    }, 0);
+
+    validateInput();
+
+    if (!(await dialog.run())) {
+      // User cancelled
+      return {};
     }
-    if (
-      editedAnchorName !== anchor?.name &&
-      instance.anchors.some((anchor) => anchor.name === editedAnchorName)
-    ) {
-      warnings.push(`⚠️ ${translate("warning.name-must-be-unique")}`);
-    }
-    warningElement.innerText = warnings.length ? warnings.join("\n") : "";
-    dialog.defaultButton.classList.toggle("disabled", warnings.length);
-  };
 
-  const anchorNameDefault = anchor ? anchor.name : "anchorName";
-  const nameController = new ObservableController({
-    anchorName: anchorNameDefault,
-    anchorX: undefined,
-    anchorY: undefined,
-    suggestedAnchorName: anchorNameDefault,
-    suggestedAnchorX: anchor ? anchor.x : Math.round(point.x),
-    suggestedAnchorY: anchor ? anchor.y : Math.round(point.y),
-  });
+    const newAnchor = {
+      name: nameController.model.anchorName,
+      x: Number(nameController.model.anchorX),
+      y: Number(nameController.model.anchorY),
+    };
 
-  nameController.addKeyListener("anchorName", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("anchorX", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("anchorY", (event) => {
-    validateInput();
-  });
-
-  const disable =
-    nameController.model.anchorName ||
-      nameController.model.anchorX ||
-      nameController.model.anchorY
-      ? false
-      : true;
-  const { contentElement, warningElement } =
-    this._anchorPropertiesContentElement(nameController);
-
-  const dialog = await dialogSetup(titleDialog, null, [
-    { title: translate("dialog.cancel"), isCancelButton: true },
-    { title: defaultButton, isDefaultButton: true, disabled: disable },
-  ]);
-
-  dialog.setContent(contentElement);
-
-  setTimeout(() => {
-    const inputNameElement = contentElement.querySelector("#anchor-name-text-input");
-    inputNameElement.focus();
-    inputNameElement.select();
-  }, 0);
-
-  validateInput();
-
-  if (!(await dialog.run())) {
-    // User cancelled
-    return {};
+    return { anchor: newAnchor };
   }
 
-  const newAnchor = {
-    name: nameController.model.anchorName,
-    x: Number(nameController.model.anchorX),
-    y: Number(nameController.model.anchorY),
-  };
-
-  return { anchor: newAnchor };
-}
-
-_anchorPropertiesContentElement(controller) {
-  const warningElement = html.div({
-    id: "warning-text-anchor-name",
-    style: `grid-column: 1 / -1; min-height: 1.5em;`,
-  });
-  const contentElement = html.div(
-    {
-      style: `overflow: hidden;
+  _anchorPropertiesContentElement(controller) {
+    const warningElement = html.div({
+      id: "warning-text-anchor-name",
+      style: `grid-column: 1 / -1; min-height: 1.5em;`,
+    });
+    const contentElement = html.div(
+      {
+        style: `overflow: hidden;
           white-space: nowrap;
           display: grid;
           gap: 0.5em;
@@ -2581,256 +2581,256 @@ _anchorPropertiesContentElement(controller) {
           height: 100%;
           min-height: 0;
         `,
-    },
-    [
-      ...labeledTextInput(translate("anchor.labels.name"), controller, "anchorName", {
-        placeholderKey: "suggestedAnchorName",
-        id: "anchor-name-text-input",
-      }),
-      ...labeledTextInput("x", controller, "anchorX", {
-        placeholderKey: "suggestedAnchorX",
-      }),
-      ...labeledTextInput("y", controller, "anchorY", {
-        placeholderKey: "suggestedAnchorY",
-      }),
-      html.br(),
-      warningElement,
-    ]
-  );
-  return { contentElement, warningElement };
-}
-
-selectionHasLockedGuidelines() {
-  const {
-    guideline: guidelineSelection,
-    //fontGuideline: fontGuidelineSelection,
-  } = parseSelection(this.sceneController.selection);
-
-  const instance = this.sceneModel.getSelectedPositionedGlyph()?.glyph.instance;
-  if (guidelineSelection?.some((index) => instance.guidelines[index]?.locked)) {
-    return true;
+      },
+      [
+        ...labeledTextInput(translate("anchor.labels.name"), controller, "anchorName", {
+          placeholderKey: "suggestedAnchorName",
+          id: "anchor-name-text-input",
+        }),
+        ...labeledTextInput("x", controller, "anchorX", {
+          placeholderKey: "suggestedAnchorX",
+        }),
+        ...labeledTextInput("y", controller, "anchorY", {
+          placeholderKey: "suggestedAnchorY",
+        }),
+        html.br(),
+        warningElement,
+      ]
+    );
+    return { contentElement, warningElement };
   }
 
-  // TODO: Font Guidelines
-  // check if any of the selected guidelines are locked
+  selectionHasLockedGuidelines() {
+    const {
+      guideline: guidelineSelection,
+      //fontGuideline: fontGuidelineSelection,
+    } = parseSelection(this.sceneController.selection);
 
-  return false;
-}
+    const instance = this.sceneModel.getSelectedPositionedGlyph()?.glyph.instance;
+    if (guidelineSelection?.some((index) => instance.guidelines[index]?.locked)) {
+      return true;
+    }
 
-getLockGuidelineLabel(hasLockedGuidelines) {
-  const {
-    guideline: guidelineSelection,
-    //fontGuideline: fontGuidelineSelection,
-  } = parseSelection(this.sceneController.selection);
-  const numGuidelines = guidelineSelection?.length || 0;
-  // + (fontGuidelineSelection?.length || 0);
+    // TODO: Font Guidelines
+    // check if any of the selected guidelines are locked
 
-  return translatePlural(
-    hasLockedGuidelines ? "action.unlock-guideline" : "action.lock-guideline",
-    numGuidelines
-  );
-}
-
-canLockGuideline() {
-  if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
     return false;
   }
-  const {
-    guideline: guidelineSelection,
-    //fontGuideline: fontGuidelineSelection,
-  } = parseSelection(this.sceneController.selection);
-  const numGuidelines = guidelineSelection?.length || 0;
-  // + (fontGuidelineSelection?.length || 0);
 
-  return numGuidelines;
-}
+  getLockGuidelineLabel(hasLockedGuidelines) {
+    const {
+      guideline: guidelineSelection,
+      //fontGuideline: fontGuidelineSelection,
+    } = parseSelection(this.sceneController.selection);
+    const numGuidelines = guidelineSelection?.length || 0;
+    // + (fontGuidelineSelection?.length || 0);
+
+    return translatePlural(
+      hasLockedGuidelines ? "action.unlock-guideline" : "action.lock-guideline",
+      numGuidelines
+    );
+  }
+
+  canLockGuideline() {
+    if (this.fontController.readOnly || this.sceneModel.isSelectedGlyphLocked()) {
+      return false;
+    }
+    const {
+      guideline: guidelineSelection,
+      //fontGuideline: fontGuidelineSelection,
+    } = parseSelection(this.sceneController.selection);
+    const numGuidelines = guidelineSelection?.length || 0;
+    // + (fontGuidelineSelection?.length || 0);
+
+    return numGuidelines;
+  }
 
   async doLockGuideline(locking = false) {
-  const {
-    guideline: guidelineSelection,
-    //fontGuideline: fontGuidelineSelection,
-  } = parseSelection(this.sceneController.selection);
+    const {
+      guideline: guidelineSelection,
+      //fontGuideline: fontGuidelineSelection,
+    } = parseSelection(this.sceneController.selection);
 
-  // Lock glyph guidelines
-  if (guidelineSelection) {
-    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-      for (const layerGlyph of Object.values(layerGlyphs)) {
-        for (const guidelineIndex of guidelineSelection) {
-          const guideline = layerGlyph.guidelines[guidelineIndex];
-          if (!guideline) {
-            continue;
+    // Lock glyph guidelines
+    if (guidelineSelection) {
+      await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+        for (const layerGlyph of Object.values(layerGlyphs)) {
+          for (const guidelineIndex of guidelineSelection) {
+            const guideline = layerGlyph.guidelines[guidelineIndex];
+            if (!guideline) {
+              continue;
+            }
+            guideline.locked = locking;
           }
-          guideline.locked = locking;
         }
-      }
-      return translatePlural(
-        locking ? "action.unlock-guideline" : "action.lock-guideline",
-        guidelineSelection.length
-      );
-    });
+        return translatePlural(
+          locking ? "action.unlock-guideline" : "action.lock-guideline",
+          guidelineSelection.length
+        );
+      });
+    }
+    // TODO: Font Guidelines locking
+    // Lock font guidelines
+    // if (fontGuidelineSelection) {
+    //   XXX
+    // }
   }
-  // TODO: Font Guidelines locking
-  // Lock font guidelines
-  // if (fontGuidelineSelection) {
-  //   XXX
-  // }
-}
 
   // TODO: We may want to make a more general code for adding and editing
   // so we can handle both anchors and guidelines with the same code
   // Guidelines
 
   async doAddGuideline(global = false) {
-  this.visualizationLayersSettings.model["fontra.guidelines"] = true;
-  const point = this.sceneController.selectedGlyphPoint(this.contextMenuPosition);
-  const { guideline: tempGuideline } = await this.doAddEditGuidelineDialog(
-    undefined,
-    point,
-    global
-  );
-  if (!tempGuideline) {
-    return;
-  }
+    this.visualizationLayersSettings.model["fontra.guidelines"] = true;
+    const point = this.sceneController.selectedGlyphPoint(this.contextMenuPosition);
+    const { guideline: tempGuideline } = await this.doAddEditGuidelineDialog(
+      undefined,
+      point,
+      global
+    );
+    if (!tempGuideline) {
+      return;
+    }
 
-  const newGuideline = {
-    x: !isNaN(tempGuideline.x) ? tempGuideline.x : Math.round(point.x),
-    y: !isNaN(tempGuideline.y) ? tempGuideline.y : Math.round(point.y),
-    angle: !isNaN(tempGuideline.angle) ? tempGuideline.angle : 0,
-    locked: tempGuideline.locked !== undefined ? tempGuideline.locked : false,
-  };
-  if (tempGuideline.name) {
-    newGuideline.name = tempGuideline.name;
-  }
+    const newGuideline = {
+      x: !isNaN(tempGuideline.x) ? tempGuideline.x : Math.round(point.x),
+      y: !isNaN(tempGuideline.y) ? tempGuideline.y : Math.round(point.y),
+      angle: !isNaN(tempGuideline.angle) ? tempGuideline.angle : 0,
+      locked: tempGuideline.locked !== undefined ? tempGuideline.locked : false,
+    };
+    if (tempGuideline.name) {
+      newGuideline.name = tempGuideline.name;
+    }
 
-  if (!global) {
-    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
-    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-      for (const layerGlyph of Object.values(layerGlyphs)) {
-        layerGlyph.guidelines.push({ ...newGuideline });
-      }
-      const newGuidelineIndex = instance.guidelines.length - 1;
-      this.sceneController.selection = new Set([`guideline/${newGuidelineIndex}`]);
-      return translate("action.add-guideline");
-    });
+    if (!global) {
+      const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+      await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+        for (const layerGlyph of Object.values(layerGlyphs)) {
+          layerGlyph.guidelines.push({ ...newGuideline });
+        }
+        const newGuidelineIndex = instance.guidelines.length - 1;
+        this.sceneController.selection = new Set([`guideline/${newGuidelineIndex}`]);
+        return translate("action.add-guideline");
+      });
+    }
+    // TODO: Font Guidelines
   }
-  // TODO: Font Guidelines
-}
 
   async doAddEditGuidelineDialog(
-  guideline = undefined,
-  point = undefined,
-  global = false
-) {
-  const titleDialog = translate(
-    guideline ? "action.edit-guideline" : "action.add-guideline"
-  );
-  const defaultButton = translate(guideline ? "dialog.edit" : "dialog.add");
-  if (!guideline && !point) {
-    // Need at least one of the two
-    return {};
-  }
+    guideline = undefined,
+    point = undefined,
+    global = false
+  ) {
+    const titleDialog = translate(
+      guideline ? "action.edit-guideline" : "action.add-guideline"
+    );
+    const defaultButton = translate(guideline ? "dialog.edit" : "dialog.add");
+    if (!guideline && !point) {
+      // Need at least one of the two
+      return {};
+    }
 
-  const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
 
-  const validateInput = () => {
-    const warnings = [];
-    const editedGuidelineName =
-      nameController.model.guidelineName ||
-      nameController.model.suggestedGuidelineName;
-    for (const n of ["X", "Y", "Angle"]) {
-      const value = nameController.model[`guideline${n}`];
-      if (isNaN(value)) {
-        if (value !== undefined) {
-          warnings.push(`⚠️ ${translate("warning.must-be-number", n.toLowerCase())}`);
+    const validateInput = () => {
+      const warnings = [];
+      const editedGuidelineName =
+        nameController.model.guidelineName ||
+        nameController.model.suggestedGuidelineName;
+      for (const n of ["X", "Y", "Angle"]) {
+        const value = nameController.model[`guideline${n}`];
+        if (isNaN(value)) {
+          if (value !== undefined) {
+            warnings.push(`⚠️ ${translate("warning.must-be-number", n.toLowerCase())}`);
+          }
         }
       }
+      if (
+        editedGuidelineName &&
+        editedGuidelineName !== guideline?.name &&
+        instance.guidelines.some(
+          (guideline) => guideline.name === editedGuidelineName.trim()
+        )
+      ) {
+        warnings.push(`⚠️ ${translate("warning.name-must-be-unique")}`);
+      }
+      warningElement.innerText = warnings.length ? warnings.join("\n") : "";
+      dialog.defaultButton.classList.toggle("disabled", warnings.length);
+    };
+
+    const nameController = new ObservableController({
+      guidelineName: guideline ? guideline.name : undefined,
+      guidelineX: guideline ? guideline.x : Math.round(point.x),
+      guidelineY: guideline ? guideline.y : Math.round(point.y),
+      guidelineAngle: guideline ? guideline.angle : 0,
+      guidelineLocked: guideline ? guideline.locked : false,
+    });
+
+    nameController.addKeyListener("guidelineName", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("guidelineX", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("guidelineY", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("guidelineAngle", (event) => {
+      validateInput();
+    });
+    nameController.addKeyListener("guidelineLocked", (event) => {
+      validateInput();
+    });
+
+    const disable =
+      nameController.model.guidelineName ||
+        nameController.model.guidelineX ||
+        nameController.model.guidelineY ||
+        nameController.model.guidelineAngle
+        ? false
+        : true;
+    const { contentElement, warningElement } =
+      this._guidelinePropertiesContentElement(nameController);
+    const dialog = await dialogSetup(titleDialog, null, [
+      { title: translate("dialog.cancel"), isCancelButton: true },
+      { title: defaultButton, isDefaultButton: true, disabled: disable },
+    ]);
+
+    dialog.setContent(contentElement);
+
+    setTimeout(
+      () => contentElement.querySelector("#guideline-name-text-input")?.focus(),
+      0
+    );
+
+    validateInput();
+
+    if (!(await dialog.run())) {
+      // User cancelled
+      return {};
     }
-    if (
-      editedGuidelineName &&
-      editedGuidelineName !== guideline?.name &&
-      instance.guidelines.some(
-        (guideline) => guideline.name === editedGuidelineName.trim()
-      )
-    ) {
-      warnings.push(`⚠️ ${translate("warning.name-must-be-unique")}`);
-    }
-    warningElement.innerText = warnings.length ? warnings.join("\n") : "";
-    dialog.defaultButton.classList.toggle("disabled", warnings.length);
-  };
 
-  const nameController = new ObservableController({
-    guidelineName: guideline ? guideline.name : undefined,
-    guidelineX: guideline ? guideline.x : Math.round(point.x),
-    guidelineY: guideline ? guideline.y : Math.round(point.y),
-    guidelineAngle: guideline ? guideline.angle : 0,
-    guidelineLocked: guideline ? guideline.locked : false,
-  });
+    const newGuideline = {
+      name: nameController.model.guidelineName
+        ? nameController.model.guidelineName.trim()
+        : undefined,
+      x: Number(nameController.model.guidelineX),
+      y: Number(nameController.model.guidelineY),
+      angle: Number(nameController.model.guidelineAngle),
+      locked: nameController.model.guidelineLocked,
+    };
 
-  nameController.addKeyListener("guidelineName", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("guidelineX", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("guidelineY", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("guidelineAngle", (event) => {
-    validateInput();
-  });
-  nameController.addKeyListener("guidelineLocked", (event) => {
-    validateInput();
-  });
-
-  const disable =
-    nameController.model.guidelineName ||
-      nameController.model.guidelineX ||
-      nameController.model.guidelineY ||
-      nameController.model.guidelineAngle
-      ? false
-      : true;
-  const { contentElement, warningElement } =
-    this._guidelinePropertiesContentElement(nameController);
-  const dialog = await dialogSetup(titleDialog, null, [
-    { title: translate("dialog.cancel"), isCancelButton: true },
-    { title: defaultButton, isDefaultButton: true, disabled: disable },
-  ]);
-
-  dialog.setContent(contentElement);
-
-  setTimeout(
-    () => contentElement.querySelector("#guideline-name-text-input")?.focus(),
-    0
-  );
-
-  validateInput();
-
-  if (!(await dialog.run())) {
-    // User cancelled
-    return {};
+    return { guideline: newGuideline };
   }
 
-  const newGuideline = {
-    name: nameController.model.guidelineName
-      ? nameController.model.guidelineName.trim()
-      : undefined,
-    x: Number(nameController.model.guidelineX),
-    y: Number(nameController.model.guidelineY),
-    angle: Number(nameController.model.guidelineAngle),
-    locked: nameController.model.guidelineLocked,
-  };
-
-  return { guideline: newGuideline };
-}
-
-_guidelinePropertiesContentElement(controller) {
-  const warningElement = html.div({
-    id: "warning-text-guideline-name",
-    style: `grid-column: 1 / -1; min-height: 1.5em;`,
-  });
-  const contentElement = html.div(
-    {
-      style: `overflow: hidden;
+  _guidelinePropertiesContentElement(controller) {
+    const warningElement = html.div({
+      id: "warning-text-guideline-name",
+      style: `grid-column: 1 / -1; min-height: 1.5em;`,
+    });
+    const contentElement = html.div(
+      {
+        style: `overflow: hidden;
           white-space: nowrap;
           display: grid;
           gap: 0.5em;
@@ -2839,877 +2839,877 @@ _guidelinePropertiesContentElement(controller) {
           height: 100%;
           min-height: 0;
         `,
-    },
-    [
-      ...labeledTextInput(
-        translate("guideline.labels.name"),
-        controller,
-        "guidelineName",
-        {
-          id: "guideline-name-text-input",
-        }
-      ),
-      ...labeledTextInput("x", controller, "guidelineX", {}),
-      ...labeledTextInput("y", controller, "guidelineY", {}),
-      ...labeledTextInput(
-        translate("guideline.labels.angle"),
-        controller,
-        "guidelineAngle",
-        {}
-      ),
-      html.div(),
-      labeledCheckbox(
-        translate("guideline.labels.locked"),
-        controller,
-        "guidelineLocked",
-        {}
-      ),
-      html.br(),
-      warningElement,
-    ]
-  );
-  return { contentElement, warningElement };
-}
+      },
+      [
+        ...labeledTextInput(
+          translate("guideline.labels.name"),
+          controller,
+          "guidelineName",
+          {
+            id: "guideline-name-text-input",
+          }
+        ),
+        ...labeledTextInput("x", controller, "guidelineX", {}),
+        ...labeledTextInput("y", controller, "guidelineY", {}),
+        ...labeledTextInput(
+          translate("guideline.labels.angle"),
+          controller,
+          "guidelineAngle",
+          {}
+        ),
+        html.div(),
+        labeledCheckbox(
+          translate("guideline.labels.locked"),
+          controller,
+          "guidelineLocked",
+          {}
+        ),
+        html.br(),
+        warningElement,
+      ]
+    );
+    return { contentElement, warningElement };
+  }
 
   async doAddGuidelineBetweenPoints(global = false) {
-  // this function can only be called when exactly 2 points are selected
+    // this function can only be called when exactly 2 points are selected
 
-  this.visualizationLayersSettings.model["fontra.guidelines"] = true;
-  const {
-    point: pointSelection,
-    anchor: anchorSelection,
-    guideline: guidelineSelection,
-  } = parseSelection(this.sceneController.selection);
+    this.visualizationLayersSettings.model["fontra.guidelines"] = true;
+    const {
+      point: pointSelection,
+      anchor: anchorSelection,
+      guideline: guidelineSelection,
+    } = parseSelection(this.sceneController.selection);
 
-  const glyph = this.sceneModel.getSelectedPositionedGlyph().glyph;
+    const glyph = this.sceneModel.getSelectedPositionedGlyph().glyph;
 
-  const points = [];
+    const points = [];
 
-  points.push(...(pointSelection?.map((index) => glyph.path.getPoint(index)) || []));
-  points.push(...(anchorSelection?.map((index) => glyph.anchors[index]) || []));
-  points.push(...(guidelineSelection?.map((index) => glyph.guidelines[index]) || []));
+    points.push(...(pointSelection?.map((index) => glyph.path.getPoint(index)) || []));
+    points.push(...(anchorSelection?.map((index) => glyph.anchors[index]) || []));
+    points.push(...(guidelineSelection?.map((index) => glyph.guidelines[index]) || []));
 
-  const [pointA, pointB] = points;
-  if (!pointA || !pointB) {
-    return;
-  }
-
-  const delta = subVectors(pointB, pointA);
-
-  const angle = ((Math.atan2(delta.y, delta.x) * 180) / Math.PI + 360) % 360;
-
-  const newGuideline = {
-    x: pointA.x,
-    y: pointA.y,
-    angle: angle,
-    locked: false,
-  };
-
-  if (!global) {
-    const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
-    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
-      for (const layerGlyph of Object.values(layerGlyphs)) {
-        layerGlyph.guidelines.push({ ...newGuideline });
-      }
-      const newGuidelineIndex = instance.guidelines.length - 1;
-      this.sceneController.selection = new Set([`guideline/${newGuidelineIndex}`]);
-      return translate("action.add-guideline");
-    });
-  }
-}
-
-doSelectAllNone(selectNone) {
-  const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
-
-  if (!positionedGlyph || !this.sceneSettings.selectedGlyph?.isEditing) {
-    return;
-  }
-
-  if (selectNone) {
-    this.sceneController.selection = new Set();
-    return;
-  }
-
-  let {
-    point: pointIndices,
-    component: componentIndices,
-    anchor: anchorIndices,
-    guideline: guidelineIndices,
-    //fontGuideline: fontGuidelineIndices,
-  } = parseSelection(this.sceneController.selection);
-  pointIndices = pointIndices || [];
-  componentIndices = componentIndices || [];
-  anchorIndices = anchorIndices || [];
-  guidelineIndices = guidelineIndices || [];
-  //fontGuidelineIndices = fontGuidelineIndices || [];
-
-  let selectObjects = false;
-  let selectAnchors = false;
-  let selectGuidelines = false;
-
-  const instance = positionedGlyph.glyph.instance;
-  const hasObjects =
-    instance.components.length > 0 || instance.path.pointTypes.length > 0;
-  const hasAnchors = instance.anchors.length > 0;
-  const hasGuidelines = instance.guidelines.length > 0;
-
-  const glyphPath = positionedGlyph.glyph.path;
-  let onCurvePoints = [];
-  for (const [pointIndex, pointType] of enumerate(glyphPath.pointTypes)) {
-    if ((pointType & VarPackedPath.POINT_TYPE_MASK) === VarPackedPath.ON_CURVE) {
-      onCurvePoints.push(pointIndex);
-    }
-  }
-
-  const allOnCurvePointsSelected = isSuperset(new Set(pointIndices), onCurvePoints);
-  if (
-    (!allOnCurvePointsSelected ||
-      componentIndices.length < instance.components.length) &&
-    !anchorIndices.length &&
-    !guidelineIndices.length
-    //&& !fontGuidelineIndices.length
-  ) {
-    if (hasObjects) {
-      selectObjects = true;
-    } else if (hasAnchors) {
-      selectAnchors = true;
-    } else if (hasGuidelines) {
-      selectGuidelines = true;
-    }
-  }
-
-  if (
-    allOnCurvePointsSelected &&
-    componentIndices.length == instance.components.length &&
-    !anchorIndices.length &&
-    !guidelineIndices.length
-    //&& !fontGuidelineIndices.length
-  ) {
-    if (hasAnchors) {
-      selectObjects = true;
-      selectAnchors = true;
-    } else if (hasGuidelines) {
-      selectGuidelines = true;
-    }
-  }
-
-  if (
-    (pointIndices.length || componentIndices.length) &&
-    anchorIndices.length &&
-    !guidelineIndices.length
-    //&& !fontGuidelineIndices.length
-  ) {
-    if (hasAnchors) {
-      selectAnchors = true;
-    }
-  }
-
-  if (
-    !pointIndices.length &&
-    !componentIndices.length &&
-    anchorIndices.length &&
-    !guidelineIndices.length
-    //&& !fontGuidelineIndices.length
-  ) {
-    if (hasGuidelines) {
-      selectGuidelines = true;
-    }
-  }
-
-  let newSelection = new Set();
-
-  if (selectObjects) {
-    for (const pointIndex of onCurvePoints) {
-      newSelection.add(`point/${pointIndex}`);
-    }
-    for (const componentIndex of range(positionedGlyph.glyph.components.length)) {
-      newSelection.add(`component/${componentIndex}`);
-    }
-    if (
-      !this.sceneSettings.backgroundImagesAreLocked &&
-      this.visualizationLayersSettings.model["fontra.background-image"]
-    ) {
-      for (const backgroundImageIndex of positionedGlyph.glyph.backgroundImage
-        ? [0]
-        : []) {
-        newSelection.add(`backgroundImage/${backgroundImageIndex}`);
-      }
-    }
-  }
-
-  if (selectAnchors) {
-    for (const anchorIndex of range(positionedGlyph.glyph.anchors.length)) {
-      newSelection.add(`anchor/${anchorIndex}`);
-    }
-  }
-
-  if (
-    selectGuidelines &&
-    this.visualizationLayersSettings.model["fontra.guidelines"]
-  ) {
-    for (const guidelineIndex of range(positionedGlyph.glyph.guidelines.length)) {
-      const guideline = positionedGlyph.glyph.guidelines[guidelineIndex];
-      if (!guideline.locked) {
-        newSelection.add(`guideline/${guidelineIndex}`);
-      }
-    }
-    // TODO: Font Guidelines selection
-  }
-  this.sceneController.selection = newSelection;
-}
-
-doSelectPreviousNextSource(selectPrevious) {
-  const panel = this.getSidebarPanel("designspace-navigation");
-  panel?.doSelectPreviousNextSource(selectPrevious);
-}
-
-doSelectPreviousNextSourceLayer(selectPrevious) {
-  const panel = this.getSidebarPanel("designspace-navigation");
-  panel?.doSelectPreviousNextSourceLayer(selectPrevious);
-}
-
-  async doSelectPreviousNextGlyph(selectPrevious) {
-  const panel = this.getSidebarPanel("glyph-search");
-  const glyphNames = panel.glyphSearch.getFilteredGlyphNames();
-  if (!glyphNames.length) {
-    return;
-  }
-
-  let newGlyphName;
-  const selectedGlyphName = panel.glyphSearch.getSelectedGlyphName();
-  if (selectedGlyphName) {
-    const index = glyphNames.indexOf(selectedGlyphName);
-    const newIndex =
-      index == -1
-        ? selectPrevious
-          ? glyphNames.length - 1
-          : 0
-        : modulo(index + (selectPrevious ? -1 : 1), glyphNames.length);
-    newGlyphName = glyphNames[newIndex];
-  } else {
-    newGlyphName = selectPrevious ? glyphNames.at(-1) : glyphNames[0];
-  }
-
-  panel.glyphSearch.setSelectedGlyphName(newGlyphName, true);
-}
-
-  async doFindGlyphsThatUseGlyph() {
-  const glyphName = this.sceneSettings.selectedGlyphName;
-
-  const usedBy = await loaderSpinner(
-    this.fontController.findGlyphsThatUseGlyph(glyphName)
-  );
-
-  if (!usedBy.length) {
-    await message(
-      `Glyph '${glyphName}' is not used as a component by any glyph.`,
-      null
-    );
-    return;
-  }
-
-  usedBy.sort();
-
-  const glyphMap = Object.fromEntries(
-    usedBy.map((glyphName) => [glyphName, this.fontController.glyphMap[glyphName]])
-  );
-
-  const glyphSearch = document.createElement("glyph-search-list");
-  glyphSearch.glyphMap = glyphMap;
-
-  glyphSearch.addEventListener("selectedGlyphNameDoubleClicked", (event) => {
-    theDialog.defaultButton.click();
-  });
-
-  const theDialog = await dialogSetup(
-    translate("dialog.find-glyphs-that-use.title", glyphName),
-    null,
-    [
-      { title: translate("dialog.cancel"), isCancelButton: true },
-      {
-        title: translate("dialog.find-glyphs-that-use.button.copy-names"),
-        resultValue: "copy",
-      },
-      {
-        title: translate("dialog.find-glyphs-that-use.button.add-to-text"),
-        isDefaultButton: true,
-        resultValue: "add",
-      },
-    ]
-  );
-
-  theDialog.setContent(glyphSearch);
-
-  setTimeout(() => glyphSearch.focusSearchField(), 0); // next event loop iteration
-
-  switch (await theDialog.run()) {
-    case "copy": {
-      const glyphNamesString = chunks(usedBy, 16)
-        .map((chunked) => chunked.map((glyphName) => "/" + glyphName).join(""))
-        .join("\n");
-      const clipboardObject = {
-        "text/plain": glyphNamesString,
-      };
-      await writeToClipboard(clipboardObject);
-      break;
-    }
-    case "add": {
-      const glyphName = glyphSearch.getSelectedGlyphName();
-      const MAX_NUM_GLYPHS = 100;
-      const truncate = !glyphName && usedBy.length > MAX_NUM_GLYPHS;
-      const glyphNames = glyphName
-        ? [glyphName]
-        : truncate
-          ? usedBy.slice(0, MAX_NUM_GLYPHS)
-          : usedBy;
-
-      const glyphInfos = glyphNames.map((glyphName) =>
-        this.fontController.glyphInfoFromGlyphName(glyphName)
-      );
-      const selectedGlyphInfo = this.sceneSettings.selectedGlyph;
-      const characterLines = [...this.sceneSettings.characterLines];
-      characterLines[selectedGlyphInfo.lineIndex].splice(
-        selectedGlyphInfo.glyphIndex + 1,
-        0,
-        ...glyphInfos
-      );
-      this.sceneSettings.characterLines = characterLines;
-      if (truncate) {
-        await message(
-          `The number of added glyphs was truncated to ${MAX_NUM_GLYPHS}`,
-          null
-        );
-      }
-      break;
-    }
-  }
-}
-
-  async runGlyphSearchDialog(
-  titleLabel = translate("dialog.glyphs.search"),
-  okLabel = translate("dialog.add")
-) {
-  const glyphSearch = document.createElement("glyph-search-list");
-  glyphSearch.glyphMap = this.fontController.glyphMap;
-
-  glyphSearch.addEventListener("selectedGlyphNameChanged", (event) => {
-    dialog.defaultButton.classList.toggle(
-      "disabled",
-      !glyphSearch.getSelectedGlyphName()
-    );
-  });
-
-  glyphSearch.addEventListener("selectedGlyphNameDoubleClicked", (event) => {
-    dialog.defaultButton.click();
-  });
-
-  const dialog = await dialogSetup(titleLabel, null, [
-    { title: translate("dialog.cancel"), isCancelButton: true },
-    { title: okLabel, isDefaultButton: true, resultValue: "ok", disabled: true },
-  ]);
-
-  dialog.setContent(glyphSearch);
-
-  setTimeout(() => glyphSearch.focusSearchField(), 0); // next event loop iteration
-
-  if (!(await dialog.run())) {
-    // User cancelled
-    return;
-  }
-
-  const glyphName = glyphSearch.getSelectedGlyphName();
-  if (!glyphName) {
-    // Invalid selection
-    return;
-  }
-
-  return glyphName;
-}
-
-  async doCanvasInsertGlyph(titleLabel, okLabel, where) {
-  const glyphName = await this.runGlyphSearchDialog(titleLabel, okLabel);
-  if (!glyphName) {
-    return;
-  }
-  const glyphInfo = this.fontController.glyphInfoFromGlyphName(glyphName);
-  this.insertGlyphInfos([glyphInfo], where, true);
-}
-
-keyUpHandler(event) {
-  if (
-    this._matchingKeyUpHandler &&
-    // At least on macOS, in Chrome and Safari, if _while the space key is
-    // pressed_ we additionally press the command key ("Meta"), we will never
-    // receive a keyup event for the space key. So let's also respond to any
-    // keyup for the Meta key.
-    // Oddly, event.metaKey is false at keyup, so we check event.key instead.
-    (this._matchingKeyUpHandler.code == event.code || event.key == "Meta")
-  ) {
-    this._matchingKeyUpHandler.callback(event);
-    delete this._matchingKeyUpHandler;
-  }
-}
-
-enterCleanViewAndHandTool(event) {
-  this.canvasController.sceneView = this.cleanSceneView;
-  this.canvasController.requestUpdate();
-  for (const overlay of document.querySelectorAll(".cleanable-overlay")) {
-    overlay.classList.add("overlay-layer-hidden");
-  }
-  this.savedSelectedToolIdentifier = this.selectedToolIdentifier;
-  this.setSelectedTool("hand-tool");
-  this._matchingKeyUpHandler = {
-    code: event.code,
-    callback: () => this.leaveCleanViewAndHandTool(),
-  };
-}
-
-leaveCleanViewAndHandTool() {
-  this.canvasController.sceneView = this.defaultSceneView;
-  this.canvasController.requestUpdate();
-  for (const overlay of document.querySelectorAll(".cleanable-overlay")) {
-    overlay.classList.remove("overlay-layer-hidden");
-  }
-  this.setSelectedTool(this.savedSelectedToolIdentifier);
-  delete this.savedSelectedToolIdentifier;
-}
-
-buildContextMenuItems(event) {
-  const menuItems = [
-    { title: translate("menubar.edit"), getItems: () => this.basicContextMenuItems },
-  ];
-  if (this.sceneSettings.selectedGlyph?.isEditing) {
-    this.sceneController.updateContextMenuState(event);
-    menuItems.push(MenuItemDivider);
-    menuItems.push(...this.glyphEditContextMenuItems);
-  }
-  if (this.sceneSettings.selectedGlyph) {
-    menuItems.push(MenuItemDivider);
-    menuItems.push(...this.glyphSelectedContextMenuItems);
-  }
-
-  const selectedTool = this.tools[this.selectedToolIdentifier];
-  if (selectedTool) {
-    menuItems.push(...selectedTool.getContextMenuItems());
-  }
-
-  return menuItems;
-}
-
-contextMenuHandler(event) {
-  event.preventDefault();
-
-  const { x, y } = event;
-  this.contextMenuPosition = { x: x, y: y };
-  showMenu(this.buildContextMenuItems(event), { x: x + 1, y: y - 1 });
-}
-
-  async externalChange(change, isLiveChange) {
-  await super.externalChange(change, isLiveChange);
-
-  // Force event trigger for fontLocationSourceMapped, as the glyph's
-  // source list may have changed
-  this.sceneSettings.fontLocationSourceMapped = {
-    ...this.sceneSettings.fontLocationSourceMapped,
-  };
-  this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
-  await this.sceneModel.updateScene();
-  this.canvasController.requestUpdate();
-}
-
-  async reloadEverything() {
-  await super.reloadEverything();
-  await this.sceneModel.updateScene();
-  this.canvasController.requestUpdate();
-}
-
-  async reloadGlyphs(glyphNames) {
-  if (glyphNames.includes(this.sceneSettings.selectedGlyphName)) {
-    // If the glyph being edited is among the glyphs to be reloaded,
-    // cancel the edit, but wait for the cancellation to be completed,
-    // or else the reload and edit can get mixed up and the glyph data
-    // will be out of sync.
-    await this.sceneController.cancelEditing(translate("message.cancel-editing"));
-  }
-  await super.reloadGlyphs(glyphNames);
-  await this.sceneModel.updateScene();
-  this.canvasController.requestUpdate();
-}
-
-  async setupFromWindowLocation() {
-  this.sceneSettingsController.withSenderInfo({ senderID: this }, () =>
-    this._setupFromWindowLocation()
-  );
-}
-
-  async _setupFromWindowLocation() {
-  let viewInfo;
-  const url = new URL(window.location);
-  if (url.hash) {
-    viewInfo = loadURLFragment(url.hash);
-    if (!viewInfo) {
-      viewInfo = {};
-      message("The URL is malformed", "The UI settings could not be restored."); // TODO: translation
-    }
-  } else {
-    // Legacy URL format
-    viewInfo = {};
-    for (const key of url.searchParams.keys()) {
-      if (key == "project") {
-        continue;
-      }
-      try {
-        viewInfo[key] = JSON.parse(url.searchParams.get(key));
-      } catch (e) {
-        console.log("failed to parse legacy url format", e.toString());
-      }
-    }
-  }
-  this.sceneSettings.align = viewInfo["align"] || "center";
-  this.sceneSettings.featureSettings = viewInfo["featureSettings"] ?? {};
-  this.sceneSettings.applyTextShaping =
-    viewInfo["applyTextShaping"] === false ? false : true;
-  for (const key of ["textDirection", "textScript", "textLanguage"]) {
-    this.sceneSettings[key] = viewInfo[key] ?? null;
-  }
-
-  if (viewInfo["viewBox"]) {
-    this.sceneController.autoViewBox = false;
-    const viewBox = viewInfo["viewBox"];
-    if (viewBox.every((value) => !isNaN(value))) {
-      this.sceneSettings.viewBox = rectFromArray(viewBox);
-    }
-  }
-
-  if (viewInfo["text"]) {
-    this.sceneSettings.text = viewInfo["text"];
-    // characterLines is computed from text asynchronously, but its result is needed
-    // to for selectedGlyphName, so we'll wait until it's done
-    await this.sceneSettingsController.waitForKeyChange("characterLines");
-  }
-  this._previousURLText = viewInfo["text"];
-
-  this.sceneModel.setGlyphLocations(viewInfo["glyphLocations"]);
-
-  if (viewInfo["fontAxesUseSourceCoordinates"]) {
-    this.sceneSettings.fontAxesUseSourceCoordinates = true;
-  }
-  if (viewInfo["fontAxesShowEffectiveLocation"]) {
-    this.sceneSettings.fontAxesShowEffectiveLocation = true;
-  }
-  if (viewInfo["fontAxesShowHidden"]) {
-    this.sceneSettings.fontAxesShowHidden = true;
-  }
-  if (viewInfo["fontAxesSkipMapping"]) {
-    this.sceneSettings.fontAxesSkipMapping = true;
-  }
-
-  if (viewInfo["location"]) {
-    this.sceneSettings.fontLocationUser = viewInfo["location"];
-  }
-
-  this.sceneSettings.selectedGlyph = viewInfo["selectedGlyph"];
-  this.sceneSettings.substituteGlyphName = viewInfo["substituteGlyphName"];
-
-  if (viewInfo["editLayerName"]) {
-    this.sceneSettings.editLayerName = viewInfo["editLayerName"];
-  }
-  if (viewInfo["editingLayers"]) {
-    this.sceneSettings.editingLayers = viewInfo["editingLayers"];
-  }
-
-  if (viewInfo["selection"]) {
-    await this.sceneSettingsController.waitForKeyChange("positionedLines");
-    this.sceneSettings.selection = new Set(viewInfo["selection"]);
-  }
-
-  if (
-    this.sceneController.autoViewBox &&
-    this.sceneSettings.selectedGlyph?.isEditing
-  ) {
-    // This is a bit of a hack: if isEditing is true, the autoViewBox
-    // doesn't work. Also, autoViewBox *needs* to be off in edit mode,
-    // or the canvas behaves really weirdly (it resizes as you drag points)
-    // We can't call .zoomFit() right away as the scene isn't done setting
-    // up. We add a temporary listener to do .zoomFit() once the scene is
-    // there.
-    const delayedZoomFit = () => {
-      this.sceneSettingsController.removeKeyListener(
-        "positionedLines",
-        delayedZoomFit
-      );
-      this.zoomFit(false);
-    };
-    this.sceneSettingsController.addKeyListener("positionedLines", delayedZoomFit);
-  }
-
-  this.canvasController.requestUpdate();
-  this._didFirstSetup = true;
-}
-
-_updateWindowLocation() {
-  if (!this._didFirstSetup) {
-    // We shall not change the window location ever before we've done
-    // an initial setup _from_ the window location
-    return;
-  }
-  const viewInfo = {};
-  const viewBox = this.sceneSettings.viewBox;
-
-  if (viewBox && Object.values(viewBox).every((value) => !isNaN(value))) {
-    viewInfo["viewBox"] = rectToArray(rectRound(viewBox));
-  }
-  if (this.sceneSettings.text?.length) {
-    viewInfo["text"] = this.sceneSettings.text;
-  }
-  if (this.sceneSettings.selectedGlyph) {
-    viewInfo["selectedGlyph"] = this.sceneSettings.selectedGlyph;
-  }
-  if (this.sceneSettings.substituteGlyphName) {
-    viewInfo["substituteGlyphName"] = this.sceneSettings.substituteGlyphName;
-  }
-
-  viewInfo["location"] = this.sceneSettings.fontLocationUser;
-  if (this.sceneSettings.fontAxesUseSourceCoordinates) {
-    viewInfo["fontAxesUseSourceCoordinates"] = true;
-  }
-  if (this.sceneSettings.fontAxesShowEffectiveLocation) {
-    viewInfo["fontAxesShowEffectiveLocation"] = true;
-  }
-  if (this.sceneSettings.fontAxesShowHidden) {
-    viewInfo["fontAxesShowHidden"] = true;
-  }
-  if (this.sceneSettings.fontAxesSkipMapping) {
-    viewInfo["fontAxesSkipMapping"] = true;
-  }
-
-  if (this.sceneSettings.editLayerName) {
-    viewInfo["editLayerName"] = this.sceneSettings.editLayerName;
-  }
-  if (
-    this.sceneSettings.editingLayers &&
-    Object.keys(this.sceneSettings.editingLayers).length
-  ) {
-    viewInfo["editingLayers"] = this.sceneSettings.editingLayers;
-  }
-
-  const glyphLocations = this.sceneController.getGlyphLocations(true);
-  if (Object.keys(glyphLocations).length) {
-    viewInfo["glyphLocations"] = glyphLocations;
-  }
-  const selArray = Array.from(this.sceneController.selection);
-  if (selArray.length) {
-    viewInfo["selection"] = Array.from(selArray);
-  }
-  if (this.sceneSettings.align !== "center") {
-    viewInfo["align"] = this.sceneSettings.align;
-  }
-  if (!isObjectEmpty(this.sceneSettings.featureSettings)) {
-    viewInfo["featureSettings"] = this.sceneSettings.featureSettings;
-  }
-  if (!this.sceneSettings.applyTextShaping) {
-    viewInfo["applyTextShaping"] = this.sceneSettings.applyTextShaping;
-  }
-  for (const key of ["textDirection", "textScript", "textLanguage"]) {
-    if (this.sceneSettings[key]) {
-      viewInfo[key] = this.sceneSettings[key];
-    }
-  }
-
-  const url = new URL(window.location);
-  clearSearchParams(url.searchParams); /* clear legacy URL format */
-  writeObjectToURLFragment(viewInfo, this._previousURLText === viewInfo["text"]);
-  this._previousURLText = viewInfo["text"];
-}
-
-  async editListenerCallback(editMethodName, senderID, ...args) {
-  if (editMethodName === "editFinal") {
-    this.sceneController.updateHoverState();
-  }
-}
-
-zoomIn() {
-  this._zoom(1 / Math.sqrt(2));
-}
-
-zoomOut() {
-  this._zoom(Math.sqrt(2));
-}
-
-_zoom(factor) {
-  let viewBox = this.sceneSettings.viewBox;
-  const selBox = this.sceneController.getSelectionBounds();
-  const center = rectCenter(selBox || viewBox);
-  viewBox = rectScaleAroundCenter(viewBox, factor, center);
-
-  const adjustFactor =
-    this.canvasController.getProposedViewBoxClampAdjustment(viewBox);
-  if (adjustFactor !== 1) {
-    // The viewBox is too large or too small
-    if (Math.abs(adjustFactor * factor - 1) < 0.00000001) {
-      // Already at min/max magnification
+    const [pointA, pointB] = points;
+    if (!pointA || !pointB) {
       return;
     }
-    viewBox = rectScaleAroundCenter(viewBox, adjustFactor, center);
+
+    const delta = subVectors(pointB, pointA);
+
+    const angle = ((Math.atan2(delta.y, delta.x) * 180) / Math.PI + 360) % 360;
+
+    const newGuideline = {
+      x: pointA.x,
+      y: pointA.y,
+      angle: angle,
+      locked: false,
+    };
+
+    if (!global) {
+      const instance = this.sceneModel.getSelectedPositionedGlyph().glyph.instance;
+      await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+        for (const layerGlyph of Object.values(layerGlyphs)) {
+          layerGlyph.guidelines.push({ ...newGuideline });
+        }
+        const newGuidelineIndex = instance.guidelines.length - 1;
+        this.sceneController.selection = new Set([`guideline/${newGuidelineIndex}`]);
+        return translate("action.add-guideline");
+      });
+    }
   }
 
-  this.animateToViewBox(viewBox);
-  this.sceneController.autoViewBox = false;
-}
+  doSelectAllNone(selectNone) {
+    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
 
-zoomFit(animate = true) {
-  let viewBox = this.sceneController.getSelectionBounds();
-  if (viewBox) {
-    let size = rectSize(viewBox);
-    if (size.width < 4 && size.height < 4) {
-      const center = rectCenter(viewBox);
-      viewBox = centeredRect(center.x, center.y, 10, 10);
+    if (!positionedGlyph || !this.sceneSettings.selectedGlyph?.isEditing) {
+      return;
+    }
+
+    if (selectNone) {
+      this.sceneController.selection = new Set();
+      return;
+    }
+
+    let {
+      point: pointIndices,
+      component: componentIndices,
+      anchor: anchorIndices,
+      guideline: guidelineIndices,
+      //fontGuideline: fontGuidelineIndices,
+    } = parseSelection(this.sceneController.selection);
+    pointIndices = pointIndices || [];
+    componentIndices = componentIndices || [];
+    anchorIndices = anchorIndices || [];
+    guidelineIndices = guidelineIndices || [];
+    //fontGuidelineIndices = fontGuidelineIndices || [];
+
+    let selectObjects = false;
+    let selectAnchors = false;
+    let selectGuidelines = false;
+
+    const instance = positionedGlyph.glyph.instance;
+    const hasObjects =
+      instance.components.length > 0 || instance.path.pointTypes.length > 0;
+    const hasAnchors = instance.anchors.length > 0;
+    const hasGuidelines = instance.guidelines.length > 0;
+
+    const glyphPath = positionedGlyph.glyph.path;
+    let onCurvePoints = [];
+    for (const [pointIndex, pointType] of enumerate(glyphPath.pointTypes)) {
+      if ((pointType & VarPackedPath.POINT_TYPE_MASK) === VarPackedPath.ON_CURVE) {
+        onCurvePoints.push(pointIndex);
+      }
+    }
+
+    const allOnCurvePointsSelected = isSuperset(new Set(pointIndices), onCurvePoints);
+    if (
+      (!allOnCurvePointsSelected ||
+        componentIndices.length < instance.components.length) &&
+      !anchorIndices.length &&
+      !guidelineIndices.length
+      //&& !fontGuidelineIndices.length
+    ) {
+      if (hasObjects) {
+        selectObjects = true;
+      } else if (hasAnchors) {
+        selectAnchors = true;
+      } else if (hasGuidelines) {
+        selectGuidelines = true;
+      }
+    }
+
+    if (
+      allOnCurvePointsSelected &&
+      componentIndices.length == instance.components.length &&
+      !anchorIndices.length &&
+      !guidelineIndices.length
+      //&& !fontGuidelineIndices.length
+    ) {
+      if (hasAnchors) {
+        selectObjects = true;
+        selectAnchors = true;
+      } else if (hasGuidelines) {
+        selectGuidelines = true;
+      }
+    }
+
+    if (
+      (pointIndices.length || componentIndices.length) &&
+      anchorIndices.length &&
+      !guidelineIndices.length
+      //&& !fontGuidelineIndices.length
+    ) {
+      if (hasAnchors) {
+        selectAnchors = true;
+      }
+    }
+
+    if (
+      !pointIndices.length &&
+      !componentIndices.length &&
+      anchorIndices.length &&
+      !guidelineIndices.length
+      //&& !fontGuidelineIndices.length
+    ) {
+      if (hasGuidelines) {
+        selectGuidelines = true;
+      }
+    }
+
+    let newSelection = new Set();
+
+    if (selectObjects) {
+      for (const pointIndex of onCurvePoints) {
+        newSelection.add(`point/${pointIndex}`);
+      }
+      for (const componentIndex of range(positionedGlyph.glyph.components.length)) {
+        newSelection.add(`component/${componentIndex}`);
+      }
+      if (
+        !this.sceneSettings.backgroundImagesAreLocked &&
+        this.visualizationLayersSettings.model["fontra.background-image"]
+      ) {
+        for (const backgroundImageIndex of positionedGlyph.glyph.backgroundImage
+          ? [0]
+          : []) {
+          newSelection.add(`backgroundImage/${backgroundImageIndex}`);
+        }
+      }
+    }
+
+    if (selectAnchors) {
+      for (const anchorIndex of range(positionedGlyph.glyph.anchors.length)) {
+        newSelection.add(`anchor/${anchorIndex}`);
+      }
+    }
+
+    if (
+      selectGuidelines &&
+      this.visualizationLayersSettings.model["fontra.guidelines"]
+    ) {
+      for (const guidelineIndex of range(positionedGlyph.glyph.guidelines.length)) {
+        const guideline = positionedGlyph.glyph.guidelines[guidelineIndex];
+        if (!guideline.locked) {
+          newSelection.add(`guideline/${guidelineIndex}`);
+        }
+      }
+      // TODO: Font Guidelines selection
+    }
+    this.sceneController.selection = newSelection;
+  }
+
+  doSelectPreviousNextSource(selectPrevious) {
+    const panel = this.getSidebarPanel("designspace-navigation");
+    panel?.doSelectPreviousNextSource(selectPrevious);
+  }
+
+  doSelectPreviousNextSourceLayer(selectPrevious) {
+    const panel = this.getSidebarPanel("designspace-navigation");
+    panel?.doSelectPreviousNextSourceLayer(selectPrevious);
+  }
+
+  async doSelectPreviousNextGlyph(selectPrevious) {
+    const panel = this.getSidebarPanel("glyph-search");
+    const glyphNames = panel.glyphSearch.getFilteredGlyphNames();
+    if (!glyphNames.length) {
+      return;
+    }
+
+    let newGlyphName;
+    const selectedGlyphName = panel.glyphSearch.getSelectedGlyphName();
+    if (selectedGlyphName) {
+      const index = glyphNames.indexOf(selectedGlyphName);
+      const newIndex =
+        index == -1
+          ? selectPrevious
+            ? glyphNames.length - 1
+            : 0
+          : modulo(index + (selectPrevious ? -1 : 1), glyphNames.length);
+      newGlyphName = glyphNames[newIndex];
     } else {
-      viewBox = rectAddMargin(viewBox, 0.1);
+      newGlyphName = selectPrevious ? glyphNames.at(-1) : glyphNames[0];
     }
-    if (animate) {
-      this.animateToViewBox(viewBox);
-    } else {
-      this.sceneSettings.viewBox = viewBox;
-    }
-  }
-  this.sceneController.autoViewBox = false;
-}
 
-toggleFullscreen() {
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  } else {
-    const element = document.documentElement;
-    element.requestFullscreen();
+    panel.glyphSearch.setSelectedGlyphName(newGlyphName, true);
   }
-}
 
-updateFullscreenButton() {
-  // hide button in case fullscreen is not enabled on device
-  const fullscreenButtonEl = document.querySelector(
-    ".tool-button[data-tool='toggle-fullscreen']"
-  );
-  if (!document.fullscreenEnabled) {
-    fullscreenButtonEl.style.display = "none";
-    return;
-  }
-  // fullscreen is enabled, show the right icon depending on the fullscreen state
-  const fullscreenEnterIconEl = fullscreenButtonEl.querySelector(
-    ".tool-icon--fullscreen-enter"
-  );
-  const fullscreenExitIconEl = fullscreenButtonEl.querySelector(
-    ".tool-icon--fullscreen-exit"
-  );
-  if (document.fullscreenElement) {
-    // fullscreen state is on, display exit-fullscreen button icon
-    fullscreenEnterIconEl.classList.add("tool-icon--hidden");
-    fullscreenExitIconEl.classList.remove("tool-icon--hidden");
-  } else {
-    // fullscreen state is off, display enter-fullscreen button icon
-    fullscreenEnterIconEl.classList.remove("tool-icon--hidden");
-    fullscreenExitIconEl.classList.add("tool-icon--hidden");
-  }
-}
+  async doFindGlyphsThatUseGlyph() {
+    const glyphName = this.sceneSettings.selectedGlyphName;
 
-animateToViewBox(viewBox) {
-  const startViewBox = this.sceneSettings.viewBox;
-  const deltaViewBox = subItemwise(viewBox, startViewBox);
-  let start;
-  const duration = 200;
-
-  const animate = (timestamp) => {
-    if (start === undefined) {
-      start = timestamp;
-    }
-    let t = (timestamp - start) / duration;
-    if (t > 1.0) {
-      t = 1.0;
-    }
-    const animatingViewBox = addItemwise(
-      startViewBox,
-      mulScalar(deltaViewBox, easeOutQuad(t))
+    const usedBy = await loaderSpinner(
+      this.fontController.findGlyphsThatUseGlyph(glyphName)
     );
-    if (t < 1.0) {
-      this.sceneSettings.viewBox = animatingViewBox;
-      requestAnimationFrame(animate);
-    } else {
-      this.sceneSettings.viewBox = viewBox;
+
+    if (!usedBy.length) {
+      await message(
+        `Glyph '${glyphName}' is not used as a component by any glyph.`,
+        null
+      );
+      return;
     }
-  };
-  requestAnimationFrame(animate);
-}
 
-canPlaceBackgroundImage() {
-  return (
-    this.fontController.backendInfo.features["background-image"] &&
-    this.canEditGlyph()
-  );
-}
+    usedBy.sort();
 
-canEditGlyph() {
-  const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
-  return !!(
-    positionedGlyph &&
-    !this.fontController.readOnly &&
-    !this.sceneModel.isSelectedGlyphLocked() &&
-    positionedGlyph.glyph.canEdit
-  );
-}
+    const glyphMap = Object.fromEntries(
+      usedBy.map((glyphName) => [glyphName, this.fontController.glyphMap[glyphName]])
+    );
 
-// Drop files onto canvas
+    const glyphSearch = document.createElement("glyph-search-list");
+    glyphSearch.glyphMap = glyphMap;
 
-_onDragEnter(event) {
-  event.preventDefault();
-  if (!this.canPlaceBackgroundImage()) {
-    return;
+    glyphSearch.addEventListener("selectedGlyphNameDoubleClicked", (event) => {
+      theDialog.defaultButton.click();
+    });
+
+    const theDialog = await dialogSetup(
+      translate("dialog.find-glyphs-that-use.title", glyphName),
+      null,
+      [
+        { title: translate("dialog.cancel"), isCancelButton: true },
+        {
+          title: translate("dialog.find-glyphs-that-use.button.copy-names"),
+          resultValue: "copy",
+        },
+        {
+          title: translate("dialog.find-glyphs-that-use.button.add-to-text"),
+          isDefaultButton: true,
+          resultValue: "add",
+        },
+      ]
+    );
+
+    theDialog.setContent(glyphSearch);
+
+    setTimeout(() => glyphSearch.focusSearchField(), 0); // next event loop iteration
+
+    switch (await theDialog.run()) {
+      case "copy": {
+        const glyphNamesString = chunks(usedBy, 16)
+          .map((chunked) => chunked.map((glyphName) => "/" + glyphName).join(""))
+          .join("\n");
+        const clipboardObject = {
+          "text/plain": glyphNamesString,
+        };
+        await writeToClipboard(clipboardObject);
+        break;
+      }
+      case "add": {
+        const glyphName = glyphSearch.getSelectedGlyphName();
+        const MAX_NUM_GLYPHS = 100;
+        const truncate = !glyphName && usedBy.length > MAX_NUM_GLYPHS;
+        const glyphNames = glyphName
+          ? [glyphName]
+          : truncate
+            ? usedBy.slice(0, MAX_NUM_GLYPHS)
+            : usedBy;
+
+        const glyphInfos = glyphNames.map((glyphName) =>
+          this.fontController.glyphInfoFromGlyphName(glyphName)
+        );
+        const selectedGlyphInfo = this.sceneSettings.selectedGlyph;
+        const characterLines = [...this.sceneSettings.characterLines];
+        characterLines[selectedGlyphInfo.lineIndex].splice(
+          selectedGlyphInfo.glyphIndex + 1,
+          0,
+          ...glyphInfos
+        );
+        this.sceneSettings.characterLines = characterLines;
+        if (truncate) {
+          await message(
+            `The number of added glyphs was truncated to ${MAX_NUM_GLYPHS}`,
+            null
+          );
+        }
+        break;
+      }
+    }
   }
-  this.canvasController.canvas.classList.add("dropping-files");
-}
 
-_onDragOver(event) {
-  event.preventDefault();
-  if (!this.canPlaceBackgroundImage()) {
-    return;
-  }
-  this.canvasController.canvas.classList.add("dropping-files");
-}
+  async runGlyphSearchDialog(
+    titleLabel = translate("dialog.glyphs.search"),
+    okLabel = translate("dialog.add")
+  ) {
+    const glyphSearch = document.createElement("glyph-search-list");
+    glyphSearch.glyphMap = this.fontController.glyphMap;
 
-_onDragLeave(event) {
-  event.preventDefault();
-  if (!this.canPlaceBackgroundImage()) {
-    return;
+    glyphSearch.addEventListener("selectedGlyphNameChanged", (event) => {
+      dialog.defaultButton.classList.toggle(
+        "disabled",
+        !glyphSearch.getSelectedGlyphName()
+      );
+    });
+
+    glyphSearch.addEventListener("selectedGlyphNameDoubleClicked", (event) => {
+      dialog.defaultButton.click();
+    });
+
+    const dialog = await dialogSetup(titleLabel, null, [
+      { title: translate("dialog.cancel"), isCancelButton: true },
+      { title: okLabel, isDefaultButton: true, resultValue: "ok", disabled: true },
+    ]);
+
+    dialog.setContent(glyphSearch);
+
+    setTimeout(() => glyphSearch.focusSearchField(), 0); // next event loop iteration
+
+    if (!(await dialog.run())) {
+      // User cancelled
+      return;
+    }
+
+    const glyphName = glyphSearch.getSelectedGlyphName();
+    if (!glyphName) {
+      // Invalid selection
+      return;
+    }
+
+    return glyphName;
   }
-  this.canvasController.canvas.classList.remove("dropping-files");
-}
+
+  async doCanvasInsertGlyph(titleLabel, okLabel, where) {
+    const glyphName = await this.runGlyphSearchDialog(titleLabel, okLabel);
+    if (!glyphName) {
+      return;
+    }
+    const glyphInfo = this.fontController.glyphInfoFromGlyphName(glyphName);
+    this.insertGlyphInfos([glyphInfo], where, true);
+  }
+
+  keyUpHandler(event) {
+    if (
+      this._matchingKeyUpHandler &&
+      // At least on macOS, in Chrome and Safari, if _while the space key is
+      // pressed_ we additionally press the command key ("Meta"), we will never
+      // receive a keyup event for the space key. So let's also respond to any
+      // keyup for the Meta key.
+      // Oddly, event.metaKey is false at keyup, so we check event.key instead.
+      (this._matchingKeyUpHandler.code == event.code || event.key == "Meta")
+    ) {
+      this._matchingKeyUpHandler.callback(event);
+      delete this._matchingKeyUpHandler;
+    }
+  }
+
+  enterCleanViewAndHandTool(event) {
+    this.canvasController.sceneView = this.cleanSceneView;
+    this.canvasController.requestUpdate();
+    for (const overlay of document.querySelectorAll(".cleanable-overlay")) {
+      overlay.classList.add("overlay-layer-hidden");
+    }
+    this.savedSelectedToolIdentifier = this.selectedToolIdentifier;
+    this.setSelectedTool("hand-tool");
+    this._matchingKeyUpHandler = {
+      code: event.code,
+      callback: () => this.leaveCleanViewAndHandTool(),
+    };
+  }
+
+  leaveCleanViewAndHandTool() {
+    this.canvasController.sceneView = this.defaultSceneView;
+    this.canvasController.requestUpdate();
+    for (const overlay of document.querySelectorAll(".cleanable-overlay")) {
+      overlay.classList.remove("overlay-layer-hidden");
+    }
+    this.setSelectedTool(this.savedSelectedToolIdentifier);
+    delete this.savedSelectedToolIdentifier;
+  }
+
+  buildContextMenuItems(event) {
+    const menuItems = [
+      { title: translate("menubar.edit"), getItems: () => this.basicContextMenuItems },
+    ];
+    if (this.sceneSettings.selectedGlyph?.isEditing) {
+      this.sceneController.updateContextMenuState(event);
+      menuItems.push(MenuItemDivider);
+      menuItems.push(...this.glyphEditContextMenuItems);
+    }
+    if (this.sceneSettings.selectedGlyph) {
+      menuItems.push(MenuItemDivider);
+      menuItems.push(...this.glyphSelectedContextMenuItems);
+    }
+
+    const selectedTool = this.tools[this.selectedToolIdentifier];
+    if (selectedTool) {
+      menuItems.push(...selectedTool.getContextMenuItems());
+    }
+
+    return menuItems;
+  }
+
+  contextMenuHandler(event) {
+    event.preventDefault();
+
+    const { x, y } = event;
+    this.contextMenuPosition = { x: x, y: y };
+    showMenu(this.buildContextMenuItems(event), { x: x + 1, y: y - 1 });
+  }
+
+  async externalChange(change, isLiveChange) {
+    await super.externalChange(change, isLiveChange);
+
+    // Force event trigger for fontLocationSourceMapped, as the glyph's
+    // source list may have changed
+    this.sceneSettings.fontLocationSourceMapped = {
+      ...this.sceneSettings.fontLocationSourceMapped,
+    };
+    this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
+    await this.sceneModel.updateScene();
+    this.canvasController.requestUpdate();
+  }
+
+  async reloadEverything() {
+    await super.reloadEverything();
+    await this.sceneModel.updateScene();
+    this.canvasController.requestUpdate();
+  }
+
+  async reloadGlyphs(glyphNames) {
+    if (glyphNames.includes(this.sceneSettings.selectedGlyphName)) {
+      // If the glyph being edited is among the glyphs to be reloaded,
+      // cancel the edit, but wait for the cancellation to be completed,
+      // or else the reload and edit can get mixed up and the glyph data
+      // will be out of sync.
+      await this.sceneController.cancelEditing(translate("message.cancel-editing"));
+    }
+    await super.reloadGlyphs(glyphNames);
+    await this.sceneModel.updateScene();
+    this.canvasController.requestUpdate();
+  }
+
+  async setupFromWindowLocation() {
+    this.sceneSettingsController.withSenderInfo({ senderID: this }, () =>
+      this._setupFromWindowLocation()
+    );
+  }
+
+  async _setupFromWindowLocation() {
+    let viewInfo;
+    const url = new URL(window.location);
+    if (url.hash) {
+      viewInfo = loadURLFragment(url.hash);
+      if (!viewInfo) {
+        viewInfo = {};
+        message("The URL is malformed", "The UI settings could not be restored."); // TODO: translation
+      }
+    } else {
+      // Legacy URL format
+      viewInfo = {};
+      for (const key of url.searchParams.keys()) {
+        if (key == "project") {
+          continue;
+        }
+        try {
+          viewInfo[key] = JSON.parse(url.searchParams.get(key));
+        } catch (e) {
+          console.log("failed to parse legacy url format", e.toString());
+        }
+      }
+    }
+    this.sceneSettings.align = viewInfo["align"] || "center";
+    this.sceneSettings.featureSettings = viewInfo["featureSettings"] ?? {};
+    this.sceneSettings.applyTextShaping =
+      viewInfo["applyTextShaping"] === false ? false : true;
+    for (const key of ["textDirection", "textScript", "textLanguage"]) {
+      this.sceneSettings[key] = viewInfo[key] ?? null;
+    }
+
+    if (viewInfo["viewBox"]) {
+      this.sceneController.autoViewBox = false;
+      const viewBox = viewInfo["viewBox"];
+      if (viewBox.every((value) => !isNaN(value))) {
+        this.sceneSettings.viewBox = rectFromArray(viewBox);
+      }
+    }
+
+    if (viewInfo["text"]) {
+      this.sceneSettings.text = viewInfo["text"];
+      // characterLines is computed from text asynchronously, but its result is needed
+      // to for selectedGlyphName, so we'll wait until it's done
+      await this.sceneSettingsController.waitForKeyChange("characterLines");
+    }
+    this._previousURLText = viewInfo["text"];
+
+    this.sceneModel.setGlyphLocations(viewInfo["glyphLocations"]);
+
+    if (viewInfo["fontAxesUseSourceCoordinates"]) {
+      this.sceneSettings.fontAxesUseSourceCoordinates = true;
+    }
+    if (viewInfo["fontAxesShowEffectiveLocation"]) {
+      this.sceneSettings.fontAxesShowEffectiveLocation = true;
+    }
+    if (viewInfo["fontAxesShowHidden"]) {
+      this.sceneSettings.fontAxesShowHidden = true;
+    }
+    if (viewInfo["fontAxesSkipMapping"]) {
+      this.sceneSettings.fontAxesSkipMapping = true;
+    }
+
+    if (viewInfo["location"]) {
+      this.sceneSettings.fontLocationUser = viewInfo["location"];
+    }
+
+    this.sceneSettings.selectedGlyph = viewInfo["selectedGlyph"];
+    this.sceneSettings.substituteGlyphName = viewInfo["substituteGlyphName"];
+
+    if (viewInfo["editLayerName"]) {
+      this.sceneSettings.editLayerName = viewInfo["editLayerName"];
+    }
+    if (viewInfo["editingLayers"]) {
+      this.sceneSettings.editingLayers = viewInfo["editingLayers"];
+    }
+
+    if (viewInfo["selection"]) {
+      await this.sceneSettingsController.waitForKeyChange("positionedLines");
+      this.sceneSettings.selection = new Set(viewInfo["selection"]);
+    }
+
+    if (
+      this.sceneController.autoViewBox &&
+      this.sceneSettings.selectedGlyph?.isEditing
+    ) {
+      // This is a bit of a hack: if isEditing is true, the autoViewBox
+      // doesn't work. Also, autoViewBox *needs* to be off in edit mode,
+      // or the canvas behaves really weirdly (it resizes as you drag points)
+      // We can't call .zoomFit() right away as the scene isn't done setting
+      // up. We add a temporary listener to do .zoomFit() once the scene is
+      // there.
+      const delayedZoomFit = () => {
+        this.sceneSettingsController.removeKeyListener(
+          "positionedLines",
+          delayedZoomFit
+        );
+        this.zoomFit(false);
+      };
+      this.sceneSettingsController.addKeyListener("positionedLines", delayedZoomFit);
+    }
+
+    this.canvasController.requestUpdate();
+    this._didFirstSetup = true;
+  }
+
+  _updateWindowLocation() {
+    if (!this._didFirstSetup) {
+      // We shall not change the window location ever before we've done
+      // an initial setup _from_ the window location
+      return;
+    }
+    const viewInfo = {};
+    const viewBox = this.sceneSettings.viewBox;
+
+    if (viewBox && Object.values(viewBox).every((value) => !isNaN(value))) {
+      viewInfo["viewBox"] = rectToArray(rectRound(viewBox));
+    }
+    if (this.sceneSettings.text?.length) {
+      viewInfo["text"] = this.sceneSettings.text;
+    }
+    if (this.sceneSettings.selectedGlyph) {
+      viewInfo["selectedGlyph"] = this.sceneSettings.selectedGlyph;
+    }
+    if (this.sceneSettings.substituteGlyphName) {
+      viewInfo["substituteGlyphName"] = this.sceneSettings.substituteGlyphName;
+    }
+
+    viewInfo["location"] = this.sceneSettings.fontLocationUser;
+    if (this.sceneSettings.fontAxesUseSourceCoordinates) {
+      viewInfo["fontAxesUseSourceCoordinates"] = true;
+    }
+    if (this.sceneSettings.fontAxesShowEffectiveLocation) {
+      viewInfo["fontAxesShowEffectiveLocation"] = true;
+    }
+    if (this.sceneSettings.fontAxesShowHidden) {
+      viewInfo["fontAxesShowHidden"] = true;
+    }
+    if (this.sceneSettings.fontAxesSkipMapping) {
+      viewInfo["fontAxesSkipMapping"] = true;
+    }
+
+    if (this.sceneSettings.editLayerName) {
+      viewInfo["editLayerName"] = this.sceneSettings.editLayerName;
+    }
+    if (
+      this.sceneSettings.editingLayers &&
+      Object.keys(this.sceneSettings.editingLayers).length
+    ) {
+      viewInfo["editingLayers"] = this.sceneSettings.editingLayers;
+    }
+
+    const glyphLocations = this.sceneController.getGlyphLocations(true);
+    if (Object.keys(glyphLocations).length) {
+      viewInfo["glyphLocations"] = glyphLocations;
+    }
+    const selArray = Array.from(this.sceneController.selection);
+    if (selArray.length) {
+      viewInfo["selection"] = Array.from(selArray);
+    }
+    if (this.sceneSettings.align !== "center") {
+      viewInfo["align"] = this.sceneSettings.align;
+    }
+    if (!isObjectEmpty(this.sceneSettings.featureSettings)) {
+      viewInfo["featureSettings"] = this.sceneSettings.featureSettings;
+    }
+    if (!this.sceneSettings.applyTextShaping) {
+      viewInfo["applyTextShaping"] = this.sceneSettings.applyTextShaping;
+    }
+    for (const key of ["textDirection", "textScript", "textLanguage"]) {
+      if (this.sceneSettings[key]) {
+        viewInfo[key] = this.sceneSettings[key];
+      }
+    }
+
+    const url = new URL(window.location);
+    clearSearchParams(url.searchParams); /* clear legacy URL format */
+    writeObjectToURLFragment(viewInfo, this._previousURLText === viewInfo["text"]);
+    this._previousURLText = viewInfo["text"];
+  }
+
+  async editListenerCallback(editMethodName, senderID, ...args) {
+    if (editMethodName === "editFinal") {
+      this.sceneController.updateHoverState();
+    }
+  }
+
+  zoomIn() {
+    this._zoom(1 / Math.sqrt(2));
+  }
+
+  zoomOut() {
+    this._zoom(Math.sqrt(2));
+  }
+
+  _zoom(factor) {
+    let viewBox = this.sceneSettings.viewBox;
+    const selBox = this.sceneController.getSelectionBounds();
+    const center = rectCenter(selBox || viewBox);
+    viewBox = rectScaleAroundCenter(viewBox, factor, center);
+
+    const adjustFactor =
+      this.canvasController.getProposedViewBoxClampAdjustment(viewBox);
+    if (adjustFactor !== 1) {
+      // The viewBox is too large or too small
+      if (Math.abs(adjustFactor * factor - 1) < 0.00000001) {
+        // Already at min/max magnification
+        return;
+      }
+      viewBox = rectScaleAroundCenter(viewBox, adjustFactor, center);
+    }
+
+    this.animateToViewBox(viewBox);
+    this.sceneController.autoViewBox = false;
+  }
+
+  zoomFit(animate = true) {
+    let viewBox = this.sceneController.getSelectionBounds();
+    if (viewBox) {
+      let size = rectSize(viewBox);
+      if (size.width < 4 && size.height < 4) {
+        const center = rectCenter(viewBox);
+        viewBox = centeredRect(center.x, center.y, 10, 10);
+      } else {
+        viewBox = rectAddMargin(viewBox, 0.1);
+      }
+      if (animate) {
+        this.animateToViewBox(viewBox);
+      } else {
+        this.sceneSettings.viewBox = viewBox;
+      }
+    }
+    this.sceneController.autoViewBox = false;
+  }
+
+  toggleFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      const element = document.documentElement;
+      element.requestFullscreen();
+    }
+  }
+
+  updateFullscreenButton() {
+    // hide button in case fullscreen is not enabled on device
+    const fullscreenButtonEl = document.querySelector(
+      ".tool-button[data-tool='toggle-fullscreen']"
+    );
+    if (!document.fullscreenEnabled) {
+      fullscreenButtonEl.style.display = "none";
+      return;
+    }
+    // fullscreen is enabled, show the right icon depending on the fullscreen state
+    const fullscreenEnterIconEl = fullscreenButtonEl.querySelector(
+      ".tool-icon--fullscreen-enter"
+    );
+    const fullscreenExitIconEl = fullscreenButtonEl.querySelector(
+      ".tool-icon--fullscreen-exit"
+    );
+    if (document.fullscreenElement) {
+      // fullscreen state is on, display exit-fullscreen button icon
+      fullscreenEnterIconEl.classList.add("tool-icon--hidden");
+      fullscreenExitIconEl.classList.remove("tool-icon--hidden");
+    } else {
+      // fullscreen state is off, display enter-fullscreen button icon
+      fullscreenEnterIconEl.classList.remove("tool-icon--hidden");
+      fullscreenExitIconEl.classList.add("tool-icon--hidden");
+    }
+  }
+
+  animateToViewBox(viewBox) {
+    const startViewBox = this.sceneSettings.viewBox;
+    const deltaViewBox = subItemwise(viewBox, startViewBox);
+    let start;
+    const duration = 200;
+
+    const animate = (timestamp) => {
+      if (start === undefined) {
+        start = timestamp;
+      }
+      let t = (timestamp - start) / duration;
+      if (t > 1.0) {
+        t = 1.0;
+      }
+      const animatingViewBox = addItemwise(
+        startViewBox,
+        mulScalar(deltaViewBox, easeOutQuad(t))
+      );
+      if (t < 1.0) {
+        this.sceneSettings.viewBox = animatingViewBox;
+        requestAnimationFrame(animate);
+      } else {
+        this.sceneSettings.viewBox = viewBox;
+      }
+    };
+    requestAnimationFrame(animate);
+  }
+
+  canPlaceBackgroundImage() {
+    return (
+      this.fontController.backendInfo.features["background-image"] &&
+      this.canEditGlyph()
+    );
+  }
+
+  canEditGlyph() {
+    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
+    return !!(
+      positionedGlyph &&
+      !this.fontController.readOnly &&
+      !this.sceneModel.isSelectedGlyphLocked() &&
+      positionedGlyph.glyph.canEdit
+    );
+  }
+
+  // Drop files onto canvas
+
+  _onDragEnter(event) {
+    event.preventDefault();
+    if (!this.canPlaceBackgroundImage()) {
+      return;
+    }
+    this.canvasController.canvas.classList.add("dropping-files");
+  }
+
+  _onDragOver(event) {
+    event.preventDefault();
+    if (!this.canPlaceBackgroundImage()) {
+      return;
+    }
+    this.canvasController.canvas.classList.add("dropping-files");
+  }
+
+  _onDragLeave(event) {
+    event.preventDefault();
+    if (!this.canPlaceBackgroundImage()) {
+      return;
+    }
+    this.canvasController.canvas.classList.remove("dropping-files");
+  }
 
   async _onDrop(event) {
-  event.preventDefault();
-  if (!this.canPlaceBackgroundImage()) {
-    return;
-  }
-  this.canvasController.canvas.classList.remove("dropping-files");
-
-  const items = [];
-
-  for (const item of event.dataTransfer?.files || []) {
-    const suffix = item.name.split(".").at(-1);
-    if (suffix === "png" || suffix === "jpg" || suffix === "jpeg") {
-      items.push(item);
+    event.preventDefault();
+    if (!this.canPlaceBackgroundImage()) {
+      return;
     }
-  }
+    this.canvasController.canvas.classList.remove("dropping-files");
 
-  if (items.length != 1) {
-    await dialog(
-      "Can't drop files",
-      "Please drop a single .png, .jpg or .jpeg file",
-      [{ title: translate("dialog.okay"), resultValue: "ok", isDefaultButton: true }]
-    );
-    return;
-  }
+    const items = [];
 
-  await this._placeBackgroundImage(await readFileOrBlobAsDataURL(items[0]));
-}
+    for (const item of event.dataTransfer?.files || []) {
+      const suffix = item.name.split(".").at(-1);
+      if (suffix === "png" || suffix === "jpg" || suffix === "jpeg") {
+        items.push(item);
+      }
+    }
+
+    if (items.length != 1) {
+      await dialog(
+        "Can't drop files",
+        "Please drop a single .png, .jpg or .jpeg file",
+        [{ title: translate("dialog.okay"), resultValue: "ok", isDefaultButton: true }]
+      );
+      return;
+    }
+
+    await this._placeBackgroundImage(await readFileOrBlobAsDataURL(items[0]));
+  }
 }
 
 function clearSearchParams(searchParams) {
