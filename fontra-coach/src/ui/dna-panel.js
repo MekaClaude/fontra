@@ -1,10 +1,12 @@
 import { resolveDNA } from '../knowledge/dna-resolver.js';
+import { CardRenderer } from '../knowledge/card-renderer.js';
 
 export class DNAPanel extends HTMLElement {
   constructor(engine, kb) {
     super();
     this.engine = engine;
     this.kb = kb;
+    this.cardRenderer = new CardRenderer();
     this.attachShadow({ mode: 'open' });
   }
 
@@ -52,11 +54,20 @@ export class DNAPanel extends HTMLElement {
       .glyph-item { display: flex; align-items: center; justify-content: space-between; padding: 4px; cursor: pointer; border-radius: 4px;}
       .glyph-item:hover { background: #3a3a3a; }
       .pill { font-size: 0.8em; padding: 2px 4px; border-radius: 4px; background: #444;}
+      .knowledge-card-container { margin-bottom: 12px; }
     `;
     this.shadowRoot.appendChild(style);
 
     const panelDiv = document.createElement('div');
     panelDiv.className = 'dna-panel';
+
+    // Render knowledge card if available
+    if (this.state.card) {
+      const cardContainer = document.createElement('div');
+      cardContainer.className = 'knowledge-card-container';
+      this.cardRenderer.renderFull(this.state.card, cardContainer);
+      panelDiv.appendChild(cardContainer);
+    }
 
     // Built From section
     const buildsFromSection = this.createSection('Built From', this.state.buildsFrom);

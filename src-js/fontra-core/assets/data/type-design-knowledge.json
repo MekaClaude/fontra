@@ -1,0 +1,598 @@
+{
+  "glyphs": {
+    "n": {
+      "unicode": "U+006E",
+      "name": "n",
+      "category": "lowercase",
+      "dna_role": "primary_foundation",
+      "phase": "1",
+      "builds_from": [],
+      "informsDesignOf": [
+        "h",
+        "m",
+        "u",
+        "r"
+      ],
+      "informedBy": [],
+      "tips": [
+        "Draw n before almost everything else. Its stem weight, arch shape, and counter proportions are the DNA for h, m, u, and r — and indirectly for nearly every other lowercase letter.",
+        "Start with a rectangle for stem width.",
+        "Draw arch as separate overlapping shape.",
+        "Counter affects readability at text sizes.",
+        "Duplicate first stem for second leg."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "o": {
+      "unicode": "U+006F",
+      "name": "o",
+      "category": "lowercase",
+      "dna_role": "primary_foundation",
+      "phase": "1",
+      "builds_from": [],
+      "informsDesignOf": [
+        "c",
+        "b",
+        "d",
+        "p",
+        "q"
+      ],
+      "informedBy": [],
+      "tips": [
+        "The lowercase o is the curve master. Its bowl, stress axis, and stroke weights are reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
+        "Requires overshoot at top and bottom.",
+        "Stress axis must be consistent across curves.",
+        "Do not just scale down uppercase O.",
+        "Bowl weight = n crossbar weight in low contrast."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "h": {
+      "unicode": "U+0068",
+      "name": "h",
+      "category": "lowercase",
+      "dna_role": "secondary",
+      "phase": "1",
+      "builds_from": [
+        "n"
+      ],
+      "informsDesignOf": [
+        "b"
+      ],
+      "informedBy": [
+        "n"
+      ],
+      "tips": [
+        "h = n with the left stem extended to the ascender line. Everything below x-height is identical to n.",
+        "Arch begins at same height as n.",
+        "Serif at top should match l and b ascenders.",
+        "Ascender height must match l exactly."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "m": {
+      "unicode": "U+006D",
+      "name": "m",
+      "category": "lowercase",
+      "dna_role": "arch_family",
+      "phase": "1",
+      "builds_from": [
+        "n"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "n"
+      ],
+      "tips": [
+        "m = n doubled. Copy arch and second leg from n, duplicate it rightward. Three stems must be identical weight.",
+        "Counters should feel optically equal to n counter.",
+        "Widen letter if counters feel pinched.",
+        "Tighter side bearings than n."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "u": {
+      "unicode": "U+0075",
+      "name": "u",
+      "category": "lowercase",
+      "dna_role": "arch_family",
+      "phase": "1",
+      "builds_from": [
+        "n"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "n"
+      ],
+      "tips": [
+        "u is not a mirror of n. The open top catches more light, making u appear wider. Narrow the bowl ~5-8 units for balance.",
+        "Bottom curve needs overshoot like o.",
+        "Exit stroke top-right matches n arch exit.",
+        "Transition from stem to curve must be smooth."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "l": {
+      "unicode": "U+006C",
+      "name": "l",
+      "category": "lowercase",
+      "dna_role": "primary_foundation",
+      "phase": "1",
+      "builds_from": [],
+      "informsDesignOf": [
+        "i",
+        "j",
+        "d"
+      ],
+      "informedBy": [],
+      "tips": [
+        "l is your pure stem. Width, weight, and terminal treatment define DNA for i, j, b, d, h, k, p.",
+        "Height sets ascender benchmark.",
+        "Foot/serif treatment must match all ascending letters.",
+        "Side bearings are reference for uprights."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "i": {
+      "unicode": "U+0069",
+      "name": "i",
+      "category": "lowercase",
+      "dna_role": "secondary",
+      "phase": "1",
+      "builds_from": [
+        "l"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "l"
+      ],
+      "tips": [
+        "i = l stem + tittle (dot). Tittle size requires careful optical calibration.",
+        "Tittle larger than feels right — check at small sizes.",
+        "Tittle shape should match period/punctuation.",
+        "Position between x-height and ascender line."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "j": {
+      "unicode": "U+006A",
+      "name": "j",
+      "category": "lowercase",
+      "dna_role": "secondary",
+      "phase": "1",
+      "builds_from": [
+        "l"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "l"
+      ],
+      "tips": [
+        "j = i + descending hook. Hook style should match f, r, and c terminal vocabulary.",
+        "Reach descender line with overshoot.",
+        "Hook style matches your curved terminals.",
+        "Narrow side bearings like i."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "b": {
+      "unicode": "U+0062",
+      "name": "b",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "h",
+        "o"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "o",
+        "h"
+      ],
+      "tips": [
+        "b = h stem + o bowl. Not a mirror of d. Bowl attaches at x-height and baseline.",
+        "Narrower bowl than standalone o.",
+        "Smooth junction at attachment points.",
+        "Baseline overshoot like o."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "d": {
+      "unicode": "U+0064",
+      "name": "d",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "o",
+        "l"
+      ],
+      "informsDesignOf": [
+        "a",
+        "q"
+      ],
+      "informedBy": [
+        "o",
+        "l"
+      ],
+      "tips": [
+        "d = o bowl + ascender stem. Source for single-story a.",
+        "Ascender height matches l and h.",
+        "Smooth transition bowl-to-ascender.",
+        "Baseline overshoot matches o."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "p": {
+      "unicode": "U+0070",
+      "name": "p",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "b",
+        "o"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "o"
+      ],
+      "tips": [
+        "p = b bowl + descending stem. Stem descends below baseline.",
+        "Descender length matches g, j, q, y.",
+        "Confirm ascender-to-descender ratio.",
+        "Stem starts at x-height top-left."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "q": {
+      "unicode": "U+0071",
+      "name": "q",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "d",
+        "o"
+      ],
+      "informsDesignOf": [
+        "g"
+      ],
+      "informedBy": [
+        "o",
+        "d"
+      ],
+      "tips": [
+        "q = o bowl + descending stem. Source for single-story g.",
+        "Tail matches j and g descender style.",
+        "Transition bowl-to-stem should be smooth.",
+        "Same descender depth as p."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "c": {
+      "unicode": "U+0063",
+      "name": "c",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "o"
+      ],
+      "informsDesignOf": [
+        "e",
+        "s"
+      ],
+      "informedBy": [
+        "o"
+      ],
+      "tips": [
+        "c = o opened on right. Terminal flows into e, f, r.",
+        "Aperture width is a stylistic signature.",
+        "Top and bottom terminals balanced.",
+        "Same overshoot as o."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "e": {
+      "unicode": "U+0065",
+      "name": "e",
+      "category": "lowercase",
+      "dna_role": "bowl_family",
+      "phase": "1",
+      "builds_from": [
+        "c"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "c"
+      ],
+      "tips": [
+        "e = c + crossbar. Crossbar slightly below vertical center.",
+        "Lower crossbar = optical stability.",
+        "Upper bowl smaller than lower bowl.",
+        "Top terminal matches c exactly."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "s": {
+      "unicode": "U+0073",
+      "name": "s",
+      "category": "lowercase",
+      "dna_role": "secondary",
+      "phase": "1",
+      "builds_from": [
+        "c"
+      ],
+      "informsDesignOf": [
+        "a"
+      ],
+      "informedBy": [
+        "c"
+      ],
+      "tips": [
+        "Copy c, mirror bottom. Spine carries same visual weight as thick strokes.",
+        "Use two o guides for optical center.",
+        "Spine angle steep = modern; flat = soft.",
+        "Top lobe smaller than bottom lobe."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "a": {
+      "unicode": "U+0061",
+      "name": "a",
+      "category": "lowercase",
+      "dna_role": "secondary",
+      "phase": "1",
+      "builds_from": [
+        "s",
+        "d"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [
+        "d",
+        "s"
+      ],
+      "tips": [
+        "Mirror s vertically for body. Use d bowl and q stem.",
+        "Overhang (roof) is difficult — defined by angle/curve.",
+        "Bowl matches d and q shapes.",
+        "Ear echoes r arm or c terminal vocabulary."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "z": {
+      "unicode": "U+007A",
+      "name": "z",
+      "category": "lowercase",
+      "dna_role": "diagonal_family",
+      "phase": "1",
+      "builds_from": [],
+      "informsDesignOf": [
+        "k",
+        "v",
+        "x"
+      ],
+      "informedBy": [],
+      "tips": [
+        "Establish diagonal angle. Thick stroke is the diagonal.",
+        "Diagonal thickening is severe; measure it.",
+        "Terminals match C and S style.",
+        "Balance above and below counters."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "v": {
+      "unicode": "U+0076",
+      "name": "v",
+      "category": "lowercase",
+      "dna_role": "diagonal_family",
+      "phase": "1",
+      "builds_from": [
+        "z"
+      ],
+      "informsDesignOf": [
+        "w",
+        "y"
+      ],
+      "informedBy": [
+        "z"
+      ],
+      "tips": [
+        "Sets diagonal angle for w, y, x, k. Heavy left, thin right.",
+        "Tapering creates extra visual space in bearings.",
+        "Apex style (sharp/flat) is key indicator.",
+        "Heavy = downstroke (left)."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "H": {
+      "unicode": "U+0048",
+      "name": "H",
+      "category": "uppercase",
+      "dna_role": "capital_foundation",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [
+        "I",
+        "L",
+        "T",
+        "N"
+      ],
+      "informedBy": [],
+      "tips": [
+        "Primary capital foundation. Uprights and crossbar define DNA for 75% of caps.",
+        "Crossbar slightly above optical center.",
+        "Crossbar lighter than uprights.",
+        "Side bearing is reference for upright capitals."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "O": {
+      "unicode": "U+004F",
+      "name": "O",
+      "category": "uppercase",
+      "dna_role": "capital_foundation",
+      "phase": "2",
+      "builds_from": [],
+      "informsDesignOf": [
+        "C",
+        "D",
+        "Q"
+      ],
+      "informedBy": [],
+      "tips": [
+        "Secondary foundation letter. All cap curves derive from O (C, G, Q, D).",
+        "Essential overshoot top and bottom.",
+        "Wider than H — classical proportion.",
+        "Stress axis match lowercase o."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "A": {
+      "unicode": "U+0041",
+      "name": "A",
+      "category": "uppercase",
+      "dna_role": "diagonal_family",
+      "phase": "2",
+      "builds_from": [
+        "V"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [],
+      "tips": [
+        "A = inverted V + crossbar. Apex treatment and crossbar position are key design decisions.",
+        "Left diagonal is thick (downstroke), right is thin (upstroke).",
+        "Crossbar slightly below center.",
+        "Apex style determines tone."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    },
+    "S": {
+      "unicode": "U+0053",
+      "name": "S",
+      "category": "uppercase",
+      "dna_role": "secondary",
+      "phase": "2",
+      "builds_from": [
+        "O"
+      ],
+      "informsDesignOf": [],
+      "informedBy": [],
+      "tips": [
+        "Uppercase S follows lowercase s logic at cap height. Top lobe slightly smaller than bottom.",
+        "Iterate multiple times.",
+        "Reference C/O for DNA.",
+        "Spine must match heavy weights."
+      ],
+      "commonMistakes": [],
+      "reusableComponents": [],
+      "opticalCorrections": []
+    }
+  },
+  "opticalCorrections": {
+    "OPT-001": {
+      "name": "Horizontal Bar Weight",
+      "description": "Horizontal strokes appear heavier than verticals of identical width due to how the eye scans text. Horizontal bars must be thinned to look equal."
+    },
+    "OPT-002": {
+      "name": "Overshoot Missing on Round Glyphs",
+      "description": "Round and pointed glyphs must extend slightly beyond the baseline and x-height to appear optically aligned with flat-topped/bottomed glyphs."
+    },
+    "OPT-003": {
+      "name": "Diagonal Stroke Compensation",
+      "description": "Diagonal strokes appear heavier than verticals of the same mathematical width and require thinning."
+    },
+    "OPT-004": {
+      "name": "Crossing Diagonal Alignment",
+      "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong."
+    },
+    "OPT-005": {
+      "name": "Overshoot Inconsistency",
+      "description": "All round glyphs in a font should share a consistent overshoot value. Mixed overshoot values create visual inconsistency."
+    }
+  },
+  "designOrder": {
+    "phases": [
+      {
+        "phase": "1",
+        "name": "Lowercase Foundation",
+        "description": "Build n, o, H, O first - they define the DNA"
+      },
+      {
+        "phase": "2",
+        "name": "Lowercase Extensions",
+        "description": "Extend from foundation letters"
+      },
+      {
+        "phase": "3",
+        "name": "Uppercase",
+        "description": "Capitals derive from H and O"
+      },
+      {
+        "phase": "4",
+        "name": "Numerals & Symbols",
+        "description": "Final details"
+      }
+    ]
+  },
+  "commonTerms": {
+    "overshoot": "Small extension beyond baseline/cap-height for optical balance",
+    "counter": "Enclosed or partially enclosed space in a letter",
+    "stem": "Main vertical stroke",
+    "bowl": "Curved stroke that encloses a counter",
+    "ascender": "Part of lowercase letter extending above x-height",
+    "descender": "Part of lowercase letter extending below baseline",
+    "crossbar": "Horizontal stroke connecting two stems",
+    "terminal": "End of a stroke without a serif",
+    "serif": "Small stroke at the end of a main stroke",
+    "x-height": "Height of lowercase letters without ascenders/descenders",
+    "baseline": "Line on which most letters sit",
+    "cap-height": "Height of uppercase letters",
+    "sidebearing": "Space between glyph outline and advance width edges",
+    "aperture": "Opening of a partially enclosed letter"
+  }
+}
