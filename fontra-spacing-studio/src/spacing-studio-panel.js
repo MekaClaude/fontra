@@ -206,6 +206,7 @@ export class SpacingStudioPanel {
     this._activeTab = "proof";
     this._currentCurriculumItem = null;
     this._initialized = false;
+    this._cleanupFunctions = [];
 
     this.sceneController = this.editorController.sceneController;
     this.throttledUpdate = throttleCalls(() => this._onGlyphChanged(), 100);
@@ -213,17 +214,27 @@ export class SpacingStudioPanel {
 
   async ensureInitialized() {
     if (this._initialized) return;
-    
-    this.sceneController.sceneSettingsController.addKeyListener(
+
+    const sceneSettingsKey = this.sceneController.sceneSettingsController.addKeyListener(
       ["selectedGlyphName", "glyphLocation"],
       () => this.throttledUpdate()
     );
+    this._cleanupFunctions.push(() => this.sceneController.sceneSettingsController.removeKeyListener(sceneSettingsKey));
 
-    this.sceneController.addCurrentGlyphChangeListener(() => {
+    const currentGlyphChangeKey = this.sceneController.addCurrentGlyphChangeListener(() => {
       this.throttledUpdate();
     });
+    this._cleanupFunctions.push(() => this.sceneController.removeCurrentGlyphChangeListener(currentGlyphChangeKey));
 
     this._initialized = true;
+  }
+
+  destroy() {
+    for (const cleanup of this._cleanupFunctions) {
+      cleanup();
+    }
+    this._cleanupFunctions = [];
+    this._initialized = false;
   }
 
   getContentElement() {
@@ -241,9 +252,9 @@ export class SpacingStudioPanel {
       { id: "guide", label: "Guide" },
       { id: "auto", label: "Auto" }
     ];
-    
+
     return html.div({ class: "ss-tabs" },
-      tabs.map(tab => 
+      tabs.map(tab =>
         html.button({
           class: `ss-tab ${tab.id === this._activeTab ? "active" : ""}`,
           onClick: () => this._switchTab(tab.id)
@@ -277,7 +288,7 @@ export class SpacingStudioPanel {
       html.div({ class: "ss-proof-canvas-wrap" }, [
         html.canvas({ class: "ss-proof-canvas", id: "proof-canvas" })
       ]),
-      html.div({ class: "ss-hint-box", id: "proof-hint" }, 
+      html.div({ class: "ss-hint-box", id: "proof-hint" },
         "Select a glyph to see spacing hints"
       )
     ]);
@@ -400,12 +411,14 @@ export class SpacingStudioPanel {
     if (on) {
       await this.ensureInitialized();
       await this._onGlyphChanged();
+    } else {
+      this.destroy();
     }
   }
 
   async _onGlyphChanged() {
     if (!this._element) return;
-    
+
     const glyphName = this.sceneController.sceneSettings.selectedGlyphName;
     if (!glyphName) {
       this._currentGlyphName = null;
@@ -454,11 +467,11 @@ export class SpacingStudioPanel {
 
   _updateHints(glyphName) {
     if (!this._element) return;
-    
+
     const hint = GLYPH_HINTS[glyphName];
     const proofHint = this._element.querySelector("#proof-hint");
     const metricsHint = this._element.querySelector("#metrics-hint");
-    
+
     if (hint) {
       const hintText = `<strong>${glyphName}:</strong> ${hint}`;
       if (proofHint) proofHint.innerHTML = hintText;
@@ -482,9 +495,9 @@ export class SpacingStudioPanel {
     if (!container) return;
 
     container.innerHTML = "";
-    
+
     const div = html.div({ class: "ss-suggestion" }, [
-      html.div({ class: "ss-suggestion-label" }, 
+      html.div({ class: "ss-suggestion-label" },
         `Based on ${suggestions.shapeClass} class`
       ),
       html.div({ class: "ss-suggestion-values" }, [
@@ -501,7 +514,7 @@ export class SpacingStudioPanel {
         suggestions.formula
       )
     ]);
-    
+
     container.appendChild(div);
   }
 
@@ -510,24 +523,25 @@ export class SpacingStudioPanel {
 
     await this.sceneController.editGlyph(async (sendIncrementalChange, glyph) => {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
-      
+
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const xMin = layerGlyph.xMin || 0;
-        const xMax = layerGlyph.xMax || 0;
+        const xMin = layerGlyph.xMin ?? 0;
+        const xMax = layerGlyph.xMax ?? 0;
         const dx = suggestion.lsb - xMin;
-        
-        if (layerGlyph.path && layerGlyph.path.coordinates) {
-          for (let i = 0; i < layerGlyph.path.coordinates.length; i += 2) {
-            layerGlyph.path.coordinates[i] += dx;
+
+        if (layerGlyph.path?.coordinates) {
+          const coords = layerGlyph.path.coordinates;
+          for (let i = 0; i < coords.length; i += 2) {
+            coords[i] += dx;
           }
         }
-        
-        if (layerGlyph.components) {
+
+        if (layerGlyph.components?.length) {
           for (const compo of layerGlyph.components) {
             compo.transformation.translateX += dx;
           }
         }
-        
+
         layerGlyph.xAdvance = suggestion.lsb + suggestion.rsb + (xMax - xMin);
       }
 
@@ -544,12 +558,13 @@ export class SpacingStudioPanel {
 
   _switchTab(tabId) {
     this._activeTab = tabId;
-    
+
     if (!this._element) return;
-    
+
     const tabs = this._element.querySelectorAll(".ss-tab");
-    tabs.forEach(tab => {
-      tab.classList.toggle("active", tab.textContent.toLowerCase() === tabId);
+    tabs.forEach((tab, index) => {
+      const tabIds = ["proof", "metrics", "guide", "auto"];
+      tab.classList.toggle("active", tabIds[index] === tabId);
     });
 
     const proofPane = this._element.querySelector(".ss-proof-pane");
@@ -569,7 +584,7 @@ export class SpacingStudioPanel {
 
   async _renderProofString(str) {
     if (!this._element) return;
-    
+
     const canvas = this._element.querySelector("#proof-canvas");
     if (!canvas) return;
 
@@ -577,6 +592,7 @@ export class SpacingStudioPanel {
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * window.devicePixelRatio;
     canvas.height = rect.height * window.devicePixelRatio;
+    ctx.save();
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
     const bgColor = getComputedStyle(document.documentElement)
@@ -585,6 +601,7 @@ export class SpacingStudioPanel {
     ctx.fillRect(0, 0, rect.width, rect.height);
 
     if (!this._currentGlyphName) {
+      ctx.restore();
       ctx.fillStyle = "#888";
       ctx.font = "12px sans-serif";
       ctx.textAlign = "center";
@@ -593,7 +610,7 @@ export class SpacingStudioPanel {
     }
 
     const glyphName = this._currentGlyphName;
-    
+
     try {
       const glyphController = await this.fontController.getGlyph(glyphName);
       if (!glyphController) return;
@@ -627,7 +644,7 @@ export class SpacingStudioPanel {
               ctx.scale(fontSize / 1000, -fontSize / 1000);
               ctx.fill(charInstance.path);
               ctx.restore();
-              
+
               offsetX += (charInstance.xAdvance || 500) * fontSize / 1000;
             } else {
               ctx.fillText(char, offsetX, y);
@@ -643,18 +660,22 @@ export class SpacingStudioPanel {
         }
       }
     } catch (e) {
+      ctx.restore();
       ctx.fillStyle = "#888";
       ctx.font = "11px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("Unable to render glyph", rect.width / 2, rect.height / 2);
+      return;
     }
+
+    ctx.restore();
   }
 
   _selectCurriculumItem(item) {
     this._currentCurriculumItem = item.id;
-    
+
     if (!this._element) return;
-    
+
     const items = this._element.querySelectorAll(".ss-curriculum-item");
     items.forEach(el => {
       el.classList.toggle("active", el.dataset.id === item.id);
@@ -673,26 +694,27 @@ export class SpacingStudioPanel {
   async _onLSBChange(event) {
     if (!this._currentGlyphName) return;
     const newValue = parseInt(event.target.value) || 0;
-    
+
     await this.sceneController.editGlyph(async (sendIncrementalChange, glyph) => {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
-      
+
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const xMin = layerGlyph.xMin || 0;
+        const xMin = layerGlyph.xMin ?? 0;
         const dx = newValue - xMin;
-        
-        if (layerGlyph.path && layerGlyph.path.coordinates) {
-          for (let i = 0; i < layerGlyph.path.coordinates.length; i += 2) {
-            layerGlyph.path.coordinates[i] += dx;
+
+        if (layerGlyph.path?.coordinates) {
+          const coords = layerGlyph.path.coordinates;
+          for (let i = 0; i < coords.length; i += 2) {
+            coords[i] += dx;
           }
         }
-        
-        if (layerGlyph.components) {
+
+        if (layerGlyph.components?.length) {
           for (const compo of layerGlyph.components) {
             compo.transformation.translateX += dx;
           }
         }
-        
+
         layerGlyph.xAdvance += dx;
       }
 
@@ -710,12 +732,12 @@ export class SpacingStudioPanel {
   async _onRSBChange(event) {
     if (!this._currentGlyphName) return;
     const newValue = parseInt(event.target.value) || 0;
-    
+
     await this.sceneController.editGlyph(async (sendIncrementalChange, glyph) => {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
-      
+
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const xMax = layerGlyph.xMax || 0;
+        const xMax = layerGlyph.xMax ?? 0;
         const currentRsb = (layerGlyph.xAdvance || 0) - xMax;
         const dx = newValue - currentRsb;
         layerGlyph.xAdvance += dx;
