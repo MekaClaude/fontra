@@ -4,9 +4,10 @@ import path from 'path';
 import chalk from 'chalk';
 
 async function main() {
-  const v1Dir = process.argv[2] || 'knowledge/v1/';
   const outPathArg = process.argv.indexOf('--output');
   const outFile = outPathArg > -1 ? process.argv[outPathArg + 1] : 'dist/coach-kb-bundle.json';
+  const v1DirArg = process.argv.findIndex(arg => !arg.startsWith('--') && arg !== outFile);
+  const v1Dir = v1DirArg > 1 ? process.argv[v1DirArg] : 'knowledge/v1/';
 
   try {
     const pkg = JSON.parse(await fs.readFile('package.json', 'utf-8'));
@@ -24,8 +25,8 @@ async function main() {
     for (const f of files) {
       const content = await fs.readFile(path.join(v1Dir, f), 'utf-8');
       const hash = createHash('sha256').update(content).digest('hex');
-      const key = f.replace('.json', '').replace(/-([a-z])/g, g => g[1].toUpperCase());
-      
+      const key = f.replace('.json', '').replace(/([-_])([a-z])/g, (_, __, letter) => letter.toUpperCase());
+
       bundle.meta.checksums[key] = hash;
       const parsed = JSON.parse(content);
       delete parsed.$schema;

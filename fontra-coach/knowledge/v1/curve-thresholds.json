@@ -2,54 +2,61 @@
   "$schema": "../schema/curve-thresholds.schema.json",
   "version": "1.0.0",
   "thresholds": {
-    "handle_length_ratio": {
+    "handle-length-ratio": {
       "id": "CURV-001",
       "name": "Handle Length for Near-Circular Curves",
       "description": "For curves approximating a quarter-circle, handles at ~55.2% of radius produce the smoothest result.",
       "magic_number": 0.5522847498,
       "tolerance": 0.08,
       "applies_when": "curve_approximates_arc AND arc_angle_near_90deg",
-      "trigger_when": "abs(handle_ratio - 0.552) > tolerance",
+      "trigger_when": "abs(handle_ratio - magic_number) > tolerance",
       "severity": "info",
       "knowledge": "The value 0.5522847498 is the cubic Bézier approximation constant for a quarter-circle. Using this value minimizes the deviation from a true circle. Significant deviation produces curves that look subtly oval or lopsided in ways that are hard to pinpoint."
     },
-    "extrema_missing": {
+    "extrema-missing": {
       "id": "CURV-002",
       "name": "Missing Extrema Points",
       "description": "On-curve points must exist at topmost, bottommost, leftmost, rightmost positions of any curve intended as a primary stroke.",
       "severity": "error",
       "applies_when": "always",
       "trigger_when": "no_oncurve_at_extremum",
+      "tolerance_units": 0.001,
       "knowledge": "Without extrema points, font hinting breaks and rendering at small sizes degrades significantly. PostScript hinting algorithms assume extrema exist. This is a technical requirement, not just aesthetic.",
       "auto_fix_available": true,
       "auto_fix_description": "Add on-curve point at extremum using standard Bézier subdivision"
     },
-    "smooth_tangent_break": {
+    "smooth-tangent-break": {
       "id": "CURV-003",
       "name": "Broken Tangent at Curve-to-Line Join",
       "description": "Where a curve meets a straight line segment, the handle must be exactly parallel to the line for a smooth join.",
       "severity": "warning",
       "tolerance_degrees": 1.5,
-      "trigger_when": "handle_angle_vs_line_angle > tolerance_degrees",
-      "knowledge": "A non-parallel handle at a curve-to-line join creates a subtle kink — a micro-bump that is invisible at 100% zoom but noticeable at text sizes as a slight roughness. This is one of the most common sources of 'something looks slightly off' in beginner outlines."
+      "trigger_when": "abs(handle_angle - line_angle) > tolerance_degrees",
+      "knowledge": "A non-parallel handle at a curve-to-line join creates a subtle kink — a micro-bump that is invisible at 100% zoom but noticeable at text sizes as a slight roughness. This is one of the most common sources of 'something looks slightly off' in beginner outlines.",
+      "fix_recommendation": "Rotate the off-curve handle so its angle matches the line segment angle. Select the handle and constrain rotation to align with the adjacent line."
     },
-    "s_curve_unintended": {
+    "s-curve-unintended": {
       "id": "CURV-004",
       "name": "Unintended S-Curve",
       "description": "A path segment where the curvature reverses direction unexpectedly — visible as a subtle S-shape in what should be a simple arc.",
       "severity": "warning",
       "applies_when": "segment_should_be_simple_arc",
       "trigger_when": "curvature_sign_changes_within_segment",
-      "knowledge": "An S-curve happens when handles are too long and cross each other in influence. The result is a curve that appears to have two opposing bends. At display sizes this looks wrong. At text sizes it manifests as a subtle roughness. Fix: shorten the longer handle until curvature is uniform."
+      "computation_method": "cross_product_of_consecutive_tangent_vectors",
+      "knowledge": "An S-curve happens when handles are too long and cross each other in influence. The result is a curve that appears to have two opposing bends. At display sizes this looks wrong. At text sizes it manifests as a subtle roughness. Fix: shorten the longer handle until curvature is uniform.",
+      "fix_recommendation": "Shorten the longer handle by moving its off-curve point closer to its on-curve anchor. Aim for handle lengths that are 1/3 to 1/2 of the chord length between anchor points."
     },
-    "handle_alignment_vertical": {
+    "handle-alignment-vertical": {
       "id": "CURV-005",
       "name": "Near-Vertical Handle Not Fully Vertical",
       "description": "Handles that are meant to be vertical (at extrema of round strokes) should be exactly vertical. Near-vertical handles produce asymmetric curves.",
       "severity": "warning",
       "tolerance_degrees": 0.5,
-      "trigger_when": "handle_intended_vertical AND angle_from_vertical > 0.5deg",
-      "knowledge": "Handles that are very close to vertical but not quite vertical are an error."
+      "applies_when": "point_at_extremum_of_round_stroke",
+      "intent_detection": "handle_is_vertical_when_point_is_at_top_bottom_extremum_of_curved_stroke",
+      "trigger_when": "handle_intended_vertical AND abs(angle_from_vertical) > tolerance_degrees",
+      "knowledge": "Handles that are very close to vertical but not quite vertical are an error.",
+      "fix_recommendation": "Constrain the handle to vertical (90° or 270°) using angle constraint tools. Ensure both left and right handles at the extremum are symmetric."
     }
   }
 }
