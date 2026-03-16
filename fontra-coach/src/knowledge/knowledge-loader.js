@@ -8,13 +8,15 @@ export class KnowledgeLoader {
   static async loadDefault() {
     const loader = new KnowledgeLoader();
     try {
-      // In a real environment, this would resolve the plugin dist path
-      await loader.load('../../dist/coach-kb-1.0.0.json');
+      // Use a consistent path relative to where the plugin is likely running
+      const bundleUri = new URL('../../dist/coach-kb-1.0.0.json', import.meta.url).href;
+      await loader.load(bundleUri);
     } catch (e) {
       console.warn("Default KB load failed, returning empty", e);
     }
     return loader.bundle;
   }
+
 
   async load(bundlePath) {
     try {

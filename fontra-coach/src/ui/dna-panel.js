@@ -10,15 +10,18 @@ export class DNAPanel extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    document.addEventListener('fontra-glyph-selected', e => {
-      this.updateState(e.detail.glyphName, e.detail.fontController);
-    });
+    if (this.engine && this.engine.onStateUpdated) {
+      this.engine.onStateUpdated(glyphName => {
+        this.updateState(glyphName);
+      });
+    }
   }
 
-  updateState(glyphName, fontController) {
+  updateState(glyphName) {
     this.state = resolveDNA(glyphName, this.kb);
     this.render();
   }
+
 
   render() {
     // Clear existing content safely

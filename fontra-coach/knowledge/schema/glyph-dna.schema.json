@@ -76,7 +76,7 @@
             "mirror_horizontal", "rotate_180", "add_diagonal", "bowl_plus_descender",
             "left_stem_with_arms", "left_stem_with_bowl", "left_stem_with_bowls",
             "spine_modification", "terminal_modification", "add_stem_left",
-            "mirror_d", "extract_stem", "crossbar_with_centered_stem", "bowled_stems",
+            "mirror_d", "crossbar_with_centered_stem", "bowled_stems",
             "left_stem_with_diagonals", "left_stem_with_foot", "left_stem_with_top_bowl",
             "p_with_leg", "e_minus_bottom_arm"
           ] 

@@ -3,52 +3,292 @@
   "version": "1.0.0",
   "cards": [
     {
-      "id": "lc-n-001",
-      "glyph": "n",
-      "title": "Start here: n is the foundation",
-      "tags": ["foundation", "workflow", "spacing"],
-      "verbosity": "learner",
-      "body": "The lowercase n establishes the core DNA of your font: stem weight, arch shape, and the fundamental spacing unit. Take your time here — every other letter will be judged against n.\n\nThe n gives you m, h, u, r, and i almost for free. The quality you put into n multiplies across the entire character set.",
-      "tips": [
-        "Draw the left stem first — it sets stem width for the whole font",
-        "The arch should emerge naturally from calligraphic movement, not be constructed mechanically",
-        "Space the n alongside itself (nnn) before moving to other letters",
-        "The counter (white interior) width sets your spacing rhythm"
-      ],
-      "related_cards": ["lc-o-001", "workflow-001"],
-      "sources": ["Design with FontForge — Creating o and n", "Type Together workshop methodology"]
+      "id": "lc-n-001", "glyph": "n", "title": "lowercase n: The Foundation", "tags": ["foundation", "stem", "arch"], "verbosity": "learner",
+      "body": "Draw n before almost everything else. Its stem weight, arch shape, and counter proportions are the DNA for h, m, u, and r — and indirectly for nearly every other lowercase letter.",
+      "tips": ["Start with a rectangle for stem width.", "Draw arch as separate overlapping shape.", "Counter affects readability at text sizes.", "Duplicate first stem for second leg."],
+      "related_cards": ["lc-o-001", "lc-h-001", "lc-m-001", "lc-u-001"]
     },
     {
-      "id": "lc-s-001",
-      "glyph": "s",
-      "title": "Draw s early — it's the hardest letter",
-      "tags": ["difficulty", "terminals", "spine"],
-      "verbosity": "learner",
-      "body": "The s is notoriously difficult to get right. Its spine angle, terminal style, weight distribution, and optical balance all interact in complex ways. Start s early in your process so you have time to iterate.\n\nCritically: your s terminals will predict the terminal style of a, c, f, j, and y. The decisions you make here ripple through the whole font.",
-      "tips": [
-        "The spine (central diagonal) should align with your overall stress axis",
-        "The two counters (white spaces inside s) should appear roughly equal in area — not equal in size",
-        "Upper counter is typically slightly smaller than lower to look balanced",
-        "Test at small sizes constantly — s problems are invisible at 200% zoom"
-      ],
-      "related_cards": ["lc-c-001", "lc-a-001"],
-      "sources": ["Design with FontForge — Creating Your Type DNA"]
+      "id": "lc-o-001", "glyph": "o", "title": "lowercase o: The Curve Master", "tags": ["foundation", "curves", "overshoot"], "verbosity": "learner",
+      "body": "The lowercase o is the curve master. Its bowl, stress axis, and stroke weights are reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
+      "tips": ["Requires overshoot at top and bottom.", "Stress axis must be consistent across curves.", "Do not just scale down uppercase O.", "Bowl weight = n crossbar weight in low contrast."],
+      "related_cards": ["lc-n-001", "lc-c-001", "lc-b-001", "lc-d-001"]
     },
     {
-      "id": "uc-H-001",
-      "glyph": "H",
-      "title": "H and O: your capital foundation",
-      "tags": ["capitals", "foundation", "proportion"],
-      "verbosity": "learner",
-      "body": "Just as lowercase starts with n and o, capitals begin with H and O. These two letters define the relationship between your lowercase and uppercase — a critical proportion decision.\n\nH establishes: vertical stroke weight, cap height, and the structural DNA for B, D, E, F, I, J, K, L, P, R, T, U.",
-      "tips": [
-        "Capital stroke weights are typically 5–15% heavier than lowercase to appear equal",
-        "The crossbar of H must be optically thinned (see OPT-001)",
-        "H width sets the reference for N (slightly wider) and other wide caps",
-        "Establish cap-to-x-height ratio now — changing it later is painful"
-      ],
-      "related_cards": ["uc-O-001", "OPT-001"],
-      "sources": ["Design with FontForge — Capital Letters"]
+      "id": "lc-h-001", "glyph": "h", "title": "lowercase h: Extension from n", "tags": ["ascender", "stem"], "verbosity": "learner",
+      "body": "h = n with the left stem extended to the ascender line. Everything below x-height is identical to n.",
+      "tips": ["Arch begins at same height as n.", "Serif at top should match l and b ascenders.", "Ascender height must match l exactly."],
+      "related_cards": ["lc-n-001", "lc-l-001"]
+    },
+    {
+      "id": "lc-m-001", "glyph": "m", "title": "lowercase m: Doubled Rhythm", "tags": ["widest", "rhythm"], "verbosity": "learner",
+      "body": "m = n doubled. Copy arch and second leg from n, duplicate it rightward. Three stems must be identical weight.",
+      "tips": ["Counters should feel optically equal to n counter.", "Widen letter if counters feel pinched.", "Tighter side bearings than n."],
+      "related_cards": ["lc-n-001"]
+    },
+    {
+      "id": "lc-u-001", "glyph": "u", "title": "lowercase u: The Light Catcher", "tags": ["optical", "bowl"], "verbosity": "learner",
+      "body": "u is not a mirror of n. The open top catches more light, making u appear wider. Narrow the bowl ~5-8 units for balance.",
+      "tips": ["Bottom curve needs overshoot like o.", "Exit stroke top-right matches n arch exit.", "Transition from stem to curve must be smooth."],
+      "related_cards": ["lc-n-001"]
+    },
+    {
+      "id": "lc-l-001", "glyph": "l", "title": "lowercase l: The Standard Stem", "tags": ["foundation", "stem"], "verbosity": "learner",
+      "body": "l is your pure stem. Width, weight, and terminal treatment define DNA for i, j, b, d, h, k, p.",
+      "tips": ["Height sets ascender benchmark.", "Foot/serif treatment must match all ascending letters.", "Side bearings are reference for uprights."],
+      "related_cards": ["lc-i-001", "lc-h-001", "lc-n-001"]
+    },
+    {
+      "id": "lc-i-001", "glyph": "i", "title": "lowercase i: Stem and Tittle", "tags": ["stem", "dot"], "verbosity": "learner",
+      "body": "i = l stem + tittle (dot). Tittle size requires careful optical calibration.",
+      "tips": ["Tittle larger than feels right — check at small sizes.", "Tittle shape should match period/punctuation.", "Position between x-height and ascender line."],
+      "related_cards": ["lc-l-001", "lc-j-001"]
+    },
+    {
+      "id": "lc-j-001", "glyph": "j", "title": "lowercase j: Descending Hook", "tags": ["stem", "descender"], "verbosity": "learner",
+      "body": "j = i + descending hook. Hook style should match f, r, and c terminal vocabulary.",
+      "tips": ["Reach descender line with overshoot.", "Hook style matches your curved terminals.", "Narrow side bearings like i."],
+      "related_cards": ["lc-i-001", "lc-f-001", "lc-y-001"]
+    },
+    {
+      "id": "lc-b-001", "glyph": "b", "title": "lowercase b: Stem and Bowl", "tags": ["bowl", "stem"], "verbosity": "learner",
+      "body": "b = h stem + o bowl. Not a mirror of d. Bowl attaches at x-height and baseline.",
+      "tips": ["Narrower bowl than standalone o.", "Smooth junction at attachment points.", "Baseline overshoot like o."],
+      "related_cards": ["lc-h-001", "lc-o-001", "lc-p-001"]
+    },
+    {
+      "id": "lc-d-001", "glyph": "d", "title": "lowercase d: Ascender and Bowl", "tags": ["bowl", "ascender"], "verbosity": "learner",
+      "body": "d = o bowl + ascender stem. Source for single-story a.",
+      "tips": ["Ascender height matches l and h.", "Smooth transition bowl-to-ascender.", "Baseline overshoot matches o."],
+      "related_cards": ["lc-o-001", "lc-l-001", "lc-a-001", "lc-q-001"]
+    },
+    {
+      "id": "lc-p-001", "glyph": "p", "title": "lowercase p: Descender and Bowl", "tags": ["bowl", "descender"], "verbosity": "learner",
+      "body": "p = b bowl + descending stem. Stem descends below baseline.",
+      "tips": ["Descender length matches g, j, q, y.", "Confirm ascender-to-descender ratio.", "Stem starts at x-height top-left."],
+      "related_cards": ["lc-b-001", "lc-q-001"]
+    },
+    {
+      "id": "lc-q-001", "glyph": "q", "title": "lowercase q: The Tail Tailor", "tags": ["bowl", "descender"], "verbosity": "learner",
+      "body": "q = o bowl + descending stem. Source for single-story g.",
+      "tips": ["Tail matches j and g descender style.", "Transition bowl-to-stem should be smooth.", "Same descender depth as p."],
+      "related_cards": ["lc-o-001", "lc-d-001", "lc-g-001"]
+    },
+    {
+      "id": "lc-c-001", "glyph": "c", "title": "lowercase c: Opening the Circle", "tags": ["terminal", "aperture"], "verbosity": "learner",
+      "body": "c = o opened on right. Terminal flows into e, f, r.",
+      "tips": ["Aperture width is a stylistic signature.", "Top and bottom terminals balanced.", "Same overshoot as o."],
+      "related_cards": ["lc-o-001", "lc-e-001", "lc-s-001"]
+    },
+    {
+      "id": "lc-e-001", "glyph": "e", "title": "lowercase e: Crossbar Stability", "tags": ["crossbar", "aperture"], "verbosity": "learner",
+      "body": "e = c + crossbar. Crossbar slightly below vertical center.",
+      "tips": ["Lower crossbar = optical stability.", "Upper bowl smaller than lower bowl.", "Top terminal matches c exactly."],
+      "related_cards": ["lc-c-001"]
+    },
+    {
+      "id": "lc-f-001", "glyph": "f", "title": "lowercase f: Hook and Crossbar", "tags": ["crossbar", "hook"], "verbosity": "learner",
+      "body": "f = j reversed + crossbar. Crossbar height aligns with t and e.",
+      "tips": ["Crossbar slightly below x-height.", "Top arc matches r and c vocabulary.", "Typeset 'ft', 'fe' to check alignment."],
+      "related_cards": ["lc-t-001", "lc-r-001", "lc-j-001"]
+    },
+    {
+      "id": "lc-t-001", "glyph": "t", "title": "lowercase t: The Short Ascender", "tags": ["crossbar", "ascender"], "verbosity": "learner",
+      "body": "t = l stem + crossbar. Short ascender, aligns with f.",
+      "tips": ["Stem height below full ascender line.", "Crossbar below x-height.", "Top hook references calligraphic entry."],
+      "related_cards": ["lc-f-001", "lc-l-001"]
+    },
+    {
+      "id": "lc-r-001", "glyph": "r", "title": "lowercase r: Arm and Terminal", "tags": ["terminal", "arch"], "verbosity": "learner",
+      "body": "r = n without second leg. Arm terminal is a major personality statement.",
+      "tips": ["Terminal type (round, flat, angled) defines vocabulary.", "Keep counter under the arm open.", "Very narrow side bearings."],
+      "related_cards": ["lc-n-001", "lc-f-001", "lc-c-001"]
+    },
+    {
+      "id": "lc-s-001", "glyph": "s", "title": "lowercase s: The Spine", "tags": ["devil", "complexity", "spine"], "verbosity": "learner",
+      "body": "Copy c, mirror bottom. Spine carries same visual weight as thick strokes.",
+      "tips": ["Use two o guides for optical center.", "Spine angle steep = modern; flat = soft.", "Top lobe smaller than bottom lobe."],
+      "related_cards": ["lc-c-001", "lc-a-001"]
+    },
+    {
+      "id": "lc-a-001", "glyph": "a", "title": "lowercase a: Double Story Devil", "tags": ["complexity", "devil", "curves"], "verbosity": "learner",
+      "body": "Mirror s vertically for body. Use d bowl and q stem.",
+      "tips": ["Overhang (roof) is difficult — defined by angle/curve.", "Bowl matches d and q shapes.", "Ear echoes r arm or c terminal vocabulary."],
+      "related_cards": ["lc-s-001", "lc-d-001", "lc-q-001"]
+    },
+    {
+      "id": "lc-g-001", "glyph": "g", "title": "lowercase g: Loop Specialist", "tags": ["devil", "descender", "loop"], "verbosity": "learner",
+      "body": "Single-story g (q + terminal) or double-story (o + s).",
+      "tips": ["Ear matches r and c family.", "Double-story link is thin stroke weight.", "Lower loop matches other descender depths."],
+      "related_cards": ["lc-q-001", "lc-s-001", "lc-o-001"]
+    },
+    {
+      "id": "lc-v-001", "glyph": "v", "title": "lowercase v: Diagonal Foundation", "tags": ["diagonal", "foundation"], "verbosity": "learner",
+      "body": "Sets diagonal angle for w, y, x, k. Heavy left, thin right.",
+      "tips": ["Tapering creates extra visual space in bearings.", "Apex style (sharp/flat) is key indicator.", "Heavy = downstroke (left)."],
+      "related_cards": ["lc-z-001", "lc-w-001", "lc-y-001"]
+    },
+    {
+      "id": "lc-w-001", "glyph": "w", "title": "lowercase w: Doubled v", "tags": ["diagonal", "widest"], "verbosity": "learner",
+      "body": "w = doubled v. Narrow the center slightly for balance.",
+      "tips": ["Center junction (peak/valley) is key decision.", "Outer arms match v angle exactly.", "Check rhythm in text — w can be heavy."],
+      "related_cards": ["lc-v-001"]
+    },
+    {
+      "id": "lc-x-001", "glyph": "x", "title": "lowercase x: Optical Crossing", "tags": ["diagonal", "junction"], "verbosity": "learner",
+      "body": "Cross slightly ABOVE center. Thin/inktrap at the junction.",
+      "tips": ["Heavy stroke top-right to bottom-left.", "Balance the four surrounding counter spaces.", "Match angles to v family."],
+      "related_cards": ["lc-v-001", "lc-z-001"]
+    },
+    {
+      "id": "lc-y-001", "glyph": "y", "title": "lowercase y: Diagonal Loop", "tags": ["diagonal", "descender"], "verbosity": "learner",
+      "body": "y = v top + descending tail. Match j and g vocabulary.",
+      "tips": ["Transition from arm to tail must be smooth.", "Matches other descender depths.", "Left arm is heavy, right arm thin."],
+      "related_cards": ["lc-v-001", "lc-j-001"]
+    },
+    {
+      "id": "lc-z-001", "glyph": "z", "title": "lowercase z: Diagonal Thinning", "tags": ["diagonal", "foundation"], "verbosity": "learner",
+      "body": "Establish diagonal angle. Thick stroke is the diagonal.",
+      "tips": ["Diagonal thickening is severe; measure it.", "Terminals match C and S style.", "Balance above and below counters."],
+      "related_cards": ["lc-k-001", "lc-v-001", "lc-x-001"]
+    },
+    {
+      "id": "lc-k-001", "glyph": "k", "title": "lowercase k: Counter Balance", "tags": ["diagonal", "junction"], "verbosity": "learner",
+      "body": "k = l stem + z diagonals. Upper thin, lower thick.",
+      "tips": ["Three white spaces visually equal in area.", "Diagonal junction is major stylistic indicator.", "Left side bearing match h/l."],
+      "related_cards": ["lc-l-001", "lc-z-001"]
+    },
+    {
+      "id": "uc-H-001", "glyph": "H", "title": "uppercase H: Capital Anchor", "tags": ["capitals", "foundation"], "verbosity": "learner",
+      "body": "Primary capital foundation. Uprights and crossbar define DNA for 75% of caps.",
+      "tips": ["Crossbar slightly above optical center.", "Crossbar lighter than uprights.", "Side bearing is reference for upright capitals."],
+      "related_cards": ["uc-O-001", "uc-I-001", "uc-L-001", "uc-T-001"]
+    },
+    {
+      "id": "uc-O-001", "glyph": "O", "title": "uppercase O: Curve Anchor", "tags": ["capitals", "curves"], "verbosity": "learner",
+      "body": "Secondary foundation letter. All cap curves derive from O (C, G, Q, D).",
+      "tips": ["Essential overshoot top and bottom.", "Wider than H — classical proportion.", "Stress axis match lowercase o."],
+      "related_cards": ["uc-H-001", "uc-C-001", "uc-D-001", "uc-Q-001"]
+    },
+    {
+      "id": "uc-I-001", "glyph": "I", "title": "uppercase I: The Cap Stem", "tags": ["capitals", "stem"], "verbosity": "learner",
+      "body": "I = single stem from H. Add serifs in sans-serif for legibility.",
+      "tips": ["Identical weight to H upright.", "Consider crossbar serifs for disambiguation.", "Side bearings need sensitive adjustment."],
+      "related_cards": ["uc-H-001", "uc-L-001", "lc-l-001"]
+    },
+    {
+      "id": "uc-L-001", "glyph": "L", "title": "uppercase L: The Cap Foot", "tags": ["capitals", "foot"], "verbosity": "learner",
+      "body": "L = I + foot. Foot length determines white space pocket.",
+      "tips": ["Foot terminal match T and E crossbar ends.", "Foot shorter than H width.", "Base structure for E and F."],
+      "related_cards": ["uc-I-001", "uc-E-001", "uc-F-001"]
+    },
+    {
+      "id": "uc-T-001", "glyph": "T", "title": "uppercase T: The Cap Crossbar", "tags": ["capitals", "crossbar"], "verbosity": "learner",
+      "body": "T = I + top crossbar. Crossbar lighter than upright.",
+      "tips": ["Terminal style matches L and E.", "Crossbar width sets proportion.", "Test against E and F heights."],
+      "related_cards": ["uc-I-001", "uc-L-001", "uc-E-001"]
+    },
+    {
+      "id": "uc-E-001", "glyph": "E", "title": "uppercase E: Balanced Arms", "tags": ["capitals", "arms"], "verbosity": "learner",
+      "body": "E = L + two crossbars. Middle arm is shorter and above center.",
+      "tips": ["Optical stability: middle arm slightly above center.", "Three horizontals lighter than upright.", "Aperture matches C style."],
+      "related_cards": ["uc-L-001", "uc-F-001"]
+    },
+    {
+      "id": "uc-F-001", "glyph": "F", "title": "uppercase F: High Point", "tags": ["capitals", "arms"], "verbosity": "learner",
+      "body": "F = E minus bottom arm. Middle arm may need shift.",
+      "tips": ["Watch for top-heaviness after removing bottom arm.", "Check middle arm position for visual balance.", "Match terminal family."],
+      "related_cards": ["uc-E-001"]
+    },
+    {
+      "id": "uc-C-001", "glyph": "C", "title": "uppercase C: Open Cap Bowl", "tags": ["capitals", "bowl"], "verbosity": "learner",
+      "body": "C = O opened on right. Structure flows into G and S.",
+      "tips": ["Wider aperture than lowercase c.", "Match O weights exactly.", "Terminal vocabulary is stylistic signature."],
+      "related_cards": ["uc-O-001", "uc-G-001", "uc-S-001"]
+    },
+    {
+      "id": "uc-D-001", "glyph": "D", "title": "uppercase D: Cap Bowl Stability", "tags": ["capitals", "bowl"], "verbosity": "learner",
+      "body": "D = H stem + O right half. Flatten the bowl slightly for stability.",
+      "tips": ["No overshoot needed (anchored by stem).", "Junctions top and bottom must be invisible.", "Wider than H normally."],
+      "related_cards": ["uc-H-001", "uc-O-001", "uc-B-001", "uc-P-001"]
+    },
+    {
+      "id": "uc-B-001", "glyph": "B", "title": "uppercase B: Visual Centers", "tags": ["capitals", "bowl"], "verbosity": "learner",
+      "body": "B has two bowls. Bottom bowl larger than top for stability.",
+      "tips": ["Middle junction slightly above center.", "Smooth transition between bowls.", "Matches P and D vocabulary."],
+      "related_cards": ["uc-P-001", "uc-D-001"]
+    },
+    {
+      "id": "uc-P-001", "glyph": "P", "title": "uppercase P: Upper Bowl", "tags": ["capitals", "bowl"], "verbosity": "learner",
+      "body": "P = H stem + upper bowl. Bowl larger than top of B.",
+      "tips": ["Keep interior counter open and breathing.", "Narrower than D.", "Source for R."],
+      "related_cards": ["uc-D-001", "uc-B-001", "uc-R-001"]
+    },
+    {
+      "id": "uc-R-001", "glyph": "R", "title": "uppercase R: Diagonal Leg", "tags": ["capitals", "leg"], "verbosity": "learner",
+      "body": "R = P + diagonal leg. Leg is the personality statement.",
+      "tips": ["Leg options: straight, curved, swept.", "No visible angle change at junction.", "Leg angle matches K/N family."],
+      "related_cards": ["uc-P-001", "uc-K-001"]
+    },
+    {
+      "id": "uc-V-001", "glyph": "V", "title": "uppercase V: Cap Diagonals", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "Sets angle for W, Y, K, A. Heavy left, thin right.",
+      "tips": ["Crotch (apex) style is key decision.", "Balance three triangle spaces.", "Inverted to create A."],
+      "related_cards": ["uc-W-001", "uc-Y-001", "uc-A-001"]
+    },
+    {
+      "id": "uc-Q-001", "glyph": "Q", "title": "uppercase Q: The Tail Signature", "tags": ["capitals", "tail"], "verbosity": "learner",
+      "body": "Q = O + tail. Expressive design signature opportunity.",
+      "tips": ["Tail can be internal or external.", "Style (swept, kicked) defines character.", "Test spacing in words like Quality."],
+      "related_cards": ["uc-O-001"]
+    },
+    {
+      "id": "uc-A-001", "glyph": "A", "title": "uppercase A: Apex and Crossbar", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "A = inverted V + crossbar. Apex treatment and crossbar position are key design decisions.",
+      "tips": ["Left diagonal is thick (downstroke), right is thin (upstroke).", "Crossbar slightly below center.", "Apex style determines tone."],
+      "related_cards": ["uc-V-001"]
+    },
+    {
+      "id": "uc-S-001", "glyph": "S", "title": "uppercase S: Visual Stability", "tags": ["capitals", "devil", "spine"], "verbosity": "learner",
+      "body": "Uppercase S follows lowercase s logic at cap height. Top lobe slightly smaller than bottom.",
+      "tips": ["Iterate multiple times.", "Reference C/O for DNA.", "Spine must match heavy weights."],
+      "related_cards": ["uc-C-001", "uc-O-001"]
+    },
+    {
+      "id": "uc-G-001", "glyph": "G", "title": "uppercase G: The Bar", "tags": ["capitals", "bowl"], "verbosity": "learner",
+      "body": "G = C + horizontal bar/chin. Bar height affects sophistication.",
+      "tips": ["Bar height matches H crossbar or slightly lower.", "Curved transition from bottom bowl is common.", "Aperture style matches C."],
+      "related_cards": ["uc-C-001"]
+    },
+    {
+      "id": "uc-K-001", "glyph": "K", "title": "uppercase K: Cap Diagonals", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "K = H stem + z/v diagonals scaled to cap height.",
+      "tips": ["Three counter spaces equal visually.", "Lower leg is heavy downstroke.", "Junction point is stylistic signature."],
+      "related_cards": ["uc-H-001", "uc-A-001", "uc-R-001"]
+    },
+    {
+      "id": "uc-V-001", "glyph": "V", "title": "uppercase V: Cap Diagonal Pivot", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "V sets angles for W, Y, K, A. Heavy left, thin right.",
+      "tips": ["Apex style matches A top.", "Balance inner triangle space.", "Side bearings compensate for tapering."],
+      "related_cards": ["uc-W-001", "uc-Y-001", "uc-A-001"]
+    },
+    {
+      "id": "uc-W-001", "glyph": "W", "title": "uppercase W: Double V", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "W = doubled V. Narrow the center for optical rhythm.",
+      "tips": ["Center peak/valley matches stylistic vocabulary.", "Outer diagonals match V angle.", "Heaviest letter in the set."],
+      "related_cards": ["uc-V-001"]
+    },
+    {
+      "id": "uc-Y-001", "glyph": "Y", "title": "uppercase Y: Triple Junction", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "Y = V top + I bottom. Junction height is critical.",
+      "tips": ["Junction slightly above optical center.", "Stem weight matches H upright.", "Left arm is heavy (downstroke)."],
+      "related_cards": ["uc-V-001", "uc-I-001"]
+    },
+    {
+      "id": "uc-N-001", "glyph": "N", "title": "uppercase N: The Diagonal Connector", "tags": ["capitals", "diagonal"], "verbosity": "learner",
+      "body": "N = two H stems + heavy diagonal. Diagonal must be significantly thicker.",
+      "tips": ["Vertical uprights can be slightly thinner than H.", "Diagonal is downstroke (very heavy).", "Avoid heaviness at junctions (thin them)."],
+      "related_cards": ["uc-H-001"]
     }
   ]
 }

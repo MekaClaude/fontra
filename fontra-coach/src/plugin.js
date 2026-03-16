@@ -29,11 +29,13 @@ class AnalysisEngine {
     this.kb = kb;
     this.cache = new AnalysisCache();
     this.listeners = new Set();
+    this.stateListeners = new Set();
     this.userSettings = { verbosity: 'learner' };
   }
 
   onGlyphSelected(glyphName) {
-    // Analysis and UI updates dispatched from here
+    this.cache.invalidate(glyphName); // Ensure fresh state
+    this.notifyStateUpdate(glyphName);
   }
 
   onGlyphEdited(glyphName, glyphData) {
@@ -44,6 +46,7 @@ class AnalysisEngine {
     
     const warnings = evaluateRules(glyphName, analysis, this.kb, this.userSettings);
     this.notifyWarnings(warnings);
+    this.notifyStateUpdate(glyphName);
   }
 
   invalidateCache() {
@@ -54,10 +57,19 @@ class AnalysisEngine {
     this.listeners.add(cb);
   }
 
+  onStateUpdated(cb) {
+    this.stateListeners.add(cb);
+  }
+
   notifyWarnings(warnings) {
     for (const cb of this.listeners) cb(warnings);
   }
+
+  notifyStateUpdate(glyphName) {
+    for (const cb of this.stateListeners) cb(glyphName);
+  }
 }
+
 
 export async function activate(context) {
   const { fontController, glyphController, eventBus, ui } = context;

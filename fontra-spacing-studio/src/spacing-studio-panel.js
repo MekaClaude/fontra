@@ -512,7 +512,9 @@ export class SpacingStudioPanel {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
       
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const dx = suggestion.lsb - (layerGlyph.xMax || 0);
+        const xMin = layerGlyph.xMin || 0;
+        const xMax = layerGlyph.xMax || 0;
+        const dx = suggestion.lsb - xMin;
         
         if (layerGlyph.path && layerGlyph.path.coordinates) {
           for (let i = 0; i < layerGlyph.path.coordinates.length; i += 2) {
@@ -526,8 +528,6 @@ export class SpacingStudioPanel {
           }
         }
         
-        const xMin = layerGlyph.xMin || 0;
-        const xMax = layerGlyph.xMax || 0;
         layerGlyph.xAdvance = suggestion.lsb + suggestion.rsb + (xMax - xMin);
       }
 
@@ -540,6 +540,7 @@ export class SpacingStudioPanel {
 
     await this._updateMetrics();
   }
+
 
   _switchTab(tabId) {
     this._activeTab = tabId;
@@ -677,8 +678,8 @@ export class SpacingStudioPanel {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
       
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const oldLsb = layerGlyph.xMax || 0;
-        const dx = newValue - oldLsb;
+        const xMin = layerGlyph.xMin || 0;
+        const dx = newValue - xMin;
         
         if (layerGlyph.path && layerGlyph.path.coordinates) {
           for (let i = 0; i < layerGlyph.path.coordinates.length; i += 2) {
@@ -705,6 +706,7 @@ export class SpacingStudioPanel {
     await this._updateMetrics();
   }
 
+
   async _onRSBChange(event) {
     if (!this._currentGlyphName) return;
     const newValue = parseInt(event.target.value) || 0;
@@ -713,8 +715,9 @@ export class SpacingStudioPanel {
       const editLayerGlyphs = this.sceneController.getEditingLayerFromGlyphLayers(glyph.layers);
       
       for (const [layerName, layerGlyph] of Object.entries(editLayerGlyphs)) {
-        const oldRsb = (layerGlyph.xAdvance || 0) - (layerGlyph.xMax || 0);
-        const dx = newValue - oldRsb;
+        const xMax = layerGlyph.xMax || 0;
+        const currentRsb = (layerGlyph.xAdvance || 0) - xMax;
+        const dx = newValue - currentRsb;
         layerGlyph.xAdvance += dx;
       }
 
@@ -727,4 +730,5 @@ export class SpacingStudioPanel {
 
     await this._updateMetrics();
   }
+
 }

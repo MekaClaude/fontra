@@ -104,7 +104,7 @@
       "id": "OPT-004",
       "name": "Crossing Diagonal Alignment",
       "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong.",
-      "applies_to_glyphs": ["x", "X", "k", "K", "#"],
+      "applies_to_glyphs": ["x", "X", "k", "K"],
       "severity": "warning",
       "verbosity_threshold": "practitioner",
       "detection": {

@@ -1,221 +1,191 @@
 {
   "$schema": "../schema/glyph-dna.schema.json",
   "version": "1.0.0",
-  "updated": "2024-01-01",
+  "updated": "2024-03-15",
   "glyphs": {
     "n": {
-      "unicode": "U+006E",
-      "name": "Latin Small Letter N",
-      "category": "lowercase",
-      "dna_role": "primary_foundation",
+      "unicode": "U+006E", "name": "n", "category": "lowercase", "dna_role": "primary_foundation",
       "builds_from": [],
       "feeds_into": [
-        {
-          "glyph": "m",
-          "method": "extend_arch",
-          "description": "Duplicate the arch, add a third stem",
-          "confidence": "high",
-          "visual_hint": "The second arch of m is identical to n's arch",
-          "parts_used": ["full_glyph"]
-        },
-        {
-          "glyph": "h",
-          "method": "add_ascender",
-          "description": "Extend the left stem upward to form an ascender",
-          "confidence": "high",
-          "visual_hint": "Everything below x-height is identical to n",
-          "parts_used": ["full_glyph"]
-        },
-        {
-          "glyph": "u",
-          "method": "vertical_flip",
-          "description": "Flip n vertically; adjust serifs for baseline",
-          "confidence": "high",
-          "visual_hint": "The arch becomes a bowl opening upward",
-          "parts_used": ["full_glyph"],
-          "caveats": ["Serifs may need redesign after flip", "Spacing will need manual adjustment"]
-        },
-        {
-          "glyph": "r",
-          "method": "truncate_arch",
-          "description": "Use only the left stem and beginning of the arch",
-          "confidence": "high",
-          "parts_used": ["left_stem", "arch_start"]
-        },
-        {
-          "glyph": "i",
-          "method": "extract_stem",
-          "description": "Use the left stem of n, add a dot",
-          "confidence": "high",
-          "parts_used": ["left_stem"]
-        }
+        {"glyph": "h", "method": "add_ascender", "confidence": "high", "parts_used": ["left_stem"]},
+        {"glyph": "m", "method": "extend_arch", "confidence": "high", "parts_used": ["arch", "right_stem"]},
+        {"glyph": "u", "method": "vertical_flip", "confidence": "high", "parts_used": ["full_glyph"]},
+        {"glyph": "r", "method": "truncate_arch", "confidence": "high", "parts_used": ["left_stem"]}
       ],
-      "shares_dna_with": [
-        {
-          "glyph": "H",
-          "relationship": "vertical_stroke_weight",
-          "description": "Stem weights should be calibrated against each other",
-          "check": "stem_width_ratio",
-          "expected_ratio": { "min": 0.95, "max": 1.1 }
-        }
-      ],
-      "terminal_family": ["arch_terminals"],
       "knowledge_card_id": "lc-n-001"
     },
     "o": {
-      "unicode": "U+006F",
-      "name": "Latin Small Letter O",
-      "category": "lowercase",
-      "dna_role": "primary_foundation",
+      "unicode": "U+006F", "name": "o", "category": "lowercase", "dna_role": "primary_foundation",
       "builds_from": [],
       "feeds_into": [
-        {
-          "glyph": "c",
-          "method": "open_right",
-          "description": "Remove the right side; add terminals",
-          "confidence": "high",
-          "parts_used": ["left_bowl", "top_curve", "bottom_curve"]
-        },
-        {
-          "glyph": "e",
-          "method": "add_crossbar",
-          "description": "Add a crossbar to the counter; adjust proportions",
-          "confidence": "medium",
-          "caveats": ["e crossbar is typically lower than mathematical center"]
-        },
-        {
-          "glyph": "b",
-          "method": "add_stem_left",
-          "description": "Attach a stem to the left of the bowl",
-          "confidence": "high",
-          "parts_used": ["bowl"]
-        },
-        {
-          "glyph": "d",
-          "method": "assemble_with_stem",
-          "description": "Combine bowl with h's ascender stem",
-          "confidence": "high",
-          "parts_used": ["bowl"]
-        },
-        {
-          "glyph": "p",
-          "method": "bowl_plus_descender",
-          "description": "Attach bowl to a descending stem",
-          "confidence": "high",
-          "parts_used": ["bowl"]
-        },
-        {
-          "glyph": "q",
-          "method": "mirror_d",
-          "description": "Mirror d horizontally; adjust stem and serifs",
-          "confidence": "high",
-          "parts_used": ["bowl"]
-        }
+        {"glyph": "c", "method": "open_right", "confidence": "high", "parts_used": ["left_bowl"]},
+        {"glyph": "b", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "d", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "p", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "q", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]}
       ],
-      "shares_dna_with": [
-        {
-          "glyph": "O",
-          "relationship": "counter_shape",
-          "description": "Optical weight of counter should feel consistent at text size",
-          "check": "counter_area_ratio"
-        }
-      ],
-      "sets_rhythm": true,
-      "rhythm_note": "The internal white space of o defines the spacing rhythm for the entire font. Sidebearings of o set the reference unit.",
       "knowledge_card_id": "lc-o-001"
     },
-    "H": {
-      "unicode": "U+0048",
-      "name": "Latin Capital Letter H",
-      "category": "uppercase",
-      "dna_role": "capital_foundation",
+    "h": {
+      "unicode": "U+0068", "name": "h", "category": "lowercase", "dna_role": "secondary",
+      "builds_from": [{"glyph": "n", "method": "add_ascender", "confidence": "high", "parts_used": ["full_glyph"]}],
+      "feeds_into": [{"glyph": "b", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["full_glyph"]}],
+      "knowledge_card_id": "lc-h-001"
+    },
+    "m": {
+      "unicode": "U+006D", "name": "m", "category": "lowercase", "dna_role": "arch_family",
+      "builds_from": [{"glyph": "n", "method": "extend_arch", "confidence": "high", "parts_used": ["full_glyph"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-m-001"
+    },
+    "u": {
+      "unicode": "U+0075", "name": "u", "category": "lowercase", "dna_role": "arch_family",
+      "builds_from": [{"glyph": "n", "method": "vertical_flip", "confidence": "high", "parts_used": ["full_glyph"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-u-001"
+    },
+    "l": {
+      "unicode": "U+006C", "name": "l", "category": "lowercase", "dna_role": "primary_foundation",
       "builds_from": [],
       "feeds_into": [
-        {
-          "glyph": "I",
-          "method": "extract_stem",
-          "description": "H's stem proportions directly define I",
-          "confidence": "high",
-          "parts_used": ["left_stem"]
-        },
-        {
-          "glyph": "B",
-          "method": "left_stem_with_bowls",
-          "description": "Left side of H; replace right side with two bowls",
-          "confidence": "medium",
-          "parts_used": ["left_stem"]
-        },
-        {
-          "glyph": "D",
-          "method": "left_stem_with_bowl",
-          "description": "Left side of H; replace right with single bowl",
-          "confidence": "medium",
-          "parts_used": ["left_stem"]
-        },
-        {
-          "glyph": "E",
-          "method": "left_stem_with_arms",
-          "description": "Left side of H; replace right with horizontal arms",
-          "confidence": "high",
-          "parts_used": ["left_stem"]
-        },
-        {
-          "glyph": "F",
-          "method": "e_minus_bottom_arm",
-          "description": "E without the bottom arm; adjust proportions",
-          "confidence": "high",
-          "parts_used": ["left_stem"]
-        },
-        {
-          "glyph": "K",
-          "method": "left_stem_with_diagonals",
-          "parts_used": ["left_stem"],
-          "confidence": "high"
-        },
-        {
-          "glyph": "L",
-          "method": "left_stem_with_foot",
-          "parts_used": ["left_stem"],
-          "confidence": "high"
-        },
-        {
-          "glyph": "P",
-          "method": "left_stem_with_top_bowl",
-          "parts_used": ["left_stem"],
-          "confidence": "high"
-        },
-        {
-          "glyph": "R",
-          "method": "p_with_leg",
-          "parts_used": ["left_stem"],
-          "confidence": "high"
-        },
-        {
-          "glyph": "T",
-          "method": "crossbar_with_centered_stem",
-          "description": "H crossbar logic applies to T crossbar",
-          "confidence": "medium",
-          "parts_used": ["crossbar_logic"]
-        },
-        {
-          "glyph": "U",
-          "method": "bowled_stems",
-          "description": "H stems joined at baseline with a curve",
-          "confidence": "medium",
-          "parts_used": ["left_stem", "right_stem"]
-        }
+        {"glyph": "i", "method": "extract_stem", "confidence": "high", "parts_used": ["stem"]},
+        {"glyph": "j", "method": "extract_stem", "confidence": "high", "parts_used": ["stem"]},
+        {"glyph": "d", "method": "add_ascender", "confidence": "high", "parts_used": ["stem"]}
       ],
-      "shares_dna_with": [
-        {
-          "glyph": "n",
-          "relationship": "stem_weight_calibration",
-          "description": "Uppercase stems typically 105-115% heavier than lowercase to appear equal",
-          "check": "stem_width_ratio",
-          "expected_ratio": { "min": 1.03, "max": 1.18 }
-        }
+      "knowledge_card_id": "lc-l-001"
+    },
+    "i": {
+      "unicode": "U+0069", "name": "i", "category": "lowercase", "dna_role": "secondary",
+      "builds_from": [{"glyph": "l", "method": "extract_stem", "confidence": "high", "parts_used": ["stem"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-i-001"
+    },
+    "j": {
+      "unicode": "U+006A", "name": "j", "category": "lowercase", "dna_role": "secondary",
+      "builds_from": [{"glyph": "l", "method": "extract_stem", "confidence": "high", "parts_used": ["stem"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-j-001"
+    },
+    "b": {
+      "unicode": "U+0062", "name": "b", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [
+        {"glyph": "h", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["left_stem"]},
+        {"glyph": "o", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]}
       ],
-      "optical_issues": ["crossbar_weight"],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-b-001"
+    },
+    "d": {
+      "unicode": "U+0064", "name": "d", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [
+        {"glyph": "o", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "l", "method": "add_ascender", "confidence": "high", "parts_used": ["stem"]}
+      ],
+      "feeds_into": [
+        {"glyph": "a", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "q", "method": "mirror_horizontal", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "knowledge_card_id": "lc-d-001"
+    },
+    "p": {
+      "unicode": "U+0070", "name": "p", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [
+        {"glyph": "b", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "o", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-p-001"
+    },
+    "q": {
+      "unicode": "U+0071", "name": "q", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [
+        {"glyph": "d", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "o", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "feeds_into": [{"glyph": "g", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]}],
+      "knowledge_card_id": "lc-q-001"
+    },
+    "c": {
+      "unicode": "U+0063", "name": "c", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [{"glyph": "o", "method": "open_right", "confidence": "high", "parts_used": ["bowl"]}],
+      "feeds_into": [
+        {"glyph": "e", "method": "add_crossbar", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "s", "method": "spine_modification", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "knowledge_card_id": "lc-c-001"
+    },
+    "e": {
+      "unicode": "U+0065", "name": "e", "category": "lowercase", "dna_role": "bowl_family",
+      "builds_from": [{"glyph": "c", "method": "add_crossbar", "confidence": "high", "parts_used": ["full_glyph"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-e-001"
+    },
+    "s": {
+      "unicode": "U+0073", "name": "s", "category": "lowercase", "dna_role": "secondary",
+      "builds_from": [{"glyph": "c", "method": "spine_modification", "confidence": "medium", "parts_used": ["bowl"]}],
+      "feeds_into": [{"glyph": "a", "method": "spine_modification", "confidence": "medium", "parts_used": ["curves"]}],
+      "knowledge_card_id": "lc-s-001"
+    },
+    "a": {
+      "unicode": "U+0061", "name": "a", "category": "lowercase", "dna_role": "secondary",
+      "builds_from": [
+        {"glyph": "s", "method": "spine_modification", "confidence": "medium", "parts_used": ["curves"]},
+        {"glyph": "d", "method": "bowl_plus_stem", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "feeds_into": [],
+      "knowledge_card_id": "lc-a-001"
+    },
+    "z": {
+      "unicode": "U+007A", "name": "z", "category": "lowercase", "dna_role": "diagonal_family",
+      "builds_from": [],
+      "feeds_into": [
+        {"glyph": "k", "method": "add_diagonal", "confidence": "high", "parts_used": ["diagonal"]},
+        {"glyph": "v", "method": "add_diagonal", "confidence": "high", "parts_used": ["diagonal"]},
+        {"glyph": "x", "method": "add_diagonal", "confidence": "high", "parts_used": ["diagonal"]}
+      ],
+      "knowledge_card_id": "lc-z-001"
+    },
+    "v": {
+      "unicode": "U+0076", "name": "v", "category": "lowercase", "dna_role": "diagonal_family",
+      "builds_from": [{"glyph": "z", "method": "add_diagonal", "confidence": "high", "parts_used": ["diagonal"]}],
+      "feeds_into": [
+        {"glyph": "w", "method": "mirror_horizontal", "confidence": "high", "parts_used": ["full_glyph"]},
+        {"glyph": "y", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["full_glyph"]}
+      ],
+      "knowledge_card_id": "lc-v-001"
+    },
+    "H": {
+      "unicode": "U+0048", "name": "H", "category": "uppercase", "dna_role": "capital_foundation",
+      "builds_from": [],
+      "feeds_into": [
+        {"glyph": "I", "method": "extract_stem", "confidence": "high", "parts_used": ["stem"]},
+        {"glyph": "L", "method": "left_stem_with_foot", "confidence": "high", "parts_used": ["stem"]},
+        {"glyph": "T", "method": "crossbar_with_centered_stem", "confidence": "high", "parts_used": ["stem"]},
+        {"glyph": "N", "method": "left_stem_with_diagonals", "confidence": "high", "parts_used": ["stem"]}
+      ],
       "knowledge_card_id": "uc-H-001"
+    },
+    "O": {
+      "unicode": "U+004F", "name": "O", "category": "uppercase", "dna_role": "capital_foundation",
+      "builds_from": [],
+      "feeds_into": [
+        {"glyph": "C", "method": "open_right", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "D", "method": "left_stem_with_bowl", "confidence": "high", "parts_used": ["bowl"]},
+        {"glyph": "Q", "method": "bowl_plus_descender", "confidence": "high", "parts_used": ["bowl"]}
+      ],
+      "knowledge_card_id": "uc-O-001"
+    },
+    "A": {
+      "unicode": "U+0041", "name": "A", "category": "uppercase", "dna_role": "diagonal_family",
+      "builds_from": [{"glyph": "V", "method": "vertical_flip", "confidence": "high", "parts_used": ["diagonals"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "uc-A-001"
+    },
+    "S": {
+      "unicode": "U+0053", "name": "S", "category": "uppercase", "dna_role": "secondary",
+      "builds_from": [{"glyph": "O", "method": "spine_modification", "confidence": "medium", "parts_used": ["bowl"]}],
+      "feeds_into": [],
+      "knowledge_card_id": "uc-S-001"
     }
   }
 }
