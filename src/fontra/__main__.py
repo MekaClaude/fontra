@@ -3,6 +3,7 @@ import logging
 import pathlib
 import secrets
 import subprocess
+import sys
 from importlib.metadata import entry_points
 
 from . import __version__ as fontraVersion
@@ -57,7 +58,8 @@ def main() -> None:
     manager: ProjectManager = args.getProjectManager(args)
 
     if args.dev:
-        subprocess.Popen(["npm", "run", "bundle-watch"])
+        npm_cmd = "npm.cmd" if sys.platform == "win32" else "npm"
+        subprocess.Popen([npm_cmd, "run", "bundle-watch"])
 
     server = FontraServer(
         host=host,
