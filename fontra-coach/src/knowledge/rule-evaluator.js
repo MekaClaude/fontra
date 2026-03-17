@@ -12,7 +12,7 @@ export function evaluateRules(glyphName, analysis, knowledgeBundle, userSettings
 
   for (const rule of rules) {
     const ruleLevel = verbosityLevels[rule.verbosity_threshold] || 1;
-    if (userLevel > ruleLevel) continue;
+    if (userLevel !== ruleLevel) continue;
 
     if (rule.applies_to_glyphs !== 'all' && !rule.applies_to_glyphs.includes(glyphName)) {
       continue;

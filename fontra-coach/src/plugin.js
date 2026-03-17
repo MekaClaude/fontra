@@ -25,8 +25,9 @@ export const pluginManifest = {
 };
 
 class AnalysisEngine {
-  constructor(kb) {
+  constructor(kb, fontController) {
     this.kb = kb;
+    this.fontController = fontController;
     this.cache = new AnalysisCache();
     this.listeners = new Set();
     this.stateListeners = new Set();
@@ -40,7 +41,14 @@ class AnalysisEngine {
 
   onGlyphEdited(glyphName, glyphData) {
     this.cache.invalidate(glyphName);
-    const metrics = { baseline: 0, xHeight: 500 }; // placeholder
+    
+    let metrics = { baseline: 0, xHeight: 500 }; 
+    if (this.fontController && typeof this.fontController.getMetrics === 'function') {
+      try {
+        metrics = this.fontController.getMetrics() || metrics;
+      } catch(e) { /* ignore */ }
+    }
+    
     const analysis = analyzeGlyph(glyphData, metrics);
     this.cache.set(glyphName, "mockHash", analysis);
     
@@ -78,7 +86,7 @@ export async function activate(context) {
   const kb = await KnowledgeLoader.loadDefault();
 
   // 2. Bootstrap analysis engine
-  const engine = new AnalysisEngine(kb);
+  const engine = new AnalysisEngine(kb, fontController);
 
   // 3. Register event handlers
   const broker = new EventBroker(eventBus, engine);
