@@ -1,11 +1,32 @@
 # Changelog for Fontra
 
-## 2026-03-?? [version 2026.3.2]
+## 2026-03-17 [version 2026.3.4]
 
-- [fontra-pak] Reinstate support for macOS 11, which was accidentally dropped by unnecessarily upgrading the PyQt6 dependency. [fontra-pak PR 229](https://github.com/fontra/fontra-pak/pull/229)
-- [opentype] Use the previous working shaper font if compilation fails during editing of OpenType features. This avoids jarring text breackage during feature editing. [Issue 2469](https://github.com/fontra/fontra/issues/2469), [PR 2480](https://github.com/fontra/fontra/pull/2480)
+### Fixes
+
+- [shaping] A GDEF table in the feature code must override our own glyph-is-mark logic. [Issue 2495](https://github.com/fontra/fontra/issues/2495), [PR 2496](https://github.com/fontra/fontra/pull/2496)
+- [cross-axis mapping/avar-2] Fix edge case where we specify an output axis value at the default, while the corresponding input value is _not_ at the default. [PR 2492](https://github.com/fontra/fontra/pull/2492)
+- Prevent unnecessary .designspace lib pollution by not writing the "project glyph sets" list if it is empty. [PR 2491](https://github.com/fontra/fontra/pull/2491)
+- Fixed write-on-initial-read bug that was especially harmful for .designspace: Fontra should never write files when it is only reading. [PR 2499](https://github.com/fontra/fontra/pull/2499)
+
+## 2026-03-12 [version 2026.3.3]
+
+- Fix font info navigation regression.
+
+## 2026-03-12 [version 2026.3.2]
+
+### New features
+
+- [shaping] Add app-level switch to opt-out of ad hoc mark detection. This setting is needed to correctly render glyphs that use "receiving" marks (starting with an underscore) that are not meant to be marks. The default behavior still matches fontmake's default. [Issue 2487](https://github.com/fontra/fontra/issues/2487), [PR 2490](https://github.com/fontra/fontra/pull/2490)
+- [editor] Bring the "glyph sets" functionality from the font overview to the editor. The glyph set selection UI was added to the glyph search panel. Importantly, this finally allows us to use custom glyph name/code point mappings in the editor. [PR 2489](https://github.com/fontra/fontra/pull/2489)
 - [translations] Added a full Traditional Chinese set of translation strings, contributed by 湖远星（Lake桑）. They also filled some gaps in the Simplified Chinese strings. [PR 2479](https://github.com/fontra/fontra/pull/2479)
 - [fontra-pak] Add a sample text field to the launcher window. If this is empty, launch into the font overview, but if it is not, launch into the editor with the text. [fontra-pak PR 228](https://github.com/fontra/fontra-pak/pull/228)
+
+### Fixes
+
+- Don't draw incorrect placeholder strings for empty unencoded glyphs [PR 2486](https://github.com/fontra/fontra/pull/2486)
+- [fontra-pak] Reinstate support for macOS 11, which was accidentally dropped by unnecessarily upgrading the PyQt6 dependency. [fontra-pak PR 229](https://github.com/fontra/fontra-pak/pull/229)
+- [opentype] Use the previous working shaper font if compilation fails during editing of OpenType features. This avoids jarring text breackage during feature editing. [Issue 2469](https://github.com/fontra/fontra/issues/2469), [PR 2480](https://github.com/fontra/fontra/pull/2480)
 
 ## 2026-03-06 [version 2026.3.1]
 
