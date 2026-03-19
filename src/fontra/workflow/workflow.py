@@ -265,6 +265,17 @@ def _loadActionsEntryPoints():
     from .actions import misc  # noqa: F401
     from .actions import subset  # noqa: F401
 
+    # Explicitly import fontra_compile actions to ensure they're registered.
+    # This is needed for PyInstaller builds where entry point metadata may not
+    # be properly preserved.
+    try:
+        import fontra_compile.compile_fontmake_action  # noqa: F401
+        import fontra_compile.compile_fontc_action    # noqa: F401
+        import fontra_compile.compile_varc_action     # noqa: F401
+    except ImportError:
+        # fontra_compile may not be installed, which is OK
+        pass
+
     for entryPoint in entry_points(group="fontra.workflow.actions"):
         _ = entryPoint.load()
 
