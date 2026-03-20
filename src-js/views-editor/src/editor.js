@@ -963,181 +963,53 @@ export class EditorController extends ViewController {
       this.updateFullscreenButton();
     });
 
-    // Initialize draggable toolbar
-    this.initDraggableToolbar();
+    // Initialize tools overlay position
+    this.initToolsOverlayPosition();
   }
 
-  initDraggableToolbar() {
-    const toolsDraggable = document.getElementById("tools-draggable");
-    if (!toolsDraggable) {
+  initToolsOverlayPosition() {
+    const toolsOverlay = document.getElementById("tools-draggable");
+    if (!toolsOverlay) {
       return;
     }
 
-    // Store reference for cleanup
-    this._toolsDraggable = toolsDraggable;
+    this._toolsOverlay = toolsOverlay;
 
-    // Bind handlers to preserve 'this' context
-    this._onToolbarMouseDown = this._handleToolbarMouseDown.bind(this);
-    this._onToolbarMouseMove = this._handleToolbarMouseMove.bind(this);
-    this._onToolbarMouseUp = this._handleToolbarMouseUp.bind(this);
-    this._onToolbarTouchStart = this._handleToolbarTouchStart.bind(this);
-    this._onToolbarTouchMove = this._handleToolbarTouchMove.bind(this);
-    this._onToolbarTouchEnd = this._handleToolbarTouchEnd.bind(this);
+    // Apply initial position
+    this._updateToolsOverlayPosition();
 
-    toolsDraggable.addEventListener("mousedown", this._onToolbarMouseDown);
-    document.addEventListener("mousemove", this._onToolbarMouseMove);
-    document.addEventListener("mouseup", this._onToolbarMouseUp);
-    toolsDraggable.addEventListener("touchstart", this._onToolbarTouchStart, { passive: false });
-    document.addEventListener("touchmove", this._onToolbarTouchMove, { passive: false });
-    document.addEventListener("touchend", this._onToolbarTouchEnd);
+    // Listen for position setting changes
+    this._onToolsOverlayPositionChanged = () => {
+      this._updateToolsOverlayPosition();
+    };
+    applicationSettingsController.addKeyListener(
+      "toolsMenuPosition",
+      this._onToolsOverlayPositionChanged
+    );
   }
 
-  _handleToolbarMouseDown(e) {
-    const toolsDraggable = this._toolsDraggable;
-    if (!toolsDraggable) return;
-
-    // Don't start drag if clicking on a tool button
-    if (e.target.closest(".tool-button") || e.target.closest(".subtool-button")) {
+  _updateToolsOverlayPosition() {
+    const toolsOverlay = this._toolsOverlay;
+    if (!toolsOverlay) {
       return;
     }
-
-    this._isDragging = true;
-    toolsDraggable.classList.add("dragging");
-
-    const rect = toolsDraggable.getBoundingClientRect();
-    const parentRect = toolsDraggable.parentElement.getBoundingClientRect();
-
-    this._dragStartX = e.clientX;
-    this._dragStartY = e.clientY;
-    this._dragInitialLeft = rect.left - parentRect.left;
-    this._dragInitialTop = rect.top - parentRect.top;
-
-    e.preventDefault();
-  }
-
-  _handleToolbarMouseMove(e) {
-    const toolsDraggable = this._toolsDraggable;
-    if (!toolsDraggable || !this._isDragging) {
-      return;
-    }
-
-    const dx = e.clientX - this._dragStartX;
-    const dy = e.clientY - this._dragStartY;
-
-    const parent = toolsDraggable.parentElement;
-    const parentRect = parent.getBoundingClientRect();
-    const toolsRect = toolsDraggable.getBoundingClientRect();
-
-    // Calculate new position
-    let newLeft = this._dragInitialLeft + dx;
-    let newTop = this._dragInitialTop + dy;
-
-    // Constrain to window bounds
-    const minLeft = -parentRect.left;
-    const minTop = -parentRect.top;
-    const maxLeft = window.innerWidth - parentRect.left - toolsRect.width;
-    const maxTop = window.innerHeight - parentRect.top - toolsRect.height;
-
-    newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-    newTop = Math.max(minTop, Math.min(newTop, maxTop));
-
-    toolsDraggable.style.left = newLeft + "px";
-    toolsDraggable.style.top = newTop + "px";
-    toolsDraggable.style.right = "auto";
-  }
-
-  _handleToolbarMouseUp() {
-    const toolsDraggable = this._toolsDraggable;
-    if (this._isDragging && toolsDraggable) {
-      this._isDragging = false;
-      toolsDraggable.classList.remove("dragging");
+    const position = applicationSettingsController.model.toolsMenuPosition;
+    if (position === "bottom") {
+      toolsOverlay.classList.add("tools-overlay--bottom");
+    } else {
+      toolsOverlay.classList.remove("tools-overlay--bottom");
     }
   }
 
-  _handleToolbarTouchStart(e) {
-    const toolsDraggable = this._toolsDraggable;
-    if (!toolsDraggable) return;
-
-    if (e.target.closest(".tool-button") || e.target.closest(".subtool-button")) {
-      return;
+  destroyToolsOverlayPosition() {
+    if (this._onToolsOverlayPositionChanged) {
+      applicationSettingsController.removeKeyListener(
+        "toolsMenuPosition",
+        this._onToolsOverlayPositionChanged
+      );
+      this._onToolsOverlayPositionChanged = null;
     }
-
-    this._isDragging = true;
-    toolsDraggable.classList.add("dragging");
-
-    const touch = e.touches[0];
-    const rect = toolsDraggable.getBoundingClientRect();
-    const parentRect = toolsDraggable.parentElement.getBoundingClientRect();
-
-    this._dragStartX = touch.clientX;
-    this._dragStartY = touch.clientY;
-    this._dragInitialLeft = rect.left - parentRect.left;
-    this._dragInitialTop = rect.top - parentRect.top;
-
-    e.preventDefault();
-  }
-
-  _handleToolbarTouchMove(e) {
-    const toolsDraggable = this._toolsDraggable;
-    if (!toolsDraggable || !this._isDragging) {
-      return;
-    }
-
-    const touch = e.touches[0];
-    const dx = touch.clientX - this._dragStartX;
-    const dy = touch.clientY - this._dragStartY;
-
-    const parent = toolsDraggable.parentElement;
-    const parentRect = parent.getBoundingClientRect();
-    const toolsRect = toolsDraggable.getBoundingClientRect();
-
-    let newLeft = this._dragInitialLeft + dx;
-    let newTop = this._dragInitialTop + dy;
-
-    const minLeft = -parentRect.left;
-    const minTop = -parentRect.top;
-    const maxLeft = window.innerWidth - parentRect.left - toolsRect.width;
-    const maxTop = window.innerHeight - parentRect.top - toolsRect.height;
-
-    newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-    newTop = Math.max(minTop, Math.min(newTop, maxTop));
-
-    toolsDraggable.style.left = newLeft + "px";
-    toolsDraggable.style.top = newTop + "px";
-    toolsDraggable.style.right = "auto";
-  }
-
-  _handleToolbarTouchEnd() {
-    const toolsDraggable = this._toolsDraggable;
-    if (this._isDragging && toolsDraggable) {
-      this._isDragging = false;
-      toolsDraggable.classList.remove("dragging");
-    }
-  }
-
-  destroyDraggableToolbar() {
-    const toolsDraggable = this._toolsDraggable;
-    if (!toolsDraggable) {
-      return;
-    }
-
-    // Remove all event listeners
-    toolsDraggable.removeEventListener("mousedown", this._onToolbarMouseDown);
-    document.removeEventListener("mousemove", this._onToolbarMouseMove);
-    document.removeEventListener("mouseup", this._onToolbarMouseUp);
-    toolsDraggable.removeEventListener("touchstart", this._onToolbarTouchStart);
-    document.removeEventListener("touchmove", this._onToolbarTouchMove);
-    document.removeEventListener("touchend", this._onToolbarTouchEnd);
-
-    // Clear references
-    this._toolsDraggable = null;
-    this._onToolbarMouseDown = null;
-    this._onToolbarMouseMove = null;
-    this._onToolbarMouseUp = null;
-    this._onToolbarTouchStart = null;
-    this._onToolbarTouchMove = null;
-    this._onToolbarTouchEnd = null;
-    this._isDragging = false;
+    this._toolsOverlay = null;
   }
 
   addEditTool(tool) {
