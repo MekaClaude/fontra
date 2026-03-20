@@ -996,6 +996,12 @@ export class EditorController extends ViewController {
     const position = applicationSettingsController.model.toolsMenuPosition;
     if (position === "bottom") {
       toolsOverlay.classList.add("tools-overlay--bottom");
+      // Set CSS variable for bottom margin calculation (3.5x tools-overlay height)
+      const toolsOverlayHeight = toolsOverlay.offsetHeight;
+      toolsOverlay.parentElement.style.setProperty(
+        "--tools-overlay-height",
+        `${toolsOverlayHeight}px`
+      );
     } else {
       toolsOverlay.classList.remove("tools-overlay--bottom");
     }

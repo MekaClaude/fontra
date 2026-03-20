@@ -332,7 +332,7 @@ body {
 
 .tools-overlay.tools-overlay--bottom {
   top: auto;
-  bottom: 0;
+  bottom: calc(var(--tools-overlay-height, 3rem) * 0.7);
 }
 
 /* Draggable toolbar styles */
