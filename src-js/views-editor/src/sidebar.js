@@ -37,6 +37,14 @@ export class Sidebar {
       `.tab-overlay-container.${this.identifier}`
     );
 
+    const iconElement = panelElement.inlineSVG
+      ? html.createDomElement("inline-svg")
+      : html.createDomElement("inline-svg", { src: panelElement.iconPath });
+
+    if (panelElement.inlineSVG) {
+      iconElement.innerHTML = panelElement.inlineSVG;
+    }
+
     tabOverlayContainer.appendChild(
       html.div(
         {
@@ -45,7 +53,7 @@ export class Sidebar {
           "data-tooltip": translate("sidebar." + panelElement.identifier),
           "data-tooltipposition": this.identifier === "right" ? "left" : "right",
         },
-        [html.createDomElement("inline-svg", { src: panelElement.iconPath })]
+        [iconElement]
       )
     );
   }
