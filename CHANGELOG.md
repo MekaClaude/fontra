@@ -1,10 +1,32 @@
 # Changelog for Fontra
 
+## 2026-03-24 [version 2026.3.6]
+
+### New features
+
+- Added a "Shaping debugger", as part of the "Input characters and output glyphs" panel. It sits in a new closed-by-default accordion item between "Input characters" and "Output glyphs" and allows the user to step through all the processing steps involved with text shaping and OpenType feature application, such as character reordering, glyph substition and glyph positioning. The user can see what effect each step has on the rendered string, both visually in the canvas and textually/numerically in the output glyphs list. This builds on the HarfBuzz "message API", and offers similar functionality to the [Crowbar](https://github.com/simoncozens/crowbar) tool. [PR 2500](https://github.com/fontra/fontra/pull/2500)
+
+### Improvements
+
+- Improved browser tab management significantly: when navigating to the font info view or to the font overview, activate an existing tab for that view. This avoids opening redundant new tabs, and allows the user to switch tabs with the "Font" menu. [PR 2520](https://github.com/fontra/fontra/pull/2520)
+
+### Fixes
+
+- [shaping] Fixed emulated mark positioning around "multiplied" glyph. [Issue 2521](https://github.com/fontra/fontra/issues/2521), [PR 2523](https://github.com/fontra/fontra/pull/2523)
+- Prevent editing of metrics and kerning when the font is read-only, and prevent editing metrics when glyphs are locked. [Issue 2407](https://github.com/fontra/fontra/issues/2407), [PR 2513](https://github.com/fontra/fontra/pull/2513)
+
 ## 2026-03-20 [version 2026.3.5]
 
-- [translations] Added Tagalog (Filipino) translations, contributed by FlaviusChromacitrin. [Issue 2503](https://github.com/fontra/fontra/issues/2503), [PR 2506](https://github.com/fontra/fontra/pull/2506)
-- [designspace/ufo] Don't unnecessarily modify UFO's metainfo.plist file when reading. This happened when the metainfo.plist file was formatted differently from how fontTools.ufoLib would do it. [Issue 2504](https://github.com/fontra/fontra/issues/2504), [PR 2505](https://github.com/fontra/fontra/pull/2505)
+### New features
+
 - [fontra-pak] Make .fontra the default format when creating a new font, and remove the .rcjk legacy format from the new font format options. [fontra-pak PR 231](https://github.com/fontra/fontra-pak/pull/231)
+- [translations] Added Tagalog (Filipino) translations, contributed by FlaviusChromacitrin. [Issue 2503](https://github.com/fontra/fontra/issues/2503), [PR 2506](https://github.com/fontra/fontra/pull/2506)
+
+### Fixes
+
+- [Windows + OneDrive] Work around erroneous reloads that disrupt editing, caused by OneDrive on Windows: if files are stored in a OneDrive folder, each file write by Fontra causes OneDrive to change the modification time again a bit later, causing Fontra to receive a "file changed" event, even though the file didn't really change. We work around this by also comparing the contents of the file, and ignore the event if it's still the same. [PR 2511](https://github.com/fontra/fontra/pull/2511)
+- [shaping] Make explicit non-mark glyph category take precedence over ad-hoc mark detection. [Issue 2507](https://github.com/fontra/fontra/issues/2507), [PR 2508](https://github.com/fontra/fontra/pull/2508)
+- [designspace/ufo] Don't unnecessarily modify UFO's metainfo.plist file when reading. This happened when the metainfo.plist file was formatted differently from how fontTools.ufoLib would do it. [Issue 2504](https://github.com/fontra/fontra/issues/2504), [PR 2505](https://github.com/fontra/fontra/pull/2505)
 - [fontra-glyphs] Fixed support for smart components that don't respond to font axes, yet use master layers that do. Reported and mostly fixed by Zachary Quinn Scheuren. [fontra-glyphs PR 133](https://github.com/fontra/fontra-glyphs/pull/133) and [fontra-glyphs PR 134](https://github.com/fontra/fontra-glyphs/pull/134)
 - [ttx] Fixed .ttx support for fonts that contain a format 2 `post` table. [PR 2501](https://github.com/fontra/fontra/pull/2501)
 
