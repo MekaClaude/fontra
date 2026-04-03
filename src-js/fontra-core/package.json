@@ -6,7 +6,7 @@
     "build-shaper-font": "^0.1.4",
     "dompurify": "^3.0.6",
     "fflate": "^0.8.2",
-    "harfbuzzjs": "^0.10.0",
+    "harfbuzzjs": "^0.10.3",
     "lib-font": "^3.0.0",
     "tsc": "^2.0.4"
   },

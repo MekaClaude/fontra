@@ -1,6 +1,8 @@
 import { assert, enumerate } from "./utils.js";
 
-const fontDefaults = { unitsPerEm: 1000 };
+function getFontDefaults() {
+  return { unitsPerEm: 1000, axes: { axes: [] } };
+}
 
 export class FontraBackend {
   static glyphInfoFileName = "glyph-info.csv";
@@ -59,7 +61,10 @@ export class FontraBackend {
 
   async _readFontData() {
     const fontDataPath = this.path.joinPath(FontraBackend.fontDataFileName);
-    this.fontData = { ...fontDefaults, ...JSON.parse(await fontDataPath.readText()) };
+    this.fontData = {
+      ...getFontDefaults(),
+      ...JSON.parse(await fontDataPath.readText()),
+    };
   }
 
   _getGlyphFilePath(self, glyphName) {
@@ -144,7 +149,7 @@ function parseCodePoints(cell) {
 }
 
 function readGlyphInfo(infoKeys, cells) {
-  info = {};
+  const info = {};
 
   for (const [i, key] of enumerate(infoKeys)) {
     const cellValue = cells[i];
