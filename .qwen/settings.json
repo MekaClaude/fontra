@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rmdir *)",
+      "Bash(del *)"
+    ]
+  },
+  "$version": 3
+}

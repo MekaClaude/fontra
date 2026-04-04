@@ -1,9 +1,0 @@
-{
-  "name": "fontra-spacing-studio",
-  "version": "0.1.0",
-  "description": "Interactive spacing studio: proof strings, sidebearing editor, spacing guide",
-  "author": "Community contributor",
-  "license": "GPL-3.0",
-  "init": "start.js",
-  "function": "registerPlugin"
-}

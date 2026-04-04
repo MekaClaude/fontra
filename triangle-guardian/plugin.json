@@ -1,0 +1,10 @@
+{
+  "name": "Triangle Guardian",
+  "identifier": "com.fontra.plugins.triangle-guardian",
+  "version": "1.0.0",
+  "description": "Visualizes the Adobe control-point triangle guideline on cubic Bézier segments, flagging handles that fall outside the recommended boundary.",
+  "author": "Fontra Community",
+  "license": "MIT",
+  "init": "start.js",
+  "function": "registerPlugin"
+}
