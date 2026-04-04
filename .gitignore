@@ -267,3 +267,6 @@ src/fontra/localplugins/
 # Generated HTML/JS files
 src/fontra/client
 nul
+
+# Skills data prompt
+.skills-data-prompt/
