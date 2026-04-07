@@ -13,7 +13,12 @@
       "Bash(pip install *)",
       "Bash(mkdir *)",
       "Bash(copy *)",
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(git fetch *)",
+      "Bash(git rebase *)",
+      "Bash(git stash)",
+      "Bash(git merge *)",
+      "Bash(git push *)"
     ]
   },
   "$version": 3
