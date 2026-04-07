@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(rmdir *)",
-      "Bash(del *)"
+      "Bash(del *)",
+      "Bash(python *)",
+      "Bash(taskkill *)",
+      "Bash(git commit *)",
+      "Bash(git rm *)",
+      "Bash(powershell *)",
+      "Bash(npm install)",
+      "Bash(npm run *)",
+      "Bash(pip install *)",
+      "Bash(mkdir *)",
+      "Bash(copy *)",
+      "Bash(dir)"
     ]
   },
   "$version": 3
