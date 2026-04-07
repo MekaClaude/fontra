@@ -3,7 +3,17 @@ import { ObservableController } from "@fontra/core/observable-object.js";
 import { div, label, input, span } from "@fontra/core/html-utils.js";
 import { state } from "./triangle-guardian-state.js";
 
+/**
+ * Triangle Guardian Panel — settings UI for the visualization.
+ * Provides toggles for educational mode, show-all, violation highlighting,
+ * S-curve labels, and triangle opacity. Runs violation scans on glyph changes.
+ */
 export default class TriangleGuardianPanel extends Panel {
+  /** Register this panel type with the Fontra editor. */
+  static register(targetFontra) {
+    targetFontra.addPanelType(this);
+  }
+
   identifier = "triangle-guardian-panel";
   inlineSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path d="M18 6 L6 30 L30 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="18" cy="6" r="2" fill="currentColor"/><circle cx="6" cy="30" r="2" fill="currentColor"/><circle cx="30" cy="30" r="2" fill="currentColor"/></svg>`;
 
@@ -20,6 +30,13 @@ export default class TriangleGuardianPanel extends Panel {
     .tg-label { font-size: 12px; color: var(--ui-element-foreground-color); }
     .tg-violation-list { min-height: 80px; }
     .tg-empty { font-size: 11px; opacity: .5; padding: 8px 0; text-align: center; }
+    .tg-violation-item {
+      display: flex; align-items: center; gap: 4px; padding: 3px 0;
+      cursor: pointer; font-size: 11px;
+      color: var(--ui-element-foreground-color);
+    }
+    .tg-violation-item:hover { background: var(--ui-element-background-color-1); }
+    .tg-violation-issue { color: var(--fontra-red); }
   `;
 
   constructor(editorController) {
@@ -56,7 +73,7 @@ export default class TriangleGuardianPanel extends Panel {
       this._scheduleViolationScan()
     );
 
-    this.editorController.sceneController.sceneSettingsController.addKeyListener(
+    this.editorController.sceneSettingsController.addKeyListener(
       "selectedGlyphName",
       () => this._scheduleViolationScan()
     );
@@ -142,73 +159,84 @@ export default class TriangleGuardianPanel extends Panel {
     delete this._pending;
   }
 
+  /**
+   * Scan the current glyph for triangle guideline violations.
+   * A violation occurs when a control point falls outside the Adobe triangle.
+   */
   async _runViolationScan() {
-    const sceneController = this.editorController.sceneController;
-    const sceneModel = sceneController.sceneModel;
-    const glyphName = sceneController.sceneSettings.selectedGlyphName;
-    if (!glyphName) {
-      this._violationList.innerHTML = '<div class="tg-empty">No glyph selected</div>';
-      return;
-    }
+    try {
+      const sceneController = this.editorController.sceneController;
+      const sceneModel = sceneController.sceneModel;
+      const glyphName = sceneController.sceneSettings.selectedGlyphName;
 
-    // Use sceneModel.getGlyphInstance which automatically applies the current source location
-    const instance = await sceneModel.getGlyphInstance(glyphName);
-    if (!instance || !instance.path) {
-      this._violationList.innerHTML = '<div class="tg-empty">No path data</div>';
-      return;
-    }
+      if (!glyphName) {
+        this._violationList.innerHTML = '<div class="tg-empty">No glyph selected</div>';
+        return;
+      }
 
-    const path = instance.path;
-    const violations = [];
+      // Use sceneModel.getGlyphInstance which applies the current source location
+      const instance = await sceneModel.getGlyphInstance(glyphName);
+      if (!instance || !instance.path) {
+        this._violationList.innerHTML = '<div class="tg-empty">No path data</div>';
+        return;
+      }
 
-    for (let ci = 0; ci < path.numContours; ci++) {
-      for (const segment of path.iterContourDecomposedSegments(ci)) {
-        if (segment.type !== "cubic" || segment.points.length !== 4) continue;
+      const path = instance.path;
+      const violations = [];
 
-        const [P0, P1, P2, P3] = segment.points;
-        if (isDegenerate(P0, P1, P2, P3)) continue;
+      for (let ci = 0; ci < path.numContours; ci++) {
+        for (const segment of path.iterContourDecomposedSegments(ci)) {
+          if (segment.type !== "cubic" || segment.points.length !== 4) continue;
 
-        const { apex, isSCurve } = computeApex(P0, P1, P2, P3);
-        if (isSCurve) {
-          violations.push({ contour: ci, segment: segment.segmentIndex || ci, issue: "S-curve" });
-          continue;
-        }
-        if (!apex) continue;
+          const [P0, P1, P2, P3] = segment.points;
+          if (isDegenerate(P0, P1, P2, P3)) continue;
 
-        const p1Out = !pointInTriangle(P1, P0, P3, apex);
-        const p2Out = !pointInTriangle(P2, P0, P3, apex);
-        if (p1Out || p2Out) {
-          const parts = [];
-          if (p1Out) parts.push("handle A");
-          if (p2Out) parts.push("handle B");
-          violations.push({ contour: ci, segment: segment.segmentIndex || ci, issue: parts.join(", ") });
+          const { apex, isSCurve } = computeApex(P0, P1, P2, P3);
+          if (isSCurve) {
+            violations.push({
+              contour: ci,
+              segment: segment.segmentIndex ?? ci,
+              issue: "S-curve",
+            });
+            continue;
+          }
+          if (!apex) continue;
+
+          const p1Out = !pointInTriangle(P1, P0, P3, apex);
+          const p2Out = !pointInTriangle(P2, P0, P3, apex);
+          if (p1Out || p2Out) {
+            const parts = [];
+            if (p1Out) parts.push("handle A");
+            if (p2Out) parts.push("handle B");
+            violations.push({
+              contour: ci,
+              segment: segment.segmentIndex ?? ci,
+              issue: parts.join(", "),
+            });
+          }
         }
       }
-    }
 
-    if (violations.length === 0) {
-      this._violationList.innerHTML = '<div class="tg-empty">No violations</div>';
-    } else {
-      const items = violations.map(
-        (v) =>
-          div(
-            {
-              class: "tg-row",
-              style: "cursor: pointer; padding: 2px 0;",
-            },
-            [
-              span({ class: "tg-label", style: "width: 48px;" }, `c${v.contour}`),
-              span({ class: "tg-label", style: "width: 36px;" }, `s${v.segment}`),
-              span({ class: "tg-label", style: "color: var(--fontra-red);" }, v.issue),
-            ]
-          )
-      );
-      this._violationList.replaceChildren(...items);
+      if (violations.length === 0) {
+        this._violationList.innerHTML = '<div class="tg-empty">No violations</div>';
+      } else {
+        const items = violations.map((v) =>
+          div({ class: "tg-violation-item" }, [
+            span({ style: "width: 48px;" }, `c${v.contour}`),
+            span({ style: "width: 36px;" }, `s${v.segment}`),
+            span({ class: "tg-violation-issue" }, v.issue),
+          ])
+        );
+        this._violationList.replaceChildren(...items);
+      }
+    } catch (error) {
+      console.error("[Triangle Guardian] Violation scan failed:", error);
+      this._violationList.innerHTML = `<div class="tg-empty" style="color: var(--fontra-red);">Scan error: ${error.message}</div>`;
     }
   }
 }
 
-// Inline imports to avoid circular deps in panel
+// Inline geometry helpers to avoid circular deps in panel context
 function isDegenerate(P0, P1, P2, P3) {
   if (P0.x === P3.x && P0.y === P3.y) return true;
   if (P0.x === P1.x && P0.y === P1.y) return true;
@@ -243,5 +271,3 @@ function pointInTriangle(pt, A, B, C, eps = 0.5) {
   const hasPos = d1 > eps || d2 > eps || d3 > eps;
   return !(hasNeg && hasPos);
 }
-
-customElements.define("panel-triangle-guardian", TriangleGuardianPanel);

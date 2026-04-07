@@ -3,6 +3,11 @@ import { parseSelection } from "@fontra/core/utils.js";
 import { state } from "./triangle-guardian-state.js";
 import { computeApex, pointInTriangle, isDegenerate, drawLine } from "./triangle-guardian-geometry.js";
 
+/**
+ * Triangle Guardian visualization layer.
+ * Draws Adobe control-point triangle guidelines on cubic Bézier segments.
+ * Green = OK, Red = violation, Blue = S-curve.
+ */
 registerVisualizationLayerDefinition({
   identifier: "com.fontra.plugins.triangle-guardian.overlay",
   name: "Triangle Guardian",
@@ -21,65 +26,75 @@ registerVisualizationLayerDefinition({
     dashGap: 4,
   },
   draw(context, positionedGlyph, parameters, model, controller) {
-    if (!state.enabled) return;
+    try {
+      if (!state.enabled) return;
 
-    const glyph = positionedGlyph.glyph;
-    if (!glyph || !glyph.path) return;
+      const glyph = positionedGlyph.glyph;
+      if (!glyph || !glyph.path) return;
 
-    const path = glyph.path;
-    const educMode = state.educationalMode;
-    const showAll = state.showAllSegments;
+      const path = glyph.path;
+      const educMode = state.educationalMode;
+      const showAll = state.showAllSegments;
 
-    // Parse selection to get point indices
-    const { point: selectedPointIndices } = parseSelection(model.selection);
-    const { point: hoveredPointIndices } = parseSelection(model.hoverSelection);
-    const selectedSet = new Set(selectedPointIndices);
-    const hoveredSet = new Set(hoveredPointIndices);
+      // Parse selection to get point indices
+      const { point: selectedPointIndices } = parseSelection(model.selection);
+      const { point: hoveredPointIndices } = parseSelection(model.hoverSelection);
+      const selectedSet = new Set(selectedPointIndices);
+      const hoveredSet = new Set(hoveredPointIndices);
 
-    for (let ci = 0; ci < path.numContours; ci++) {
-      for (const segment of path.iterContourDecomposedSegments(ci)) {
-        if (segment.type !== "cubic" || segment.points.length !== 4) continue;
+      for (let ci = 0; ci < path.numContours; ci++) {
+        for (const segment of path.iterContourDecomposedSegments(ci)) {
+          if (segment.type !== "cubic" || segment.points.length !== 4) continue;
 
-        const [P0, P1, P2, P3] = segment.points;
-        const indices = segment.parentPointIndices;
+          const [P0, P1, P2, P3] = segment.points;
+          const indices = segment.parentPointIndices;
 
-        // Determine visibility
-        const isSelected = educMode || showAll || isSegmentSelected(indices, selectedSet, hoveredSet);
-        if (!isSelected) continue;
+          // Determine visibility
+          const isSelected = educMode || showAll || isSegmentSelected(indices, selectedSet, hoveredSet);
+          if (!isSelected) continue;
 
-        // Skip degenerate
-        if (isDegenerate(P0, P1, P2, P3)) continue;
+          // Skip degenerate
+          if (isDegenerate(P0, P1, P2, P3)) continue;
 
-        // Compute apex
-        const { apex, isSCurve } = computeApex(P0, P1, P2, P3);
-        if (!apex && !isSCurve) continue;
+          // Compute apex
+          const { apex, isSCurve } = computeApex(P0, P1, P2, P3);
+          if (!apex && !isSCurve) continue;
 
-        // Check violations
-        const p1Outside = apex && !pointInTriangle(P1, P0, P3, apex);
-        const p2Outside = apex && !pointInTriangle(P2, P0, P3, apex);
+          // Check violations
+          const p1Outside = apex && !pointInTriangle(P1, P0, P3, apex);
+          const p2Outside = apex && !pointInTriangle(P2, P0, P3, apex);
 
-        context.save();
+          context.save();
 
-        if (isSCurve) {
-          drawSCurveTriangles(context, P0, P1, P2, P3, parameters);
-        } else {
-          drawSimpleTriangle(context, P0, P1, P2, P3, apex, p1Outside, p2Outside, parameters);
+          if (isSCurve) {
+            drawSCurveTriangles(context, P0, P1, P2, P3, parameters);
+          } else {
+            drawSimpleTriangle(context, P0, P1, P2, P3, apex, p1Outside, p2Outside, parameters);
+          }
+
+          context.restore();
         }
-
-        context.restore();
       }
+    } catch (error) {
+      console.error("[Triangle Guardian] Layer draw error:", error);
     }
   },
 });
 
+/**
+ * Check if any of the segment's points are in the selection or hover set.
+ */
 function isSegmentSelected(indices, selectedSet, hoveredSet) {
-  // A segment is selected if any of its four points is in the selection or hover set
   for (const idx of indices) {
     if (selectedSet.has(idx) || hoveredSet.has(idx)) return true;
   }
   return false;
 }
 
+/**
+ * Draw the standard Adobe control-point triangle.
+ * Fills green if both handles are inside, red if either is outside.
+ */
 function drawSimpleTriangle(ctx, P0, P1, P2, P3, apex, p1Outside, p2Outside, p) {
   const anyViolation = p1Outside || p2Outside;
   const fillColor = anyViolation ? p.violationColor : p.okColor;
@@ -129,6 +144,9 @@ function drawSimpleTriangle(ctx, P0, P1, P2, P3, apex, p1Outside, p2Outside, p) 
   }
 }
 
+/**
+ * Draw a red circle with a cross on a violating control point.
+ */
 function drawViolationMarker(ctx, pt, p) {
   const r = p.apexRadius * 1.8;
   ctx.beginPath();
@@ -147,6 +165,9 @@ function drawViolationMarker(ctx, pt, p) {
   ctx.stroke();
 }
 
+/**
+ * Draw S-curve split triangles (blue) with midpoint-based subdivision.
+ */
 function drawSCurveTriangles(ctx, P0, P1, P2, P3, p) {
   const M = { x: (P0.x + P3.x) / 2, y: (P0.y + P3.y) / 2 };
 
@@ -167,6 +188,9 @@ function drawSCurveTriangles(ctx, P0, P1, P2, P3, p) {
   }
 }
 
+/**
+ * Draw one half of an S-curve triangle.
+ */
 function drawHalfTriangle(ctx, A, B, C, color, p) {
   ctx.beginPath();
   ctx.moveTo(A.x, A.y);

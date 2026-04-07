@@ -1,11 +1,24 @@
-import Panel from "@fontra/editor/panel.js";
+import Panel from "./panel.js";
+import {
+  div,
+  label,
+  input,
+  span,
+} from "@fontra/core/html-utils.js";
 import { ObservableController } from "@fontra/core/observable-object.js";
-import { div, label, input, span } from "@fontra/core/html-utils.js";
-import { state } from "./triangle-guardian-state.js";
+import { parseSelection } from "@fontra/core/utils.js";
+
+import {
+  computeApex,
+  pointInTriangle,
+  isDegenerate,
+} from "./edit-tools-triangle-guardian.js";
+
+const TRIANGLE_GUARDIAN_IDENTIFIER = "fontra.triangle.guardian";
 
 export default class TriangleGuardianPanel extends Panel {
   identifier = "triangle-guardian-panel";
-  inlineSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path d="M18 6 L6 30 L30 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="18" cy="6" r="2" fill="currentColor"/><circle cx="6" cy="30" r="2" fill="currentColor"/><circle cx="30" cy="30" r="2" fill="currentColor"/></svg>`;
+  iconPath = "/images/triangle-guardian.svg";
 
   static styles = `
     #tg-panel { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -20,49 +33,53 @@ export default class TriangleGuardianPanel extends Panel {
     .tg-label { font-size: 12px; color: var(--ui-element-foreground-color); }
     .tg-violation-list { min-height: 80px; }
     .tg-empty { font-size: 11px; opacity: .5; padding: 8px 0; text-align: center; }
+    .tg-violation-item {
+      display: flex; align-items: center; gap: 4px; padding: 3px 0;
+      cursor: pointer; font-size: 11px;
+      color: var(--ui-element-foreground-color);
+    }
+    .tg-violation-item:hover { background: var(--ui-element-background-color-1); }
+    .tg-violation-issue { color: var(--fontra-red); }
   `;
 
   constructor(editorController) {
     super(editorController);
+    this.tool = null;
   }
 
   getContentElement() {
     this._controller = new ObservableController({
-      enabled: state.enabled,
-      educationalMode: state.educationalMode,
-      showAllSegments: state.showAllSegments,
-      highlightViolations: state.highlightViolations,
-      showSCurveLabels: state.showSCurveLabels,
-      triangleOpacity: Math.round(state.triangleOpacity * 100),
+      educationalMode: false,
+      showAllSegments: false,
+      highlightViolations: true,
+      showSCurveLabels: true,
+      triangleOpacity: 18,
     });
 
-    // Sync controller → shared state → canvas update
-    const keys = Object.keys(state);
-    keys.forEach((key) => {
-      this._controller.addKeyListener(key, () => {
-        const val = this._controller.model[key];
+    this._controller.addListener((event) => {
+      if (this.tool) {
+        const key = event.key;
+        const val = event.newValue;
         if (key === "triangleOpacity") {
-          state[key] = val / 100;
+          this.tool[key] = val / 100;
         } else {
-          state[key] = val;
+          this.tool[key] = val;
         }
         this.editorController.canvasController.requestUpdate();
         if (key !== "triangleOpacity") this._scheduleViolationScan();
-      });
+      }
     });
 
-    // Listen to glyph changes
     this.editorController.sceneController.addCurrentGlyphChangeListener(() =>
       this._scheduleViolationScan()
     );
 
-    this.editorController.sceneController.sceneSettingsController.addKeyListener(
+    this.editorController.sceneSettingsController.addKeyListener(
       "selectedGlyphName",
       () => this._scheduleViolationScan()
     );
 
-    this._violationList = document.createElement("div");
-    this._violationList.className = "tg-violation-list";
+    this._violationList = div({ class: "tg-violation-list" });
 
     this._scheduleViolationScan();
 
@@ -126,7 +143,11 @@ export default class TriangleGuardianPanel extends Panel {
 
     return div({ class: "tg-section" }, [
       title,
-      div({ class: "tg-row" }, [label({ class: "tg-label" }, "Triangle opacity"), slider, valLabel]),
+      div({ class: "tg-row" }, [
+        label({ class: "tg-label" }, "Triangle opacity"),
+        slider,
+        valLabel,
+      ]),
     ]);
   }
 
@@ -144,15 +165,13 @@ export default class TriangleGuardianPanel extends Panel {
 
   async _runViolationScan() {
     const sceneController = this.editorController.sceneController;
-    const sceneModel = sceneController.sceneModel;
     const glyphName = sceneController.sceneSettings.selectedGlyphName;
     if (!glyphName) {
       this._violationList.innerHTML = '<div class="tg-empty">No glyph selected</div>';
       return;
     }
 
-    // Use sceneModel.getGlyphInstance which automatically applies the current source location
-    const instance = await sceneModel.getGlyphInstance(glyphName);
+    const instance = await sceneController.sceneModel.getGlyphInstance(glyphName);
     if (!instance || !instance.path) {
       this._violationList.innerHTML = '<div class="tg-empty">No path data</div>';
       return;
@@ -189,59 +208,14 @@ export default class TriangleGuardianPanel extends Panel {
     if (violations.length === 0) {
       this._violationList.innerHTML = '<div class="tg-empty">No violations</div>';
     } else {
-      const items = violations.map(
-        (v) =>
-          div(
-            {
-              class: "tg-row",
-              style: "cursor: pointer; padding: 2px 0;",
-            },
-            [
-              span({ class: "tg-label", style: "width: 48px;" }, `c${v.contour}`),
-              span({ class: "tg-label", style: "width: 36px;" }, `s${v.segment}`),
-              span({ class: "tg-label", style: "color: var(--fontra-red);" }, v.issue),
-            ]
-          )
+      const items = violations.map((v) =>
+        div({ class: "tg-violation-item" }, [
+          span({ style: "width: 48px;" }, `c${v.contour}`),
+          span({ style: "width: 36px;" }, `s${v.segment}`),
+          span({ class: "tg-violation-issue" }, v.issue),
+        ])
       );
       this._violationList.replaceChildren(...items);
     }
   }
 }
-
-// Inline imports to avoid circular deps in panel
-function isDegenerate(P0, P1, P2, P3) {
-  if (P0.x === P3.x && P0.y === P3.y) return true;
-  if (P0.x === P1.x && P0.y === P1.y) return true;
-  if (P3.x === P2.x && P3.y === P2.y) return true;
-  return false;
-}
-
-function computeApex(P0, P1, P2, P3) {
-  const d1x = P1.x - P0.x;
-  const d1y = P1.y - P0.y;
-  const d2x = P2.x - P3.x;
-  const d2y = P2.y - P3.y;
-  const denom = d1x * d2y - d1y * d2x;
-  if (Math.abs(denom) < 1e-6) return { apex: null, isSCurve: false };
-  const dx = P3.x - P0.x;
-  const dy = P3.y - P0.y;
-  const t = (dx * d2y - dy * d2x) / denom;
-  const s = (dx * d1y - dy * d1x) / denom;
-  const isSCurve = t < 0 || s < 0;
-  const apex = { x: P0.x + t * d1x, y: P0.y + t * d1y };
-  return { apex, isSCurve };
-}
-
-function pointInTriangle(pt, A, B, C, eps = 0.5) {
-  function sign(ax, ay, bx, by, cx, cy) {
-    return (ax - cx) * (by - cy) - (bx - cx) * (ay - cy);
-  }
-  const d1 = sign(pt.x, pt.y, A.x, A.y, B.x, B.y);
-  const d2 = sign(pt.x, pt.y, B.x, B.y, C.x, C.y);
-  const d3 = sign(pt.x, pt.y, C.x, C.y, A.x, A.y);
-  const hasNeg = d1 < -eps || d2 < -eps || d3 < -eps;
-  const hasPos = d1 > eps || d2 > eps || d3 > eps;
-  return !(hasNeg && hasPos);
-}
-
-customElements.define("panel-triangle-guardian", TriangleGuardianPanel);

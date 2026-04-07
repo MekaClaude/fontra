@@ -192,6 +192,7 @@ export const strings = {
   "editor.pointer-tool-scale": "Pointer Tool (Scaling edit tool behavior)",
   "editor.pointer-tools": "Pointer Tools",
   "editor.power-ruler-tool": "Power Ruler Tool",
+  "editor.triangle-guardian": "Triangle Guardian",
   "editor.shape-tool": "Shape Tool",
   "editor.shape-tool-ellipse": "Ellipse Tool",
   "editor.shape-tool-rectangle": "Rectangle Tool",
