@@ -27,7 +27,8 @@
       "Bash(build-windows.bat)",
       "Bash(tasklist *)",
       "Bash(git restore *)",
-      "Bash(rd *)"
+      "Bash(rd *)",
+      "Bash(echo.)"
     ]
   },
   "$version": 3
