@@ -49,11 +49,45 @@ export default class TriangleGuardianPanel extends Panel {
 
   getContentElement() {
     this._controller = new ObservableController({
+      enabled: false,
       educationalMode: false,
       showAllSegments: false,
       highlightViolations: true,
       showSCurveLabels: true,
       triangleOpacity: 18,
+    });
+
+    // Sync enabled state with the visualization layer setting
+    const settingsModel = this.editorController.visualizationLayersSettings.model;
+    this._controller.model.enabled = !!settingsModel[TRIANGLE_GUARDIAN_IDENTIFIER];
+    settingsModel[TRIANGLE_GUARDIAN_IDENTIFIER] = this._controller.model.enabled;
+
+    // Listen for external changes to the setting (e.g., tool deactivation)
+    this.editorController.visualizationLayersSettings.addKeyListener(
+      TRIANGLE_GUARDIAN_IDENTIFIER,
+      (event) => {
+        if (this._controller.model.enabled !== event.newValue) {
+          this._controller.setItem("enabled", event.newValue, { senderID: "external" });
+        }
+      }
+    );
+
+    this._controller.addKeyListener("enabled", (event) => {
+      const val = this._controller.model.enabled;
+      settingsModel[TRIANGLE_GUARDIAN_IDENTIFIER] = val;
+      if (this.tool) {
+        this.tool._layerEnabled = val;
+      }
+      this.editorController.canvasController.requestUpdate();
+      // When user clicks ON, activate the tool; when OFF, switch to pointer
+      if (event.senderID === "panel") {
+        if (val) {
+          this.editorController.setSelectedTool("triangle-guardian");
+        } else {
+          this.editorController.setSelectedTool("pointer-tool");
+        }
+      }
+      this._updateEnableButton();
     });
 
     this._controller.addListener((event) => {
@@ -62,11 +96,12 @@ export default class TriangleGuardianPanel extends Panel {
         const val = event.newValue;
         if (key === "triangleOpacity") {
           this.tool[key] = val / 100;
+        } else if (key === "enabled") {
+          // handled above
         } else {
           this.tool[key] = val;
         }
-        this.editorController.canvasController.requestUpdate();
-        if (key !== "triangleOpacity") this._scheduleViolationScan();
+        if (key !== "triangleOpacity" && key !== "enabled") this._scheduleViolationScan();
       }
     });
 
@@ -84,10 +119,37 @@ export default class TriangleGuardianPanel extends Panel {
     this._scheduleViolationScan();
 
     return div({ id: "tg-panel" }, [
+      this._buildEnableSection(),
       this._buildModeSection(),
       this._buildAppearanceSection(),
       this._buildViolationsSection(),
     ]);
+  }
+
+  _buildEnableSection() {
+    const title = div({ class: "tg-section-title" }, "Activation");
+    this._enableBtn = input({
+      type: "button",
+      value: this._controller.model.enabled ? "ON" : "OFF",
+      style: `width: 100%; padding: 6px 0; font-size: 13px; font-weight: 600; cursor: pointer;
+        border: 1px solid var(--ui-element-background-color-1); border-radius: 4px;
+        background: ${this._controller.model.enabled
+          ? "var(--fontra-green, #1D9E75)"
+          : "var(--fontra-red, #E24B4A)"};
+        color: white;`,
+    });
+    this._enableBtn.addEventListener("click", () => {
+      this._controller.setItem("enabled", !this._controller.model.enabled, { senderID: "panel" });
+    });
+    return div({ class: "tg-section" }, [title, this._enableBtn]);
+  }
+
+  _updateEnableButton() {
+    if (!this._enableBtn) return;
+    this._enableBtn.value = this._controller.model.enabled ? "ON" : "OFF";
+    this._enableBtn.style.background = this._controller.model.enabled
+      ? "var(--fontra-green, #1D9E75)"
+      : "var(--fontra-red, #E24B4A)";
   }
 
   _buildModeSection() {
@@ -219,3 +281,5 @@ export default class TriangleGuardianPanel extends Panel {
     }
   }
 }
+
+customElements.define("panel-triangle-guardian", TriangleGuardianPanel);

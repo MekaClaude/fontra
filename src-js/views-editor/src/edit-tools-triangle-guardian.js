@@ -10,6 +10,7 @@ import {
 const TRIANGLE_GUARDIAN_IDENTIFIER = "fontra.triangle.guardian";
 
 let activeToolInstance = null;
+let theTriangleGuardianTool = null; // singleton for external access
 
 registerVisualizationLayerDefinition({
   identifier: TRIANGLE_GUARDIAN_IDENTIFIER,
@@ -94,8 +95,9 @@ export class TriangleGuardianTool extends BaseTool {
   constructor(editor) {
     super(editor);
     activeToolInstance = this;
+    theTriangleGuardianTool = this;
     this.fontController = editor.fontController;
-    this.active = editor.visualizationLayersSettings.model[TRIANGLE_GUARDIAN_IDENTIFIER];
+    this._layerEnabled = editor.visualizationLayersSettings.model[TRIANGLE_GUARDIAN_IDENTIFIER];
 
     this.educationalMode = false;
     this.showAllSegments = false;
@@ -105,7 +107,7 @@ export class TriangleGuardianTool extends BaseTool {
     editor.visualizationLayersSettings.addKeyListener(
       TRIANGLE_GUARDIAN_IDENTIFIER,
       (event) => {
-        this.active = event.newValue;
+        this._layerEnabled = event.newValue;
         this.canvasController.requestUpdate();
       }
     );
@@ -130,16 +132,25 @@ export class TriangleGuardianTool extends BaseTool {
 
   activate() {
     super.activate();
-    if (!this.active) {
+    // Ensure visualization layer is on when tool is selected
+    if (!this._layerEnabled) {
+      this._layerEnabled = true;
       this.editor.visualizationLayersSettings.model[TRIANGLE_GUARDIAN_IDENTIFIER] = true;
-      this.active = true;
     }
     this.canvasController.requestUpdate();
   }
 
   deactivate() {
     super.deactivate();
+    // Don't turn off the visualization layer — let it stay enabled for overlay mode.
+    // The layer's draw() method checks whether this tool is the active tool to decide
+    // whether to draw all segments (tool mode) or only selected ones (overlay mode).
     this.canvasController.requestUpdate();
+  }
+
+  _syncPanelEnabled(value) {
+    // Notify the panel about the enabled state change
+    // The panel listens for visualization layer setting changes
   }
 
   setCursor() {
@@ -151,6 +162,11 @@ export class TriangleGuardianTool extends BaseTool {
   }
 
   handleKeyDown(event) {
+    if (event.key === "Escape") {
+      // Switch back to pointer tool
+      this.editor.setSelectedTool("pointer-tool");
+      return;
+    }
     if (event.key === "e" || event.key === "E") {
       this.educationalMode = !this.educationalMode;
       this.canvasController.requestUpdate();
@@ -164,13 +180,26 @@ export class TriangleGuardianTool extends BaseTool {
     }
   }
 
+  /** Check if the triangle guardian tool is currently the active tool. */
+  static isToolActive(editor) {
+    return editor?.selectedTool?.identifier === "triangle-guardian";
+  }
+
+  /** Get the singleton tool instance. */
+  static getInstance() {
+    return theTriangleGuardianTool;
+  }
+
   draw(context, positionedGlyph, parameters, model, controller) {
-    if (!this.active) return;
+    if (!this._layerEnabled) return;
 
     const glyph = positionedGlyph.glyph;
     if (!glyph || !glyph.path) return;
 
     const path = glyph.path;
+    // When this tool is the active tool → show ALL segments (tool mode)
+    // When another tool (pointer) is active → show only selected/hovered segments (overlay mode)
+    const isToolActive = this.editor.selectedTool?.identifier === this.identifier;
     const educMode = this.educationalMode;
     const showAll = this.showAllSegments;
 
@@ -186,8 +215,9 @@ export class TriangleGuardianTool extends BaseTool {
         const [P0, P1, P2, P3] = segment.points;
         const indices = segment.parentPointIndices;
 
+        // Tool mode: show everything. Overlay mode: show only selected/hovered.
         const isSelected =
-          educMode || showAll || this._isSegmentSelected(indices, selectedSet, hoveredSet);
+          isToolActive || educMode || showAll || this._isSegmentSelected(indices, selectedSet, hoveredSet);
         if (!isSelected) continue;
 
         if (isDegenerate(P0, P1, P2, P3)) continue;

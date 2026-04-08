@@ -18,7 +18,16 @@
       "Bash(git rebase *)",
       "Bash(git stash)",
       "Bash(git merge *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(fontra *)",
+      "Bash(netstat *)",
+      "Bash(findstr *)",
+      "Bash(do *)",
+      "Bash(node *)",
+      "Bash(build-windows.bat)",
+      "Bash(tasklist *)",
+      "Bash(git restore *)",
+      "Bash(rd *)"
     ]
   },
   "$version": 3
