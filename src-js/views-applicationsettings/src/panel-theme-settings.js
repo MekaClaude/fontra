@@ -51,6 +51,10 @@ export class ThemeSettingsPanel extends MultiPanelBasePanel {
                 key: "dark",
                 displayName: translate("sidebar.user-settings.theme.dark"),
               },
+              {
+                key: "figma",
+                displayName: translate("sidebar.user-settings.theme.figma"),
+              },
             ],
           },
         ],

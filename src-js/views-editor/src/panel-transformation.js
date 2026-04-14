@@ -29,7 +29,7 @@ import Panel from "./panel.js";
 
 export default class TransformationPanel extends Panel {
   identifier = "selection-transformation";
-  iconPath = "/tabler-icons/shape.svg";
+  iconPath = "/phosphor-icons/frame-corners.svg";
 
   static stylesForm = `
   .ui-form-label {
@@ -201,7 +201,7 @@ export default class TransformationPanel extends Panel {
           "class": "ui-form-radio-button",
           "checked":
             keyX === this.transformParameters.originX &&
-            keyY === this.transformParameters.originY
+              keyY === this.transformParameters.originY
               ? "checked"
               : "",
           "onclick": (event) => this._changeOrigin(keyX, keyY),
@@ -680,13 +680,13 @@ export default class TransformationPanel extends Panel {
     const settings = this.sceneController.sceneSettings;
     const bounds =
       glyph &&
-      settings.selectedGlyph?.isEditing &&
-      settings.selectedGlyphName &&
-      settings.selection?.size
+        settings.selectedGlyph?.isEditing &&
+        settings.selectedGlyphName &&
+        settings.selection?.size
         ? glyph.getSelectionBounds(
-            this.sceneController.selection,
-            this.fontController.getBackgroundImageBoundsFunc
-          )
+          this.sceneController.selection,
+          this.fontController.getBackgroundImageBoundsFunc
+        )
         : null;
 
     const { width, height } = bounds ? rectSize(bounds) : { width: null, height: null };
@@ -941,7 +941,7 @@ export default class TransformationPanel extends Panel {
         const contourStartIndex = !contourIndex
           ? 0
           : layerGlyphController.instance.path.contourInfo[contourIndex - 1].endPoint +
-            1;
+          1;
         const contourEndIndex = path.contourInfo[contourIndex].endPoint + 1;
 
         const contourPoints = Array.from(range(contourStartIndex, contourEndIndex));
@@ -1231,10 +1231,10 @@ class DistributeObjectsDescriptor {
   compareObjects(a, b, glyphController, getBackgroundImageBoundsFunc) {
     return (
       rectCenter(a.computeBounds(glyphController, getBackgroundImageBoundsFunc))[
-        this.deltaProperty
+      this.deltaProperty
       ] -
       rectCenter(b.computeBounds(glyphController, getBackgroundImageBoundsFunc))[
-        this.deltaProperty
+      this.deltaProperty
       ]
     );
   }

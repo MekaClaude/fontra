@@ -12,7 +12,7 @@ import {
 } from "./visualization-layer-definitions.js";
 
 export class KnifeTool extends BaseTool {
-  iconPath = "/images/knifetool.svg";
+  iconPath = "/phosphor-icons/knife.svg";
   identifier = "knife-tool";
 
   setCursor() {

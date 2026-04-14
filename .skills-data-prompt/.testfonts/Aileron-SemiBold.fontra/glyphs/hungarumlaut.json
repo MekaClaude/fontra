@@ -1,0 +1,63 @@
+{
+"name": "hungarumlaut",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 106,
+"y": 578
+},
+{
+"x": 208,
+"y": 692
+},
+{
+"x": 108,
+"y": 692
+},
+{
+"x": 40,
+"y": 578
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 245,
+"y": 578
+},
+{
+"x": 347,
+"y": 692
+},
+{
+"x": 247,
+"y": 692
+},
+{
+"x": 179,
+"y": 578
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

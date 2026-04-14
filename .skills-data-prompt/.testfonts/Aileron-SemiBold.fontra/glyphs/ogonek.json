@@ -1,0 +1,122 @@
+{
+"name": "ogonek",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 150,
+"y": 10
+},
+{
+"x": 95,
+"y": -13,
+"type": "cubic"
+},
+{
+"x": 44,
+"y": -66,
+"type": "cubic"
+},
+{
+"x": 44,
+"y": -138,
+"smooth": true
+},
+{
+"x": 44,
+"y": -201,
+"type": "cubic"
+},
+{
+"x": 84,
+"y": -223,
+"type": "cubic"
+},
+{
+"x": 142,
+"y": -223,
+"smooth": true
+},
+{
+"x": 183,
+"y": -223,
+"type": "cubic"
+},
+{
+"x": 217,
+"y": -212,
+"type": "cubic"
+},
+{
+"x": 243,
+"y": -192
+},
+{
+"x": 243,
+"y": -137
+},
+{
+"x": 225,
+"y": -151,
+"type": "cubic"
+},
+{
+"x": 208,
+"y": -157,
+"type": "cubic"
+},
+{
+"x": 190,
+"y": -157,
+"smooth": true
+},
+{
+"x": 163,
+"y": -157,
+"type": "cubic"
+},
+{
+"x": 146,
+"y": -144,
+"type": "cubic"
+},
+{
+"x": 146,
+"y": -107,
+"smooth": true
+},
+{
+"x": 146,
+"y": -50,
+"type": "cubic"
+},
+{
+"x": 184,
+"y": -7,
+"type": "cubic"
+},
+{
+"x": 228,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

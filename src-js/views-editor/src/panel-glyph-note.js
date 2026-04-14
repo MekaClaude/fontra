@@ -6,7 +6,7 @@ import Panel from "./panel.js";
 
 export default class GlyphNotePanel extends Panel {
   identifier = "glyph-note";
-  iconPath = "/tabler-icons/notes.svg";
+  iconPath = "/phosphor-icons/note.svg";
 
   static styles = `
     #glyph-note-textarea {
@@ -113,8 +113,8 @@ export default class GlyphNotePanel extends Panel {
     this.glyphNoteHeaderElement.innerHTML = varGlyph
       ? `<b>${translate("sidebar.glyph-note.glyph-note-for-glyph", escapeHTML(varGlyph.name))}</b>`
       : `<b>${translate("sidebar.glyph-note")}</b> ${translate(
-          "sidebar.glyph-note.no-glyph-selected"
-        )}`;
+        "sidebar.glyph-note.no-glyph-selected"
+      )}`;
     const glyphNote = varGlyph?.customData["fontra.glyph.note"] ?? "";
     this.glyphNoteElement.value = glyphNote;
     this.glyphNoteElement.disabled = !varGlyph;

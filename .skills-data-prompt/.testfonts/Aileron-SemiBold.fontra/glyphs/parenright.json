@@ -1,0 +1,92 @@
+{
+"name": "parenright",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 32,
+"y": 780
+},
+{
+"x": 110,
+"y": 654,
+"type": "cubic"
+},
+{
+"x": 154,
+"y": 505,
+"type": "cubic"
+},
+{
+"x": 154,
+"y": 350,
+"smooth": true
+},
+{
+"x": 154,
+"y": 195,
+"type": "cubic"
+},
+{
+"x": 110,
+"y": 46,
+"type": "cubic"
+},
+{
+"x": 32,
+"y": -80
+},
+{
+"x": 97,
+"y": -80
+},
+{
+"x": 179,
+"y": 31,
+"type": "cubic"
+},
+{
+"x": 227,
+"y": 185,
+"type": "cubic"
+},
+{
+"x": 227,
+"y": 350,
+"smooth": true
+},
+{
+"x": 227,
+"y": 516,
+"type": "cubic"
+},
+{
+"x": 179,
+"y": 669,
+"type": "cubic"
+},
+{
+"x": 97,
+"y": 780
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 336
+}
+}
+}
+}

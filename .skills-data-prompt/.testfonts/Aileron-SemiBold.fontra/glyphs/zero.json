@@ -1,0 +1,151 @@
+{
+"name": "zero",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 300,
+"y": 704,
+"smooth": true
+},
+{
+"x": 108,
+"y": 704,
+"type": "cubic"
+},
+{
+"x": 42,
+"y": 554,
+"type": "cubic"
+},
+{
+"x": 42,
+"y": 345,
+"smooth": true
+},
+{
+"x": 42,
+"y": 138,
+"type": "cubic"
+},
+{
+"x": 108,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 300,
+"y": -14,
+"smooth": true
+},
+{
+"x": 493,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 558,
+"y": 138,
+"type": "cubic"
+},
+{
+"x": 558,
+"y": 345,
+"smooth": true
+},
+{
+"x": 558,
+"y": 554,
+"type": "cubic"
+},
+{
+"x": 493,
+"y": 704,
+"type": "cubic"
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 300,
+"y": 70,
+"smooth": true
+},
+{
+"x": 202,
+"y": 70,
+"type": "cubic"
+},
+{
+"x": 161,
+"y": 168,
+"type": "cubic"
+},
+{
+"x": 161,
+"y": 345,
+"smooth": true
+},
+{
+"x": 161,
+"y": 524,
+"type": "cubic"
+},
+{
+"x": 202,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 300,
+"y": 620,
+"smooth": true
+},
+{
+"x": 399,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 439,
+"y": 524,
+"type": "cubic"
+},
+{
+"x": 439,
+"y": 345,
+"smooth": true
+},
+{
+"x": 439,
+"y": 168,
+"type": "cubic"
+},
+{
+"x": 399,
+"y": 70,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 601
+}
+}
+}
+}

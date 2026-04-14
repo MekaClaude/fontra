@@ -1,0 +1,86 @@
+{
+"name": "dotaccent",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 150,
+"y": 716,
+"smooth": true
+},
+{
+"x": 113,
+"y": 716,
+"type": "cubic"
+},
+{
+"x": 86,
+"y": 689,
+"type": "cubic"
+},
+{
+"x": 86,
+"y": 653,
+"smooth": true
+},
+{
+"x": 86,
+"y": 616,
+"type": "cubic"
+},
+{
+"x": 113,
+"y": 589,
+"type": "cubic"
+},
+{
+"x": 150,
+"y": 589,
+"smooth": true
+},
+{
+"x": 187,
+"y": 589,
+"type": "cubic"
+},
+{
+"x": 215,
+"y": 616,
+"type": "cubic"
+},
+{
+"x": 215,
+"y": 653,
+"smooth": true
+},
+{
+"x": 215,
+"y": 689,
+"type": "cubic"
+},
+{
+"x": 187,
+"y": 716,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

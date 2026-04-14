@@ -1,0 +1,42 @@
+{
+"name": "quotesingle",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 133,
+"y": 474
+},
+{
+"x": 145,
+"y": 735
+},
+{
+"x": 40,
+"y": 735
+},
+{
+"x": 51,
+"y": 474
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 187
+}
+}
+}
+}

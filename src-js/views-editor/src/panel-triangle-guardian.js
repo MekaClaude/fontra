@@ -18,7 +18,7 @@ const TRIANGLE_GUARDIAN_IDENTIFIER = "fontra.triangle.guardian";
 
 export default class TriangleGuardianPanel extends Panel {
   identifier = "triangle-guardian-panel";
-  iconPath = "/images/triangle-guardian.svg";
+  iconPath = "/phosphor-icons/polygon.svg";
 
   static styles = `
     #tg-panel { padding: 12px; display: flex; flex-direction: column; gap: 12px; }

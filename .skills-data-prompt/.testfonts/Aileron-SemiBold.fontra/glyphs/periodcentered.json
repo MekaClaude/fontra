@@ -1,0 +1,86 @@
+{
+"name": "periodcentered",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 111,
+"y": 382,
+"smooth": true
+},
+{
+"x": 67,
+"y": 382,
+"type": "cubic"
+},
+{
+"x": 34,
+"y": 349,
+"type": "cubic"
+},
+{
+"x": 34,
+"y": 305,
+"smooth": true
+},
+{
+"x": 34,
+"y": 261,
+"type": "cubic"
+},
+{
+"x": 67,
+"y": 228,
+"type": "cubic"
+},
+{
+"x": 111,
+"y": 228,
+"smooth": true
+},
+{
+"x": 155,
+"y": 228,
+"type": "cubic"
+},
+{
+"x": 188,
+"y": 261,
+"type": "cubic"
+},
+{
+"x": 188,
+"y": 305,
+"smooth": true
+},
+{
+"x": 188,
+"y": 349,
+"type": "cubic"
+},
+{
+"x": 155,
+"y": 382,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 222
+}
+}
+}
+}

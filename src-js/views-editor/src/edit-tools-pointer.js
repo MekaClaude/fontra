@@ -53,7 +53,7 @@ export class PointerTools {
 }
 
 export class PointerTool extends BaseTool {
-  iconPath = "/images/pointer.svg";
+  iconPath = "/phosphor-icons/cursor.svg";
   identifier = "pointer-tool";
 
   handleHover(event) {
@@ -683,9 +683,9 @@ export class PointerTool extends BaseTool {
     const resizeHandles = getTransformHandles(bounds, handleMargin + handleSize / 2);
     const rotationHandles = rotation
       ? getTransformHandles(
-          bounds,
-          handleMargin + (handleSize * rotationHandleSizeFactor) / 2 + handleSize / 2
-        )
+        bounds,
+        handleMargin + (handleSize * rotationHandleSizeFactor) / 2 + handleSize / 2
+      )
       : {};
     for (const [handleName, handle] of Object.entries(resizeHandles)) {
       const inCircle = pointInCircleHandle(point, handle, handleSize);
@@ -748,8 +748,8 @@ function getSelectModeFunction(event) {
       ? difference
       : symmetricDifference
     : event[commandKeyProperty]
-    ? union
-    : replace;
+      ? union
+      : replace;
 }
 
 registerVisualizationLayerDefinition({
@@ -823,7 +823,7 @@ registerVisualizationLayerDefinition({
 });
 
 export class PointerToolScale extends PointerTool {
-  iconPath = "/images/pointerscale.svg";
+  iconPath = "/phosphor-icons/arrows-out.svg";
   identifier = "pointer-tool-scale";
 
   get scalingEditBehavior() {

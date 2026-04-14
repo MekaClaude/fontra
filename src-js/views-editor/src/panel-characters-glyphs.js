@@ -22,7 +22,7 @@ import { equalGlyphSelection } from "./scene-controller.js";
 
 export default class CharactersGlyphsPanel extends Panel {
   identifier = "characters-glyphs";
-  iconPath = "/tabler-icons/columns.svg";
+  iconPath = "/phosphor-icons/columns.svg";
 
   static styles = `
     .main-section {
@@ -140,25 +140,25 @@ export default class CharactersGlyphsPanel extends Panel {
 
       const menuItems = this.characterList.items.length
         ? [
-            {
-              title: "Replace this character...",
-              callback: () => this.replaceSelectedCharacter(),
-            },
-            {
-              title: "Insert character before this character...",
-              callback: () => this.insertCharacter(itemIndex),
-            },
-            {
-              title: "Insert character after this character...",
-              callback: () => this.insertCharacter(itemIndex + 1),
-            },
-          ]
+          {
+            title: "Replace this character...",
+            callback: () => this.replaceSelectedCharacter(),
+          },
+          {
+            title: "Insert character before this character...",
+            callback: () => this.insertCharacter(itemIndex),
+          },
+          {
+            title: "Insert character after this character...",
+            callback: () => this.insertCharacter(itemIndex + 1),
+          },
+        ]
         : [
-            {
-              title: "Insert character...",
-              callback: () => this.insertCharacter(itemIndex),
-            },
-          ];
+          {
+            title: "Insert character...",
+            callback: () => this.insertCharacter(itemIndex),
+          },
+        ];
       showMenu(menuItems, event);
     });
 
@@ -560,23 +560,22 @@ export default class CharactersGlyphsPanel extends Panel {
       const changedElement =
         changed || messageItem.childChanged
           ? html.createDomElement("inline-svg", {
-              class: `indent-block changed-icon ${
-                messageItem.childChanged ? "nested" : ""
+            class: `indent-block changed-icon ${messageItem.childChanged ? "nested" : ""
               }`,
-              src: "/tabler-icons/arrow-big-right.svg",
-            })
+            src: "/tabler-icons/arrow-big-right.svg",
+          })
           : html.span({ class: "indent-block changed-icon" });
 
       const foldingChevron = children?.length
         ? html.createDomElement("inline-svg", {
-            class: `indent-block folding-icon ${messageItem.open ? "" : "closed"}`,
-            src: "/tabler-icons/chevron-up.svg",
-            onclick: (event) => {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-              this._toggleShaperMessageItem(messageItem, event.altKey);
-            },
-          })
+          class: `indent-block folding-icon ${messageItem.open ? "" : "closed"}`,
+          src: "/tabler-icons/chevron-up.svg",
+          onclick: (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            this._toggleShaperMessageItem(messageItem, event.altKey);
+          },
+        })
         : html.span({ class: "indent-block folding-icon" });
 
       messageItem.formattedMessage = html.span({}, [

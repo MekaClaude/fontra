@@ -1,0 +1,42 @@
+{
+"name": "emdash",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 925,
+"y": 259
+},
+{
+"x": 925,
+"y": 325
+},
+{
+"x": 75,
+"y": 325
+},
+{
+"x": 75,
+"y": 259
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 1000
+}
+}
+}
+}

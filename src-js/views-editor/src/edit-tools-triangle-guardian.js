@@ -89,7 +89,7 @@ export function pointInTriangle(pt, A, B, C, eps = 0.01) {
 }
 
 export class TriangleGuardianTool extends BaseTool {
-  iconPath = "/images/triangle-guardian.svg";
+  iconPath = "/phosphor-icons/polygon.svg";
   identifier = "triangle-guardian";
 
   constructor(editor) {

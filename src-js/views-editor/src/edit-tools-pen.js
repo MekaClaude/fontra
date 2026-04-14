@@ -19,7 +19,7 @@ export class PenTool {
 }
 
 export class PenToolCubic extends BaseTool {
-  iconPath = "/images/pointeradd.svg";
+  iconPath = "/phosphor-icons/pen.svg";
   identifier = "pen-tool-cubic";
 
   handleHover(event) {
@@ -266,7 +266,7 @@ export class PenToolCubic extends BaseTool {
 }
 
 export class PenToolQuad extends PenToolCubic {
-  iconPath = "/images/pointeraddquad.svg";
+  iconPath = "/phosphor-icons/pen-nib.svg";
   identifier = "pen-tool-quad";
 
   get curveType() {

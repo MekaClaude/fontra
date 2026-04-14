@@ -103,7 +103,7 @@ const dynamicFeatures = new Set([
 
 export default class TextEntryPanel extends Panel {
   identifier = "text-entry";
-  iconPath = "/images/texttool.svg";
+  iconPath = "/phosphor-icons/text-t.svg";
 
   static styles = `
     .text-entry-section {
@@ -681,8 +681,8 @@ export default class TextEntryPanel extends Panel {
           horizontalOnFeatures.has(tag) && emulateDefaultValue
             ? true
             : dynamicFeatures.has(tag)
-            ? undefined
-            : false;
+              ? undefined
+              : false;
 
         element.append(
           ...featureTagButton(this.textSettingsController, tag, label, {

@@ -36,6 +36,7 @@
     "@codemirror/language": "^6.12.3",
     "@codemirror/legacy-modes": "^6.5.2",
     "@lezer/highlight": "^1.2.3",
+    "@phosphor-icons/core": "^2.1.1",
     "babel-loader": "^10.1.1",
     "codemirror": "^6.0.2",
     "dompurify": "^3.3.3"

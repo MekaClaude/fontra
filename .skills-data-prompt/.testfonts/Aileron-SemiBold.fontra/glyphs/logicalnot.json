@@ -1,0 +1,50 @@
+{
+"name": "logicalnot",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 485,
+"y": 201
+},
+{
+"x": 485,
+"y": 388
+},
+{
+"x": 105,
+"y": 388
+},
+{
+"x": 105,
+"y": 322
+},
+{
+"x": 416,
+"y": 322
+},
+{
+"x": 416,
+"y": 201
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 601
+}
+}
+}
+}

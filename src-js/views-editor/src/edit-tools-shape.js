@@ -13,7 +13,7 @@ export class ShapeTool {
 }
 
 export class ShapeToolRect extends BaseTool {
-  iconPath = "/images/rectangletool.svg";
+  iconPath = "/phosphor-icons/rectangle.svg";
   identifier = "shape-tool-rectangle";
   shapeNames = ["rectangle", "square"];
 
@@ -196,7 +196,7 @@ export function getUnpackedContoursRect(x, y, width, height, contourType = "cubi
 }
 
 export class ShapeToolEllipse extends ShapeToolRect {
-  iconPath = "/images/ovaltool.svg";
+  iconPath = "/phosphor-icons/circle.svg";
   identifier = "shape-tool-ellipse";
   shapeNames = ["ellipse", "circle"];
 
