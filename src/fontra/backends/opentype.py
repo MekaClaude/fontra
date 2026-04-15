@@ -43,6 +43,7 @@ shaperFontTables = {
     "head",
     "maxp",
     "name",
+    "Debg",
     "GDEF",
     "GSUB",
     "GPOS",
@@ -405,6 +406,13 @@ MVAR_MAPPING = {
     "xhgt": ("lineMetricsHorizontalLayout", "xHeight"),
 }
 
+OS_2_MAPPING = [
+    ("ascender", "sTypoAscender"),
+    ("descender", "sTypoDescender"),
+    ("capHeight", "sCapHeight"),
+    ("xHeight", "sxHeight"),
+]
+
 
 def unpackFontSources(
     font: TTFont, fontraAxes: list[FontAxis]
@@ -444,10 +452,9 @@ def unpackFontSources(
     os2Table = font.get("OS/2")
     if os2Table is not None:
         lineMetricsH = defaultSource.lineMetricsHorizontalLayout
-        lineMetricsH["ascender"] = LineMetric(value=os2Table.sTypoAscender)
-        lineMetricsH["descender"] = LineMetric(value=os2Table.sTypoDescender)
-        lineMetricsH["capHeight"] = LineMetric(value=os2Table.sCapHeight)
-        lineMetricsH["xHeight"] = LineMetric(value=os2Table.sxHeight)
+        for fontraName, os2Name in OS_2_MAPPING:
+            if hasattr(os2Table, os2Name):
+                lineMetricsH[fontraName] = LineMetric(value=getattr(os2Table, os2Name))
     # else:
     #     ...fall back to hhea table?
 
