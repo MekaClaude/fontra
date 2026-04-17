@@ -431,7 +431,7 @@ function _drawMiniSideBearings(
 }
 
 class SidebearingTool extends MetricsBaseTool {
-  iconPath = "/phosphor-icons/ruler.svg";
+  iconPath = "/images/sidebearingtool.svg";
   identifier = "sidebearing-tool";
 
   constructor(editor) {
@@ -1026,7 +1026,7 @@ registerVisualizationLayerDefinition({
 });
 
 class KerningTool extends MetricsBaseTool {
-  iconPath = "/phosphor-icons/arrows-horizontal.svg";
+  iconPath = "/images/kerningtool.svg";
   identifier = "kerning-tool";
 
   constructor(editor) {
