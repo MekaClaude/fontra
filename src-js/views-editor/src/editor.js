@@ -1028,10 +1028,17 @@ export class EditorController extends ViewController {
           "data-tooltipposition": "bottom",
         },
         [
-          html.createDomElement("inline-svg", {
-            class: "tool-icon",
-            src: toolDef.iconPath,
-          }),
+          (() => {
+            const iconOpts = { class: "tool-icon" };
+            if (toolDef.iconPath) {
+              iconOpts.src = toolDef.iconPath;
+            }
+            const iconElement = html.createDomElement("inline-svg", iconOpts);
+            if (toolDef.inlineSVG) {
+              iconElement.innerHTML = toolDef.inlineSVG;
+            }
+            return iconElement;
+          })(),
         ]
       );
 
