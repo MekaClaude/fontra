@@ -100,6 +100,7 @@ import SelectionInfoPanel from "./panel-selection-info.js";
 import TextEntryPanel from "./panel-text-entry.js";
 import TransformationPanel from "./panel-transformation.js";
 import Panel from "./panel.js";
+import SettingsPanel from "./panel-settings.js";
 
 const MIN_CANVAS_SPACE = 200;
 
@@ -1055,6 +1056,7 @@ export class EditorController extends ViewController {
   initSidebars() {
     this.addSidebar(new Sidebar("left"));
     this.addSidebar(new Sidebar("right"));
+    this.addSidebarPanel(new SettingsPanel(this), "left");
     this.addSidebarPanel(new TextEntryPanel(this), "left");
     this.addSidebarPanel(new GlyphSearchPanel(this), "left");
     this.addSidebarPanel(new DesignspaceNavigationPanel(this), "left");
