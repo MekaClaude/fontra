@@ -131,7 +131,6 @@ class FontSource:
     lineMetricsHorizontalLayout: dict[str, LineMetric] = field(default_factory=dict)
     lineMetricsVerticalLayout: dict[str, LineMetric] = field(default_factory=dict)
     italicAngle: float = 0
-    guidelines: list[Guideline] = field(default_factory=list)
     customData: CustomData = field(default_factory=dict)
 
 
@@ -139,16 +138,6 @@ class FontSource:
 class LineMetric:
     value: float
     zone: float = 0
-    customData: CustomData = field(default_factory=dict)
-
-
-@dataclass(kw_only=True)
-class Guideline:
-    name: Optional[str] = None
-    x: float = 0
-    y: float = 0
-    angle: float = 0
-    locked: bool = False
     customData: CustomData = field(default_factory=dict)
 
 
@@ -283,7 +272,6 @@ class StaticGlyph:
     yAdvance: Optional[float] = None
     verticalOrigin: Optional[float] = None
     anchors: list[Anchor] = field(default_factory=list)
-    guidelines: list[Guideline] = field(default_factory=list)
     backgroundImage: Optional[BackgroundImage] = None
 
     def convertToPackedPaths(self):
@@ -512,7 +500,6 @@ registerHook(
 registerHook(GlyphAxis, customData=_unstructureDictSortedRecursively)
 registerHook(Anchor, customData=_unstructureDictSortedRecursively)
 registerHook(Component, customData=_unstructureDictSortedRecursively)
-registerHook(Guideline, customData=_unstructureDictSortedRecursively)
 registerHook(
     BackgroundImage,
     customData=_unstructureDictSortedRecursively,
