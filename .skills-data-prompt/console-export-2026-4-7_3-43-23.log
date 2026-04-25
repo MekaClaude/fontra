@@ -1,0 +1,35 @@
+Uncaught (in promise) ReferenceError: assignment to undeclared variable theTriangleGuardianTool
+    TriangleGuardianTool webpack-internal:///./src-js/views-editor/src/edit-tools-triangle-guardian.js:134
+    initTools webpack-internal:///./src-js/views-editor/src/editor.js:935
+    EditorController webpack-internal:///./src-js/views-editor/src/editor.js:247
+    fromBackend webpack-internal:///./src-js/fontra-core/src/view-controller.js:33
+views-editor.ae89107c.js line 128 > eval:134:5
+Uncaught TypeError: this.updateWindowLocation is not a function
+    EditorController webpack-internal:///./src-js/views-editor/src/editor.js:183
+    _dispatchChange webpack-internal:///./src-js/fontra-core/src/observable-object.js:129
+2 views-editor.ae89107c.js line 138 > eval:183:16
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. 3 editor.html:82:31
+Erreur dans les liens source : Error: URL constructor:  is not a valid URL.
+Stack in the worker:resolveSourceMapURL@resource://devtools/client/shared/source-map-loader/utils/fetchSourceMap.js:56:22
+getOriginalURLs@resource://devtools/client/shared/source-map-loader/source-map.js:75:24
+workerHandler/</<@resource://devtools/client/shared/worker-utils.js:115:52
+workerHandler/<@resource://devtools/client/shared/worker-utils.js:113:13
+
+URL de la ressource : wasm:http://localhost:8001/js/npm.harfbuzzjs.9e0a001d.js%20line%2017%20%3E%20eval%20line%204%20%3E%20WebAssembly.Module
+URL du lien source : null
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. 2 editor.html:82:31
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. editor.html:23:20
+Propriété « // change this to tune the indent level
+       » inconnue.  Déclaration abandonnée. editor.html:25:7
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. 2 editor.html:82:31
+Jeu de règles ignoré suite à un mauvais sélecteur. editor.html:23:57
+Uncaught TypeError: this.updateWindowLocation is not a function
+    EditorController webpack-internal:///./src-js/views-editor/src/editor.js:183
+    _dispatchChange webpack-internal:///./src-js/fontra-core/src/observable-object.js:129
+    setTimeout handler*_dispatchChange webpack-internal:///./src-js/fontra-core/src/observable-object.js:129
+    setItem webpack-internal:///./src-js/fontra-core/src/observable-object.js:66
+    setupSceneSettings webpack-internal:///./src-js/views-editor/src/scene-controller.js:304
+    _dispatchEvent webpack-internal:///./src-js/fontra-core/src/canvas-controller.js:319
+    setupSize webpack-internal:///./src-js/fontra-core/src/canvas-controller.js:119
+    resizeObserver webpack-internal:///./src-js/fontra-core/src/canvas-controller.js:25
+24 views-editor.ae89107c.js line 138 > eval:183:16

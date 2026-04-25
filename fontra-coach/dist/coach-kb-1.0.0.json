@@ -1,0 +1,2098 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "generated": "2026-03-15T11:33:00.948Z",
+    "checksums": {
+      "glyphDna": "72e0b57d9cba79e1206c7abc117af04f4f183ee5ee628ec31c67da6e3ffc2f81",
+      "opticalRules": "004960603343b1b6781cc6ee3ae21fee1b50991279b100df47509a058de655d2",
+      "curveThresholds": "cceb8fe56f857908d1f6c62c46ac97cd00843275c315aa54d6e567e81a2dcff5",
+      "knowledgeCards": "1b21d700504e31f838bd60f69e0f09dd0882087d24dcb72c68e523f6bc037b56",
+      "workflowSequences": "f9025d14ddd04c0525eb38afb447e9fee7e0df299407bddbb8f1ac565873d93c"
+    }
+  },
+  "glyphDna": {
+    "version": "1.0.0",
+    "updated": "2024-03-15",
+    "glyphs": {
+      "n": {
+        "unicode": "U+006E",
+        "name": "n",
+        "category": "lowercase",
+        "dna_role": "primary_foundation",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "h",
+            "method": "add_ascender",
+            "confidence": "high",
+            "parts_used": [
+              "left_stem"
+            ]
+          },
+          {
+            "glyph": "m",
+            "method": "extend_arch",
+            "confidence": "high",
+            "parts_used": [
+              "arch",
+              "right_stem"
+            ]
+          },
+          {
+            "glyph": "u",
+            "method": "vertical_flip",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          },
+          {
+            "glyph": "r",
+            "method": "truncate_arch",
+            "confidence": "high",
+            "parts_used": [
+              "left_stem"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-n-001"
+      },
+      "o": {
+        "unicode": "U+006F",
+        "name": "o",
+        "category": "lowercase",
+        "dna_role": "primary_foundation",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "c",
+            "method": "open_right",
+            "confidence": "high",
+            "parts_used": [
+              "left_bowl"
+            ]
+          },
+          {
+            "glyph": "b",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "d",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "p",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "q",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-o-001"
+      },
+      "h": {
+        "unicode": "U+0068",
+        "name": "h",
+        "category": "lowercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "n",
+            "method": "add_ascender",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "b",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-h-001"
+      },
+      "m": {
+        "unicode": "U+006D",
+        "name": "m",
+        "category": "lowercase",
+        "dna_role": "arch_family",
+        "builds_from": [
+          {
+            "glyph": "n",
+            "method": "extend_arch",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-m-001"
+      },
+      "u": {
+        "unicode": "U+0075",
+        "name": "u",
+        "category": "lowercase",
+        "dna_role": "arch_family",
+        "builds_from": [
+          {
+            "glyph": "n",
+            "method": "vertical_flip",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-u-001"
+      },
+      "l": {
+        "unicode": "U+006C",
+        "name": "l",
+        "category": "lowercase",
+        "dna_role": "primary_foundation",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "i",
+            "method": "extract_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          },
+          {
+            "glyph": "j",
+            "method": "extract_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          },
+          {
+            "glyph": "d",
+            "method": "add_ascender",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-l-001"
+      },
+      "i": {
+        "unicode": "U+0069",
+        "name": "i",
+        "category": "lowercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "l",
+            "method": "extract_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-i-001"
+      },
+      "j": {
+        "unicode": "U+006A",
+        "name": "j",
+        "category": "lowercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "l",
+            "method": "extract_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-j-001"
+      },
+      "b": {
+        "unicode": "U+0062",
+        "name": "b",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "h",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "left_stem"
+            ]
+          },
+          {
+            "glyph": "o",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-b-001"
+      },
+      "d": {
+        "unicode": "U+0064",
+        "name": "d",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "o",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "l",
+            "method": "add_ascender",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "a",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "q",
+            "method": "mirror_horizontal",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-d-001"
+      },
+      "p": {
+        "unicode": "U+0070",
+        "name": "p",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "b",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "o",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-p-001"
+      },
+      "q": {
+        "unicode": "U+0071",
+        "name": "q",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "d",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "o",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "g",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-q-001"
+      },
+      "c": {
+        "unicode": "U+0063",
+        "name": "c",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "o",
+            "method": "open_right",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "e",
+            "method": "add_crossbar",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "s",
+            "method": "spine_modification",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-c-001"
+      },
+      "e": {
+        "unicode": "U+0065",
+        "name": "e",
+        "category": "lowercase",
+        "dna_role": "bowl_family",
+        "builds_from": [
+          {
+            "glyph": "c",
+            "method": "add_crossbar",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-e-001"
+      },
+      "s": {
+        "unicode": "U+0073",
+        "name": "s",
+        "category": "lowercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "c",
+            "method": "spine_modification",
+            "confidence": "medium",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "a",
+            "method": "spine_modification",
+            "confidence": "medium",
+            "parts_used": [
+              "curves"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-s-001"
+      },
+      "a": {
+        "unicode": "U+0061",
+        "name": "a",
+        "category": "lowercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "s",
+            "method": "spine_modification",
+            "confidence": "medium",
+            "parts_used": [
+              "curves"
+            ]
+          },
+          {
+            "glyph": "d",
+            "method": "bowl_plus_stem",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "lc-a-001"
+      },
+      "z": {
+        "unicode": "U+007A",
+        "name": "z",
+        "category": "lowercase",
+        "dna_role": "diagonal_family",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "k",
+            "method": "add_diagonal",
+            "confidence": "high",
+            "parts_used": [
+              "diagonal"
+            ]
+          },
+          {
+            "glyph": "v",
+            "method": "add_diagonal",
+            "confidence": "high",
+            "parts_used": [
+              "diagonal"
+            ]
+          },
+          {
+            "glyph": "x",
+            "method": "add_diagonal",
+            "confidence": "high",
+            "parts_used": [
+              "diagonal"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-z-001"
+      },
+      "v": {
+        "unicode": "U+0076",
+        "name": "v",
+        "category": "lowercase",
+        "dna_role": "diagonal_family",
+        "builds_from": [
+          {
+            "glyph": "z",
+            "method": "add_diagonal",
+            "confidence": "high",
+            "parts_used": [
+              "diagonal"
+            ]
+          }
+        ],
+        "feeds_into": [
+          {
+            "glyph": "w",
+            "method": "mirror_horizontal",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          },
+          {
+            "glyph": "y",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "full_glyph"
+            ]
+          }
+        ],
+        "knowledge_card_id": "lc-v-001"
+      },
+      "H": {
+        "unicode": "U+0048",
+        "name": "H",
+        "category": "uppercase",
+        "dna_role": "capital_foundation",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "I",
+            "method": "extract_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          },
+          {
+            "glyph": "L",
+            "method": "left_stem_with_foot",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          },
+          {
+            "glyph": "T",
+            "method": "crossbar_with_centered_stem",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          },
+          {
+            "glyph": "N",
+            "method": "left_stem_with_diagonals",
+            "confidence": "high",
+            "parts_used": [
+              "stem"
+            ]
+          }
+        ],
+        "knowledge_card_id": "uc-H-001"
+      },
+      "O": {
+        "unicode": "U+004F",
+        "name": "O",
+        "category": "uppercase",
+        "dna_role": "capital_foundation",
+        "builds_from": [],
+        "feeds_into": [
+          {
+            "glyph": "C",
+            "method": "open_right",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "D",
+            "method": "left_stem_with_bowl",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          },
+          {
+            "glyph": "Q",
+            "method": "bowl_plus_descender",
+            "confidence": "high",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "knowledge_card_id": "uc-O-001"
+      },
+      "A": {
+        "unicode": "U+0041",
+        "name": "A",
+        "category": "uppercase",
+        "dna_role": "diagonal_family",
+        "builds_from": [
+          {
+            "glyph": "V",
+            "method": "vertical_flip",
+            "confidence": "high",
+            "parts_used": [
+              "diagonals"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "uc-A-001"
+      },
+      "S": {
+        "unicode": "U+0053",
+        "name": "S",
+        "category": "uppercase",
+        "dna_role": "secondary",
+        "builds_from": [
+          {
+            "glyph": "O",
+            "method": "spine_modification",
+            "confidence": "medium",
+            "parts_used": [
+              "bowl"
+            ]
+          }
+        ],
+        "feeds_into": [],
+        "knowledge_card_id": "uc-S-001"
+      }
+    }
+  },
+  "opticalRules": {
+    "version": "1.0.0",
+    "rules": [
+      {
+        "id": "OPT-001",
+        "name": "Horizontal Bar Weight",
+        "description": "Horizontal strokes appear heavier than verticals of identical width due to how the eye scans text. Horizontal bars must be thinned to look equal.",
+        "applies_to_glyphs": [
+          "H",
+          "A",
+          "E",
+          "F",
+          "L",
+          "T",
+          "f",
+          "t",
+          "z",
+          "G",
+          "Z"
+        ],
+        "severity": "warning",
+        "verbosity_threshold": "learner",
+        "detection": {
+          "method": "compare_stroke_widths",
+          "measure_horizontal": true,
+          "measure_vertical": true,
+          "comparison": "ratio",
+          "trigger_when": "horizontal_width >= vertical_width * 0.95",
+          "note": "If horizontal is 95% or more of vertical width, it will appear heavier"
+        },
+        "display": {
+          "overlay_type": "highlight_stroke",
+          "color": "#FF6B35",
+          "label_template": "Crossbar is {horizontal_width}u — consider thinning to ~{suggested_width}u",
+          "suggestion_formula": "vertical_width * 0.80",
+          "show_comparison": true
+        },
+        "knowledge": {
+          "why": "The human visual system processes horizontal and vertical strokes differently. Horizontal strokes occupy more of the visual field per unit width, making them appear heavier. Type designers compensate by making horizontal strokes 15–25% lighter than verticals.",
+          "historical_note": "This correction appears in Roman inscriptions — stone cutters intuitively thinned crossbars. The same principle was formalized in 18th-century punch-cutting manuals.",
+          "reference_glyphs": [
+            "H",
+            "E"
+          ],
+          "fix_steps": [
+            "Select the horizontal stroke",
+            "Reduce its width by moving the inner edge outward",
+            "Compare visually at small sizes — the eye is the final judge",
+            "Typical correction: 15–25% thinner than vertical stems"
+          ]
+        }
+      },
+      {
+        "id": "OPT-002",
+        "name": "Overshoot Missing on Round Glyphs",
+        "description": "Round and pointed glyphs must extend slightly beyond the baseline and x-height to appear optically aligned with flat-topped/bottomed glyphs.",
+        "applies_to_glyphs": [
+          "o",
+          "c",
+          "e",
+          "b",
+          "d",
+          "p",
+          "q",
+          "g",
+          "O",
+          "C",
+          "G",
+          "Q",
+          "D",
+          "S",
+          "s",
+          "0"
+        ],
+        "severity": "error",
+        "verbosity_threshold": "learner",
+        "detection": {
+          "method": "check_extrema_vs_metrics",
+          "check_baseline": true,
+          "check_xheight": true,
+          "check_capheight": true,
+          "trigger_when": "lowest_point >= baseline - 1",
+          "note": "If the lowest point of a round glyph is at or above baseline, overshoot is missing"
+        },
+        "display": {
+          "overlay_type": "dimension_arrow",
+          "color": "#E63946",
+          "label_template": "Round glyph sits exactly on baseline. Add {recommended_overshoot}u overshoot.",
+          "suggestion_formula": "upm * 0.012",
+          "show_metric_line": true
+        },
+        "knowledge": {
+          "why": "A circle sitting exactly on a flat baseline appears to float above it. The eye perceives the tangent point as higher than a flat edge at the same y-coordinate. Overshoot corrects this illusion.",
+          "typical_values": {
+            "small_text": "Overshoot is typically 1–2% of UPM",
+            "display_type": "Overshoot can be 2–4% of UPM",
+            "example": "For UPM=1000: overshoot of 10–20 units for text, 20–40 for display"
+          },
+          "fix_steps": [
+            "Select the bottommost on-curve point of the round glyph",
+            "Move it down by the overshoot amount (start with 1% of UPM)",
+            "Apply the same overshoot to ALL round glyphs consistently",
+            "Verify visually — all round glyphs should appear to sit on the baseline equally"
+          ]
+        }
+      },
+      {
+        "id": "OPT-003",
+        "name": "Diagonal Stroke Compensation",
+        "description": "Diagonal strokes appear heavier than verticals of the same mathematical width and require thinning.",
+        "applies_to_glyphs": [
+          "k",
+          "K",
+          "N",
+          "v",
+          "V",
+          "w",
+          "W",
+          "x",
+          "X",
+          "y",
+          "Y",
+          "7",
+          "A",
+          "Z",
+          "z"
+        ],
+        "severity": "warning",
+        "verbosity_threshold": "practitioner",
+        "detection": {
+          "method": "compare_diagonal_to_vertical",
+          "trigger_when": "diagonal_width >= vertical_width * 0.92",
+          "note": "Diagonal should be lighter than vertical; threshold depends on angle"
+        },
+        "display": {
+          "overlay_type": "highlight_stroke",
+          "color": "#FFA500",
+          "label_template": "Diagonal ({angle}°) width {diag_width}u equals vertical {vert_width}u — consider thinning",
+          "suggestion_formula": "vertical_width * 0.85"
+        },
+        "knowledge": {
+          "why": "A diagonal stroke covers more pixel area per length than a vertical of the same width because it presents a wider cross-section to horizontal eye movement. The correction amount depends on the angle — more extreme diagonals need more correction.",
+          "correction_by_angle": {
+            "45deg": "Thin by ~15% vs vertical",
+            "30deg": "Thin by ~10% vs vertical",
+            "60deg": "Thin by ~20% vs vertical"
+          }
+        }
+      },
+      {
+        "id": "OPT-004",
+        "name": "Crossing Diagonal Alignment",
+        "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong.",
+        "applies_to_glyphs": [
+          "x",
+          "X",
+          "k",
+          "K"
+        ],
+        "severity": "warning",
+        "verbosity_threshold": "practitioner",
+        "detection": {
+          "method": "check_crossing_point_offset",
+          "trigger_when": "crossing_x_offset == 0 AND crossing_y_offset == 0",
+          "note": "Perfect geometric center crossing will appear misaligned — an offset is required"
+        },
+        "display": {
+          "overlay_type": "crosshair_with_offset",
+          "color": "#8B5CF6",
+          "label_template": "Crossing diagonals need offset to appear aligned"
+        },
+        "knowledge": {
+          "why": "Due to how the eye tracks diagonal strokes, two diagonals crossing at their exact geometric midpoints will appear to be misaligned — one will seem to be shifted up or down relative to the other. A small offset (typically 2–5% of glyph width) at the crossing point corrects this illusion.",
+          "fix_steps": [
+            "Find the crossing point of the two strokes",
+            "Shift one of the stroke crossing points slightly upward or downward",
+            "Test at small sizes — the crossing should look clean and centered",
+            "Typical offset: 2–5% of glyph width"
+          ]
+        }
+      },
+      {
+        "id": "OPT-005",
+        "name": "Overshoot Inconsistency",
+        "description": "All round glyphs in a font should share a consistent overshoot value. Mixed overshoot values create visual inconsistency.",
+        "scope": "font_wide",
+        "severity": "warning",
+        "verbosity_threshold": "practitioner",
+        "detection": {
+          "method": "compare_overshoot_across_glyphs",
+          "glyph_groups": [
+            [
+              "o",
+              "c",
+              "e",
+              "b",
+              "d",
+              "p",
+              "q"
+            ],
+            [
+              "O",
+              "C",
+              "G",
+              "Q",
+              "D"
+            ]
+          ],
+          "trigger_when": "overshoot_stddev > 2",
+          "note": "Standard deviation of overshoot across group members exceeds 2 units"
+        },
+        "display": {
+          "overlay_type": "comparison_panel",
+          "label_template": "Overshoot varies: min {min_val}u, max {max_val}u, avg {avg_val}u. Standardize to one value."
+        }
+      }
+    ]
+  },
+  "curveThresholds": {
+    "version": "1.0.0",
+    "thresholds": {
+      "handle_length_ratio": {
+        "id": "CURV-001",
+        "name": "Handle Length for Near-Circular Curves",
+        "description": "For curves approximating a quarter-circle, handles at ~55.2% of radius produce the smoothest result.",
+        "magic_number": 0.5522847498,
+        "tolerance": 0.08,
+        "applies_when": "curve_approximates_arc AND arc_angle_near_90deg",
+        "trigger_when": "abs(handle_ratio - 0.552) > tolerance",
+        "severity": "info",
+        "knowledge": "The value 0.5522847498 is the cubic Bézier approximation constant for a quarter-circle. Using this value minimizes the deviation from a true circle. Significant deviation produces curves that look subtly oval or lopsided in ways that are hard to pinpoint."
+      },
+      "extrema_missing": {
+        "id": "CURV-002",
+        "name": "Missing Extrema Points",
+        "description": "On-curve points must exist at topmost, bottommost, leftmost, rightmost positions of any curve intended as a primary stroke.",
+        "severity": "error",
+        "applies_when": "always",
+        "trigger_when": "no_oncurve_at_extremum",
+        "knowledge": "Without extrema points, font hinting breaks and rendering at small sizes degrades significantly. PostScript hinting algorithms assume extrema exist. This is a technical requirement, not just aesthetic.",
+        "auto_fix_available": true,
+        "auto_fix_description": "Add on-curve point at extremum using standard Bézier subdivision"
+      },
+      "smooth_tangent_break": {
+        "id": "CURV-003",
+        "name": "Broken Tangent at Curve-to-Line Join",
+        "description": "Where a curve meets a straight line segment, the handle must be exactly parallel to the line for a smooth join.",
+        "severity": "warning",
+        "tolerance_degrees": 1.5,
+        "trigger_when": "handle_angle_vs_line_angle > tolerance_degrees",
+        "knowledge": "A non-parallel handle at a curve-to-line join creates a subtle kink — a micro-bump that is invisible at 100% zoom but noticeable at text sizes as a slight roughness. This is one of the most common sources of 'something looks slightly off' in beginner outlines."
+      },
+      "s_curve_unintended": {
+        "id": "CURV-004",
+        "name": "Unintended S-Curve",
+        "description": "A path segment where the curvature reverses direction unexpectedly — visible as a subtle S-shape in what should be a simple arc.",
+        "severity": "warning",
+        "applies_when": "segment_should_be_simple_arc",
+        "trigger_when": "curvature_sign_changes_within_segment",
+        "knowledge": "An S-curve happens when handles are too long and cross each other in influence. The result is a curve that appears to have two opposing bends. At display sizes this looks wrong. At text sizes it manifests as a subtle roughness. Fix: shorten the longer handle until curvature is uniform."
+      },
+      "handle_alignment_vertical": {
+        "id": "CURV-005",
+        "name": "Near-Vertical Handle Not Fully Vertical",
+        "description": "Handles that are meant to be vertical (at extrema of round strokes) should be exactly vertical. Near-vertical handles produce asymmetric curves.",
+        "severity": "warning",
+        "tolerance_degrees": 0.5,
+        "trigger_when": "handle_intended_vertical AND angle_from_vertical > 0.5deg",
+        "knowledge": "Handles that are very close to vertical but not quite vertical are an error."
+      }
+    }
+  },
+  "knowledgeCards": {
+    "version": "1.0.0",
+    "cards": [
+      {
+        "id": "lc-n-001",
+        "glyph": "n",
+        "title": "lowercase n: The Foundation",
+        "tags": [
+          "foundation",
+          "stem",
+          "arch"
+        ],
+        "verbosity": "learner",
+        "body": "Draw n before almost everything else. Its stem weight, arch shape, and counter proportions are the DNA for h, m, u, and r — and indirectly for nearly every other lowercase letter.",
+        "tips": [
+          "Start with a rectangle for stem width.",
+          "Draw arch as separate overlapping shape.",
+          "Counter affects readability at text sizes.",
+          "Duplicate first stem for second leg."
+        ],
+        "related_cards": [
+          "lc-o-001",
+          "lc-h-001",
+          "lc-m-001",
+          "lc-u-001"
+        ]
+      },
+      {
+        "id": "lc-o-001",
+        "glyph": "o",
+        "title": "lowercase o: The Curve Master",
+        "tags": [
+          "foundation",
+          "curves",
+          "overshoot"
+        ],
+        "verbosity": "learner",
+        "body": "The lowercase o is the curve master. Its bowl, stress axis, and stroke weights are reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
+        "tips": [
+          "Requires overshoot at top and bottom.",
+          "Stress axis must be consistent across curves.",
+          "Do not just scale down uppercase O.",
+          "Bowl weight = n crossbar weight in low contrast."
+        ],
+        "related_cards": [
+          "lc-n-001",
+          "lc-c-001",
+          "lc-b-001",
+          "lc-d-001"
+        ]
+      },
+      {
+        "id": "lc-h-001",
+        "glyph": "h",
+        "title": "lowercase h: Extension from n",
+        "tags": [
+          "ascender",
+          "stem"
+        ],
+        "verbosity": "learner",
+        "body": "h = n with the left stem extended to the ascender line. Everything below x-height is identical to n.",
+        "tips": [
+          "Arch begins at same height as n.",
+          "Serif at top should match l and b ascenders.",
+          "Ascender height must match l exactly."
+        ],
+        "related_cards": [
+          "lc-n-001",
+          "lc-l-001"
+        ]
+      },
+      {
+        "id": "lc-m-001",
+        "glyph": "m",
+        "title": "lowercase m: Doubled Rhythm",
+        "tags": [
+          "widest",
+          "rhythm"
+        ],
+        "verbosity": "learner",
+        "body": "m = n doubled. Copy arch and second leg from n, duplicate it rightward. Three stems must be identical weight.",
+        "tips": [
+          "Counters should feel optically equal to n counter.",
+          "Widen letter if counters feel pinched.",
+          "Tighter side bearings than n."
+        ],
+        "related_cards": [
+          "lc-n-001"
+        ]
+      },
+      {
+        "id": "lc-u-001",
+        "glyph": "u",
+        "title": "lowercase u: The Light Catcher",
+        "tags": [
+          "optical",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "u is not a mirror of n. The open top catches more light, making u appear wider. Narrow the bowl ~5-8 units for balance.",
+        "tips": [
+          "Bottom curve needs overshoot like o.",
+          "Exit stroke top-right matches n arch exit.",
+          "Transition from stem to curve must be smooth."
+        ],
+        "related_cards": [
+          "lc-n-001"
+        ]
+      },
+      {
+        "id": "lc-l-001",
+        "glyph": "l",
+        "title": "lowercase l: The Standard Stem",
+        "tags": [
+          "foundation",
+          "stem"
+        ],
+        "verbosity": "learner",
+        "body": "l is your pure stem. Width, weight, and terminal treatment define DNA for i, j, b, d, h, k, p.",
+        "tips": [
+          "Height sets ascender benchmark.",
+          "Foot/serif treatment must match all ascending letters.",
+          "Side bearings are reference for uprights."
+        ],
+        "related_cards": [
+          "lc-i-001",
+          "lc-h-001",
+          "lc-n-001"
+        ]
+      },
+      {
+        "id": "lc-i-001",
+        "glyph": "i",
+        "title": "lowercase i: Stem and Tittle",
+        "tags": [
+          "stem",
+          "dot"
+        ],
+        "verbosity": "learner",
+        "body": "i = l stem + tittle (dot). Tittle size requires careful optical calibration.",
+        "tips": [
+          "Tittle larger than feels right — check at small sizes.",
+          "Tittle shape should match period/punctuation.",
+          "Position between x-height and ascender line."
+        ],
+        "related_cards": [
+          "lc-l-001",
+          "lc-j-001"
+        ]
+      },
+      {
+        "id": "lc-j-001",
+        "glyph": "j",
+        "title": "lowercase j: Descending Hook",
+        "tags": [
+          "stem",
+          "descender"
+        ],
+        "verbosity": "learner",
+        "body": "j = i + descending hook. Hook style should match f, r, and c terminal vocabulary.",
+        "tips": [
+          "Reach descender line with overshoot.",
+          "Hook style matches your curved terminals.",
+          "Narrow side bearings like i."
+        ],
+        "related_cards": [
+          "lc-i-001",
+          "lc-f-001",
+          "lc-y-001"
+        ]
+      },
+      {
+        "id": "lc-b-001",
+        "glyph": "b",
+        "title": "lowercase b: Stem and Bowl",
+        "tags": [
+          "bowl",
+          "stem"
+        ],
+        "verbosity": "learner",
+        "body": "b = h stem + o bowl. Not a mirror of d. Bowl attaches at x-height and baseline.",
+        "tips": [
+          "Narrower bowl than standalone o.",
+          "Smooth junction at attachment points.",
+          "Baseline overshoot like o."
+        ],
+        "related_cards": [
+          "lc-h-001",
+          "lc-o-001",
+          "lc-p-001"
+        ]
+      },
+      {
+        "id": "lc-d-001",
+        "glyph": "d",
+        "title": "lowercase d: Ascender and Bowl",
+        "tags": [
+          "bowl",
+          "ascender"
+        ],
+        "verbosity": "learner",
+        "body": "d = o bowl + ascender stem. Source for single-story a.",
+        "tips": [
+          "Ascender height matches l and h.",
+          "Smooth transition bowl-to-ascender.",
+          "Baseline overshoot matches o."
+        ],
+        "related_cards": [
+          "lc-o-001",
+          "lc-l-001",
+          "lc-a-001",
+          "lc-q-001"
+        ]
+      },
+      {
+        "id": "lc-p-001",
+        "glyph": "p",
+        "title": "lowercase p: Descender and Bowl",
+        "tags": [
+          "bowl",
+          "descender"
+        ],
+        "verbosity": "learner",
+        "body": "p = b bowl + descending stem. Stem descends below baseline.",
+        "tips": [
+          "Descender length matches g, j, q, y.",
+          "Confirm ascender-to-descender ratio.",
+          "Stem starts at x-height top-left."
+        ],
+        "related_cards": [
+          "lc-b-001",
+          "lc-q-001"
+        ]
+      },
+      {
+        "id": "lc-q-001",
+        "glyph": "q",
+        "title": "lowercase q: The Tail Tailor",
+        "tags": [
+          "bowl",
+          "descender"
+        ],
+        "verbosity": "learner",
+        "body": "q = o bowl + descending stem. Source for single-story g.",
+        "tips": [
+          "Tail matches j and g descender style.",
+          "Transition bowl-to-stem should be smooth.",
+          "Same descender depth as p."
+        ],
+        "related_cards": [
+          "lc-o-001",
+          "lc-d-001",
+          "lc-g-001"
+        ]
+      },
+      {
+        "id": "lc-c-001",
+        "glyph": "c",
+        "title": "lowercase c: Opening the Circle",
+        "tags": [
+          "terminal",
+          "aperture"
+        ],
+        "verbosity": "learner",
+        "body": "c = o opened on right. Terminal flows into e, f, r.",
+        "tips": [
+          "Aperture width is a stylistic signature.",
+          "Top and bottom terminals balanced.",
+          "Same overshoot as o."
+        ],
+        "related_cards": [
+          "lc-o-001",
+          "lc-e-001",
+          "lc-s-001"
+        ]
+      },
+      {
+        "id": "lc-e-001",
+        "glyph": "e",
+        "title": "lowercase e: Crossbar Stability",
+        "tags": [
+          "crossbar",
+          "aperture"
+        ],
+        "verbosity": "learner",
+        "body": "e = c + crossbar. Crossbar slightly below vertical center.",
+        "tips": [
+          "Lower crossbar = optical stability.",
+          "Upper bowl smaller than lower bowl.",
+          "Top terminal matches c exactly."
+        ],
+        "related_cards": [
+          "lc-c-001"
+        ]
+      },
+      {
+        "id": "lc-f-001",
+        "glyph": "f",
+        "title": "lowercase f: Hook and Crossbar",
+        "tags": [
+          "crossbar",
+          "hook"
+        ],
+        "verbosity": "learner",
+        "body": "f = j reversed + crossbar. Crossbar height aligns with t and e.",
+        "tips": [
+          "Crossbar slightly below x-height.",
+          "Top arc matches r and c vocabulary.",
+          "Typeset 'ft', 'fe' to check alignment."
+        ],
+        "related_cards": [
+          "lc-t-001",
+          "lc-r-001",
+          "lc-j-001"
+        ]
+      },
+      {
+        "id": "lc-t-001",
+        "glyph": "t",
+        "title": "lowercase t: The Short Ascender",
+        "tags": [
+          "crossbar",
+          "ascender"
+        ],
+        "verbosity": "learner",
+        "body": "t = l stem + crossbar. Short ascender, aligns with f.",
+        "tips": [
+          "Stem height below full ascender line.",
+          "Crossbar below x-height.",
+          "Top hook references calligraphic entry."
+        ],
+        "related_cards": [
+          "lc-f-001",
+          "lc-l-001"
+        ]
+      },
+      {
+        "id": "lc-r-001",
+        "glyph": "r",
+        "title": "lowercase r: Arm and Terminal",
+        "tags": [
+          "terminal",
+          "arch"
+        ],
+        "verbosity": "learner",
+        "body": "r = n without second leg. Arm terminal is a major personality statement.",
+        "tips": [
+          "Terminal type (round, flat, angled) defines vocabulary.",
+          "Keep counter under the arm open.",
+          "Very narrow side bearings."
+        ],
+        "related_cards": [
+          "lc-n-001",
+          "lc-f-001",
+          "lc-c-001"
+        ]
+      },
+      {
+        "id": "lc-s-001",
+        "glyph": "s",
+        "title": "lowercase s: The Spine",
+        "tags": [
+          "devil",
+          "complexity",
+          "spine"
+        ],
+        "verbosity": "learner",
+        "body": "Copy c, mirror bottom. Spine carries same visual weight as thick strokes.",
+        "tips": [
+          "Use two o guides for optical center.",
+          "Spine angle steep = modern; flat = soft.",
+          "Top lobe smaller than bottom lobe."
+        ],
+        "related_cards": [
+          "lc-c-001",
+          "lc-a-001"
+        ]
+      },
+      {
+        "id": "lc-a-001",
+        "glyph": "a",
+        "title": "lowercase a: Double Story Devil",
+        "tags": [
+          "complexity",
+          "devil",
+          "curves"
+        ],
+        "verbosity": "learner",
+        "body": "Mirror s vertically for body. Use d bowl and q stem.",
+        "tips": [
+          "Overhang (roof) is difficult — defined by angle/curve.",
+          "Bowl matches d and q shapes.",
+          "Ear echoes r arm or c terminal vocabulary."
+        ],
+        "related_cards": [
+          "lc-s-001",
+          "lc-d-001",
+          "lc-q-001"
+        ]
+      },
+      {
+        "id": "lc-g-001",
+        "glyph": "g",
+        "title": "lowercase g: Loop Specialist",
+        "tags": [
+          "devil",
+          "descender",
+          "loop"
+        ],
+        "verbosity": "learner",
+        "body": "Single-story g (q + terminal) or double-story (o + s).",
+        "tips": [
+          "Ear matches r and c family.",
+          "Double-story link is thin stroke weight.",
+          "Lower loop matches other descender depths."
+        ],
+        "related_cards": [
+          "lc-q-001",
+          "lc-s-001",
+          "lc-o-001"
+        ]
+      },
+      {
+        "id": "lc-v-001",
+        "glyph": "v",
+        "title": "lowercase v: Diagonal Foundation",
+        "tags": [
+          "diagonal",
+          "foundation"
+        ],
+        "verbosity": "learner",
+        "body": "Sets diagonal angle for w, y, x, k. Heavy left, thin right.",
+        "tips": [
+          "Tapering creates extra visual space in bearings.",
+          "Apex style (sharp/flat) is key indicator.",
+          "Heavy = downstroke (left)."
+        ],
+        "related_cards": [
+          "lc-z-001",
+          "lc-w-001",
+          "lc-y-001"
+        ]
+      },
+      {
+        "id": "lc-w-001",
+        "glyph": "w",
+        "title": "lowercase w: Doubled v",
+        "tags": [
+          "diagonal",
+          "widest"
+        ],
+        "verbosity": "learner",
+        "body": "w = doubled v. Narrow the center slightly for balance.",
+        "tips": [
+          "Center junction (peak/valley) is key decision.",
+          "Outer arms match v angle exactly.",
+          "Check rhythm in text — w can be heavy."
+        ],
+        "related_cards": [
+          "lc-v-001"
+        ]
+      },
+      {
+        "id": "lc-x-001",
+        "glyph": "x",
+        "title": "lowercase x: Optical Crossing",
+        "tags": [
+          "diagonal",
+          "junction"
+        ],
+        "verbosity": "learner",
+        "body": "Cross slightly ABOVE center. Thin/inktrap at the junction.",
+        "tips": [
+          "Heavy stroke top-right to bottom-left.",
+          "Balance the four surrounding counter spaces.",
+          "Match angles to v family."
+        ],
+        "related_cards": [
+          "lc-v-001",
+          "lc-z-001"
+        ]
+      },
+      {
+        "id": "lc-y-001",
+        "glyph": "y",
+        "title": "lowercase y: Diagonal Loop",
+        "tags": [
+          "diagonal",
+          "descender"
+        ],
+        "verbosity": "learner",
+        "body": "y = v top + descending tail. Match j and g vocabulary.",
+        "tips": [
+          "Transition from arm to tail must be smooth.",
+          "Matches other descender depths.",
+          "Left arm is heavy, right arm thin."
+        ],
+        "related_cards": [
+          "lc-v-001",
+          "lc-j-001"
+        ]
+      },
+      {
+        "id": "lc-z-001",
+        "glyph": "z",
+        "title": "lowercase z: Diagonal Thinning",
+        "tags": [
+          "diagonal",
+          "foundation"
+        ],
+        "verbosity": "learner",
+        "body": "Establish diagonal angle. Thick stroke is the diagonal.",
+        "tips": [
+          "Diagonal thickening is severe; measure it.",
+          "Terminals match C and S style.",
+          "Balance above and below counters."
+        ],
+        "related_cards": [
+          "lc-k-001",
+          "lc-v-001",
+          "lc-x-001"
+        ]
+      },
+      {
+        "id": "lc-k-001",
+        "glyph": "k",
+        "title": "lowercase k: Counter Balance",
+        "tags": [
+          "diagonal",
+          "junction"
+        ],
+        "verbosity": "learner",
+        "body": "k = l stem + z diagonals. Upper thin, lower thick.",
+        "tips": [
+          "Three white spaces visually equal in area.",
+          "Diagonal junction is major stylistic indicator.",
+          "Left side bearing match h/l."
+        ],
+        "related_cards": [
+          "lc-l-001",
+          "lc-z-001"
+        ]
+      },
+      {
+        "id": "uc-H-001",
+        "glyph": "H",
+        "title": "uppercase H: Capital Anchor",
+        "tags": [
+          "capitals",
+          "foundation"
+        ],
+        "verbosity": "learner",
+        "body": "Primary capital foundation. Uprights and crossbar define DNA for 75% of caps.",
+        "tips": [
+          "Crossbar slightly above optical center.",
+          "Crossbar lighter than uprights.",
+          "Side bearing is reference for upright capitals."
+        ],
+        "related_cards": [
+          "uc-O-001",
+          "uc-I-001",
+          "uc-L-001",
+          "uc-T-001"
+        ]
+      },
+      {
+        "id": "uc-O-001",
+        "glyph": "O",
+        "title": "uppercase O: Curve Anchor",
+        "tags": [
+          "capitals",
+          "curves"
+        ],
+        "verbosity": "learner",
+        "body": "Secondary foundation letter. All cap curves derive from O (C, G, Q, D).",
+        "tips": [
+          "Essential overshoot top and bottom.",
+          "Wider than H — classical proportion.",
+          "Stress axis match lowercase o."
+        ],
+        "related_cards": [
+          "uc-H-001",
+          "uc-C-001",
+          "uc-D-001",
+          "uc-Q-001"
+        ]
+      },
+      {
+        "id": "uc-I-001",
+        "glyph": "I",
+        "title": "uppercase I: The Cap Stem",
+        "tags": [
+          "capitals",
+          "stem"
+        ],
+        "verbosity": "learner",
+        "body": "I = single stem from H. Add serifs in sans-serif for legibility.",
+        "tips": [
+          "Identical weight to H upright.",
+          "Consider crossbar serifs for disambiguation.",
+          "Side bearings need sensitive adjustment."
+        ],
+        "related_cards": [
+          "uc-H-001",
+          "uc-L-001",
+          "lc-l-001"
+        ]
+      },
+      {
+        "id": "uc-L-001",
+        "glyph": "L",
+        "title": "uppercase L: The Cap Foot",
+        "tags": [
+          "capitals",
+          "foot"
+        ],
+        "verbosity": "learner",
+        "body": "L = I + foot. Foot length determines white space pocket.",
+        "tips": [
+          "Foot terminal match T and E crossbar ends.",
+          "Foot shorter than H width.",
+          "Base structure for E and F."
+        ],
+        "related_cards": [
+          "uc-I-001",
+          "uc-E-001",
+          "uc-F-001"
+        ]
+      },
+      {
+        "id": "uc-T-001",
+        "glyph": "T",
+        "title": "uppercase T: The Cap Crossbar",
+        "tags": [
+          "capitals",
+          "crossbar"
+        ],
+        "verbosity": "learner",
+        "body": "T = I + top crossbar. Crossbar lighter than upright.",
+        "tips": [
+          "Terminal style matches L and E.",
+          "Crossbar width sets proportion.",
+          "Test against E and F heights."
+        ],
+        "related_cards": [
+          "uc-I-001",
+          "uc-L-001",
+          "uc-E-001"
+        ]
+      },
+      {
+        "id": "uc-E-001",
+        "glyph": "E",
+        "title": "uppercase E: Balanced Arms",
+        "tags": [
+          "capitals",
+          "arms"
+        ],
+        "verbosity": "learner",
+        "body": "E = L + two crossbars. Middle arm is shorter and above center.",
+        "tips": [
+          "Optical stability: middle arm slightly above center.",
+          "Three horizontals lighter than upright.",
+          "Aperture matches C style."
+        ],
+        "related_cards": [
+          "uc-L-001",
+          "uc-F-001"
+        ]
+      },
+      {
+        "id": "uc-F-001",
+        "glyph": "F",
+        "title": "uppercase F: High Point",
+        "tags": [
+          "capitals",
+          "arms"
+        ],
+        "verbosity": "learner",
+        "body": "F = E minus bottom arm. Middle arm may need shift.",
+        "tips": [
+          "Watch for top-heaviness after removing bottom arm.",
+          "Check middle arm position for visual balance.",
+          "Match terminal family."
+        ],
+        "related_cards": [
+          "uc-E-001"
+        ]
+      },
+      {
+        "id": "uc-C-001",
+        "glyph": "C",
+        "title": "uppercase C: Open Cap Bowl",
+        "tags": [
+          "capitals",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "C = O opened on right. Structure flows into G and S.",
+        "tips": [
+          "Wider aperture than lowercase c.",
+          "Match O weights exactly.",
+          "Terminal vocabulary is stylistic signature."
+        ],
+        "related_cards": [
+          "uc-O-001",
+          "uc-G-001",
+          "uc-S-001"
+        ]
+      },
+      {
+        "id": "uc-D-001",
+        "glyph": "D",
+        "title": "uppercase D: Cap Bowl Stability",
+        "tags": [
+          "capitals",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "D = H stem + O right half. Flatten the bowl slightly for stability.",
+        "tips": [
+          "No overshoot needed (anchored by stem).",
+          "Junctions top and bottom must be invisible.",
+          "Wider than H normally."
+        ],
+        "related_cards": [
+          "uc-H-001",
+          "uc-O-001",
+          "uc-B-001",
+          "uc-P-001"
+        ]
+      },
+      {
+        "id": "uc-B-001",
+        "glyph": "B",
+        "title": "uppercase B: Visual Centers",
+        "tags": [
+          "capitals",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "B has two bowls. Bottom bowl larger than top for stability.",
+        "tips": [
+          "Middle junction slightly above center.",
+          "Smooth transition between bowls.",
+          "Matches P and D vocabulary."
+        ],
+        "related_cards": [
+          "uc-P-001",
+          "uc-D-001"
+        ]
+      },
+      {
+        "id": "uc-P-001",
+        "glyph": "P",
+        "title": "uppercase P: Upper Bowl",
+        "tags": [
+          "capitals",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "P = H stem + upper bowl. Bowl larger than top of B.",
+        "tips": [
+          "Keep interior counter open and breathing.",
+          "Narrower than D.",
+          "Source for R."
+        ],
+        "related_cards": [
+          "uc-D-001",
+          "uc-B-001",
+          "uc-R-001"
+        ]
+      },
+      {
+        "id": "uc-R-001",
+        "glyph": "R",
+        "title": "uppercase R: Diagonal Leg",
+        "tags": [
+          "capitals",
+          "leg"
+        ],
+        "verbosity": "learner",
+        "body": "R = P + diagonal leg. Leg is the personality statement.",
+        "tips": [
+          "Leg options: straight, curved, swept.",
+          "No visible angle change at junction.",
+          "Leg angle matches K/N family."
+        ],
+        "related_cards": [
+          "uc-P-001",
+          "uc-K-001"
+        ]
+      },
+      {
+        "id": "uc-V-001",
+        "glyph": "V",
+        "title": "uppercase V: Cap Diagonals",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "Sets angle for W, Y, K, A. Heavy left, thin right.",
+        "tips": [
+          "Crotch (apex) style is key decision.",
+          "Balance three triangle spaces.",
+          "Inverted to create A."
+        ],
+        "related_cards": [
+          "uc-W-001",
+          "uc-Y-001",
+          "uc-A-001"
+        ]
+      },
+      {
+        "id": "uc-Q-001",
+        "glyph": "Q",
+        "title": "uppercase Q: The Tail Signature",
+        "tags": [
+          "capitals",
+          "tail"
+        ],
+        "verbosity": "learner",
+        "body": "Q = O + tail. Expressive design signature opportunity.",
+        "tips": [
+          "Tail can be internal or external.",
+          "Style (swept, kicked) defines character.",
+          "Test spacing in words like Quality."
+        ],
+        "related_cards": [
+          "uc-O-001"
+        ]
+      },
+      {
+        "id": "uc-A-001",
+        "glyph": "A",
+        "title": "uppercase A: Apex and Crossbar",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "A = inverted V + crossbar. Apex treatment and crossbar position are key design decisions.",
+        "tips": [
+          "Left diagonal is thick (downstroke), right is thin (upstroke).",
+          "Crossbar slightly below center.",
+          "Apex style determines tone."
+        ],
+        "related_cards": [
+          "uc-V-001"
+        ]
+      },
+      {
+        "id": "uc-S-001",
+        "glyph": "S",
+        "title": "uppercase S: Visual Stability",
+        "tags": [
+          "capitals",
+          "devil",
+          "spine"
+        ],
+        "verbosity": "learner",
+        "body": "Uppercase S follows lowercase s logic at cap height. Top lobe slightly smaller than bottom.",
+        "tips": [
+          "Iterate multiple times.",
+          "Reference C/O for DNA.",
+          "Spine must match heavy weights."
+        ],
+        "related_cards": [
+          "uc-C-001",
+          "uc-O-001"
+        ]
+      },
+      {
+        "id": "uc-G-001",
+        "glyph": "G",
+        "title": "uppercase G: The Bar",
+        "tags": [
+          "capitals",
+          "bowl"
+        ],
+        "verbosity": "learner",
+        "body": "G = C + horizontal bar/chin. Bar height affects sophistication.",
+        "tips": [
+          "Bar height matches H crossbar or slightly lower.",
+          "Curved transition from bottom bowl is common.",
+          "Aperture style matches C."
+        ],
+        "related_cards": [
+          "uc-C-001"
+        ]
+      },
+      {
+        "id": "uc-K-001",
+        "glyph": "K",
+        "title": "uppercase K: Cap Diagonals",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "K = H stem + z/v diagonals scaled to cap height.",
+        "tips": [
+          "Three counter spaces equal visually.",
+          "Lower leg is heavy downstroke.",
+          "Junction point is stylistic signature."
+        ],
+        "related_cards": [
+          "uc-H-001",
+          "uc-A-001",
+          "uc-R-001"
+        ]
+      },
+      {
+        "id": "uc-V-001",
+        "glyph": "V",
+        "title": "uppercase V: Cap Diagonal Pivot",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "V sets angles for W, Y, K, A. Heavy left, thin right.",
+        "tips": [
+          "Apex style matches A top.",
+          "Balance inner triangle space.",
+          "Side bearings compensate for tapering."
+        ],
+        "related_cards": [
+          "uc-W-001",
+          "uc-Y-001",
+          "uc-A-001"
+        ]
+      },
+      {
+        "id": "uc-W-001",
+        "glyph": "W",
+        "title": "uppercase W: Double V",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "W = doubled V. Narrow the center for optical rhythm.",
+        "tips": [
+          "Center peak/valley matches stylistic vocabulary.",
+          "Outer diagonals match V angle.",
+          "Heaviest letter in the set."
+        ],
+        "related_cards": [
+          "uc-V-001"
+        ]
+      },
+      {
+        "id": "uc-Y-001",
+        "glyph": "Y",
+        "title": "uppercase Y: Triple Junction",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "Y = V top + I bottom. Junction height is critical.",
+        "tips": [
+          "Junction slightly above optical center.",
+          "Stem weight matches H upright.",
+          "Left arm is heavy (downstroke)."
+        ],
+        "related_cards": [
+          "uc-V-001",
+          "uc-I-001"
+        ]
+      },
+      {
+        "id": "uc-N-001",
+        "glyph": "N",
+        "title": "uppercase N: The Diagonal Connector",
+        "tags": [
+          "capitals",
+          "diagonal"
+        ],
+        "verbosity": "learner",
+        "body": "N = two H stems + heavy diagonal. Diagonal must be significantly thicker.",
+        "tips": [
+          "Vertical uprights can be slightly thinner than H.",
+          "Diagonal is downstroke (very heavy).",
+          "Avoid heaviness at junctions (thin them)."
+        ],
+        "related_cards": [
+          "uc-H-001"
+        ]
+      }
+    ]
+  },
+  "workflowSequences": {
+    "version": "1.0.0",
+    "sequences": [
+      {
+        "id": "workflow-001",
+        "name": "Recommended Latin Lowercase Build Order",
+        "description": "Evidence-based sequence for building a Latin lowercase efficiently, minimizing rework.",
+        "stages": [
+          {
+            "stage": 1,
+            "name": "Anchors",
+            "glyphs": [
+              "o",
+              "n"
+            ],
+            "rationale": "o establishes counter shape and spacing unit. n establishes stem weight, arch, and serves as the arch template.",
+            "completion_criteria": "o and n spaced and looking balanced together in 'nonn' string",
+            "unlocks": [
+              2
+            ]
+          },
+          {
+            "stage": 2,
+            "name": "DNA Expansion — Reading Method",
+            "glyphs": [
+              "a",
+              "d",
+              "h",
+              "e",
+              "s",
+              "i"
+            ],
+            "rationale": "University of Reading method. Provides enough variety to test texture and reveal systemic issues before committing to the full set.",
+            "alternatives": [
+              {
+                "name": "Type Together method",
+                "glyphs": [
+                  "v",
+                  "i",
+                  "d",
+                  "e",
+                  "o",
+                  "s",
+                  "p",
+                  "a",
+                  "n"
+                ],
+                "rationale": "Preferred when diagonal variety is important early"
+              }
+            ],
+            "completion_criteria": "Can set real words with available letters; spacing feels consistent",
+            "unlocks": [
+              3
+            ]
+          },
+          {
+            "stage": 3,
+            "name": "Arch Family",
+            "glyphs": [
+              "m",
+              "u",
+              "r"
+            ],
+            "rationale": "All derive directly from n. Should be fast to build.",
+            "completion_criteria": "All consistent with n in arch weight and spacing",
+            "unlocks": [
+              4
+            ]
+          },
+          {
+            "stage": 4,
+            "name": "Bowl Family",
+            "glyphs": [
+              "b",
+              "p",
+              "q"
+            ],
+            "rationale": "All derive from d (which derives from o + h). Should be fast.",
+            "completion_criteria": "All consistent with d in bowl shape",
+            "unlocks": [
+              5
+            ]
+          },
+          {
+            "stage": 5,
+            "name": "Diagonal & Difficult",
+            "glyphs": [
+              "v",
+              "w",
+              "x",
+              "y",
+              "z",
+              "g",
+              "f",
+              "t",
+              "j",
+              "k",
+              "l"
+            ],
+            "rationale": "Letters without close structural relatives. Each needs fresh drawing.",
+            "completion_criteria": "All 26 lowercase letters complete and consistently spaced",
+            "unlocks": [
+              6
+            ]
+          },
+          {
+            "stage": 6,
+            "name": "Capitals",
+            "glyphs_first": [
+              "H",
+              "O"
+            ],
+            "glyphs_second": [
+              "A",
+              "E",
+              "S",
+              "I",
+              "N",
+              "P",
+              "D",
+              "V"
+            ],
+            "glyphs_third": [
+              "B",
+              "C",
+              "F",
+              "G",
+              "J",
+              "K",
+              "L",
+              "M",
+              "Q",
+              "R",
+              "T",
+              "U",
+              "W",
+              "X",
+              "Y",
+              "Z"
+            ],
+            "rationale": "H and O establish cap-to-lowercase proportion. Then high-frequency and structurally-generative letters. Then remainder.",
+            "completion_criteria": "All 26 capitals complete",
+            "unlocks": [
+              7
+            ]
+          },
+          {
+            "stage": 7,
+            "name": "Figures",
+            "glyphs_first": [
+              "zero",
+              "one"
+            ],
+            "glyphs_remainder": [
+              "two",
+              "three",
+              "four",
+              "five",
+              "six",
+              "seven",
+              "eight",
+              "nine"
+            ],
+            "rationale": "zero establishes figure oval; one establishes figure stem. Same DNA approach as letterforms.",
+            "completion_criteria": "All 10 figures consistent in weight and spacing"
+          }
+        ]
+      }
+    ]
+  }
+}

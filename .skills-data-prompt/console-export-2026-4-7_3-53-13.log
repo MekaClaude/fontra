@@ -1,0 +1,23 @@
+Uncaught (in promise) TypeError: Illegal constructor.
+    SimpleElement webpack-internal:///./src-js/fontra-core/src/html-utils.js:38
+    Panel webpack-internal:///./src-js/views-editor/src/panel.js:41
+    TriangleGuardianPanel webpack-internal:///./src-js/views-editor/src/panel-triangle-guardian.js:50
+    TriangleGuardianTool webpack-internal:///./src-js/views-editor/src/edit-tools-triangle-guardian.js:131
+    initTools webpack-internal:///./src-js/views-editor/src/editor.js:935
+    EditorController webpack-internal:///./src-js/views-editor/src/editor.js:247
+    fromBackend webpack-internal:///./src-js/fontra-core/src/view-controller.js:33
+fontra-core.37db8252.js line 288 > eval:38:5
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. editor.html:82:31
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. editor.html:23:20
+Propriété « // change this to tune the indent level
+       » inconnue.  Déclaration abandonnée. editor.html:25:7
+Déclaration attendue, mais « ; » trouvé.  Passage à la déclaration suivante. 6 editor.html:82:31
+Jeu de règles ignoré suite à un mauvais sélecteur. editor.html:23:57
+Erreur dans les liens source : Error: URL constructor:  is not a valid URL.
+Stack in the worker:resolveSourceMapURL@resource://devtools/client/shared/source-map-loader/utils/fetchSourceMap.js:56:22
+getOriginalURLs@resource://devtools/client/shared/source-map-loader/source-map.js:75:24
+workerHandler/</<@resource://devtools/client/shared/worker-utils.js:115:52
+workerHandler/<@resource://devtools/client/shared/worker-utils.js:113:13
+
+URL de la ressource : wasm:http://localhost:8001/js/npm.harfbuzzjs.9e0a001d.js%20line%2017%20%3E%20eval%20line%204%20%3E%20WebAssembly.Module
+URL du lien source : null
