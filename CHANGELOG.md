@@ -1,5 +1,17 @@
 # Changelog for Fontra
 
+## 2026-05-?? [version 2026.5.0]
+
+### Improvements
+
+- [shaping debugger] Improved message formatting in feature debugger. Contributed by Khaled Hosny. [PR 2566](https://github.com/fontra/fontra/pull/2566)
+- [opentype feature editor] When navigating to a line from an error message or from the shaping debugger, scroll the selected line into the center of the view like most editors do, instead of near the edge. Contributed by Khaled Hosny. [PR 2565](https://github.com/fontra/fontra/pull/2565)
+
+### Fixes
+
+- [editor canvas] Fix display glitch with Safari on very large screens. Contributed by Qwerasd. [PR 2567](https://github.com/fontra/fontra/pull/2567)
+- [fontra-glyphs] Use the correct encoding when reading .plist files. This fixes read errors with certain .glyphs and .glyphspackage files. [fontra-glyphs Issue 140](https://github.com/fontra/fontra-glyphs/issues/140), [fontra-glyphs PR 141](https://github.com/fontra/fontra-glyphs/pull/141)
+
 ## 2026-04-29 [version 2026.4.4]
 
 ### New features
