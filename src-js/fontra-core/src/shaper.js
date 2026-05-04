@@ -535,14 +535,13 @@ class DumbShaper extends ShaperBase {
 
     for (const [i, codePoint] of enumerate(codePoints)) {
       const glyphName = this.nominalGlyph(codePoint);
-      const xAdvance = Math.round(glyphObjects[glyphName]?.xAdvance ?? 500);
 
       glyphs.push({
         codepoint: glyphName ? this.glyphNameToID[glyphName] : 0,
         cluster: i,
         glyphname: glyphName ?? ".notdef",
         mark: false,
-        xAdvance: xAdvance,
+        xAdvance: Math.round(glyphObjects[glyphName]?.xAdvance ?? 500),
         yAdvance: 0,
         xOffset: 0,
         yOffset: 0,
