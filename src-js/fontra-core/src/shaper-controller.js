@@ -92,6 +92,7 @@ export class ShaperController {
         glyphOrder,
         isGlyphMarkFunc: (glyphName) => markGlyphsSet.has(glyphName),
         insertMarkers,
+        fallbackXAdvance: this.fontController.fallbackXAdvance,
       };
 
       // If compiling the font failed (!fontData) and we have a previous
