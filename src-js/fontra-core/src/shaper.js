@@ -13,8 +13,13 @@ const EMULATED_FEATURE_TAGS = ["curs", "kern", "mark", "mkmk"];
 
 class ShaperBase {
   constructor(shaperSupport) {
-    const { nominalGlyphFunc, glyphOrder, isGlyphMarkFunc, insertMarkers } =
-      shaperSupport;
+    const {
+      nominalGlyphFunc,
+      glyphOrder,
+      isGlyphMarkFunc,
+      insertMarkers,
+      fallbackXAdvance,
+    } = shaperSupport;
 
     this.glyphOrder = glyphOrder;
     this.isGlyphMarkFunc = isGlyphMarkFunc;
@@ -28,6 +33,7 @@ class ShaperBase {
           !!this.insertMarkers.find(({ tag }) => tag === emulatedTag),
       ])
     );
+    this.fallbackXAdvance = fallbackXAdvance ?? 500;
 
     if (glyphOrder) {
       this.glyphNameToID = {};
@@ -251,7 +257,9 @@ class HBShaper extends ShaperBase {
         //    we fill them in so we can render something.
         // 2. When the buffer has been populated with code points, the
         //    positioning fields are still zero, which doesn't render nice.
-        glyph.xAdvance = this._glyphObjects[glyphName]?.xAdvance ?? 500;
+        glyph.xAdvance = Math.round(
+          this._glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
+        );
         glyph.yAdvance = 0; // TODO
         glyph.xOffset = 0;
         glyph.yOffset = 0;
@@ -409,7 +417,7 @@ class HBShaper extends ShaperBase {
 
   _getHAdvanceFunc(font, glyphID) {
     const glyphName = this.glyphOrder[glyphID];
-    return Math.round(this._glyphObjects[glyphName]?.xAdvance ?? 500);
+    return Math.round(this._glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance);
   }
 
   getFeatureInfo(otTableTag) {
@@ -535,7 +543,9 @@ class DumbShaper extends ShaperBase {
 
     for (const [i, codePoint] of enumerate(codePoints)) {
       const glyphName = this.nominalGlyph(codePoint);
-      const xAdvance = Math.round(glyphObjects[glyphName]?.xAdvance ?? 500);
+      const xAdvance = Math.round(
+        glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
+      );
       const isMark = this.isGlyphMarkFunc(glyphName);
 
       glyphs.push({
