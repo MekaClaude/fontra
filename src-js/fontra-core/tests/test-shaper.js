@@ -332,61 +332,76 @@ describe("shaper tests", () => {
     ]);
   });
 
-  const testInputCodePointsKerningSkipMarks = [..."V\u0304A"].map((c) => ord(c));
-  const expectedGlyphsKerningSkipMarks = [
-    {
-      codepoint: 24,
-      cluster: 0,
-      glyphname: "V",
-      mark: false,
-      xAdvance: 301,
-      yAdvance: 0,
-      xOffset: 0,
-      yOffset: 0,
-    },
-    {
-      codepoint: 51,
-      cluster: 1,
-      glyphname: "macroncomb",
-      mark: true,
-      xAdvance: 0,
-      yAdvance: 0,
-      xOffset: 0,
-      yOffset: 0,
-    },
-    {
-      codepoint: 1,
-      cluster: 2,
-      glyphname: "A",
-      mark: false,
-      xAdvance: 396,
-      yAdvance: 0,
-      xOffset: 0,
-      yOffset: 0,
-    },
-  ];
-
   it("test applyKerning skip marks", () => {
-    const shaper = getShaper({
-      nominalGlyphFunc,
-      glyphOrder,
-    });
-    const { glyphs } = shaper.shape(
-      testInputCodePointsKerningSkipMarks,
-      glyphObjects,
-      {}
-    );
+    const glyphs = [
+      {
+        codepoint: 24,
+        cluster: 0,
+        glyphname: "V",
+        mark: false,
+        xAdvance: 401,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      {
+        codepoint: 51,
+        cluster: 1,
+        glyphname: "macroncomb",
+        mark: true,
+        xAdvance: 0,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      {
+        codepoint: 1,
+        cluster: 2,
+        glyphname: "A",
+        mark: false,
+        xAdvance: 396,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+    ];
 
-    glyphs.forEach((glyph) => {
-      glyph.mark = isGlyphMarkFunc(glyph.glyphname);
-      if (glyph.mark) {
-        glyph.xAdvance = 0;
-      }
-    });
+    const expectedOutputGlyphs = [
+      {
+        codepoint: 24,
+        cluster: 0,
+        glyphname: "V",
+        mark: false,
+        xAdvance: 301,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      {
+        codepoint: 51,
+        cluster: 1,
+        glyphname: "macroncomb",
+        mark: true,
+        xAdvance: 0,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      {
+        codepoint: 1,
+        cluster: 2,
+        glyphname: "A",
+        mark: false,
+        xAdvance: 396,
+        yAdvance: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+    ];
 
     applyKerning(glyphs, (g1, g2) => kerning.getGlyphPairValue(g1, g2));
 
-    expect(glyphs).to.deep.equal(expectedGlyphsKerningSkipMarks);
+    expect(glyphs).to.deep.equal(expectedOutputGlyphs);
   });
 
   it("test getGlyphNameCodePoint", () => {
