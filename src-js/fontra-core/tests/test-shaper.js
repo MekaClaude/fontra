@@ -28,7 +28,7 @@ describe("shaper tests", () => {
 
   const testInputCodePoints = [..."😻VABCÄS"].map((c) => ord(c));
 
-  function getExpectedGlyphs(useGlyphObjects) {
+  function getExpectedGlyphs(useGlyphObjects, applyShaping = true) {
     return [
       {
         codepoint: 0,
@@ -43,7 +43,7 @@ describe("shaper tests", () => {
       {
         codepoint: 24,
         cluster: 1,
-        xAdvance: useGlyphObjects ? 301 : 300,
+        xAdvance: !applyShaping ? 401 : useGlyphObjects ? 301 : 300,
         yAdvance: 0,
         xOffset: 0,
         yOffset: 0,
@@ -312,7 +312,7 @@ describe("shaper tests", () => {
       kerningPairFunc: (g1, g2) => kerning.getGlyphPairValue(g1, g2),
     });
 
-    expect(glyphs).to.deep.equal(getExpectedGlyphs(true));
+    expect(glyphs).to.deep.equal(getExpectedGlyphs(true, false));
   });
 
   it("test DumbShaper RTL", () => {
@@ -366,23 +366,25 @@ describe("shaper tests", () => {
     },
   ];
 
-  const defaultInsertMarkers = [
-    { tag: "curs", lookupId: undefined },
-    { tag: "kern", lookupId: undefined },
-    { tag: "mark", lookupId: undefined },
-    { tag: "mkmk", lookupId: undefined },
-  ];
-
   it("test applyKerning skip marks", () => {
     const shaper = getShaper({
       nominalGlyphFunc,
       glyphOrder,
-      isGlyphMarkFunc,
-      insertMarkers: defaultInsertMarkers,
     });
-    const { glyphs } = shaper.shape(testInputCodePointsKerningSkipMarks, glyphObjects, {
-      kerningPairFunc: (g1, g2) => kerning.getGlyphPairValue(g1, g2),
+    const { glyphs } = shaper.shape(
+      testInputCodePointsKerningSkipMarks,
+      glyphObjects,
+      {}
+    );
+
+    glyphs.forEach((glyph) => {
+      glyph.mark = isGlyphMarkFunc(glyph.glyphname);
+      if (glyph.mark) {
+        glyph.xAdvance = 0;
+      }
     });
+
+    applyKerning(glyphs, (g1, g2) => kerning.getGlyphPairValue(g1, g2));
 
     expect(glyphs).to.deep.equal(expectedGlyphsKerningSkipMarks);
   });
