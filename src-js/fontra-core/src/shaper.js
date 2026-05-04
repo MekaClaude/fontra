@@ -543,17 +543,15 @@ class DumbShaper extends ShaperBase {
 
     for (const [i, codePoint] of enumerate(codePoints)) {
       const glyphName = this.nominalGlyph(codePoint);
-      const xAdvance = Math.round(
-        glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
-      );
-      const isMark = this.isGlyphMarkFunc(glyphName);
 
       glyphs.push({
         codepoint: glyphName ? this.glyphNameToID[glyphName] : 0,
         cluster: i,
         glyphname: glyphName ?? ".notdef",
-        mark: isMark,
-        xAdvance: isMark ? 0 : xAdvance,
+        mark: false,
+        xAdvance: Math.round(
+          glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
+        ),
         yAdvance: 0,
         xOffset: 0,
         yOffset: 0,
@@ -564,22 +562,13 @@ class DumbShaper extends ShaperBase {
       glyphs.reverse();
     }
 
-    const skipFeatures = this._getInitialSkipEmulatedFeatures(options.emulatedFeatures);
-    this.applyEmulatedPositioning(
-      glyphs,
-      glyphObjects,
-      skipFeatures,
-      options.kerningPairFunc,
-      options.direction
-    );
-
     const requiredGlyphs = glyphs.map((g) => g.glyphname);
 
-    return { glyphs, requiredGlyphs };
+    return { glyphs, requiredGlyphs, direction };
   }
 
   getFeatureInfo(otTableTag) {
-    return super.getFeatureInfo(otTableTag) ?? {};
+    return {};
   }
 
   getScriptAndLanguageInfo() {
