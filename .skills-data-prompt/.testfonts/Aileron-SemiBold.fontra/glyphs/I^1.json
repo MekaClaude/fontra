@@ -1,0 +1,42 @@
+{
+"name": "I",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 205,
+"y": 0
+},
+{
+"x": 205,
+"y": 690
+},
+{
+"x": 95,
+"y": 690
+},
+{
+"x": 95,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 277
+}
+}
+}
+}

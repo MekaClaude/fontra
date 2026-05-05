@@ -1,0 +1,117 @@
+{
+"name": "lcaron",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 175,
+"y": 735
+},
+{
+"x": 65,
+"y": 735
+},
+{
+"x": 65,
+"y": 159,
+"smooth": true
+},
+{
+"x": 65,
+"y": 127,
+"type": "cubic"
+},
+{
+"x": 65,
+"y": 103,
+"type": "cubic"
+},
+{
+"x": 66,
+"y": 83,
+"smooth": true
+},
+{
+"x": 70,
+"y": 15,
+"type": "cubic"
+},
+{
+"x": 109,
+"y": -6,
+"type": "cubic"
+},
+{
+"x": 167,
+"y": -6,
+"smooth": true
+},
+{
+"x": 192,
+"y": -6,
+"type": "cubic"
+},
+{
+"x": 217,
+"y": -4,
+"type": "cubic"
+},
+{
+"x": 239,
+"y": -1
+},
+{
+"x": 239,
+"y": 76
+},
+{
+"x": 192,
+"y": 72,
+"type": "cubic"
+},
+{
+"x": 178,
+"y": 82,
+"type": "cubic"
+},
+{
+"x": 176,
+"y": 112,
+"smooth": true
+},
+{
+"x": 175,
+"y": 128,
+"type": "cubic"
+},
+{
+"x": 175,
+"y": 144,
+"type": "cubic"
+},
+{
+"x": 175,
+"y": 162,
+"smooth": true
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 262
+}
+}
+}
+}

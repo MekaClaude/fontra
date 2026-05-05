@@ -1,0 +1,63 @@
+{
+"name": "quotedbl",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 165,
+"y": 474
+},
+{
+"x": 177,
+"y": 735
+},
+{
+"x": 72,
+"y": 735
+},
+{
+"x": 83,
+"y": 474
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 318,
+"y": 474
+},
+{
+"x": 329,
+"y": 735
+},
+{
+"x": 224,
+"y": 735
+},
+{
+"x": 236,
+"y": 474
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 357
+}
+}
+}
+}

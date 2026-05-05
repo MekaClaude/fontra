@@ -1,0 +1,63 @@
+{
+"name": "igrave",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 165,
+"y": 578
+},
+{
+"x": 97,
+"y": 692
+},
+{
+"x": -3,
+"y": 692
+},
+{
+"x": 99,
+"y": 578
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 179,
+"y": 0
+},
+{
+"x": 179,
+"y": 531
+},
+{
+"x": 69,
+"y": 531
+},
+{
+"x": 69,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 251
+}
+}
+}
+}

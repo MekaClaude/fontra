@@ -1,0 +1,42 @@
+{
+"name": "minus",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 514,
+"y": 286
+},
+{
+"x": 514,
+"y": 352
+},
+{
+"x": 87,
+"y": 352
+},
+{
+"x": 87,
+"y": 286
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 601
+}
+}
+}
+}

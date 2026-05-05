@@ -1,0 +1,283 @@
+{
+"name": "g",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 557,
+"y": 531
+},
+{
+"x": 447,
+"y": 531
+},
+{
+"x": 447,
+"y": 459
+},
+{
+"x": 412,
+"y": 512
+},
+{
+"x": 385,
+"y": 533,
+"type": "cubic"
+},
+{
+"x": 330,
+"y": 545,
+"type": "cubic"
+},
+{
+"x": 286,
+"y": 545,
+"smooth": true
+},
+{
+"x": 149,
+"y": 545,
+"type": "cubic"
+},
+{
+"x": 29,
+"y": 453,
+"type": "cubic"
+},
+{
+"x": 29,
+"y": 259,
+"smooth": true
+},
+{
+"x": 29,
+"y": 103,
+"type": "cubic"
+},
+{
+"x": 118,
+"y": -9,
+"type": "cubic"
+},
+{
+"x": 271,
+"y": -9,
+"smooth": true
+},
+{
+"x": 325,
+"y": -9,
+"type": "cubic"
+},
+{
+"x": 377,
+"y": 7,
+"type": "cubic"
+},
+{
+"x": 407,
+"y": 31
+},
+{
+"x": 447,
+"y": 89
+},
+{
+"x": 447,
+"y": 78,
+"smooth": true
+},
+{
+"x": 447,
+"y": 59,
+"type": "cubic"
+},
+{
+"x": 447,
+"y": 40,
+"type": "cubic"
+},
+{
+"x": 446,
+"y": 17,
+"smooth": true
+},
+{
+"x": 442,
+"y": -78,
+"type": "cubic"
+},
+{
+"x": 387,
+"y": -130,
+"type": "cubic"
+},
+{
+"x": 291,
+"y": -130,
+"smooth": true
+},
+{
+"x": 209,
+"y": -130,
+"type": "cubic"
+},
+{
+"x": 160,
+"y": -91,
+"type": "cubic"
+},
+{
+"x": 153,
+"y": -34,
+"smooth": true
+},
+{
+"x": 152,
+"y": -25
+},
+{
+"x": 44,
+"y": -25
+},
+{
+"x": 45,
+"y": -35,
+"smooth": true
+},
+{
+"x": 56,
+"y": -149,
+"type": "cubic"
+},
+{
+"x": 137,
+"y": -213,
+"type": "cubic"
+},
+{
+"x": 290,
+"y": -213,
+"smooth": true
+},
+{
+"x": 450,
+"y": -213,
+"type": "cubic"
+},
+{
+"x": 550,
+"y": -132,
+"type": "cubic"
+},
+{
+"x": 556,
+"y": 29,
+"smooth": true
+},
+{
+"x": 557,
+"y": 58,
+"type": "cubic"
+},
+{
+"x": 557,
+"y": 99,
+"type": "cubic"
+},
+{
+"x": 557,
+"y": 132,
+"smooth": true
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 293,
+"y": 71,
+"smooth": true
+},
+{
+"x": 198,
+"y": 71,
+"type": "cubic"
+},
+{
+"x": 145,
+"y": 154,
+"type": "cubic"
+},
+{
+"x": 145,
+"y": 269,
+"smooth": true
+},
+{
+"x": 145,
+"y": 401,
+"type": "cubic"
+},
+{
+"x": 211,
+"y": 465,
+"type": "cubic"
+},
+{
+"x": 298,
+"y": 465,
+"smooth": true
+},
+{
+"x": 369,
+"y": 465,
+"type": "cubic"
+},
+{
+"x": 447,
+"y": 417,
+"type": "cubic"
+},
+{
+"x": 447,
+"y": 288,
+"smooth": true
+},
+{
+"x": 447,
+"y": 265,
+"smooth": true
+},
+{
+"x": 447,
+"y": 123,
+"type": "cubic"
+},
+{
+"x": 376,
+"y": 71,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 629
+}
+}
+}
+}

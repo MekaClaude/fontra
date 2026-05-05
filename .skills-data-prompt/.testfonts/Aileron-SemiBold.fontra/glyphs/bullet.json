@@ -1,0 +1,86 @@
+{
+"name": "bullet",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 186,
+"y": 416,
+"smooth": true
+},
+{
+"x": 122,
+"y": 416,
+"type": "cubic"
+},
+{
+"x": 75,
+"y": 369,
+"type": "cubic"
+},
+{
+"x": 75,
+"y": 305,
+"smooth": true
+},
+{
+"x": 75,
+"y": 241,
+"type": "cubic"
+},
+{
+"x": 122,
+"y": 195,
+"type": "cubic"
+},
+{
+"x": 186,
+"y": 195,
+"smooth": true
+},
+{
+"x": 249,
+"y": 195,
+"type": "cubic"
+},
+{
+"x": 296,
+"y": 241,
+"type": "cubic"
+},
+{
+"x": 296,
+"y": 305,
+"smooth": true
+},
+{
+"x": 296,
+"y": 369,
+"type": "cubic"
+},
+{
+"x": 249,
+"y": 416,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 371
+}
+}
+}
+}

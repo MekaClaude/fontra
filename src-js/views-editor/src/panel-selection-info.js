@@ -25,7 +25,7 @@ import Panel from "./panel.js";
 
 export default class SelectionInfoPanel extends Panel {
   identifier = "selection-info";
-  iconPath = "/images/info.svg";
+  iconPath = "/phosphor-icons/info.svg";
 
   constructor(editorController) {
     super(editorController);
@@ -188,8 +188,8 @@ export default class SelectionInfoPanel extends Panel {
             this.fontController.readOnly
               ? "sidebar.selection-info.glyph-locking.tooltip.read-only"
               : glyphLocked
-              ? "sidebar.selection-info.glyph-locking.tooltip.unlock"
-              : "sidebar.selection-info.glyph-locking.tooltip.lock"
+                ? "sidebar.selection-info.glyph-locking.tooltip.unlock"
+                : "sidebar.selection-info.glyph-locking.tooltip.lock"
           ),
           "data-tooltipposition": "left",
         }),
@@ -464,7 +464,7 @@ export default class SelectionInfoPanel extends Panel {
           const value = component.location[axis.name];
           const currentGlobalAxisLocationValue =
             this.sceneController.sceneSettingsController.model.fontLocationSourceMapped[
-              axisName
+            axisName
             ] ?? axis.defaultValue;
 
           locationItems.push({
@@ -918,9 +918,9 @@ export default class SelectionInfoPanel extends Panel {
       this.fontController.glyphMap,
       (nameObject, name) =>
         nameObject[name] ||
-        (sidebearingOpposites[metricProperty] &&
-          name.endsWith("!") &&
-          nameObject[name.slice(0, -1)])
+          (sidebearingOpposites[metricProperty] &&
+            name.endsWith("!") &&
+            nameObject[name.slice(0, -1)])
           ? 1
           : undefined
     );

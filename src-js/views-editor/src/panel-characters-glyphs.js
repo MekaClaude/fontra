@@ -22,7 +22,7 @@ import { equalGlyphSelection } from "./scene-controller.js";
 
 export default class CharactersGlyphsPanel extends Panel {
   identifier = "characters-glyphs";
-  iconPath = "/tabler-icons/columns.svg";
+  inlineSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M222.16,153.26a8,8,0,0,1-1,11.25c-17.36,14.38-32.86,19.49-47,19.49-18.58,0-34.82-8.81-49.93-17-25.35-13.75-47.24-25.63-79.07.74a8,8,0,1,1-10.22-12.3c40.17-33.27,70.32-16.92,96.93-2.48,25.35,13.75,47.24,25.62,79.07-.75A8,8,0,0,1,222.16,153.26Zm-177-49.46c31.83-26.37,53.72-14.5,79.07-.75,15.11,8.2,31.35,17,49.93,17,14.14,0,29.64-5.11,47-19.49a8,8,0,1,0-10.22-12.3c-31.83,26.37-53.72,14.49-79.07.74-26.61-14.43-56.76-30.79-96.93,2.48A8,8,0,0,0,45.11,103.8Z"/></svg>`;
 
   static styles = `
     .main-section {
@@ -140,25 +140,25 @@ export default class CharactersGlyphsPanel extends Panel {
 
       const menuItems = this.characterList.items.length
         ? [
-            {
-              title: "Replace this character...",
-              callback: () => this.replaceSelectedCharacter(),
-            },
-            {
-              title: "Insert character before this character...",
-              callback: () => this.insertCharacter(itemIndex),
-            },
-            {
-              title: "Insert character after this character...",
-              callback: () => this.insertCharacter(itemIndex + 1),
-            },
-          ]
+          {
+            title: "Replace this character...",
+            callback: () => this.replaceSelectedCharacter(),
+          },
+          {
+            title: "Insert character before this character...",
+            callback: () => this.insertCharacter(itemIndex),
+          },
+          {
+            title: "Insert character after this character...",
+            callback: () => this.insertCharacter(itemIndex + 1),
+          },
+        ]
         : [
-            {
-              title: "Insert character...",
-              callback: () => this.insertCharacter(itemIndex),
-            },
-          ];
+          {
+            title: "Insert character...",
+            callback: () => this.insertCharacter(itemIndex),
+          },
+        ];
       showMenu(menuItems, event);
     });
 
@@ -594,23 +594,22 @@ export default class CharactersGlyphsPanel extends Panel {
       const changedElement =
         changed || messageItem.childChanged
           ? html.createDomElement("inline-svg", {
-              class: `indent-block changed-icon ${
-                messageItem.childChanged ? "nested" : ""
+            class: `indent-block changed-icon ${messageItem.childChanged ? "nested" : ""
               }`,
-              src: "/tabler-icons/arrow-big-right.svg",
-            })
+            src: "/tabler-icons/arrow-big-right.svg",
+          })
           : html.span({ class: "indent-block changed-icon" });
 
       const foldingChevron = children?.length
         ? html.createDomElement("inline-svg", {
-            class: `indent-block folding-icon ${messageItem.open ? "" : "closed"}`,
-            src: "/tabler-icons/chevron-up.svg",
-            onclick: (event) => {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-              this._toggleShaperMessageItem(messageItem, event.altKey);
-            },
-          })
+          class: `indent-block folding-icon ${messageItem.open ? "" : "closed"}`,
+          src: "/tabler-icons/chevron-up.svg",
+          onclick: (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            this._toggleShaperMessageItem(messageItem, event.altKey);
+          },
+        })
         : html.span({ class: "indent-block folding-icon" });
 
       messageItem.formattedMessage = html.span({}, [

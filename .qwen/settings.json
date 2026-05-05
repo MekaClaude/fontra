@@ -28,7 +28,10 @@
       "Bash(tasklist *)",
       "Bash(git restore *)",
       "Bash(rd *)",
-      "Bash(echo.)"
+      "Bash(echo.)",
+      "Bash(git checkout *)",
+      "Bash(timeout *)",
+      "Bash(curl *)"
     ]
   },
   "$version": 3

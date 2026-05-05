@@ -1,0 +1,42 @@
+{
+"name": "fraction",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": -42,
+"y": 0
+},
+{
+"x": 406,
+"y": 690
+},
+{
+"x": 310,
+"y": 690
+},
+{
+"x": -138,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 269
+}
+}
+}
+}

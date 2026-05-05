@@ -1,0 +1,46 @@
+{
+"name": "uni0326",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 202,
+"y": -59
+},
+{
+"x": 202,
+"y": -48
+},
+{
+"x": 121,
+"y": -48
+},
+{
+"x": 61,
+"y": -200
+},
+{
+"x": 131,
+"y": -200
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 0
+}
+}
+}
+}

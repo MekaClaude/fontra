@@ -1,0 +1,42 @@
+{
+"name": "hyphen",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 252,
+"y": 250
+},
+{
+"x": 252,
+"y": 316
+},
+{
+"x": 32,
+"y": 316
+},
+{
+"x": 32,
+"y": 250
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 284
+}
+}
+}
+}

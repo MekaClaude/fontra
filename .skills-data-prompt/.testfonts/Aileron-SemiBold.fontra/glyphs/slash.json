@@ -1,0 +1,42 @@
+{
+"name": "slash",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 68,
+"y": -30
+},
+{
+"x": 319,
+"y": 720
+},
+{
+"x": 246,
+"y": 720
+},
+{
+"x": -5,
+"y": -30
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 314
+}
+}
+}
+}

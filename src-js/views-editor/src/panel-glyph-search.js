@@ -10,7 +10,7 @@ import Panel from "./panel.js";
 
 export default class GlyphSearchPanel extends Panel {
   identifier = "glyph-search";
-  iconPath = "/images/magnifyingglass.svg";
+  iconPath = "/phosphor-icons/magnifying-glass.svg";
 
   static styles = `
     .glyph-search-section {

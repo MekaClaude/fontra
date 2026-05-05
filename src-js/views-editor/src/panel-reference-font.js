@@ -185,7 +185,7 @@ async function writeFontFileToOPFS(fileName, file) {
 
 export default class ReferenceFontPanel extends Panel {
   identifier = "reference-font";
-  iconPath = "/images/reference.svg";
+  iconPath = "/phosphor-icons/book-open.svg";
 
   static styles = `
     .reference-font-section {

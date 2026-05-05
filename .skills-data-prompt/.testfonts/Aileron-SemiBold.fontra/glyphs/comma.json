@@ -1,0 +1,46 @@
+{
+"name": "comma",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 160,
+"y": 108
+},
+{
+"x": 160,
+"y": 118
+},
+{
+"x": 49,
+"y": 118
+},
+{
+"x": -30,
+"y": -121
+},
+{
+"x": 66,
+"y": -121
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 232
+}
+}
+}
+}

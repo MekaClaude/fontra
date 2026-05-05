@@ -1,0 +1,63 @@
+{
+"name": "Iacute",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 178,
+"y": 736
+},
+{
+"x": 275,
+"y": 838
+},
+{
+"x": 175,
+"y": 838
+},
+{
+"x": 112,
+"y": 736
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 205,
+"y": 0
+},
+{
+"x": 205,
+"y": 690
+},
+{
+"x": 95,
+"y": 690
+},
+{
+"x": 95,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 277
+}
+}
+}
+}

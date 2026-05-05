@@ -482,7 +482,7 @@ class SidebearingTool extends MetricsBaseTool {
       positionedGlyph.x +
       (selection.has("left") || selection.has("shape")
         ? positionedGlyph.glyph.xAdvance /
-          (selection.has("right") || selection.has("shape") ? 2 : 1)
+        (selection.has("right") || selection.has("shape") ? 2 : 1)
         : 0)
     );
   }
@@ -933,7 +933,7 @@ class SidebearingHandle extends BaseMetricHandle {
   hasSelection(selector) {
     assert(
       this.selector.lineIndex === selector.lineIndex &&
-        this.selector.glyphIndex === selector.glyphIndex
+      this.selector.glyphIndex === selector.glyphIndex
     );
     return !isDisjoint(metricSelectionSet(selector), this._selection);
   }
@@ -941,7 +941,7 @@ class SidebearingHandle extends BaseMetricHandle {
   toggleSelection(selector, onOff = undefined) {
     assert(
       this.selector.lineIndex === selector.lineIndex &&
-        this.selector.glyphIndex === selector.glyphIndex
+      this.selector.glyphIndex === selector.glyphIndex
     );
 
     const newSelection = metricSelectionSet(selector);
@@ -1508,7 +1508,7 @@ class KerningHandle extends BaseMetricHandle {
   hasSelection(selector) {
     assert(
       this.selector.lineIndex === selector.lineIndex &&
-        this.selector.glyphIndex === selector.glyphIndex
+      this.selector.glyphIndex === selector.glyphIndex
     );
     return this.selected;
   }
@@ -1516,7 +1516,7 @@ class KerningHandle extends BaseMetricHandle {
   toggleSelection(selector, onOff = undefined) {
     assert(
       this.selector.lineIndex === selector.lineIndex &&
-        this.selector.glyphIndex === selector.glyphIndex
+      this.selector.glyphIndex === selector.glyphIndex
     );
     this.classList.toggle("selected", onOff);
   }
