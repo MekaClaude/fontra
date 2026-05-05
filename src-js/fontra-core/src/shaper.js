@@ -13,8 +13,13 @@ const EMULATED_FEATURE_TAGS = ["curs", "kern", "mark", "mkmk"];
 
 class ShaperBase {
   constructor(shaperSupport) {
-    const { nominalGlyphFunc, glyphOrder, isGlyphMarkFunc, insertMarkers } =
-      shaperSupport;
+    const {
+      nominalGlyphFunc,
+      glyphOrder,
+      isGlyphMarkFunc,
+      insertMarkers,
+      fallbackXAdvance,
+    } = shaperSupport;
 
     this.glyphOrder = glyphOrder;
     this.isGlyphMarkFunc = isGlyphMarkFunc;
@@ -28,6 +33,7 @@ class ShaperBase {
           !!this.insertMarkers.find(({ tag }) => tag === emulatedTag),
       ])
     );
+    this.fallbackXAdvance = fallbackXAdvance ?? 500;
 
     if (glyphOrder) {
       this.glyphNameToID = {};
@@ -251,7 +257,9 @@ class HBShaper extends ShaperBase {
         //    we fill them in so we can render something.
         // 2. When the buffer has been populated with code points, the
         //    positioning fields are still zero, which doesn't render nice.
-        glyph.xAdvance = this._glyphObjects[glyphName]?.xAdvance ?? 500;
+        glyph.xAdvance = Math.round(
+          this._glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
+        );
         glyph.yAdvance = 0; // TODO
         glyph.xOffset = 0;
         glyph.yOffset = 0;
@@ -409,7 +417,7 @@ class HBShaper extends ShaperBase {
 
   _getHAdvanceFunc(font, glyphID) {
     const glyphName = this.glyphOrder[glyphID];
-    return Math.round(this._glyphObjects[glyphName]?.xAdvance ?? 500);
+    return Math.round(this._glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance);
   }
 
   getFeatureInfo(otTableTag) {
@@ -535,15 +543,15 @@ class DumbShaper extends ShaperBase {
 
     for (const [i, codePoint] of enumerate(codePoints)) {
       const glyphName = this.nominalGlyph(codePoint);
-      const xAdvance = Math.round(glyphObjects[glyphName]?.xAdvance ?? 500);
-      const isMark = this.isGlyphMarkFunc(glyphName);
 
       glyphs.push({
         codepoint: glyphName ? this.glyphNameToID[glyphName] : 0,
         cluster: i,
         glyphname: glyphName ?? ".notdef",
-        mark: isMark,
-        xAdvance: isMark ? 0 : xAdvance,
+        mark: false,
+        xAdvance: Math.round(
+          glyphObjects[glyphName]?.xAdvance ?? this.fallbackXAdvance
+        ),
         yAdvance: 0,
         xOffset: 0,
         yOffset: 0,
@@ -554,22 +562,13 @@ class DumbShaper extends ShaperBase {
       glyphs.reverse();
     }
 
-    const skipFeatures = this._getInitialSkipEmulatedFeatures(options.emulatedFeatures);
-    this.applyEmulatedPositioning(
-      glyphs,
-      glyphObjects,
-      skipFeatures,
-      options.kerningPairFunc,
-      options.direction
-    );
-
     const requiredGlyphs = glyphs.map((g) => g.glyphname);
 
-    return { glyphs, requiredGlyphs };
+    return { glyphs, requiredGlyphs, direction };
   }
 
   getFeatureInfo(otTableTag) {
-    return super.getFeatureInfo(otTableTag) ?? {};
+    return {};
   }
 
   getScriptAndLanguageInfo() {
