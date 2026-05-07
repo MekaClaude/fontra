@@ -162,6 +162,8 @@ class FontraServer:
         if projectIdentifier is None:
             raise web.HTTPNotFound()
 
+        readOnly = request.query.get("read-only", "").lower() == "true"
+
         remote = request.headers.get("X-FORWARDED-FOR", request.remote)
         logger.info(f"incoming connection from {remote} for {projectIdentifier!r}")
 
@@ -171,7 +173,9 @@ class FontraServer:
         await websocket.prepare(request)
         self._activeWebsockets.add(websocket)
         try:
-            subject = await self.getSubject(websocket, projectIdentifier, token)
+            subject = await self.getSubject(
+                websocket, projectIdentifier, token, readOnly
+            )
         except RemoteObjectConnectionException as e:
             logger.info("refused websocket request: %s", e)
             await websocket.close()
@@ -196,9 +200,15 @@ class FontraServer:
         return websocket
 
     async def getSubject(
-        self, websocket: web.WebSocketResponse, projectIdentifier: str, token: str
+        self,
+        websocket: web.WebSocketResponse,
+        projectIdentifier: str,
+        token: str,
+        readOnly: bool = False,
     ) -> Any:
-        subject = await self.projectManager.getRemoteSubject(projectIdentifier, token)
+        subject = await self.projectManager.getRemoteSubject(
+            projectIdentifier, token, readOnly
+        )
         if subject is None:
             raise RemoteObjectConnectionException("unauthorized")
         return subject
