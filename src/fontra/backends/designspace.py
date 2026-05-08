@@ -55,7 +55,6 @@ from ..core.classes import (
     FontSource,
     GlyphAxis,
     GlyphSource,
-    Guideline,
     ImageData,
     ImageType,
     Kerning,

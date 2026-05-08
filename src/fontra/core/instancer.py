@@ -21,7 +21,6 @@ from .classes import (
     FontSource,
     GlyphAxis,
     GlyphSource,
-    Guideline,
     Layer,
     LineMetric,
     StaticGlyph,
@@ -453,7 +452,6 @@ class GlyphInstancer:
                 replace(
                     layerGlyph,
                     anchors=sorted(layerGlyph.anchors, key=lambda a: a.name or ""),
-                    guidelines=[],
                     backgroundImage=None,
                 )
                 for layerGlyph in layerGlyphs
@@ -662,7 +660,6 @@ class FontSourcesInstancer:
     @cached_property
     def deltas(self):
         fontSourcesList = list(self.fontSourcesDense.values())
-        guidelinesAreCompatible = areGuidelinesCompatible(fontSourcesList)
         customDatasAreCompatible = areCustomDatasCompatible(fontSourcesList)
 
         fixedSourceValues = [
@@ -671,7 +668,6 @@ class FontSourcesInstancer:
                     source,
                     location={},
                     name="",
-                    guidelines=source.guidelines if guidelinesAreCompatible else [],
                     customData=source.customData if customDatasAreCompatible else {},
                 )
             )
@@ -704,22 +700,6 @@ class FontSourcesInstancer:
 
         return sourceInstance
 
-
-def areGuidelinesCompatible(parents):
-    if not parents:
-        return True  # or False, doesn't matter
-
-    referenceGuidelines = parents[0].guidelines
-
-    for parent in parents[1:]:
-        if len(parent.guidelines) != len(referenceGuidelines):
-            return False
-
-        for guideline, reference in zip(parent.guidelines, referenceGuidelines):
-            if guideline.name != reference.name:
-                return False
-
-    return True
 
 
 def areCustomDatasCompatible(parents):
@@ -913,7 +893,6 @@ def _fontSourceOperator(source1, source2, op):
             source1.lineMetricsVerticalLayout, source2.lineMetricsVerticalLayout
         ),
         italicAngle=op(source1.italicAngle, source2.italicAngle),
-        guidelines=op(source1.guidelines, source2.guidelines),
     )
 
 
@@ -926,7 +905,6 @@ def _fontSourceMul(source, scalar):
         ),
         lineMetricsVerticalLayout=multiply(source.lineMetricsVerticalLayout, scalar),
         italicAngle=multiply(source.italicAngle, scalar),
-        guidelines=multiply(source.guidelines, scalar),
     )
 
 
@@ -945,19 +923,7 @@ def _(v: LineMetric, scalar):
     return _dataClassMul(v, scalar)
 
 
-@add.register
-def _(v1: Guideline, v2):
-    return _dataClassOperator(v1, v2, add)
 
-
-@subtract.register
-def _(v1: Guideline, v2):
-    return _dataClassOperator(v1, v2, subtract)
-
-
-@multiply.register
-def _(v: Guideline, scalar):
-    return _dataClassMul(v, scalar)
 
 
 def _dataClassOperator(v1, v2, op):

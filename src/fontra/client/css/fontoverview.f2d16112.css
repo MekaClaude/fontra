@@ -1,0 +1,58 @@
+body {
+  overflow: auto;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 22em 1fr;
+  padding: 0em;
+  gap: 0em;
+  width: 100vw;
+  height: calc(100vh - var(--top-bar-height));
+}
+
+.sidebar-container {
+  background-color: var(--ui-element-background-color);
+  height: calc(100vh - var(--top-bar-height));
+  box-shadow: 0px 0px 8px #0006;
+}
+
+font-overview-navigation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1em;
+  gap: 1em;
+}
+
+.font-overview-navigation-section {
+  flex: 1;
+  overflow: hidden;
+}
+
+#glyph-cell-view-container {
+  overflow: auto;
+  padding: 1em;
+}
+
+.font-source-selector {
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
+  gap: 0.666em;
+}
+
+.font-overview-section-header {
+  font-weight: bold;
+}
+
+#font-overview-no-glyphs {
+  display: none;
+  color: #999;
+  width: 100%;
+  text-align: center;
+}
+
+#font-overview-no-glyphs.shown {
+  display: block;
+}

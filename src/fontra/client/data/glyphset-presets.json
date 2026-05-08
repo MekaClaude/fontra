@@ -1,0 +1,269 @@
+[
+  {
+    "name": "Google Fonts",
+    "sourceURL": "https://github.com/googlefonts/glyphsets",
+    "dataOptions": {
+      "dataFormat": "glyph-names",
+      "commentChars": "#"
+    },
+    "glyphSets": [
+      {
+        "name": "GF Arabic Core",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Arabic_Core.txt"
+      },
+      {
+        "name": "GF Arabic Plus",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Arabic_Plus.txt"
+      },
+      {
+        "name": "GF Cyrillic Core",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Cyrillic_Core.txt"
+      },
+      {
+        "name": "GF Cyrillic Historical",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Cyrillic_Historical.txt"
+      },
+      {
+        "name": "GF Cyrillic Plus",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Cyrillic_Plus.txt"
+      },
+      {
+        "name": "GF Cyrillic Pro",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Cyrillic_Pro.txt"
+      },
+      {
+        "name": "GF Greek AncientMusicalSymbols",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_AncientMusicalSymbols.txt"
+      },
+      {
+        "name": "GF Greek Archaic",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Archaic.txt"
+      },
+      {
+        "name": "GF Greek Coptic",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Coptic.txt"
+      },
+      {
+        "name": "GF Greek Core",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Core.txt"
+      },
+      {
+        "name": "GF Greek Expert",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Expert.txt"
+      },
+      {
+        "name": "GF Greek Plus",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Plus.txt"
+      },
+      {
+        "name": "GF Greek Pro",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Greek_Pro.txt"
+      },
+      {
+        "name": "GF Latin African",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_African.txt"
+      },
+      {
+        "name": "GF Latin Beyond",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_Beyond.txt"
+      },
+      {
+        "name": "GF Latin Core",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_Core.txt"
+      },
+      {
+        "name": "GF Latin Kernel",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_Kernel.txt"
+      },
+      {
+        "name": "GF Latin Plus",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_Plus.txt"
+      },
+      {
+        "name": "GF Latin PriAfrican",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_PriAfrican.txt"
+      },
+      {
+        "name": "GF Latin Vietnamese",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Latin_Vietnamese.txt"
+      },
+      {
+        "name": "GF Phonetics APA",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Phonetics_APA.txt"
+      },
+      {
+        "name": "GF Phonetics DisorderedSpeech",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Phonetics_DisorderedSpeech.txt"
+      },
+      {
+        "name": "GF Phonetics IPAHistorical",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Phonetics_IPAHistorical.txt"
+      },
+      {
+        "name": "GF Phonetics IPAStandard",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Phonetics_IPAStandard.txt"
+      },
+      {
+        "name": "GF Phonetics SinoExt",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_Phonetics_SinoExt.txt"
+      },
+      {
+        "name": "GF TransLatin Arabic",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_TransLatin_Arabic.txt"
+      },
+      {
+        "name": "GF TransLatin Pinyin",
+        "url": "https://cdn.jsdelivr.net/gh/googlefonts/glyphsets/data/results/txt/nice-names/GF_TransLatin_Pinyin.txt"
+      }
+    ]
+  },
+  {
+    "name": "Adobe Latin, Cyrillic, Greek",
+    "sourceURL": "https://github.com/orgs/adobe-type-tools/repositories?q=charsets",
+    "dataOptions": {
+      "dataFormat": "tsv/csv",
+      "hasHeader": true,
+      "codePointColumn": "Unicode",
+      "glyphNameColumn": "Glyph name"
+    },
+    "glyphSets": [
+      {
+        "name": "Adobe Latin 1",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-latin-charsets/adobe-latin-1.txt"
+      },
+      {
+        "name": "Adobe Latin 2",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-latin-charsets/adobe-latin-2.txt"
+      },
+      {
+        "name": "Adobe Latin 3",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-latin-charsets/adobe-latin-3.txt"
+      },
+      {
+        "name": "Adobe Latin 4 Precomposed",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-latin-charsets/adobe-latin-4-precomposed.txt"
+      },
+      {
+        "name": "Adobe Latin 5 Precomposed",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-latin-charsets/adobe-latin-5-precomposed.txt"
+      },
+      {
+        "name": "Adobe Cyrillic 1",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-cyrillic-charsets/adobe-cyrillic-1.txt"
+      },
+      {
+        "name": "Adobe Cyrillic 2",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-cyrillic-charsets/adobe-cyrillic-2.txt"
+      },
+      {
+        "name": "Adobe Cyrillic 3 Precomposed",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-cyrillic-charsets/adobe-cyrillic-3-precomposed.txt"
+      },
+      {
+        "name": "Adobe Greek 1",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-greek-charsets/adobe-greek-1.txt"
+      },
+      {
+        "name": "Adobe Greek 2",
+        "url": "https://cdn.jsdelivr.net/gh/adobe-type-tools/adobe-greek-charsets/adobe-greek-2.txt"
+      }
+    ]
+  },
+  {
+    "name": "Koeberlin Latin",
+    "sourceURL": "https://github.com/koeberlin/Latin-Character-Sets",
+    "dataOptions": {
+      "dataFormat": "glyph-names"
+    },
+    "glyphSets": [
+      {
+        "name": "Koeberlin Latin S",
+        "url": "https://cdn.jsdelivr.net/gh/koeberlin/Latin-Character-Sets/CharacterSets/Glyphs/LatinS_glyphs.txt"
+      },
+      {
+        "name": "Koeberlin Latin M",
+        "url": "https://cdn.jsdelivr.net/gh/koeberlin/Latin-Character-Sets/CharacterSets/Glyphs/LatinM_glyphs.txt"
+      },
+      {
+        "name": "Koeberlin Latin L",
+        "url": "https://cdn.jsdelivr.net/gh/koeberlin/Latin-Character-Sets/CharacterSets/Glyphs/LatinL_glyphs.txt"
+      },
+      {
+        "name": "Koeberlin Latin XL",
+        "url": "https://cdn.jsdelivr.net/gh/koeberlin/Latin-Character-Sets/CharacterSets/Glyphs/LatinXL_glyphs.txt"
+      }
+    ]
+  },
+  {
+    "name": "Wicked Letters, Georgian",
+    "sourceURL": "https://github.com/wickedletters/Georgian-Character-set",
+    "dataOptions": {
+      "dataFormat": "glyph-names",
+      "commentChars": "#"
+    },
+    "glyphSets": [
+      {
+        "name": "WL Georgian Asomtavruli",
+        "url": "https://cdn.jsdelivr.net/gh/wickedletters/Georgian-Character-set/Geo_Asomtavruli.txt"
+      },
+      {
+        "name": "WL Georgian Mkhedruli",
+        "url": "https://cdn.jsdelivr.net/gh/wickedletters/Georgian-Character-set/Geo_Mkhedruli.txt"
+      },
+      {
+        "name": "WL Georgian Nuskhuri",
+        "url": "https://cdn.jsdelivr.net/gh/wickedletters/Georgian-Character-set/Geo_Nuskhuri.txt"
+      }
+    ]
+  },
+  {
+    "name": "Free Bangla Fonts Project, Bengali",
+    "sourceURL": "https://github.com/mitradranirban/fbf-bn-glyphset/tree/main",
+    "dataOptions": {
+      "dataFormat": "tsv/csv",
+      "hasHeader": true,
+      "codePointColumn": "HexaDecimal Code",
+      "glyphNameColumn": "Name",
+      "commentChars": "#"
+    },
+    "glyphSets": [
+      {
+        "name": "FBF Bengali",
+        "url": "https://cdn.jsdelivr.net/gh/mitradranirban/fbf-bn-glyphset/fontra-bn-glyphset.csv"
+      }
+    ]
+  },
+  {
+    "name": "JustFont jf 7000 Character Set",
+    "sourceURL": "https://github.com/justfont/jf7000",
+    "dataOptions": {
+      "dataFormat": "glyph-names"
+    },
+    "glyphSets": [
+      {
+        "name": "JF Core Set",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_base.txt"
+      },
+      {
+        "name": "JF Formosan Languages Pack",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_ext_taiwan.txt"
+      },
+      {
+        "name": "JF Hong Kong and Macao Common Pack",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_ext_cantonese.txt"
+      },
+      {
+        "name": "JF Japanese Common Pack",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_ext_japan.txt"
+      },
+      {
+        "name": "JF Symbol Pack",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_ext_symbols.txt"
+      },
+      {
+        "name": "JF Taiwan Naming Pack",
+        "url": "https://cdn.jsdelivr.net/gh/justfont/jf7000/charset/0.9/list_ext_naming.txt"
+      }
+    ]
+  }
+]
