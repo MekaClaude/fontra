@@ -1,0 +1,42 @@
+{
+"name": "grave",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 191,
+"y": 578
+},
+{
+"x": 123,
+"y": 692
+},
+{
+"x": 23,
+"y": 692
+},
+{
+"x": 125,
+"y": 578
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

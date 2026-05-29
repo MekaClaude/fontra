@@ -1,0 +1,107 @@
+{
+"name": "Idotaccent",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 150,
+"y": 847,
+"smooth": true
+},
+{
+"x": 117,
+"y": 847,
+"type": "cubic"
+},
+{
+"x": 92,
+"y": 823,
+"type": "cubic"
+},
+{
+"x": 92,
+"y": 791,
+"smooth": true
+},
+{
+"x": 92,
+"y": 758,
+"type": "cubic"
+},
+{
+"x": 117,
+"y": 734,
+"type": "cubic"
+},
+{
+"x": 150,
+"y": 734,
+"smooth": true
+},
+{
+"x": 183,
+"y": 734,
+"type": "cubic"
+},
+{
+"x": 208,
+"y": 758,
+"type": "cubic"
+},
+{
+"x": 208,
+"y": 791,
+"smooth": true
+},
+{
+"x": 208,
+"y": 823,
+"type": "cubic"
+},
+{
+"x": 183,
+"y": 847,
+"type": "cubic"
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 205,
+"y": 0
+},
+{
+"x": 205,
+"y": 690
+},
+{
+"x": 95,
+"y": 690
+},
+{
+"x": 95,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 277
+}
+}
+}
+}

@@ -33,7 +33,12 @@ export class InlineSVG extends HTMLElement {
   }
 
   async fetchSVG(svgSRC) {
-    const svgElement = htmlToElement(await cachedSVGData(svgSRC));
+    const svgData = await cachedSVGData(svgSRC);
+    const svgElement = htmlToElement(svgData);
+    if (!svgElement || typeof svgElement.removeAttribute !== "function") {
+      console.warn(`Could not parse SVG from ${svgSRC}`);
+      return;
+    }
     svgElement.removeAttribute("width");
     svgElement.removeAttribute("height");
     this.innerHTML = "";

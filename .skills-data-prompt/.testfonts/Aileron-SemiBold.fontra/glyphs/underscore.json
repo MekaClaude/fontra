@@ -1,0 +1,42 @@
+{
+"name": "underscore",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 450,
+"y": -87
+},
+{
+"x": 450,
+"y": -21
+},
+{
+"x": 50,
+"y": -21
+},
+{
+"x": 50,
+"y": -87
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 500
+}
+}
+}
+}

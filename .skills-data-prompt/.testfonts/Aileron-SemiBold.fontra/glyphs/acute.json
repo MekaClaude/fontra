@@ -1,0 +1,42 @@
+{
+"name": "acute",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 177,
+"y": 578
+},
+{
+"x": 280,
+"y": 692
+},
+{
+"x": 180,
+"y": 692
+},
+{
+"x": 111,
+"y": 578
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

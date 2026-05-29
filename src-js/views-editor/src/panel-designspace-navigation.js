@@ -73,7 +73,7 @@ const LIST_HEADER_ANIMATION_STYLE = `
 
 export default class DesignspaceNavigationPanel extends Panel {
   identifier = "designspace-navigation";
-  iconPath = "/images/sliders.svg";
+  iconPath = "/phosphor-icons/sliders-horizontal.svg";
 
   constructor(editorController) {
     super(editorController);
@@ -626,9 +626,9 @@ export default class DesignspaceNavigationPanel extends Panel {
             const newValue =
               item === selectedItem ||
               (!selectedItem ||
-              item?.interpolationStatus?.error ||
-              selectedItem?.interpolationStatus?.error ||
-              item?.interpolationStatus?.discreteLocationKey !== discreteLocationKey
+                item?.interpolationStatus?.error ||
+                selectedItem?.interpolationStatus?.error ||
+                item?.interpolationStatus?.discreteLocationKey !== discreteLocationKey
                 ? false
                 : !item[key]);
             return { newValue, selectItem: !selectedItem };
@@ -818,11 +818,11 @@ export default class DesignspaceNavigationPanel extends Panel {
     const onOff = selectedItem?.interpolationStatus?.error
       ? false
       : selectedItem &&
-        !items.every(
-          (item) =>
-            item.editing ||
-            item.interpolationStatus?.discreteLocationKey !== discreteLocationKey
-        );
+      !items.every(
+        (item) =>
+          item.editing ||
+          item.interpolationStatus?.discreteLocationKey !== discreteLocationKey
+      );
 
     const editingLayers = {};
     for (const item of items) {
@@ -1958,8 +1958,8 @@ export default class DesignspaceNavigationPanel extends Panel {
         inputController.model.copyCurrentLayer && currentLayerGlyph
           ? currentLayerGlyph
           : {
-              xAdvance: glyph.layers[selectedSourceItem.layerName].glyph.xAdvance,
-            }
+            xAdvance: glyph.layers[selectedSourceItem.layerName].glyph.xAdvance,
+          }
       ),
     });
 
@@ -2125,9 +2125,9 @@ export default class DesignspaceNavigationPanel extends Panel {
       const nestedGlyphs =
         error.glyphs?.length > 1
           ? error.glyphs
-              .slice(1)
-              .map((gn) => "→\u00A0" + gn)
-              .join(" ") + ": "
+            .slice(1)
+            .map((gn) => "→\u00A0" + gn)
+            .join(" ") + ": "
           : "";
       const msg = `${nestedGlyphs}${error.message}`;
       infoElement.appendChild(
@@ -2208,18 +2208,18 @@ function interpolationErrorCell(item, colDesc) {
   const value = item[colDesc.key];
   return value?.error
     ? html.createDomElement("inline-svg", {
-        src: value.isModelError
-          ? "/tabler-icons/alert-circle.svg"
-          : "/tabler-icons/bug.svg",
-        style: "width: 1.2em; height: 1.2em; color: var(--fontra-light-red-color);",
-        onclick: (event) => {
-          event.stopImmediatePropagation();
-          message(
-            translate("sources.warning.interpolation-incompatibility"),
-            escapeHTMLCharacters(value.error)
-          );
-        },
-      })
+      src: value.isModelError
+        ? "/tabler-icons/alert-circle.svg"
+        : "/tabler-icons/bug.svg",
+      style: "width: 1.2em; height: 1.2em; color: var(--fontra-light-red-color);",
+      onclick: (event) => {
+        event.stopImmediatePropagation();
+        message(
+          translate("sources.warning.interpolation-incompatibility"),
+          escapeHTMLCharacters(value.error)
+        );
+      },
+    })
     : "";
 }
 

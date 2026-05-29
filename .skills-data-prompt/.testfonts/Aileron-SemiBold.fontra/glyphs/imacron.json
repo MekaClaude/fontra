@@ -1,0 +1,63 @@
+{
+"name": "imacron",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 252,
+"y": 600
+},
+{
+"x": 252,
+"y": 663
+},
+{
+"x": -4,
+"y": 663
+},
+{
+"x": -4,
+"y": 600
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 179,
+"y": 0
+},
+{
+"x": 179,
+"y": 531
+},
+{
+"x": 69,
+"y": 531
+},
+{
+"x": 69,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 251
+}
+}
+}
+}

@@ -1,0 +1,63 @@
+{
+"name": "brokenbar",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 165,
+"y": 350
+},
+{
+"x": 165,
+"y": 690
+},
+{
+"x": 97,
+"y": 690
+},
+{
+"x": 97,
+"y": 350
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 165,
+"y": -160
+},
+{
+"x": 165,
+"y": 180
+},
+{
+"x": 97,
+"y": 180
+},
+{
+"x": 97,
+"y": -160
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 262
+}
+}
+}
+}

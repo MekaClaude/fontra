@@ -1,7 +1,7 @@
 import { BaseTool } from "./edit-tools-base.js";
 
 export class HandTool extends BaseTool {
-  iconPath = "/images/hand.svg";
+  iconPath = "/phosphor-icons/hand-grabbing.svg";
   identifier = "hand-tool";
 
   handleHover(event) {

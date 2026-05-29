@@ -29,7 +29,7 @@ import Panel from "./panel.js";
 
 export default class TransformationPanel extends Panel {
   identifier = "selection-transformation";
-  iconPath = "/tabler-icons/shape.svg";
+  inlineSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M136,112H48a8,8,0,0,0-8,8v88a8,8,0,0,0,8,8h88a8,8,0,0,0,8-8V120A8,8,0,0,0,136,112Zm-8,88H56V128h72Zm88-16v16a16,16,0,0,1-16,16H176a8,8,0,0,1,0-16h24V184a8,8,0,0,1,16,0Zm0-72v32a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm0-56V72a8,8,0,0,1-16,0V56H184a8,8,0,0,1,0-16h16A16,16,0,0,1,216,56Zm-64-8a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,48ZM40,80V56A16,16,0,0,1,56,40H72a8,8,0,0,1,0,16H56V80a8,8,0,0,1-16,0Z"/></svg>`;
 
   static stylesForm = `
   .ui-form-label {
@@ -201,7 +201,7 @@ export default class TransformationPanel extends Panel {
           "class": "ui-form-radio-button",
           "checked":
             keyX === this.transformParameters.originX &&
-            keyY === this.transformParameters.originY
+              keyY === this.transformParameters.originY
               ? "checked"
               : "",
           "onclick": (event) => this._changeOrigin(keyX, keyY),
@@ -680,13 +680,13 @@ export default class TransformationPanel extends Panel {
     const settings = this.sceneController.sceneSettings;
     const bounds =
       glyph &&
-      settings.selectedGlyph?.isEditing &&
-      settings.selectedGlyphName &&
-      settings.selection?.size
+        settings.selectedGlyph?.isEditing &&
+        settings.selectedGlyphName &&
+        settings.selection?.size
         ? glyph.getSelectionBounds(
-            this.sceneController.selection,
-            this.fontController.getBackgroundImageBoundsFunc
-          )
+          this.sceneController.selection,
+          this.fontController.getBackgroundImageBoundsFunc
+        )
         : null;
 
     const { width, height } = bounds ? rectSize(bounds) : { width: null, height: null };
@@ -941,7 +941,7 @@ export default class TransformationPanel extends Panel {
         const contourStartIndex = !contourIndex
           ? 0
           : layerGlyphController.instance.path.contourInfo[contourIndex - 1].endPoint +
-            1;
+          1;
         const contourEndIndex = path.contourInfo[contourIndex].endPoint + 1;
 
         const contourPoints = Array.from(range(contourStartIndex, contourEndIndex));
@@ -1231,10 +1231,10 @@ class DistributeObjectsDescriptor {
   compareObjects(a, b, glyphController, getBackgroundImageBoundsFunc) {
     return (
       rectCenter(a.computeBounds(glyphController, getBackgroundImageBoundsFunc))[
-        this.deltaProperty
+      this.deltaProperty
       ] -
       rectCenter(b.computeBounds(glyphController, getBackgroundImageBoundsFunc))[
-        this.deltaProperty
+      this.deltaProperty
       ]
     );
   }

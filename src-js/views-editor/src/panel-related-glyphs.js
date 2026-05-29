@@ -15,7 +15,7 @@ import { showMenu } from "@fontra/web-components/menu-panel.js";
 
 export default class RelatedGlyphPanel extends Panel {
   identifier = "related-glyphs";
-  iconPath = "/tabler-icons/binary-tree-2.svg";
+  iconPath = "/phosphor-icons/git-branch.svg";
 
   static styles = `
     glyph-cell-view {
@@ -106,9 +106,9 @@ export default class RelatedGlyphPanel extends Panel {
     const glyphName = this.sceneController.sceneSettings.selectedGlyphName;
     const character = glyphName
       ? getCharFromCodePoint(
-          this.fontController.codePointForGlyph(glyphName) ||
-            getCodePointFromGlyphName(glyphName)
-        ) || ""
+        this.fontController.codePointForGlyph(glyphName) ||
+        getCodePointFromGlyphName(glyphName)
+      ) || ""
       : "";
     const codePoint = character ? character.codePointAt(0) : undefined;
 

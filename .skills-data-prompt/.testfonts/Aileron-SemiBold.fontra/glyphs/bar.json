@@ -1,0 +1,42 @@
+{
+"name": "bar",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 169,
+"y": -200
+},
+{
+"x": 169,
+"y": 800
+},
+{
+"x": 97,
+"y": 800
+},
+{
+"x": 97,
+"y": -200
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 266
+}
+}
+}
+}

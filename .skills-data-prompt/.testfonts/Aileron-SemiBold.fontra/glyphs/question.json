@@ -1,0 +1,217 @@
+{
+"name": "question",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 269,
+"y": 704,
+"smooth": true
+},
+{
+"x": 131,
+"y": 704,
+"type": "cubic"
+},
+{
+"x": 38,
+"y": 621,
+"type": "cubic"
+},
+{
+"x": 34,
+"y": 489
+},
+{
+"x": 146,
+"y": 489
+},
+{
+"x": 152,
+"y": 576,
+"type": "cubic"
+},
+{
+"x": 196,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 264,
+"y": 620,
+"smooth": true
+},
+{
+"x": 330,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 367,
+"y": 579,
+"type": "cubic"
+},
+{
+"x": 367,
+"y": 515,
+"smooth": true
+},
+{
+"x": 367,
+"y": 461,
+"type": "cubic"
+},
+{
+"x": 345,
+"y": 423,
+"type": "cubic"
+},
+{
+"x": 278,
+"y": 348,
+"smooth": true
+},
+{
+"x": 226,
+"y": 289,
+"type": "cubic"
+},
+{
+"x": 207,
+"y": 252,
+"type": "cubic"
+},
+{
+"x": 202,
+"y": 188
+},
+{
+"x": 303,
+"y": 188
+},
+{
+"x": 307,
+"y": 238,
+"type": "cubic"
+},
+{
+"x": 323,
+"y": 264,
+"type": "cubic"
+},
+{
+"x": 381,
+"y": 320,
+"smooth": true
+},
+{
+"x": 452,
+"y": 388,
+"type": "cubic"
+},
+{
+"x": 486,
+"y": 446,
+"type": "cubic"
+},
+{
+"x": 486,
+"y": 519,
+"smooth": true
+},
+{
+"x": 486,
+"y": 627,
+"type": "cubic"
+},
+{
+"x": 408,
+"y": 704,
+"type": "cubic"
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 253,
+"y": 127,
+"smooth": true
+},
+{
+"x": 212,
+"y": 127,
+"type": "cubic"
+},
+{
+"x": 183,
+"y": 97,
+"type": "cubic"
+},
+{
+"x": 183,
+"y": 56,
+"smooth": true
+},
+{
+"x": 183,
+"y": 15,
+"type": "cubic"
+},
+{
+"x": 212,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 253,
+"y": -14,
+"smooth": true
+},
+{
+"x": 294,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 324,
+"y": 15,
+"type": "cubic"
+},
+{
+"x": 324,
+"y": 56,
+"smooth": true
+},
+{
+"x": 324,
+"y": 97,
+"type": "cubic"
+},
+{
+"x": 294,
+"y": 127,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 522
+}
+}
+}
+}

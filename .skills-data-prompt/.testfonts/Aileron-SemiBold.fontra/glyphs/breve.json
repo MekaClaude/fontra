@@ -1,0 +1,92 @@
+{
+"name": "breve",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 198,
+"y": 692
+},
+{
+"x": 197,
+"y": 646,
+"type": "cubic"
+},
+{
+"x": 179,
+"y": 629,
+"type": "cubic"
+},
+{
+"x": 150,
+"y": 629,
+"smooth": true
+},
+{
+"x": 121,
+"y": 629,
+"type": "cubic"
+},
+{
+"x": 103,
+"y": 646,
+"type": "cubic"
+},
+{
+"x": 102,
+"y": 692
+},
+{
+"x": 40,
+"y": 692
+},
+{
+"x": 40,
+"y": 605,
+"type": "cubic"
+},
+{
+"x": 78,
+"y": 567,
+"type": "cubic"
+},
+{
+"x": 150,
+"y": 567,
+"smooth": true
+},
+{
+"x": 221,
+"y": 567,
+"type": "cubic"
+},
+{
+"x": 260,
+"y": 605,
+"type": "cubic"
+},
+{
+"x": 260,
+"y": 692
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

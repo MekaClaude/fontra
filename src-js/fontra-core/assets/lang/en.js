@@ -471,6 +471,7 @@ export const strings = {
   "sidebar.user-settings.theme": "Theme settings",
   "sidebar.user-settings.theme.auto": "Automatic (use OS setting)",
   "sidebar.user-settings.theme.dark": "Dark",
+  "sidebar.user-settings.theme.figma": "Figma (High Contrast)",
   "sidebar.user-settings.theme.light": "Light",
   "sources.button.go-to-nearest-source": "Go to nearest source",
   "sources.button.new-font-source": "New font source...",

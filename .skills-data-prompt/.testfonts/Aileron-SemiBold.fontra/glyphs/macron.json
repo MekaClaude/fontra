@@ -1,0 +1,42 @@
+{
+"name": "macron",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 278,
+"y": 600
+},
+{
+"x": 278,
+"y": 663
+},
+{
+"x": 23,
+"y": 663
+},
+{
+"x": 23,
+"y": 600
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 300
+}
+}
+}
+}

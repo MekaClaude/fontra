@@ -1,0 +1,172 @@
+{
+"name": "Idieresis",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 73,
+"y": 839,
+"smooth": true
+},
+{
+"x": 43,
+"y": 839,
+"type": "cubic"
+},
+{
+"x": 19,
+"y": 816,
+"type": "cubic"
+},
+{
+"x": 19,
+"y": 786,
+"smooth": true
+},
+{
+"x": 19,
+"y": 756,
+"type": "cubic"
+},
+{
+"x": 43,
+"y": 733,
+"type": "cubic"
+},
+{
+"x": 73,
+"y": 733,
+"smooth": true
+},
+{
+"x": 103,
+"y": 733,
+"type": "cubic"
+},
+{
+"x": 126,
+"y": 756,
+"type": "cubic"
+},
+{
+"x": 126,
+"y": 786,
+"smooth": true
+},
+{
+"x": 126,
+"y": 816,
+"type": "cubic"
+},
+{
+"x": 103,
+"y": 839,
+"type": "cubic"
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 228,
+"y": 839,
+"smooth": true
+},
+{
+"x": 198,
+"y": 839,
+"type": "cubic"
+},
+{
+"x": 174,
+"y": 816,
+"type": "cubic"
+},
+{
+"x": 174,
+"y": 786,
+"smooth": true
+},
+{
+"x": 174,
+"y": 756,
+"type": "cubic"
+},
+{
+"x": 198,
+"y": 733,
+"type": "cubic"
+},
+{
+"x": 228,
+"y": 733,
+"smooth": true
+},
+{
+"x": 258,
+"y": 733,
+"type": "cubic"
+},
+{
+"x": 281,
+"y": 756,
+"type": "cubic"
+},
+{
+"x": 281,
+"y": 786,
+"smooth": true
+},
+{
+"x": 281,
+"y": 816,
+"type": "cubic"
+},
+{
+"x": 258,
+"y": 839,
+"type": "cubic"
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 205,
+"y": 0
+},
+{
+"x": 205,
+"y": 690
+},
+{
+"x": 95,
+"y": 690
+},
+{
+"x": 95,
+"y": 0
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 277
+}
+}
+}
+}

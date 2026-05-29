@@ -42,7 +42,7 @@ registerVisualizationLayerDefinition({
 });
 
 export class PowerRulerTool extends BaseTool {
-  iconPath = "/images/ruler.svg";
+  iconPath = "/phosphor-icons/ruler.svg";
   identifier = "power-ruler-tool";
 
   constructor(editor) {

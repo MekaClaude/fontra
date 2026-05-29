@@ -1,0 +1,50 @@
+{
+"name": "guilsinglleft",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 351,
+"y": 414
+},
+{
+"x": 264,
+"y": 414
+},
+{
+"x": 127,
+"y": 248
+},
+{
+"x": 264,
+"y": 82
+},
+{
+"x": 351,
+"y": 82
+},
+{
+"x": 214,
+"y": 248
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 405
+}
+}
+}
+}

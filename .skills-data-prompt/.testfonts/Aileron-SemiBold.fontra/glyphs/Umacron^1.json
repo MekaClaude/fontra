@@ -1,0 +1,193 @@
+{
+"name": "Umacron",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 486,
+"y": 758
+},
+{
+"x": 486,
+"y": 821
+},
+{
+"x": 231,
+"y": 821
+},
+{
+"x": 231,
+"y": 758
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 629,
+"y": 690
+},
+{
+"x": 520,
+"y": 690
+},
+{
+"x": 520,
+"y": 265,
+"smooth": true
+},
+{
+"x": 520,
+"y": 244,
+"type": "cubic"
+},
+{
+"x": 520,
+"y": 225,
+"type": "cubic"
+},
+{
+"x": 518,
+"y": 209,
+"smooth": true
+},
+{
+"x": 511,
+"y": 126,
+"type": "cubic"
+},
+{
+"x": 458,
+"y": 70,
+"type": "cubic"
+},
+{
+"x": 358,
+"y": 70,
+"smooth": true
+},
+{
+"x": 259,
+"y": 70,
+"type": "cubic"
+},
+{
+"x": 206,
+"y": 126,
+"type": "cubic"
+},
+{
+"x": 199,
+"y": 209,
+"smooth": true
+},
+{
+"x": 197,
+"y": 225,
+"type": "cubic"
+},
+{
+"x": 197,
+"y": 244,
+"type": "cubic"
+},
+{
+"x": 197,
+"y": 265,
+"smooth": true
+},
+{
+"x": 197,
+"y": 690
+},
+{
+"x": 88,
+"y": 690
+},
+{
+"x": 88,
+"y": 267,
+"smooth": true
+},
+{
+"x": 88,
+"y": 242,
+"type": "cubic"
+},
+{
+"x": 88,
+"y": 222,
+"type": "cubic"
+},
+{
+"x": 90,
+"y": 196,
+"smooth": true
+},
+{
+"x": 99,
+"y": 81,
+"type": "cubic"
+},
+{
+"x": 178,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 358,
+"y": -14,
+"smooth": true
+},
+{
+"x": 538,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 617,
+"y": 81,
+"type": "cubic"
+},
+{
+"x": 627,
+"y": 196,
+"smooth": true
+},
+{
+"x": 629,
+"y": 222,
+"type": "cubic"
+},
+{
+"x": 629,
+"y": 242,
+"type": "cubic"
+},
+{
+"x": 629,
+"y": 267,
+"smooth": true
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 691
+}
+}
+}
+}

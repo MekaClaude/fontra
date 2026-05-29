@@ -1,0 +1,233 @@
+{
+"name": "Sacute",
+"sources": [
+{
+"name": "",
+"layerName": "8486bc93",
+"locationBase": "8486bc93"
+}
+],
+"layers": {
+"8486bc93": {
+"glyph": {
+"path": {
+"contours": [
+{
+"points": [
+{
+"x": 338,
+"y": 736
+},
+{
+"x": 435,
+"y": 838
+},
+{
+"x": 335,
+"y": 838
+},
+{
+"x": 272,
+"y": 736
+}
+],
+"isClosed": true
+},
+{
+"points": [
+{
+"x": 316,
+"y": 704,
+"smooth": true
+},
+{
+"x": 187,
+"y": 704,
+"type": "cubic"
+},
+{
+"x": 78,
+"y": 629,
+"type": "cubic"
+},
+{
+"x": 78,
+"y": 507,
+"smooth": true
+},
+{
+"x": 78,
+"y": 387,
+"type": "cubic"
+},
+{
+"x": 165,
+"y": 338,
+"type": "cubic"
+},
+{
+"x": 296,
+"y": 307,
+"smooth": true
+},
+{
+"x": 408,
+"y": 281,
+"type": "cubic"
+},
+{
+"x": 450,
+"y": 244,
+"type": "cubic"
+},
+{
+"x": 450,
+"y": 172,
+"smooth": true
+},
+{
+"x": 450,
+"y": 109,
+"type": "cubic"
+},
+{
+"x": 393,
+"y": 70,
+"type": "cubic"
+},
+{
+"x": 321,
+"y": 70,
+"smooth": true
+},
+{
+"x": 240,
+"y": 70,
+"type": "cubic"
+},
+{
+"x": 180,
+"y": 115,
+"type": "cubic"
+},
+{
+"x": 162,
+"y": 200
+},
+{
+"x": 48,
+"y": 200
+},
+{
+"x": 62,
+"y": 61,
+"type": "cubic"
+},
+{
+"x": 163,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 321,
+"y": -14,
+"smooth": true
+},
+{
+"x": 455,
+"y": -14,
+"type": "cubic"
+},
+{
+"x": 566,
+"y": 62,
+"type": "cubic"
+},
+{
+"x": 566,
+"y": 187,
+"smooth": true
+},
+{
+"x": 566,
+"y": 302,
+"type": "cubic"
+},
+{
+"x": 494,
+"y": 367,
+"type": "cubic"
+},
+{
+"x": 342,
+"y": 402,
+"smooth": true
+},
+{
+"x": 235,
+"y": 427,
+"type": "cubic"
+},
+{
+"x": 194,
+"y": 458,
+"type": "cubic"
+},
+{
+"x": 194,
+"y": 525,
+"smooth": true
+},
+{
+"x": 194,
+"y": 590,
+"type": "cubic"
+},
+{
+"x": 245,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 310,
+"y": 620,
+"smooth": true
+},
+{
+"x": 390,
+"y": 620,
+"type": "cubic"
+},
+{
+"x": 436,
+"y": 573,
+"type": "cubic"
+},
+{
+"x": 444,
+"y": 494
+},
+{
+"x": 558,
+"y": 494
+},
+{
+"x": 544,
+"y": 614,
+"type": "cubic"
+},
+{
+"x": 469,
+"y": 704,
+"type": "cubic"
+}
+],
+"isClosed": true
+}
+]
+},
+"xAdvance": 595
+}
+}
+}
+}
