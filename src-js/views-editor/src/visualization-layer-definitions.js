@@ -15,6 +15,13 @@ import {
   withSavedState,
 } from "@fontra/core/utils.ts";
 import { subVectors } from "@fontra/core/vector.js";
+import {
+  solveCubic,
+  solveQuad,
+  curvatureFromDerivatives,
+  curvatureColorHSL,
+  vecLen,
+} from "./curvature-math.js";
 
 export const visualizationLayerDefinitions = [];
 
@@ -521,6 +528,100 @@ registerVisualizationLayerDefinition({
 //   identifier: "fontra.guidelines",
 //   ...
 // });
+
+// ── Speed Punk: Curvature Visualization ─────────────────────────────────────────
+
+export const speedpunkState = {
+  enabled: false,
+  combLengthScale: 1.0,
+  combDensity: 20,
+};
+
+registerVisualizationLayerDefinition({
+  identifier: "fontra.speedpunk",
+  name: "sidebar.user-settings.glyph.speedpunk",
+  selectionFunc: glyphSelector("editing"),
+  userSwitchable: true,
+  defaultOn: false,
+  zIndex: 100,
+  screenParameters: { strokeWidth: 1 },
+  draw: (context, positionedGlyph, parameters, model, controller) => {
+    if (!speedpunkState.enabled) return;
+
+    const path = positionedGlyph.glyph.path;
+    if (!path) return;
+
+    const strokeWidth = parameters.strokeWidth;
+    const { combLengthScale, combDensity } = speedpunkState;
+    const upm = model?.fontController?.unitsPerEm ?? 1000;
+
+    const samples = [];
+
+    for (let ci = 0; ci < path.numContours; ci++) {
+      for (const seg of path.iterContourDecomposedSegments(ci)) {
+        if (seg.type === "line") continue;
+
+        let pts;
+        if (seg.type === "cubic") {
+          pts = seg.points;
+        } else if (seg.type === "quad") {
+          pts = seg.points;
+        } else {
+          continue;
+        }
+
+        const [p0, p1, p2, p3] = seg.type === "quad"
+          ? [pts[0], pts[1], pts[2], pts[1]]
+          : [pts[0], pts[1], pts[2], pts[3]];
+
+        for (let i = 0; i <= combDensity; i++) {
+          const t = i / combDensity;
+          let point, d1, d2;
+          if (seg.type === "cubic") {
+            ({ point, d1, d2 } = solveCubic(p0, p1, p2, p3, t));
+          } else {
+            ({ point, d1, d2 } = solveQuad(p0, p1, p2, t));
+          }
+          const kappa = curvatureFromDerivatives(d1, d2);
+          if (Math.abs(kappa) < 1e-10) continue;
+
+          const len = vecLen(d1);
+          const perp = len > 1e-10
+            ? { x: -d1.y / len, y: d1.x / len }
+            : { x: 0, y: 0 };
+
+          samples.push({ point, kappa, perp });
+        }
+      }
+    }
+
+    if (samples.length === 0) return;
+
+    const absValues = samples.map(s => Math.abs(s.kappa));
+    const kMin = Math.min(...absValues);
+    const kMax = Math.max(...absValues);
+    const baseScale = upm * 0.3 * combLengthScale;
+
+    context.lineWidth = strokeWidth;
+
+    for (const { point, kappa, perp } of samples) {
+      const absK = Math.abs(kappa);
+      const combLen = absK * baseScale;
+      const color = curvatureColorHSL(kappa);
+
+      const end = {
+        x: point.x + perp.x * combLen * Math.sign(kappa),
+        y: point.y + perp.y * combLen * Math.sign(kappa),
+      };
+
+      context.strokeStyle = color;
+      context.beginPath();
+      context.moveTo(point.x, point.y);
+      context.lineTo(end.x, end.y);
+      context.stroke();
+    }
+  },
+});
 
 registerVisualizationLayerDefinition({
   identifier: "fontra.selected.guidelines",

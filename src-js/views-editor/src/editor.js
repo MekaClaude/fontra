@@ -96,6 +96,7 @@ import GlyphSearchPanel from "./panel-glyph-search.js";
 import ReferenceFontPanel from "./panel-reference-font.js";
 import RelatedGlyphsPanel from "./panel-related-glyphs.js";
 import ProAdvicePanel from "./panel-pro-advice.js";
+import SpeedPunkPanel from "./panel-speedpunk.js";
 import SelectionInfoPanel from "./panel-selection-info.js";
 import TextEntryPanel from "./panel-text-entry.js";
 import TransformationPanel from "./panel-transformation.js";
@@ -1067,6 +1068,7 @@ export class EditorController extends ViewController {
     this.addSidebarPanel(new RelatedGlyphsPanel(this), "right");
     this.addSidebarPanel(new ProAdvicePanel(this), "right");
     this.addSidebarPanel(new CharactersGlyphsPanel(this), "right");
+    this.addSidebarPanel(new SpeedPunkPanel(this), "right");
 
     // Upon reload, the "animating" class may still be set (why?), so remove it
     for (const sidebarContainer of document.querySelectorAll(".sidebar-container")) {
