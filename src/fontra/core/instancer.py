@@ -702,6 +702,23 @@ class FontSourcesInstancer:
 
 
 
+def areGuidelinesCompatible(parents):
+    if not parents:
+        return True  # or False, doesn't matter
+
+    referenceGuidelines = parents[0].guidelines
+
+    for parent in parents[1:]:
+        if len(parent.guidelines) != len(referenceGuidelines):
+            return False
+
+        for guideline, reference in zip(parent.guidelines, referenceGuidelines):
+            if guideline.name != reference.name:
+                return False
+
+    return True
+
+
 def areCustomDatasCompatible(parents):
     if not parents:
         return True  # or False, doesn't matter
