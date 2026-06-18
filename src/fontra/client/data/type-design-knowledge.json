@@ -3,9 +3,9 @@
     "n": {
       "unicode": "U+006E",
       "name": "lowercase n: The Foundation",
-      "category": "foundation",
+      "category": "unknown",
       "dna_role": "primary_foundation",
-      "phase": 1,
+      "phase": "1",
       "builds_from": [],
       "informsDesignOf": [
         "h",
@@ -29,32 +29,30 @@
         "Side bearings rule of thumb: measure the inner counter width, divide by 4, use that value on both sides. For n, this typically yields consistent rhythm with h and m."
       ],
       "commonMistakes": [],
-      "reusableComponents": ["stem"],
+      "reusableComponents": [],
       "opticalCorrections": []
     },
     "o": {
       "unicode": "U+006F",
       "name": "lowercase o: The Curve Master",
-      "category": "foundation",
+      "category": "unknown",
       "dna_role": "primary_foundation",
-      "phase": 1,
+      "phase": "1",
       "builds_from": [],
       "informsDesignOf": [
         "c",
         "b",
         "d",
         "p",
+        "q"
+      ],
+      "informedBy": [
+        "b",
+        "d",
         "q",
-        "e"
+        "c",
+        "g"
       ],
-      "informsDesignOfCapitals": [
-        "O",
-        "C",
-        "G",
-        "Q",
-        "D"
-      ],
-      "informedBy": [],
       "tips": [
         "The lowercase o is the curve master of the alphabet. Its bowl, stress axis, and stroke weights are directly reused in c, e, b, d, p, q, and g. Get o right before drawing any of those.",
         "Copy the capital O and scale it down to x-height — but do not just shrink it. Scaling reduces stroke width proportionally, so you must manually compensate by expanding the outer shape or tightening the counter.",
@@ -64,13 +62,9 @@
         "The counter of o should feel open and breathing — if it starts to look like a closed pill, the counter is too small.",
         "Side bearings for o: use ~20% of the outer width (slightly less than n's 25%) because the curves of o provide visual padding."
       ],
-      "commonMistakes": [
-        "Making o too round or too oval — the stress axis and proportions must be deliberately chosen, not accidental.",
-        "Forgetting overshoot — without it, o reads as shorter than n in running text.",
-        "Copying the capital O directly without adjusting for x-height proportions and stroke weight."
-      ],
+      "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": ["overshoot"]
+      "opticalCorrections": []
     },
     "h": {
       "unicode": "U+0068",
@@ -431,9 +425,9 @@
     "s": {
       "unicode": "U+0073",
       "name": "lowercase s: The Devil",
-      "category": "secondary",
+      "category": "unknown",
       "dna_role": "secondary",
-      "phase": 3,
+      "phase": "3",
       "builds_from": [
         "c"
       ],
@@ -457,7 +451,7 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": ["counterBalance"]
+      "opticalCorrections": []
     },
     "a": {
       "unicode": "U+0061",
@@ -678,9 +672,9 @@
     "x": {
       "unicode": null,
       "name": "lowercase x: Optical Crossing",
-      "category": "diagonal",
+      "category": "unknown",
       "dna_role": "",
-      "phase": 4,
+      "phase": "3",
       "builds_from": [],
       "informsDesignOf": [],
       "informedBy": [
@@ -699,7 +693,7 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": ["crossingDiagonals"]
+      "opticalCorrections": []
     },
     "y": {
       "unicode": null,
@@ -758,23 +752,15 @@
     "H": {
       "unicode": "U+0048",
       "name": "uppercase H: Capital Anchor",
-      "category": "capital_foundation",
+      "category": "uppercase",
       "dna_role": "capital_foundation",
-      "phase": 6,
+      "phase": "2",
       "builds_from": [],
       "informsDesignOf": [
         "I",
         "L",
         "T",
-        "N",
-        "E",
-        "F",
-        "B",
-        "D",
-        "K",
-        "M",
-        "P",
-        "R"
+        "N"
       ],
       "informedBy": [
         "O",
@@ -798,7 +784,7 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": ["horizontalThinning"]
+      "opticalCorrections": []
     },
     "O": {
       "unicode": "U+004F",
@@ -1458,98 +1444,63 @@
     }
   },
   "opticalCorrections": {
-    "overshoot": {
-      "name": "Overshoot",
-      "description": "Round and pointed glyphs must extend slightly beyond the baseline and x-height to appear optically aligned with flat-topped/bottomed glyphs.",
-      "affectedGlyphs": ["o", "c", "e", "b", "d", "p", "q", "g", "O", "C", "G", "Q", "D"],
-      "rule": "Extend round glyphs 1–3% beyond metric lines."
+    "OPT-001": {
+      "name": "Horizontal Bar Weight",
+      "description": "Horizontal strokes appear heavier than verticals of identical width due to how the eye scans text. Horizontal bars must be thinned to look equal."
     },
-    "horizontalThinning": {
-      "name": "Horizontal Bar Thinning",
-      "description": "Horizontal strokes appear heavier than verticals of identical width due to how the eye scans text. Horizontal bars must be thinned to look equal.",
-      "affectedGlyphs": ["H", "E", "F", "A", "T", "L", "B", "P", "R", "f", "t", "e"],
-      "rule": "Horizontal strokes should be 10–15% thinner than vertical strokes of the same apparent weight."
-    },
-    "crossingDiagonals": {
-      "name": "Crossing Diagonal Adjustment",
-      "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong — raise the crossing point slightly above mathematical center.",
-      "affectedGlyphs": ["x", "X", "k", "K"],
-      "rule": "Raise the crossing point above mathematical center; thin strokes at the crossing zone."
-    },
-    "counterBalance": {
-      "name": "Counter Balance",
-      "description": "In letters with two lobes (s, S, B, E), the lower counter must be larger than the upper to create visual stability. Mathematical equality reads as top-heavy.",
-      "affectedGlyphs": ["s", "S", "B"],
-      "rule": "Lower lobe should be 5–10% larger than upper lobe."
+    "OPT-002": {
+      "name": "Overshoot Missing on Round Glyphs",
+      "description": "Round and pointed glyphs must extend slightly beyond the baseline and x-height to appear optically aligned with flat-topped/bottomed glyphs."
     },
     "OPT-003": {
       "name": "Diagonal Stroke Compensation",
-      "description": "Diagonal strokes appear heavier than verticals of the same mathematical width and require thinning.",
-      "affectedGlyphs": ["v", "w", "x", "y", "z", "V", "W", "X", "Y", "Z", "k", "K", "N", "M", "A"],
-      "rule": "Thin diagonal strokes by 5–10% compared to vertical strokes."
+      "description": "Diagonal strokes appear heavier than verticals of the same mathematical width and require thinning."
+    },
+    "OPT-004": {
+      "name": "Crossing Diagonal Alignment",
+      "description": "When two diagonals cross, they appear misaligned unless offset. A geometric center crossing looks wrong."
     },
     "OPT-005": {
       "name": "Overshoot Inconsistency",
-      "description": "All round glyphs in a font should share a consistent overshoot value. Mixed overshoot values create visual inconsistency.",
-      "affectedGlyphs": [],
-      "rule": "Standardise overshoot across all round glyphs."
+      "description": "All round glyphs in a font should share a consistent overshoot value. Mixed overshoot values create visual inconsistency."
     }
   },
   "designOrder": {
     "phases": [
       {
-        "phase": 1,
-        "name": "Foundation",
-        "description": "Build n, o first - they define the DNA for ~80% of lowercase letters",
-        "glyphs": ["n", "o", "l"]
+        "phase": "1",
+        "name": "Lowercase Foundation",
+        "description": "Build n, o first - they define the DNA for ~80% of lowercase letters"
       },
       {
-        "phase": 2,
-        "name": "Arch Family",
-        "description": "Extend from n to build h, m, u, r — the arch-based letter family",
-        "glyphs": ["h", "m", "u", "r"]
+        "phase": "2",
+        "name": "Lowercase Extensions",
+        "description": "Extend from foundation letters to build h, m, u, r, and bowl letters"
       },
       {
-        "phase": 3,
-        "name": "Bowl Letters",
-        "description": "Build bowl letters from o: b, d, p, q, c, e",
-        "glyphs": ["b", "d", "p", "q", "c", "e"]
+        "phase": "3",
+        "name": "The Devil Letters",
+        "description": "Complex curves: s, a, g - the most challenging lowercase"
       },
       {
-        "phase": 4,
+        "phase": "4",
         "name": "Diagonals",
-        "description": "v, w, x, y, z - establish diagonal angles for all diagonal letters",
-        "glyphs": ["v", "w", "x", "y", "z"]
+        "description": "v, w, x, y, z - establish diagonal angles"
       },
       {
-        "phase": 5,
-        "name": "Devil Letters",
-        "description": "Complex curves: s, a, g - the most challenging lowercase letters",
-        "glyphs": ["s", "a", "g"]
+        "phase": "5",
+        "name": "Uppercase Foundation",
+        "description": "H and O define the uppercase DNA"
       },
       {
-        "phase": 6,
-        "name": "Capital Foundation",
-        "description": "H and O define the uppercase DNA — all other capitals follow from these two",
-        "glyphs": ["H", "O"]
+        "phase": "6",
+        "name": "Uppercase Extensions",
+        "description": "Build remaining capitals from H and O"
       },
       {
-        "phase": 7,
-        "name": "Capital Extensions",
-        "description": "Build straight-stem capitals from H: I, L, T, E, F, N, M, B, D, P, R, K",
-        "glyphs": ["I", "L", "T", "E", "F", "N", "M", "B", "D", "P", "R", "K"]
-      },
-      {
-        "phase": 8,
-        "name": "Capital Curves",
-        "description": "Build curved capitals from O: C, G, Q, S, U",
-        "glyphs": ["C", "G", "Q", "S", "U"]
-      },
-      {
-        "phase": 9,
+        "phase": "7",
         "name": "Numerals & Symbols",
-        "description": "Figures, punctuation, and remaining symbols",
-        "glyphs": []
+        "description": "Final details"
       }
     ]
   },
@@ -1574,27 +1525,5 @@
     "tittle": "The dot on i and j. Requires careful sizing - make it larger than feels right.",
     "apex": "Top point where two strokes meet (A, V, W). Can be sharp, flat, or rounded - a key personality decision.",
     "crotch": "Bottom point where strokes meet (V, W, Y, v, w, y)."
-  },
-  "spacingPrinciples": {
-    "fundamentals": [
-      "Spacing is part of the typeface design, not an afterthought. Set spacing as you draw each letter.",
-      "The rhythm of negative space (sidebearings + counters) must be consistent across the alphabet.",
-      "n and o set the reference spacing — all other lowercase letters are calibrated against these two.",
-      "H sets the reference spacing for all uppercase letters.",
-      "Test spacing in strings, not in isolation — single letters reveal nothing about spacing rhythm."
-    ],
-    "referenceStrings": {
-      "lowercase": "nnonn noonn nooon nunun",
-      "uppercase": "HHOHH HOOHHH HHOOH",
-      "mixed": "Handgloves Handgloves",
-      "numbers": "0123456789"
-    },
-    "rules": [
-      "Sidebearing = approximately 1/4 of the inner counter width for n.",
-      "Round letters (o, c, e) get slightly less sidebearing than straight letters (n, h) — the curves already provide visual padding.",
-      "Diagonal letters (v, w, y) need very tight sidebearings at the apex.",
-      "Uppercase spacing is generally wider than lowercase — capitals need more air.",
-      "After setting sidebearings, check kerning pairs: AV, VA, AW, WA, TA, AT, LT, LV, LW, LY."
-    ]
   }
 }
