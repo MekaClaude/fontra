@@ -1,7 +1,7 @@
 import * as html from "@fontra/core/html-utils.js";
 import { SimpleElement } from "@fontra/core/html-utils.js";
 import { translate } from "@fontra/core/localization.js";
-import { enumerate } from "@fontra/core/utils.js";
+import { enumerate } from "@fontra/core/utils.ts";
 import { sanitizeHTML, escapeHTML } from "@fontra/core/sanitize.js";
 
 export async function dialog(headline, message, buttonDefs, autoDismissTimeout) {
@@ -271,8 +271,8 @@ export class ModalDialog extends SimpleElement {
             buttonDef.getResult
               ? buttonDef.getResult()
               : buttonDef.resultValue !== undefined
-              ? buttonDef.resultValue
-              : buttonDef.title
+                ? buttonDef.resultValue
+                : buttonDef.title
           );
         },
       });

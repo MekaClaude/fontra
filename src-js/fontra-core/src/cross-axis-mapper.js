@@ -1,6 +1,6 @@
 // avar-2-style Cross-Axis Mapping
 
-import { zip } from "./utils.js";
+import { zip } from "./utils.ts";
 import {
   VariationModel,
   makeSparseNormalizedLocation,
@@ -9,10 +9,13 @@ import {
   unnormalizeLocation,
 } from "./var-model.js";
 
-export class CrossAxisMapping {
+export class CrossAxisMapper {
   constructor(fontAxesSourceSpace, mappings) {
-    this.fontAxesSourceSpace = fontAxesSourceSpace;
-    this.mappings = mappings;
+    // Ignore discrete axes for now
+    this.fontAxesSourceSpace = fontAxesSourceSpace.filter(
+      (axis) => axis.minValue !== undefined
+    );
+    this.mappings = mappings?.filter((mapping) => !mapping.inactive);
     if (mappings?.length) {
       this._setupModel();
     }

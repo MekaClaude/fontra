@@ -116,6 +116,7 @@ export const strings = {
   "cross-axis-mapping.groupDescription": "グループ説明",
   "cross-axis-mapping.header.inputLocation": "入力ロケーション",
   "cross-axis-mapping.header.outputLocation": "出力ロケーション",
+  "cross-axis-mapping.inactive": "Inactive",
   "cross-axis-mapping.new": "新しい交差補完軸マッピングを追加",
   "cross-axis-mapping.title": "交差補完軸マッピング",
   "cross-axis-mapping.undo.add": "交差補完軸マッピングを追加",
@@ -302,6 +303,8 @@ export const strings = {
     "有効な補完軸の値を表示",
   "sidebar.designspace-navigation.font-axes-view-options-menu.show-hidden-axes":
     "非表示の補完軸を表示",
+  "sidebar.designspace-navigation.font-axes-view-options-menu.show-only-effective-location":
+    "Show only effective location",
   "sidebar.designspace-navigation.font-axes.edit": "フォントの補完軸を編集",
   "sidebar.designspace-navigation.font-axes.reset": "フォントの補完軸をリセット",
   "sidebar.designspace-navigation.glyph-axes": "グリフの補完軸",

@@ -55,6 +55,7 @@ from ..core.classes import (
     FontSource,
     GlyphAxis,
     GlyphSource,
+    Guideline,
     ImageData,
     ImageType,
     Kerning,
@@ -90,6 +91,8 @@ GLYPH_CUSTOM_DATA_LIB_KEY = "xyz.fontra.customData"
 GLYPH_SOURCE_CUSTOM_DATA_LIB_KEY = "xyz.fontra.glyph.source.customData"
 LINE_METRICS_HOR_ZONES_KEY = "xyz.fontra.lineMetricsHorizontalLayout.zones"
 GLYPH_NOTE_LIB_KEY = "fontra.glyph.note"
+RF_GUIDELINE_LOCK_LIB_PREFIX = "com.typemytype.robofont.guideline.locked."
+CROSS_AXIS_MAPPING_INFO_LIB_KEY = "xyz.fontra.cross-axis-mapping-info"
 
 
 defaultUFOInfoAttrs = {
@@ -363,7 +366,7 @@ class DesignspaceBackend(WatchableBackend, WritableBaseBackend):
     def familyName(self) -> str:
         return self._familyName if self._familyName is not None else "Untitled"
 
-    @async_property
+    @async_property[GlyphDependencies]
     async def glyphDependencies(self) -> GlyphDependencies:
         if self._glyphDependencies is not None:
             return self._glyphDependencies
@@ -405,14 +408,20 @@ class DesignspaceBackend(WatchableBackend, WritableBaseBackend):
             defaultLocation[dsAxis.name] = dsAxis.map_forward(dsAxis.default)
         self.axes = axes
 
+        crossAxisMappingInactive = {
+            info["index"]: info.get("inactive", False)
+            for info in self.dsDoc.lib.get(CROSS_AXIS_MAPPING_INFO_LIB_KEY, [])
+        }
+
         self.axisMappings = [
             CrossAxisMapping(
                 description=mapping.description,
                 groupDescription=mapping.groupDescription,
                 inputLocation=dict(mapping.inputLocation),
                 outputLocation=dict(mapping.outputLocation),
+                inactive=crossAxisMappingInactive.get(index, False),
             )
-            for mapping in self.dsDoc.axisMappings
+            for index, mapping in enumerate(self.dsDoc.axisMappings)
         ]
 
         self.axisNames = set(defaultLocation)
@@ -1233,13 +1242,21 @@ class DesignspaceBackend(WatchableBackend, WritableBaseBackend):
 
             self.dsDoc.addAxisDescriptor(**axisParameters)
 
-        for mapping in axes.mappings:
+        crossAxisMappingInfo = []
+
+        for index, mapping in enumerate(axes.mappings):
             self.dsDoc.addAxisMappingDescriptor(
                 description=mapping.description,
                 groupDescription=mapping.groupDescription,
                 inputLocation=mapping.inputLocation,
                 outputLocation=mapping.outputLocation,
             )
+            if mapping.inactive:
+                crossAxisMappingInfo.append({"index": index, "inactive": True})
+
+        storeInDict(
+            self.dsDoc.lib, CROSS_AXIS_MAPPING_INFO_LIB_KEY, crossAxisMappingInfo
+        )
 
         self.updateAxisInfo()
         self._writeDesignSpaceDocument()
@@ -2044,6 +2061,7 @@ class UFOGlyph:
     width: float | None = 0
     height: float | None = None
     anchors: list = field(default_factory=list)
+    guidelines: list = field(default_factory=list)
     image: dict | None = None
     note: str | None = None
     lib: dict = field(default_factory=dict)
@@ -2051,6 +2069,7 @@ class UFOGlyph:
 
 class UFOFontInfo:
     unitsPerEm = 1000
+    guidelines: list = []
     styleName: str
     italicAngle: float
 
@@ -2129,6 +2148,7 @@ class DSSource:
         if self.isSparse:
             lineMetricsHorizontalLayout: dict[str, LineMetric] = {}
             lineMetricsVerticalLayout: dict[str, LineMetric] = {}
+            guidelines = []
             italicAngle = 0
         else:
             fontInfo = UFOFontInfo()
@@ -2152,6 +2172,7 @@ class DSSource:
                 if value is not None:
                     lineMetricsVerticalLayout[fontraName] = LineMetric(value=value)
 
+            guidelines = unpackGuidelines(fontInfo.guidelines, lib)
             italicAngle = getattr(fontInfo, "italicAngle", 0)
 
             for infoAttr in ufoInfoAttributesToRoundTrip:
@@ -2165,6 +2186,7 @@ class DSSource:
             italicAngle=italicAngle,
             lineMetricsHorizontalLayout=lineMetricsHorizontalLayout,
             lineMetricsVerticalLayout=lineMetricsVerticalLayout,
+            guidelines=guidelines,
             isSparse=self.isSparse,
             customData=customData,
         )
@@ -2322,6 +2344,7 @@ def ufoLayerToStaticGlyph(glyphSet, glyphName, penClass=PackedPathPointPen):
         ),  # Default height in UFO is 0 :-(
         verticalOrigin=verticalOrigin,
         anchors=unpackAnchors(glyph.anchors),
+        guidelines=unpackGuidelines(glyph.guidelines, glyph.lib),
         backgroundImage=unpackBackgroundImage(glyph.image),
     )
 
@@ -2344,6 +2367,25 @@ def unpackVariableComponents(lib):
 def unpackAnchors(anchors):
     return [Anchor(name=a.get("name"), x=a["x"], y=a["y"]) for a in anchors]
 
+
+def unpackGuidelines(guidelines, lib):
+    return [
+        Guideline(
+            name=g.get("name"),
+            x=g.get("x", 0),
+            y=g.get("y", 0),
+            angle=g.get("angle", 0),
+            locked=(
+                lib.get(RF_GUIDELINE_LOCK_LIB_PREFIX + g["identifier"], False)
+                if "identifier" in g
+                else False
+            ),
+            # TODO: Guidelines, how do we handle customData like:
+            # color=g.get("color"),
+            # identifier=g.get("identifier"),
+        )
+        for g in guidelines
+    ]
 
 
 imageTransformFields = [
@@ -2414,6 +2456,25 @@ def _formatChannelValue(ch):
     return s
 
 
+def packGuidelines(guidelines, lib):
+    for key in list(lib):
+        if key.startswith(RF_GUIDELINE_LOCK_LIB_PREFIX):
+            del lib[key]
+    packedGuidelines = []
+    for index, g in enumerate(guidelines):
+        identifier = f"fontra-guideline-{index}"
+        pg = {}
+        if g.name is not None:
+            pg["name"] = g.name
+        pg["x"] = g.x
+        pg["y"] = g.y
+        pg["angle"] = g.angle % 360
+        if g.locked:
+            lib[RF_GUIDELINE_LOCK_LIB_PREFIX + identifier] = True
+            pg["identifier"] = identifier
+        packedGuidelines.append(pg)
+    return packedGuidelines
+
 
 def readGlyphOrCreate(
     glyphSet: UFOGlyphSetReader | None,
@@ -2448,6 +2509,7 @@ def populateUFOLayerGlyph(
     layerGlyph.anchors = [
         {"name": a.name, "x": a.x, "y": a.y} for a in staticGlyph.anchors
     ]
+    layerGlyph.guidelines = packGuidelines(staticGlyph.guidelines, layerGlyph.lib)
 
     if staticGlyph.backgroundImage is not None and imageFileName is not None:
         layerGlyph.image = packBackgroundImage(
@@ -2709,6 +2771,8 @@ def updateFontInfoFromFontSource(writer: UFOWriter, fontSource) -> None:
     fontInfo.italicAngle = fontSource.italicAngle
 
     lib = writer.readLib()
+
+    fontInfo.guidelines = packGuidelines(fontSource.guidelines, lib)
 
     # set custom data
     for infoAttr, value in fontSource.customData.items():

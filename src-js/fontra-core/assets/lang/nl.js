@@ -116,6 +116,7 @@ export const strings = {
   "cross-axis-mapping.groupDescription": "Group description",
   "cross-axis-mapping.header.inputLocation": "Input Location",
   "cross-axis-mapping.header.outputLocation": "Output Location",
+  "cross-axis-mapping.inactive": "Inactive",
   "cross-axis-mapping.new": "New cross-axis mapping",
   "cross-axis-mapping.title": "Cross-axis mapping",
   "cross-axis-mapping.undo.add": "add cross-axis mapping",
@@ -302,6 +303,8 @@ export const strings = {
     "Show effective location",
   "sidebar.designspace-navigation.font-axes-view-options-menu.show-hidden-axes":
     "Show hidden axes",
+  "sidebar.designspace-navigation.font-axes-view-options-menu.show-only-effective-location":
+    "Show only effective location",
   "sidebar.designspace-navigation.font-axes.edit": "Wijzig font assen",
   "sidebar.designspace-navigation.font-axes.reset": "Reset font assen",
   "sidebar.designspace-navigation.glyph-axes": "Glyph assen",

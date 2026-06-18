@@ -1,10 +1,58 @@
 # Changelog for Fontra
 
-## 2026-05-?? [version 2026.5.1]
+## 2026-06-?? [version 2026.6.4]
+
+Fixes
+
+- Work around a problem with dead-key text input on Chromium browsers on Windows. [Issue 2628](https://github.com/fontra/fontra/issues/2628), [PR 2631](https://github.com/fontra/fontra/pull/2631)
+
+## 2026-06-15 [version 2026.6.3]
+
+Fixes
+
+- Fix erratic behavior when .fontra data is stored in a folder that is managed by iCloud. [Issue 2626](https://github.com/fontra/fontra/issues/2626), [PR 2630](https://github.com/fontra/fontra/pull/2630)
+
+## 2026-06-11 [version 2026.6.2]
+
+### Improvements
+
+- [cross-axis-mappings] Add checkbox to deactivate individual mappings. [PR 2627](https://github.com/fontra/fontra/pull/2627)
+- [cross-axis-mappings] Improve behavior in the presence of discrete axes, by ignoring them. [Issue 2623](https://github.com/fontra/fontra/issues/2623), [PR 2624](https://github.com/fontra/fontra/pull/2624), [PR 2625](https://github.com/fontra/fontra/pull/2625)
+- [fontra-workflow] Add a `drop-kerning` filter. [PR 2622](https://github.com/fontra/fontra/pull/2622)
+- [fontra-pak] Fix "check for updates" functionality. [fontra-pak PR 252](https://github.com/fontra/fontra-pak/pull/252)
+
+## 2026-06-08 [version 2026.6.1]
+
+### Improvements
+
+- [fontra-workflow] Improve performance of full instantiation, especially when there are many axes. [PR 2621](https://github.com/fontra/fontra/pull/2621)
+
+## 2026-06-07 [version 2026.6.0]
+
+### Improvements
+
+- [fontra-workflow] Reformatted the .yaml test files so that each step starts with its operational keyword, which reads a lot better. [PR 2620](https://github.com/fontra/fontra/pull/2620)
+- [fontra-workflow] Add support for instantiating with cross-axis mappings [PR 2619](https://github.com/fontra/fontra/pull/2619)
+- [fontra-workflow] Make the fontra-workflow backend respond to external changes to the .yaml file. [PR 2618](https://github.com/fontra/fontra/pull/2618)
+- [shaping] Gracefully handle invalid conditional substitution rules that use unknown axes. [PR 2598](https://github.com/fontra/fontra/pull/2598)
+- [glyph search] Allow `U+`- or `0x`-prefixed hex code points in various glyph search fields, to find glyphs by their hexadecimal code point. [Issue 2606](https://github.com/fontra/fontra/issues/2606), [PR 2608](https://github.com/fontra/fontra/pull/2608)
+- [cross-axis mappings] When a font has cross axis mappings, activate "show effective location" by default. [PR 2609](https://github.com/fontra/fontra/pull/2609)
+- [cross-axis mappings] When creating a new cross-axis mapping, make sure it is in view by scrolling to the end. This improves the experience when there are many mappings. [PR 2610](https://github.com/fontra/fontra/pull/2610)
+
+## 2026-05-12 [version 2026.5.1]
 
 ### New features
 
+- [Designspace navigation panel] Add a new accordion section for hidden axes. Add an associated view option (under its hamburger menu button) "Show only effective location", similar to "Show effective location", but that will only show (inactive) sliders for the effective location. This is useful when the hidden axes are all controlled by the non-hidden axes via cross-axis mappings (aka `avar-2`). [Issue 2553](https://github.com/fontra/fontra/issues/2553), [PR 2584](https://github.com/fontra/fontra/pull/2584)
 - [Axes panel] Add "Hidden" checkbox to Axis box and New Axis dialog, so we can finally edit the "hidden" axis flag. [Issue 1373](https://github.com/fontra/fontra/issues/1373), [PR 2582](https://github.com/fontra/fontra/pull/2582)
+
+### Improvements
+
+- [front-end code] Our highly competent contributor Qwerasd started to convert part of the front-end code base from JavaScript to TypeScript. This process will in the long term improve maintainability and stability. [PR 2585](https://github.com/fontra/fontra/pull/2585), [PR 2590](https://github.com/fontra/fontra/pull/2590)
+
+### Fixes
+
+- [fontra-pak] Fix "Open fonts in read-only mode" on Windows: this new checkbox sometimes had an unpredictable effect. [PR 249](https://github.com/fontra/fontra-pak/pull/249)
 
 ## 2026-05-06 [version 2026.5.0]
 
@@ -393,7 +441,6 @@
 ## 2025-07-08
 
 - Herlan/navv-1 contributed several improvements and additions for the OpenType Features panel:
-
   - added syntax coloring
   - added comment toggle (command/control /)
   - fixed undo/redo

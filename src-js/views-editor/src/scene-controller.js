@@ -21,7 +21,7 @@ import {
 } from "@fontra/core/glyphsets-controller.js";
 import { translate, translatePlural } from "@fontra/core/localization.js";
 import { MouseTracker } from "@fontra/core/mouse-tracker.js";
-import { ObservableController } from "@fontra/core/observable-object.js";
+import { ObservableController } from "@fontra/core/observable-object.ts";
 import {
   connectContours,
   scalePoint,
@@ -34,7 +34,7 @@ import {
   rectFromArray,
   rectRound,
   rectToArray,
-} from "@fontra/core/rectangle.js";
+} from "@fontra/core/rectangle.ts";
 import {
   difference,
   isSuperset,
@@ -56,7 +56,7 @@ import {
   reversed,
   withTimeout,
   zip,
-} from "@fontra/core/utils.js";
+} from "@fontra/core/utils.ts";
 import { GlyphSource, Layer } from "@fontra/core/var-glyph.js";
 import { isLocationAtDefault } from "@fontra/core/var-model.js";
 import { VarPackedPath, packContour } from "@fontra/core/var-path.js";
@@ -64,6 +64,12 @@ import * as vector from "@fontra/core/vector.js";
 import { dialog, message } from "@fontra/web-components/modal-dialog.js";
 import { EditBehaviorFactory } from "./edit-behavior.js";
 import { SceneModel } from "./scene-model.js";
+
+export const ShowLocationSettings = Object.freeze({
+  DontShowEffectiveLocation: 0,
+  ShowEffectiveLocation: 1,
+  OnlyShowEffectiveLocation: 2,
+});
 
 // Minimum pixels per em and maximum pixels per unit for zooming out and in.
 //
@@ -134,6 +140,8 @@ export class SceneController {
     this.sceneSettings.myGlyphSets = getMyGlyphSets();
 
     this.fontController.ensureInitialized.then(() => {
+      this._setShowEffectiveLocationDefaults();
+
       this.sceneSettingsController.setItem(
         "projectGlyphSets",
         readProjectGlyphSets(this.fontController),
@@ -373,6 +381,29 @@ export class SceneController {
     );
   }
 
+  _setShowEffectiveLocationDefaults() {
+    // If for each of the sets of non-hidden and hidden axes there exists a
+    // cross-axis mapping that influences it, activate "ShowEffectiveLocation"
+    // by default (used in panel-designspace-navigation.js)
+    for (const [key, hidden] of [
+      ["fontAxesShowEffectiveLocation", false],
+      ["hiddenFontAxesShowEffectiveLocation", true],
+    ]) {
+      const axisNames = new Set(
+        this.fontController.fontAxes
+          .filter((axis) => !!axis.hidden == hidden)
+          .map((axis) => axis.name)
+      );
+      if (
+        this.fontController.axes.mappings.some(({ outputLocation }) =>
+          Object.keys(outputLocation).some((key) => axisNames.has(key))
+        )
+      ) {
+        this.sceneSettings[key] = ShowLocationSettings.ShowEffectiveLocation;
+      }
+    }
+  }
+
   setCanvasMagnificationLimits() {
     // The lower magnification limit is implemented relative to UPM
     // to provide a consistent em size when zoomed all the way out.
@@ -493,7 +524,7 @@ export class SceneController {
           viewInfo[infoKey] = { ...settingsValue };
         }
       } else {
-        assert(false, `can't get here ${[key, defaultValue, viewValue]}`);
+        assert(false, `can't get here ${[key, defaultValue, settingsValue]}`);
       }
     }
 
@@ -1821,6 +1852,7 @@ const persistentSceneSettings = [
   // "glyphLocations", // handled separately
   { key: "fontAxesUseSourceCoordinates" },
   { key: "fontAxesShowEffectiveLocation" },
+  { key: "hiddenFontAxesShowEffectiveLocation" },
   { key: "fontAxesShowHidden" },
   { key: "fontAxesSkipMapping" },
   { key: "fontLocationUser", infoKey: "location" },
@@ -1847,7 +1879,8 @@ function getSceneSettingsDefaults() {
     fontLocationSource: {},
     fontLocationSourceMapped: {},
     fontAxesUseSourceCoordinates: false,
-    fontAxesShowEffectiveLocation: false,
+    fontAxesShowEffectiveLocation: ShowLocationSettings.DontShowEffectiveLocation,
+    hiddenFontAxesShowEffectiveLocation: ShowLocationSettings.DontShowEffectiveLocation,
     fontAxesShowHidden: false,
     fontAxesSkipMapping: false,
     glyphLocation: {},

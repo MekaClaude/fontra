@@ -15,7 +15,7 @@ import { staticGlyphToGLIF } from "@fontra/core/glyph-glif.js";
 import { pathToSVG } from "@fontra/core/glyph-svg.js";
 import * as html from "@fontra/core/html-utils.js";
 import { loaderSpinner } from "@fontra/core/loader-spinner.js";
-import { ObservableController } from "@fontra/core/observable-object.js";
+import { ObservableController } from "@fontra/core/observable-object.ts";
 import {
   deleteSelectedPoints,
   filterPathByPointIndices,
@@ -29,7 +29,7 @@ import {
   rectScaleAroundCenter,
   rectSize,
   rectToArray,
-} from "@fontra/core/rectangle.js";
+} from "@fontra/core/rectangle.ts";
 import { SceneView } from "@fontra/core/scene-view.js";
 import { isSuperset } from "@fontra/core/set-ops.js";
 import { themeController } from "@fontra/core/theme-settings.js";
@@ -56,7 +56,7 @@ import {
   unionIndexSets,
   writeObjectToURLFragment,
   writeToClipboard,
-} from "@fontra/core/utils.js";
+} from "@fontra/core/utils.ts";
 import { addItemwise, mulScalar, subItemwise } from "@fontra/core/var-funcs.js";
 import { StaticGlyph, VariableGlyph, copyComponent } from "@fontra/core/var-glyph.js";
 import { locationToString, makeSparseLocation } from "@fontra/core/var-model.js";
@@ -1916,10 +1916,10 @@ export class EditorController extends ViewController {
       } else {
         await this._pasteReplaceGlyph(pasteVarGlyph);
       }
-      // Force even trigger for fontLocationSourceMapped, as the glyph's
+      // Force event trigger for fontLocationSource, as the glyph's
       // source list may have changed
-      this.sceneSettings.fontLocationSourceMapped = {
-        ...this.sceneSettings.fontLocationSourceMapped,
+      this.sceneSettings.fontLocationSource = {
+        ...this.sceneSettings.fontLocationSource,
       };
       this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
     } else {
@@ -3058,6 +3058,7 @@ export class EditorController extends ViewController {
     if (!showOnlyGlyphsInFont && !isObjectEmpty(this.sceneSettings.combinedGlyphMap)) {
       glyphSearch.glyphMap = this.sceneSettings.combinedGlyphMap;
       glyphSearch.fontGlyphMap = this.fontController.glyphMap;
+      glyphSearch.allowUnknownGlyphSearchResults = true;
     } else {
       glyphSearch.glyphMap = this.fontController.glyphMap;
     }
@@ -3177,10 +3178,10 @@ export class EditorController extends ViewController {
   async externalChange(change, isLiveChange) {
     await super.externalChange(change, isLiveChange);
 
-    // Force event trigger for fontLocationSourceMapped, as the glyph's
+    // Force event trigger for fontLocationSource, as the glyph's
     // source list may have changed
-    this.sceneSettings.fontLocationSourceMapped = {
-      ...this.sceneSettings.fontLocationSourceMapped,
+    this.sceneSettings.fontLocationSource = {
+      ...this.sceneSettings.fontLocationSource,
     };
     this.sceneSettings.glyphLocation = { ...this.sceneSettings.glyphLocation };
     await this.sceneModel.updateScene();

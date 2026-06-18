@@ -116,6 +116,7 @@ export const strings = {
   "cross-axis-mapping.groupDescription": "Paglalarawan ng grupo",
   "cross-axis-mapping.header.inputLocation": "Lokasyon ng Pag-input",
   "cross-axis-mapping.header.outputLocation": "Lokasyon ng Paglabas",
+  "cross-axis-mapping.inactive": "Inactive",
   "cross-axis-mapping.new": "Bagong pagmamapa ng cross-axis",
   "cross-axis-mapping.title": "Pagmamapa ng cross-axis",
   "cross-axis-mapping.undo.add": "magdagdag ng cross-axis mapping",
@@ -311,6 +312,8 @@ export const strings = {
     "Ipakita ang epektibong lokasyon",
   "sidebar.designspace-navigation.font-axes-view-options-menu.show-hidden-axes":
     "Ipakita ang mga nakatagong axes",
+  "sidebar.designspace-navigation.font-axes-view-options-menu.show-only-effective-location":
+    "Show only effective location",
   "sidebar.designspace-navigation.font-axes.edit": "I-edit ang mga font axes",
   "sidebar.designspace-navigation.font-axes.reset": "I-reset ang mga font axes",
   "sidebar.designspace-navigation.glyph-axes": "Mga palakol ng Glyph",

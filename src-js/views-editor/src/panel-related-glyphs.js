@@ -8,7 +8,7 @@ import { unicodeMadeOf, unicodeUsedBy } from "@fontra/core/unicode-utils.js";
 import { escapeHTML } from "@fontra/core/sanitize.js";
 import Panel from "./panel.js";
 
-import { getCharFromCodePoint, throttleCalls } from "@fontra/core/utils.js";
+import { getCharFromCodePoint, throttleCalls } from "@fontra/core/utils.ts";
 import { GlyphCellView } from "@fontra/web-components/glyph-cell-view.js";
 import { GlyphCell } from "@fontra/web-components/glyph-cell.js";
 import { showMenu } from "@fontra/web-components/menu-panel.js";
