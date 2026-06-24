@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rmdir *)",
+      "Bash(del *)",
+      "Bash(python *)",
+      "Bash(taskkill *)",
+      "Bash(git commit *)",
+      "Bash(git rm *)",
+      "Bash(powershell *)",
+      "Bash(npm install)",
+      "Bash(npm run *)",
+      "Bash(pip install *)",
+      "Bash(mkdir *)",
+      "Bash(copy *)",
+      "Bash(dir)",
+      "Bash(git fetch *)",
+      "Bash(git rebase *)",
+      "Bash(git stash)",
+      "Bash(git merge *)",
+      "Bash(git push *)",
+      "Bash(fontra *)",
+      "Bash(netstat *)",
+      "Bash(findstr *)",
+      "Bash(do *)",
+      "Bash(node *)",
+      "Bash(build-windows.bat)",
+      "Bash(tasklist *)",
+      "Bash(git restore *)",
+      "Bash(rd *)",
+      "Bash(echo.)",
+      "Bash(git checkout *)",
+      "Bash(timeout *)",
+      "Bash(curl *)"
+    ]
+  },
+  "$version": 3
+}
