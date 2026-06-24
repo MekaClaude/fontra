@@ -6,6 +6,12 @@
 
 - [editor] Use tab key to cycle through the selectable items (points, components, anchors, guidelines). [Issue 2638](https://github.com/fontra/fontra/issues/2638), [PR 2645](https://github.com/fontra/fontra/pull/2645)
 
+### Improvements
+
+- [editor] Make the middle mouse button a shortcut for the hand tool (for panning), as is common in drawing applications. [Issue 2659](https://github.com/fontra/fontra/issues/2659), [PR 2661](https://github.com/fontra/fontra/pull/2661)
+- [browser] Keep forward history when using the browser back button. [PR 2660](https://github.com/fontra/fontra/pull/2660)
+- Make page/view titles more consistent, remove "Fontra" prefixes. [Issue 2650](https://github.com/fontra/fontra/issues/2650), [PR 2657](https://github.com/fontra/fontra/pull/2657)
+
 ### Fixes
 
 - Work around a problem with dead-key text input on Chromium browsers on Windows. [Issue 2628](https://github.com/fontra/fontra/issues/2628), [PR 2631](https://github.com/fontra/fontra/pull/2631)
