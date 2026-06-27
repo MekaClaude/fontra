@@ -17,6 +17,8 @@ import * as html from "@fontra/core/html-utils.js";
 import { loaderSpinner } from "@fontra/core/loader-spinner.js";
 import { ObservableController } from "@fontra/core/observable-object.ts";
 import {
+  canConvertCurveType,
+  convertCurveType,
   deleteSelectedPoints,
   filterPathByPointIndices,
 } from "@fontra/core/path-functions.js";
@@ -38,6 +40,7 @@ import { labeledCheckbox, labeledTextInput, pickFile } from "@fontra/core/ui-uti
 import {
   commandKeyProperty,
   enumerate,
+  eventIsCausedByWritingURLFragment,
   fetchJSON,
   hyphenatedToCamelCase,
   hyphenatedToLabel,
@@ -75,7 +78,11 @@ import { PowerRulerTool } from "./edit-tools-power-ruler.js";
 import { ShapeTool } from "./edit-tools-shape.js";
 import { TriangleGuardianTool } from "./edit-tools-triangle-guardian.js";
 import TriangleGuardianPanel from "./panel-triangle-guardian.js";
-import { SceneController, persistentSceneSettingsKeys } from "./scene-controller.js";
+import {
+  SceneController,
+  numQuadraticOffCurvePointsOptions,
+  persistentSceneSettingsKeys,
+} from "./scene-controller.js";
 import { MIN_SIDEBAR_WIDTH, Sidebar } from "./sidebar.js";
 import {
   allGlyphsCleanVisualizationLayerDefinition,
@@ -272,8 +279,27 @@ export class EditorController extends ViewController {
       200
     );
 
+    // The "popstate" event fires when the active history entry changes.
+    //
+    // We need to listen for this event so we can load the view state from
+    // the URL fragment, since the document does not reload if all that is
+    // different between the previous URL and the new one is the fragment.
     window.addEventListener("popstate", (event) => {
-      this.setupFromWindowLocation();
+      // When we write the URL fragment from our own code, with a call to our
+      // `writeObjectToURLFragment` function, this will also trigger the event.
+      //
+      // I'm not entirely sure that is what should happen based on the
+      // spec, but all 3 major browsers do it, so maybe it is correct.
+      //
+      // Regardless, we need to differentiate between a `popstate` caused by
+      // the user navigating with the forward/back buttons in their browser
+      // and one caused by us writing the URL fragment.
+      //
+      // We only need to run the setup function when it *wasn't* us who changed
+      // the URL (since if we did then we should already be in the right state).
+      if (!eventIsCausedByWritingURLFragment()) {
+        this.setupFromWindowLocation();
+      }
     });
 
     this.updateWithDelay();
@@ -525,6 +551,23 @@ export class EditorController extends ViewController {
 
     {
       const topic = "0035-action-topics.menu.glyph";
+
+      registerAction(
+        "action.glyph.convert-curves-to-cubic",
+        { topic },
+        () => this.doConvertCurveType(null),
+        () => this.canConvertCurveType(null)
+      );
+
+      for (const numQuadraticOffCurvePoints of numQuadraticOffCurvePointsOptions) {
+        registerAction(
+          `action.glyph.convert-curves-to-quadratic-${numQuadraticOffCurvePoints}`,
+          { topic },
+          () => this.doConvertCurveType(numQuadraticOffCurvePoints),
+          () => this.canConvertCurveType(numQuadraticOffCurvePoints)
+        );
+      }
+
       registerAction(
         "action.glyph.add-background-image",
         { topic },
@@ -2923,6 +2966,40 @@ export class EditorController extends ViewController {
     this.sceneController.selection = newSelection;
   }
 
+  async doConvertCurveType(numQuadraticOffCurvePoints) {
+    const { point: pointSelection } = parseSelection(this.sceneController.selection);
+
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+      for (const layerGlyph of Object.values(layerGlyphs)) {
+        if (pointSelection) {
+          convertCurveType(layerGlyph.path, pointSelection, numQuadraticOffCurvePoints);
+        }
+      }
+      this.sceneController.selection = new Set();
+      return translate(
+        !numQuadraticOffCurvePoints
+          ? "action.glyph.convert-curves-to-cubic"
+          : `action.glyph.convert-curves-to-quadratic-${numQuadraticOffCurvePoints}`
+      );
+    });
+  }
+
+  canConvertCurveType(numQuadraticOffCurvePoints) {
+    const { point: pointSelection } = parseSelection(this.sceneController.selection);
+
+    if (!pointSelection) {
+      return false;
+    }
+
+    const path = this.sceneModel.getSelectedPositionedGlyph()?.glyph.instance.path;
+
+    if (!path) {
+      return false;
+    }
+
+    return canConvertCurveType(path, pointSelection, numQuadraticOffCurvePoints);
+  }
+
   doSelectPreviousNextSource(selectPrevious) {
     const panel = this.getSidebarPanel("designspace-navigation");
     panel?.doSelectPreviousNextSource(selectPrevious);
@@ -3210,9 +3287,9 @@ export class EditorController extends ViewController {
   }
 
   async setupFromWindowLocation() {
-    this.sceneSettingsController.withSenderInfo({ senderID: this }, () =>
-      this._setupFromWindowLocation()
-    );
+    this.sceneSettingsController.withSenderInfo({ senderID: this }, async () => {
+      await this._setupFromWindowLocation();
+    });
   }
 
   async _setupFromWindowLocation() {
