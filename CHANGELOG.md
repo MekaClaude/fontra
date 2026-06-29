@@ -1,5 +1,19 @@
 # Changelog for Fontra
 
+## 2026-06-?? [version 2026.6.6]
+
+### Improvements
+
+- [glyphsets] Updated the Google Fonts glyphsets to 1.1.3. [Issue 2673](https://github.com/fontra/fontra/issues/2673), [PR 2675](https://github.com/fontra/fontra/pull/2675)
+- [languages] Some new strings and some improved strings for Simplified Chinese and Traditional Chinese, contributed by 湖远星（Lake桑）. [PR 2674](https://github.com/fontra/fontra/pull/2674)
+
+## 2026-06-28 [version 2026.6.5]
+
+### Fixes
+
+- [languages] Fix caching behavior for language files (UI strings), to ensure we always see the latest version. [Issue 2668](https://github.com/fontra/fontra/issues/2668), [PR 2669](https://github.com/fontra/fontra/pull/2669)
+- [tests] Ensure tests written in TypeScript are run as part of the test suite. [Issue 2664](https://github.com/fontra/fontra/issues/2664), [PR 2670](https://github.com/fontra/fontra/pull/2670)
+
 ## 2026-06-26 [version 2026.6.4]
 
 ### New features
