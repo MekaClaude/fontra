@@ -1,11 +1,21 @@
 # Changelog for Fontra
 
-## 2026-06-?? [version 2026.6.6]
+## 2026-07-?? [version 2026.7.0]
+
+### New features
+
+- [font overview] Allow quick glyph selection by typing a glyph name or a character. [Issue 2677](https://github.com/fontra/fontra/issues/2677), [PR 2682](https://github.com/fontra/fontra/pull/2682)
+- [font overview] Add "Copy Glyph Name(s) and "Copy Character(s)" context menus. [Issue 2676](https://github.com/fontra/fontra/issues/2676), [PR 2681](https://github.com/fontra/fontra/pull/2681)
 
 ### Improvements
 
+- [font overview] Change the behavior of "Select All" to really select all, and not skip glyphs that aren't in the font (but are in the combined selected glyph sets) [PR 2681](https://github.com/fontra/fontra/pull/2681)
 - [glyphsets] Updated the Google Fonts glyphsets to 1.1.3. [Issue 2673](https://github.com/fontra/fontra/issues/2673), [PR 2675](https://github.com/fontra/fontra/pull/2675)
 - [languages] Some new strings and some improved strings for Simplified Chinese and Traditional Chinese, contributed by 湖远星（Lake桑）. [PR 2674](https://github.com/fontra/fontra/pull/2674)
+
+### Fixes
+
+- [font overview, Firefox] Prevent opening two tabs instead of one when typing Enter to open the selection in the glyph editor. [Issue 2678](https://github.com/fontra/fontra/issues/2678) [PR 2680](https://github.com/fontra/fontra/pull/2680)
 
 ## 2026-06-28 [version 2026.6.5]
 
