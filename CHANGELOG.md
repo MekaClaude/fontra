@@ -1,14 +1,16 @@
 # Changelog for Fontra
 
-## 2026-07-?? [version 2026.7.0]
+## 2026-07-10 [version 2026.7.0]
 
 ### New features
 
+- [font overview] Support cross-axis mappings, put hidden axes in a separate section, and in general bring the axes UI in line with the glyph editor. [Issue 2652](https://github.com/fontra/fontra/issues/2652), [PR 2691](https://github.com/fontra/fontra/pull/2691)
 - [font overview] Allow quick glyph selection by typing a glyph name or a character. [Issue 2677](https://github.com/fontra/fontra/issues/2677), [PR 2682](https://github.com/fontra/fontra/pull/2682)
 - [font overview] Add "Copy Glyph Name(s) and "Copy Character(s)" context menus. [Issue 2676](https://github.com/fontra/fontra/issues/2676), [PR 2681](https://github.com/fontra/fontra/pull/2681)
 
 ### Improvements
 
+- [menus] Make menus behave well when the items don't fit the viewport. [PR 2694](https://github.com/fontra/fontra/pull/2694)
 - [editor] Improve zoom in/out behavior when there is no selection. This used to use the scene center, and now uses the view port center, which behaves much better with larger texts. [Issue 2686](https://github.com/fontra/fontra/issues/2686), [PR 2687](https://github.com/fontra/fontra/pull/2687)
 - [font overview] Change the behavior of "Select All" to really select all, and not skip glyphs that aren't in the font (but are in the combined selected glyph sets) [PR 2681](https://github.com/fontra/fontra/pull/2681)
 - [glyphsets] Updated the Google Fonts glyphsets to 1.1.3. [Issue 2673](https://github.com/fontra/fontra/issues/2673), [PR 2675](https://github.com/fontra/fontra/pull/2675)
@@ -16,6 +18,7 @@
 
 ### Fixes
 
+- Fix bug with font source interpolation after toggling the "Is Sparse" flag. [PR 2693](https://github.com/fontra/fontra/pull/2693)
 - [font overview, Firefox] Prevent opening two tabs instead of one when typing Enter to open the selection in the glyph editor. [Issue 2678](https://github.com/fontra/fontra/issues/2678) [PR 2680](https://github.com/fontra/fontra/pull/2680)
 
 ## 2026-06-28 [version 2026.6.5]
