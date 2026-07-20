@@ -1,9 +1,22 @@
 # Changelog for Fontra
 
-## 2026-07-?? [version 2026.7.1]
+## 2026-07-?? [version 2026.7.2]
+
+### New features
+
+- [languages] Add Portuguese translations contributed by Hallef Henrique P. Sousa. [PR 2708](https://github.com/fontra/fontra/pull/2708)
+
+## 2026-07-17 [version 2026.7.1]
+
+### Improvements
+
+- [designspace] Respond to external changes in include()'d feature files. [PR 2703](https://github.com/fontra/fontra/pull/2703)
+- [fontra-glyphs] Respond to external changes in include()'d feature files. [fontra-glyphs PR 151](https://github.com/fontra/fontra-glyphs/pull/151)
 
 ### Fixes
 
+- [fontra-glyphs] Fix handling of external feature files. [fontra-glyphs Issue 149](https://github.com/fontra/fontra-glyphs/issues/149), [fontra-glyphs PR 150](https://github.com/fontra/fontra-glyphs/pull/150)
+- Fix unintended "linking" issue with pasting a single anchor (or guideline) into multiple sources. [Issue 2705](https://github.com/fontra/fontra/issues/2705), [PR 2707](https://github.com/fontra/fontra/pull/2707)
 - [menu bar] Fixes regression with submenus. [PR 2696](https://github.com/fontra/fontra/pull/2696)
 - [Fontra Pak export/designspace] Fix/work around TTF/OTF export problem by writing features to all source UFOs. [PR 2697](https://github.com/fontra/fontra/pull/2697)
 
