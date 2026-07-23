@@ -4,11 +4,12 @@
 
 ### New features
 
-- [languages] Add Portuguese translations contributed by Hallef Henrique P. Sousa, and additions by Eduardo Omine. [PR 2708](https://github.com/fontra/fontra/pull/2708), [PR 2710](https://github.com/fontra/fontra/pull/2710), [PR 2711](https://github.com/fontra/fontra/pull/2711)
+- [languages] Add Portuguese translations contributed by Hallef Henrique P. Sousa, and additions by Eduardo Omine. [PR 2708](https://github.com/fontra/fontra/pull/2708), [PR 2710](https://github.com/fontra/fontra/pull/2710), [PR 2711](https://github.com/fontra/fontra/pull/2711), [PR 2714](https://github.com/fontra/fontra/pull/2714)
 
 ### Improvements
 
 - [languages] Added more opportunities for localizations. [PR 2709](https://github.com/fontra/fontra/pull/2709)
+- [languages] Add missing Dutch translations. [PR 2713](https://github.com/fontra/fontra/pull/2713)
 
 ## 2026-07-17 [version 2026.7.1]
 
