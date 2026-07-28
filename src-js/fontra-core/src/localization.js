@@ -13,8 +13,20 @@ export const languages = [
   { code: "ja", langEn: "Japanese", langLang: "日本語", status: "beta" },
   { code: "fr", langEn: "French", langLang: "Français", status: "beta" },
   { code: "de", langEn: "German", langLang: "Deutsch", status: "wip" },
-  { code: "nl", langEn: "Dutch", langLang: "Nederlands", status: "wip" },
-  { code: "pt", langEn: "Portuguese", langLang: "Português", status: "beta" },
+  { code: "nl", langEn: "Dutch", langLang: "Nederlands", status: "beta" },
+  { code: "es", langEn: "Spanish", langLang: "Español", status: "beta" },
+  {
+    code: "pt-BR",
+    langEn: "Portuguese (Brazil)",
+    langLang: "Português (Brasil)",
+    status: "beta",
+  },
+  {
+    code: "pt-PT",
+    langEn: "Portuguese (Portugal)",
+    langLang: "Português (Portugal)",
+    status: "beta",
+  },
   { code: "tl", langEn: "Filipino", langLang: "Tagalog", status: "beta" },
 ];
 
