@@ -76,7 +76,7 @@ export const strings = {
   "application-settings.editor-behavior.title": "Comportement de l'éditeur",
   "application-settings.plugins-manager.title": "Gestionnaire d'extensions (plugins)",
   "application-settings.server-info.title": "Informations sur le serveur",
-  "application-settings.shortcuts.title": "Raccourcis",
+  "application-settings.shortcuts.title": "Raccourcis clavier",
   "application-settings.theme-settings.title": "Paramètres du thème",
   "axes.add": "Ajouter un nouvel axe",
   "axes.axis-values": "Valeurs de l'axe",
@@ -181,6 +181,7 @@ export const strings = {
   "dialog.add": "Ajouter",
   "dialog.cancel": "Annuler",
   "dialog.cant-create-glyph.title": "Ce n'est pas possible de créer le glyphe «%0»",
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "Cette police est en lecture seule.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "L'emplacement n'est pas sur une source.",
@@ -188,6 +189,10 @@ export const strings = {
     "L'emplacement n'est pas sur une source pour les glyphes suivants : %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "Le glyphe est verrouillé.",
   "dialog.cant-edit-glyph.title": "Ce n'est pas possible de modifier le glyphe «%0»",
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "Ce n'est pas possible de modifier le crénage",
   "dialog.cant-edit-sidebearings.title":
     "Ce n'est pas possible de modifier les approches",
@@ -252,7 +257,7 @@ export const strings = {
   "font-info.sampletext": "Texte d'exemple",
   "font-info.title": "Informations sur la police",
   "font-info.trademark": "Marque déposée",
-  "font-info.upm": "Unités par Em (UPM)",
+  "font-info.upm": "Unités par eM (UPM)",
   "font-info.vendorid": "ID du fournisseur",
   "font-info.version.major": "Version majeure",
   "font-info.version.minor": "Version mineure",
@@ -360,6 +365,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Index",
   "sidebar.characters-glyphs.input-characters": "Caractères d'entrée",
   "sidebar.characters-glyphs.output-glyphs": "Glyphes de sortie",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Débogueur de modélisation de texte",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Options du débogueur de modélisation de texte",
@@ -578,7 +587,7 @@ export const strings = {
     "Approches pour les glyphes non éditables",
   "sidebar.user-settings.glyph.sidebearings-tool": "Approches (outil)",
   "sidebar.user-settings.glyph.statuscolor": "Couleur du statut de développement",
-  "sidebar.user-settings.glyph.upmgrid": "Grille d'unités par Em (UPM)",
+  "sidebar.user-settings.glyph.upmgrid": "Grille d'Unités Par eM (UPM)",
   "sidebar.user-settings.guidelines": "Repères",
   "sidebar.user-settings.language": "Langue d'affichage",
   "sidebar.user-settings.line-metrics": "Métriques de ligne",

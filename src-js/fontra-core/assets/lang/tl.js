@@ -181,6 +181,7 @@ export const strings = {
   "dialog.add": "Idagdag",
   "dialog.cancel": "Kanselahin",
   "dialog.cant-create-glyph.title": "Hindi makagawa ng glyph na “%0”",
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "Read-only ang font.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "Ang lokasyon ay wala sa isang pinagmumulan.",
@@ -188,6 +189,10 @@ export const strings = {
     "Ang lokasyon ay wala sa pinagmulan para sa mga sumusunod na glyph: %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "Naka-lock ang gliph.",
   "dialog.cant-edit-glyph.title": "Hindi ma-edit ang gliph na “%0”",
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "Hindi ma-edit ang kerning",
   "dialog.cant-edit-sidebearings.title": "Hindi ma-edit ang mga sidebearing",
   "dialog.create": "Gumawa",
@@ -355,6 +360,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Index",
   "sidebar.characters-glyphs.input-characters": "Mga karakter sa pag-input",
   "sidebar.characters-glyphs.output-glyphs": "Mga output glyph",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Shaping debugger",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Shaping debugger options",

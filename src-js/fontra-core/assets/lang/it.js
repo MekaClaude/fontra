@@ -187,6 +187,7 @@ export const strings = {
   "dialog.add": "Aggiungi",
   "dialog.cancel": "Annulla",
   "dialog.cant-create-glyph.title": "Non è possibile creare il glifo “%0”",
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "Il font è in sola lettura.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "La posizione non si trova su una sorgente.",
@@ -194,6 +195,10 @@ export const strings = {
     "La posizione non si trova su una sorgente per i seguenti glifi: %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "Il glifo è bloccato.",
   "dialog.cant-edit-glyph.title": "Non è possibile modificare il glifo “%0”",
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "Non è possibile modificare la crenatura",
   "dialog.cant-edit-sidebearings.title":
     "Non è possibile modificare gli spazi laterali",
@@ -259,7 +264,7 @@ export const strings = {
   "font-info.sampletext": "Testo di esempio",
   "font-info.title": "Informazioni sul font",
   "font-info.trademark": "Marchio registrato",
-  "font-info.upm": "Unità per Em (UPM)",
+  "font-info.upm": "Unità per eM (UPM)",
   "font-info.vendorid": "ID fornitore",
   "font-info.version.major": "Versione principale",
   "font-info.version.minor": "Versione secondaria",
@@ -367,6 +372,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Indice",
   "sidebar.characters-glyphs.input-characters": "Caratteri di ingresso",
   "sidebar.characters-glyphs.output-glyphs": "Glifi di uscita",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Debugger di modellazione testo",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Opzioni debugger di modellazione testo",
@@ -577,7 +586,7 @@ export const strings = {
     "Spazi laterali per i glifi non in modifica",
   "sidebar.user-settings.glyph.sidebearings-tool": "Spazi laterali (strumento)",
   "sidebar.user-settings.glyph.statuscolor": "Colore dello stato di sviluppo",
-  "sidebar.user-settings.glyph.upmgrid": "Griglia Unità per Em (UPM)",
+  "sidebar.user-settings.glyph.upmgrid": "Griglia Unità Per eM (UPM)",
   "sidebar.user-settings.guidelines": "Linee guida",
   "sidebar.user-settings.language": "Lingua di visualizzazione",
   "sidebar.user-settings.line-metrics": "Metriche di linea",

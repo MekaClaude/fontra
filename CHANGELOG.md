@@ -1,5 +1,24 @@
 # Changelog for Fontra
 
+## 2026-09-?? [version 2026.9.0]
+
+### New features
+
+[command line] The `fontra` command line tool got a new subcommand `new`, for creating a new font. [Discussion 2761](https://github.com/fontra/fontra/discussions/2761), [PR 2762](https://github.com/fontra/fontra/pull/2762)
+
+### Fixes
+
+- [firefox] Work around text selection problem within draggable boxes. [PR 2763](https://github.com/fontra/fontra/pull/2763)
+- [glyph editor] Fix text align change when in auto-view-box mode. [PR 2758](https://github.com/fontra/fontra/pull/2758)
+- [woff/woff2] Fix shaping and OpenType features for woff/woff2 fonts. [PR 2753](https://github.com/fontra/fontra/pull/2753)
+- Remove confusing kerning visualization when "Apply text shaping and features" is off. [PR 2748](https://github.com/fontra/fontra/pull/2748)
+- Refuse to edit kerning when it can't or won't be shown. [Issue 2692](https://github.com/fontra/fontra/issues/2692), [PR 2750](https://github.com/fontra/fontra/pull/2750)
+
+### Improvements
+
+- [font info] Make sure various font info can't be edited when in read-only mode. [PR 2759](https://github.com/fontra/fontra/pull/2759)
+- [shaping debugger] Make showing kerning as part of the advance width field opt-out. [Issue 2522](https://github.com/fontra/fontra/issues/2522), [PR 2749](https://github.com/fontra/fontra/pull/2749)
+
 ## 2026-08-29 [version 2026.8.0]
 
 ### New features

@@ -81,7 +81,7 @@ export const strings = {
   "application-settings.editor-behavior.title": "Comportamento do editor",
   "application-settings.plugins-manager.title": "Gerenciador de plug-in",
   "application-settings.server-info.title": "Informações do servidor",
-  "application-settings.shortcuts.title": "Atalhos",
+  "application-settings.shortcuts.title": "Atalhos de teclado",
   "application-settings.theme-settings.title": "Configurações do tema",
   "axes.add": "Adicionar novo eixo",
   "axes.axis-values": "Valores do eixo",
@@ -185,10 +185,11 @@ export const strings = {
     "alterar definição de status padrão",
   "development-status-definitions.undo.delete": "excluir definição de status %0",
   "development-status-definitions.warning.positive-number":
-    "Valor precisa ser um número positivo.",
+    "O valor precisa ser um número positivo.",
   "dialog.add": "Adicionar",
   "dialog.cancel": "Cancelar",
   "dialog.cant-create-glyph.title": 'Não é possível criar o glifo "%0"',
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "Essa fonte é somente leitura.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "O local não é de uma matriz",
@@ -196,6 +197,10 @@ export const strings = {
     "O local não é de uma matriz para os seguintes glifos: %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "O glifo está bloqueado.",
   "dialog.cant-edit-glyph.title": 'Não é possível editar o glifo "%0"',
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "Não é possível editar o kerning",
   "dialog.cant-edit-sidebearings.title": "Não é possível editar as margens laterais",
   "dialog.create": "Criar",
@@ -254,13 +259,13 @@ export const strings = {
   "font-info.designer.url": "URL do designer",
   "font-info.familyname": "Nome da família",
   "font-info.licensedescription": "Descrição da licença",
-  "font-info.licenseinfo.url": "URL de informação da licença",
+  "font-info.licenseinfo.url": "URL da informação da licença",
   "font-info.manufacturer": "Fabricante",
   "font-info.manufacturer.url": "URL do fabricante",
   "font-info.sampletext": "Texto de amostra",
   "font-info.title": "Informações da fonte",
   "font-info.trademark": "Marca registrada",
-  "font-info.upm": "Unidades por Em (UPM)",
+  "font-info.upm": "Unidades por quadrado eM (UPM)",
   "font-info.vendorid": "ID do fornecedor",
   "font-info.version.major": "Versão principal",
   "font-info.version.minor": "Versão secundária",
@@ -338,9 +343,9 @@ export const strings = {
   "plugin-manager.add-plugin-dialog.label.path": "Caminho do plug-in:",
   "plugin-manager.add-plugin-dialog.title": "Adicionar plug-in",
   "plugin-manager.add-plugin-dialog.warning.title": "Erro",
-  "plugin-manager.title": "plug-ins do Fontra:",
+  "plugin-manager.title": "Plug-ins do Fontra:",
   "plugin-manager.warning.fetching-error": "Ocorreu um erro ao obter o plug-in.",
-  "plugin-manager.warning.not-found": "plug-in não encontrado.",
+  "plugin-manager.warning.not-found": "Plug-in não encontrado.",
   "plugin-manager.warning.plugin-exists": "O plug-in existe.",
   "reference-font.select-next-reference-font":
     "Selecionar fonte de referência anterior",
@@ -364,6 +369,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Índice",
   "sidebar.characters-glyphs.input-characters": "Caracteres de entrada",
   "sidebar.characters-glyphs.output-glyphs": "Glifos de saída",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Depurador da modelagem de texto",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Opções do depurador da modelagem de texto",
@@ -447,7 +456,7 @@ export const strings = {
   "sidebar.related-glyphs": "Glifos e caracteres relacionados",
   "sidebar.related-glyphs.alternate-glyphs": "Glifos alternativos",
   "sidebar.related-glyphs.character-decompose-with-character":
-    "Caracteres que se decompõem com esse caractere",
+    "Caracteres que decompõem com esse caractere",
   "sidebar.related-glyphs.character-decomposition": "Decomposição de caractere",
   "sidebar.related-glyphs.components-used-by-this-glyph":
     "Componentes usados por este glifo",
@@ -464,7 +473,7 @@ export const strings = {
   "sidebar.related-glyphs.loading": "(carregando)",
   "sidebar.related-glyphs.no-glyph-selected": "(Sem glifo selecionado)",
   "sidebar.related-glyphs.no-related-glyphs-or-characters-were-found":
-    "(Nenhum glifo ou caracteres relacionados foram encontrados)",
+    "Não foram encontrados glifos ou caracteres relacionados)",
   "sidebar.related-glyphs.related-glyphs": "Glifos relacionados",
   "sidebar.related-glyphs.replace-selected-glyph": "Substituir glifos selecionados",
   "sidebar.related-glyphs.title": "Glifos e caracteres relacionados a %0",
@@ -550,7 +559,7 @@ export const strings = {
     "Opções adicionais de modelagem de texto",
   "sidebar.user-settings": "Configurações do usuário",
   "sidebar.user-settings.clipboard": "Formato de exportação de área de transferência",
-  "sidebar.user-settings.component.nodes": "Alças e nós dos componentes",
+  "sidebar.user-settings.component.nodes": "Nós e alças dos componentes",
   "sidebar.user-settings.experimental": "Recursos experimentais",
   "sidebar.user-settings.glyph": "Aparência do editor de glifos",
   "sidebar.user-settings.glyph.anchornames": "Nome das âncoras",
@@ -574,7 +583,7 @@ export const strings = {
   "sidebar.user-settings.glyph.sidebearings": "Margens para glifos não editáveis",
   "sidebar.user-settings.glyph.sidebearings-tool": "Margens laterais (ferramenta)",
   "sidebar.user-settings.glyph.statuscolor": "Cor do status de desenvolvimento",
-  "sidebar.user-settings.glyph.upmgrid": "Grade de Unidades por Em (UPM)",
+  "sidebar.user-settings.glyph.upmgrid": "Grade de Unidades Por eM (UPM)",
   "sidebar.user-settings.guidelines": "Linhas-guia",
   "sidebar.user-settings.language": "Idioma da interface",
   "sidebar.user-settings.line-metrics": "Linhas das métricas",

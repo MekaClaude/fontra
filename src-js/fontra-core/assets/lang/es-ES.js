@@ -81,7 +81,7 @@ export const strings = {
   "application-settings.editor-behavior.title": "Comportamiento del editor",
   "application-settings.plugins-manager.title": "Gestor de plugins",
   "application-settings.server-info.title": "Información del servidor",
-  "application-settings.shortcuts.title": "Atajos",
+  "application-settings.shortcuts.title": "Atajos de teclado",
   "application-settings.theme-settings.title": "Configuración del tema",
   "axes.add": "Añadir nuevo eje",
   "axes.axis-values": "Valores del eje",
@@ -189,6 +189,7 @@ export const strings = {
   "dialog.add": "Añadir",
   "dialog.cancel": "Cancelar",
   "dialog.cant-create-glyph.title": 'No se puede crear el glifo "%0"',
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "La fuente es de solo lectura.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "La ubicación no corresponde a una matriz.",
@@ -196,6 +197,10 @@ export const strings = {
     "La ubicación no corresponde a una matriz para los siguientes glifos: %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "El glifo está bloqueado.",
   "dialog.cant-edit-glyph.title": 'No se puede editar el glifo "%0"',
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "No se puede editar el kerning",
   "dialog.cant-edit-sidebearings.title": "No se pueden editar los márgenes laterales",
   "dialog.create": "Crear",
@@ -258,7 +263,7 @@ export const strings = {
   "font-info.sampletext": "Texto de muestra",
   "font-info.title": "Información de la fuente",
   "font-info.trademark": "Marca registrada",
-  "font-info.upm": "Unidades por Em (UPM)",
+  "font-info.upm": "Unidades por eM (UPM)",
   "font-info.vendorid": "ID del proveedor",
   "font-info.version.major": "Versión principal",
   "font-info.version.minor": "Versión secundaria",
@@ -362,6 +367,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Índice",
   "sidebar.characters-glyphs.input-characters": "Caracteres de entrada",
   "sidebar.characters-glyphs.output-glyphs": "Glifos de salida",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Depurador de modelado de texto",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Opciones del depurador de modelado de texto",
@@ -571,7 +580,7 @@ export const strings = {
     "Márgenes laterales para glifos no editables",
   "sidebar.user-settings.glyph.sidebearings-tool": "Márgenes laterales (herramienta)",
   "sidebar.user-settings.glyph.statuscolor": "Color del estado de desarrollo",
-  "sidebar.user-settings.glyph.upmgrid": "Cuadrícula de Unidades por Em (UPM)",
+  "sidebar.user-settings.glyph.upmgrid": "Cuadrícula de Unidades Por eM (UPM)",
   "sidebar.user-settings.guidelines": "Líneas guía",
   "sidebar.user-settings.language": "Idioma de la interfaz",
   "sidebar.user-settings.line-metrics": "Métricas de línea",

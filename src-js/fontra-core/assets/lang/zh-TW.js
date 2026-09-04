@@ -176,12 +176,17 @@ export const strings = {
   "dialog.add": "新增",
   "dialog.cancel": "取消",
   "dialog.cant-create-glyph.title": "無法建立字形「%0」",
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "此字型檔為唯讀。",
   "dialog.cant-edit-glyph.content.location-not-at-source": "目前位置不是一個源。",
   "dialog.cant-edit-glyph.content.location-not-at-source-for-glyphs":
     "以下字形的目前位置不是一個源：%0",
   "dialog.cant-edit-glyph.content.locked-glyph": "此字形已鎖定。",
   "dialog.cant-edit-glyph.title": "無法編輯字形「%0」",
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "無法編輯字偶距",
   "dialog.cant-edit-sidebearings.title": "無法編輯字邊距",
   "dialog.create": "建立",
@@ -333,6 +338,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "索引",
   "sidebar.characters-glyphs.input-characters": "輸入字元",
   "sidebar.characters-glyphs.output-glyphs": "輸出字形",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "文字成形偵錯器",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "文字成形偵錯器選項",

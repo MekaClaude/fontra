@@ -181,6 +181,7 @@ export const strings = {
   "dialog.add": "Hinzufügen",
   "dialog.cancel": "Abbrechen",
   "dialog.cant-create-glyph.title": "Kann Glyphen “%0” nicht erstellen",
+  "dialog.cant-edit-font.title": "Can't make changes",
   "dialog.cant-edit-glyph.content": "Der Font ist schreibgeschützt.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "Die Location ist nicht bei einer Source.",
@@ -188,6 +189,10 @@ export const strings = {
     "The location is not at a source for the following glyphs: %0",
   "dialog.cant-edit-glyph.content.locked-glyph": "Der Glyph ist gesperrt.",
   "dialog.cant-edit-glyph.title": "Kann Glyphen “%0” nicht bearbeiten",
+  "dialog.cant-edit-kerning.content.apply-text-shaping-must-be-on":
+    'The "Apply text shaping and features" option must be on. Would you like to turn it on?',
+  "dialog.cant-edit-kerning.content.manually-written-feature":
+    "There is a manually written 'kern' OpenType feature without an \"# Automatic Code\" insertion marker.",
   "dialog.cant-edit-kerning.title": "Can’t edit kerning",
   "dialog.cant-edit-sidebearings.title": "Can’t edit sidebearings",
   "dialog.create": "Erstellen",
@@ -350,6 +355,10 @@ export const strings = {
   "sidebar.characters-glyphs.index": "Index",
   "sidebar.characters-glyphs.input-characters": "Input characters",
   "sidebar.characters-glyphs.output-glyphs": "Output glyphs",
+  "sidebar.characters-glyphs.output-glyphs.options-menu-tooltip":
+    "Output glyphs display options",
+  "sidebar.characters-glyphs.output-glyphs.show-kerning-for-advance":
+    "Show kerning in Advance column",
   "sidebar.characters-glyphs.shaping-debugger": "Shaping debugger",
   "sidebar.characters-glyphs.shaping-debugger.options-menu-tooltip":
     "Shaping debugger options",
