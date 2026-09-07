@@ -8,6 +8,7 @@
 
 ### Fixes
 
+- [fontra-pak linux] Fix window appearance and behavior on GNOME Wayland. [fontra-pak PR 267](https://github.com/fontra/fontra-pak/pull/267)
 - [opentype features panel] Recompile when glyphs are being added to or deleted from the font. [PR 2764](https://github.com/fontra/fontra/pull/2764)
 - [firefox] Work around text selection problem within draggable boxes. [PR 2763](https://github.com/fontra/fontra/pull/2763)
 - [glyph editor] Fix text align change when in auto-view-box mode. [PR 2758](https://github.com/fontra/fontra/pull/2758)
