@@ -295,7 +295,7 @@ const zoomFactor = 1.05;
 export class OpenTypeFeatureCodePanel extends BaseInfoPanel {
   static title = "opentype-feature-code.title";
   static id = "opentype-feature-code-panel";
-  static fontAttributes = ["features", "glyphMap"];
+  static fontAttributes = ["features", "glyphMap", "conditionalSubstitutions"];
 
   async setupUI() {
     this.updateFeatureCode = scheduleCalls(
