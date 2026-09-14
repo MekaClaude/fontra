@@ -1018,6 +1018,16 @@ export class EditorController extends ViewController {
       "toolsMenuPosition",
       this._onToolsOverlayPositionChanged
     );
+
+    // Apply initial "show all tools" mode and listen for changes
+    this._updateToolbarShowAllTools();
+    this._onToolbarShowAllToolsChanged = () => {
+      this._updateToolbarShowAllTools();
+    };
+    applicationSettingsController.addKeyListener(
+      "showAllTools",
+      this._onToolbarShowAllToolsChanged
+    );
   }
 
   _updateToolsOverlayPosition() {
@@ -1047,7 +1057,80 @@ export class EditorController extends ViewController {
       );
       this._onToolsOverlayPositionChanged = null;
     }
+    if (this._onToolbarShowAllToolsChanged) {
+      applicationSettingsController.removeKeyListener(
+        "showAllTools",
+        this._onToolbarShowAllToolsChanged
+      );
+      this._onToolbarShowAllToolsChanged = null;
+    }
     this._toolsOverlay = null;
+  }
+
+  _updateToolbarShowAllTools() {
+    const editToolsElement = document.querySelector("#edit-tools");
+    if (!editToolsElement) {
+      return;
+    }
+    const showAll = !!applicationSettingsController.model.showAllTools;
+    this._toolbarShowAllTools = showAll;
+    editToolsElement.classList.toggle("tools-item--show-all", showAll);
+    if (showAll) {
+      // Reveal every subtool on the same line; CSS flattens the wrappers.
+      // Inline visibility styles from collapsed mode must be cleared.
+      for (const wrapper of editToolsElement.querySelectorAll(".multi-tool")) {
+        for (const child of wrapper.children) {
+          child.style.visibility = "visible";
+        }
+      }
+      // Refresh selection highlighting for flat mode
+      if (this.selectedToolIdentifier) {
+        this._refreshToolbarSelection();
+      }
+    } else {
+      // Restore dropdown behavior
+      for (const wrapper of editToolsElement.querySelectorAll(".multi-tool")) {
+        collapseSubTools(wrapper);
+      }
+      if (this.selectedToolIdentifier) {
+        this._refreshToolbarSelection();
+      }
+    }
+  }
+
+  get isToolbarShowAllTools() {
+    return !!this._toolbarShowAllTools;
+  }
+
+  _refreshToolbarSelection() {
+    const showAll = this.isToolbarShowAllTools;
+    const selectedToolIdentifier = this.selectedToolIdentifier || "pointer-tool";
+    for (const editToolItem of document.querySelectorAll(
+      "#edit-tools > .tool-button"
+    )) {
+      if (editToolItem.classList.contains("multi-tool")) {
+        let wrapperSelected = false;
+        for (const childToolElement of editToolItem.children) {
+          const childSelected =
+            childToolElement.dataset.tool === selectedToolIdentifier;
+          if (childSelected) {
+            wrapperSelected = true;
+          }
+          // In flat mode each subtool gets its own highlight;
+          // in dropdown mode only the wrapper is highlighted.
+          childToolElement.classList.toggle("selected", showAll && childSelected);
+        }
+        editToolItem.classList.toggle(
+          "selected",
+          showAll ? false : wrapperSelected
+        );
+      } else {
+        editToolItem.classList.toggle(
+          "selected",
+          editToolItem.dataset.tool === selectedToolIdentifier
+        );
+      }
+    }
   }
 
   addEditTool(tool) {
@@ -1125,6 +1208,11 @@ export class EditorController extends ViewController {
         };
 
         const showSubTools = (event, withTimeOut) => {
+          // In "Show All Tools" mode the dropdown is disabled: all subtools
+          // are already visible on the same line.
+          if (applicationSettingsController.model.showAllTools) {
+            return;
+          }
           clearTimeout(this._multiToolMouseDownTimer);
           this._multiToolMouseDownTimer = (withTimeOut ? setTimeout : noTimeout)(() => {
             // Show sub tools
@@ -1152,6 +1240,11 @@ export class EditorController extends ViewController {
           this.setSelectedTool(tool.identifier);
           this.canvasController.canvas.focus();
 
+          if (applicationSettingsController.model.showAllTools) {
+            // Fixed order in flat mode: never reorder or collapse
+            return;
+          }
+
           if (toolButton === editToolsElement.children[0]) {
             // do nothing. Still the same tool
             return;
@@ -1162,6 +1255,20 @@ export class EditorController extends ViewController {
         };
       }
       editToolsElement.appendChild(toolButton);
+    }
+    // If "Show All Tools" was already enabled (e.g. restored from
+    // localStorage), make newly added subtools visible right away and
+    // ensure the parent carries the flat-mode class.
+    if (applicationSettingsController.model.showAllTools) {
+      const rootEditTools = document.querySelector("#edit-tools");
+      if (rootEditTools) {
+        rootEditTools.classList.add("tools-item--show-all");
+      }
+      if (wrapperID !== "edit-tools") {
+        for (const child of editToolsElement.children) {
+          child.style.visibility = "visible";
+        }
+      }
     }
   }
 
@@ -1291,6 +1398,7 @@ export class EditorController extends ViewController {
 
   setSelectedTool(toolIdentifier, isSubtool = false) {
     let selectedToolIdentifier = toolIdentifier;
+    const showAll = !!applicationSettingsController.model.showAllTools;
 
     for (const editToolItem of document.querySelectorAll(
       "#edit-tools > .tool-button"
@@ -1304,7 +1412,7 @@ export class EditorController extends ViewController {
           for (const childToolElement of editToolItem.children) {
             if (childToolElement.dataset.tool === toolIdentifier) {
               shouldSelect = true;
-              if (isSubtool) {
+              if (isSubtool && !showAll) {
                 editToolItem.prepend(childToolElement);
                 collapseSubTools(editToolItem);
               }
@@ -1312,7 +1420,38 @@ export class EditorController extends ViewController {
           }
         }
       }
-      editToolItem.classList.toggle("selected", shouldSelect);
+      if (showAll && editToolItem.classList.contains("multi-tool")) {
+        // Flat mode: highlight the active subtool itself, not the wrapper.
+        // Fixed order is kept, so never reorder here.
+        let wrapperHasSelection = false;
+        for (const childToolElement of editToolItem.children) {
+          const childSelected =
+            childToolElement.dataset.tool === selectedToolIdentifier ||
+            (shouldSelect &&
+              childToolElement === editToolItem.children[0] &&
+              editToolItem.dataset.tool === toolIdentifier);
+          if (childSelected) {
+            wrapperHasSelection = true;
+            if (editToolItem.dataset.tool === toolIdentifier) {
+              selectedToolIdentifier = childToolElement.dataset.tool;
+            }
+          }
+          childToolElement.classList.toggle("selected", childSelected);
+        }
+        editToolItem.classList.toggle("selected", false);
+        // `shouldSelect` already reflects whether this wrapper contains
+        // the active tool; keep it for clarity (no wrapper highlight).
+        void wrapperHasSelection;
+      } else {
+        // Dropdown mode: only the wrapper carries the highlight; make sure
+        // no stale per-subtool highlight survives a mode switch.
+        if (editToolItem.classList.contains("multi-tool")) {
+          for (const childToolElement of editToolItem.children) {
+            childToolElement.classList.toggle("selected", false);
+          }
+        }
+        editToolItem.classList.toggle("selected", shouldSelect);
+      }
     }
     this.sceneController.setSelectedTool(this.tools[selectedToolIdentifier]);
     this.selectedToolIdentifier = selectedToolIdentifier;
@@ -3710,6 +3849,18 @@ function chunks(array, n) {
 }
 
 function collapseSubTools(editToolsElement) {
+  // In "Show All Tools" mode the dropdown is disabled: keep everything
+  // visible on the same line instead of collapsing.
+  const rootEditTools = editToolsElement?.closest?.("#edit-tools");
+  if (
+    rootEditTools?.classList.contains("tools-item--show-all") ||
+    applicationSettingsController.model.showAllTools
+  ) {
+    for (const child of editToolsElement.children) {
+      child.style.visibility = "visible";
+    }
+    return;
+  }
   // Hide sub tools
   for (const [index, child] of enumerate(editToolsElement.children)) {
     child.style.visibility = index ? "hidden" : "visible";

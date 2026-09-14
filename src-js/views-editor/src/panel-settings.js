@@ -66,6 +66,16 @@ export default class SettingsPanel extends Panel {
         }
       )
     );
+    this._container.appendChild(
+      this._makeCheckbox(
+        "setting-toolbar-show-all-tools",
+        t("sidebar.settings.toolbar-show-all-tools", "Show All Tools"),
+        !!applicationSettingsController.model.showAllTools,
+        (checked) => {
+          applicationSettingsController.model.showAllTools = checked;
+        }
+      )
+    );
 
     // ── Section: Editor Appearance (Visualization Layers) ───────────────
     this._container.appendChild(

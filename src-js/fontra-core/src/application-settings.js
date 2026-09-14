@@ -9,6 +9,7 @@ export const applicationSettingsController = new ObservableController({
   disableAdHocMarks: false,
   shapingDebuggerShowIneffectiveItems: false,
   toolsMenuPosition: "top",
+  showAllTools: false,
   outputGlyphsShowKerningForAdvance: true,
 });
 

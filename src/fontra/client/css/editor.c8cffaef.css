@@ -472,6 +472,88 @@ body {
   stroke: var(--foreground-color);
 }
 
+/* ── "Show All Tools" flat mode ──────────────────────────────────────
+   Toggled from Settings ("Show All Tools"). When #edit-tools carries
+   .tools-item--show-all, multi-tool wrappers are flattened so every
+   subtool sits on the same row; #edit-tools grows while .tools-overlay
+   stays centered (left:50% + translateX(-50%)). */
+.tools-overlay {
+  max-width: 96vw;
+}
+
+#edit-tools.tools-item--show-all {
+  /* grow horizontally, scroll internally instead of pushing #zoom-tools off */
+  max-width: calc(96vw - 13rem);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  flex-wrap: nowrap;
+}
+
+/* Flatten wrappers: subtools become visual flex items of #edit-tools */
+#edit-tools.tools-item--show-all .tool-button.multi-tool {
+  display: contents;
+  background: none;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+
+#edit-tools.tools-item--show-all .multi-tool::after {
+  display: none;
+}
+
+/* Deactivate the dropdown "subtool" styling: every subtool looks and
+   behaves like a top-level tool button on the same line */
+#edit-tools.tools-item--show-all .subtool-button {
+  visibility: visible !important;
+  margin-top: 0;
+  fill: var(--foreground-color);
+  background-color: var(--ui-element-background-color);
+  box-shadow: none;
+  border-radius: 0;
+  flex: 0 0 auto;
+}
+
+#edit-tools.tools-item--show-all .subtool-button .icon-tabler {
+  stroke: var(--foreground-color);
+}
+
+/* Neutralize dropdown corner rules that assumed a vertical stack */
+#edit-tools.tools-item--show-all .tool-button:first-child,
+#edit-tools.tools-item--show-all .tool-button:last-child,
+#edit-tools.tools-item--show-all .subtool-button:last-child {
+  border-radius: 0;
+}
+
+/* Outer corners of the whole bar */
+#edit-tools.tools-item--show-all
+  > .tool-button:first-child:not(.multi-tool),
+#edit-tools.tools-item--show-all
+  > .multi-tool:first-child
+  > .subtool-button:first-child {
+  border-radius: 0.65em 0 0 0.65em;
+}
+
+#edit-tools.tools-item--show-all
+  > .tool-button:last-child:not(.multi-tool),
+#edit-tools.tools-item--show-all
+  > .multi-tool:last-child
+  > .subtool-button:last-child {
+  border-radius: 0 0.65em 0.65em 0;
+}
+
+/* Per-subtool selection highlight in flat mode (wrappers stay unselected) */
+#edit-tools.tools-item--show-all .subtool-button.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: var(--background-color);
+}
+
+#edit-tools.tools-item--show-all .subtool-button.selected .icon-tabler {
+  stroke: var(--background-color);
+}
+
 #mini-console {
   display: none;
   /* will be set to 'inherit' when needed */
