@@ -189,7 +189,7 @@ export const strings = {
   "dialog.add": "Añadir",
   "dialog.cancel": "Cancelar",
   "dialog.cant-create-glyph.title": 'No se puede crear el glifo "%0"',
-  "dialog.cant-edit-font.title": "Can't make changes",
+  "dialog.cant-edit-font.title": "No se pueden hacer cambios",
   "dialog.cant-edit-glyph.content": "La fuente es de solo lectura.",
   "dialog.cant-edit-glyph.content.location-not-at-source":
     "La ubicación no corresponde a una matriz.",
@@ -551,6 +551,10 @@ export const strings = {
   "sidebar.text-entry.section.positioning-from-font-data":
     "Posicionamiento desde los datos de la fuente",
   "sidebar.text-entry.section.substitution": "Sustitución",
+  "sidebar.text-entry.text-layout-options": "Text layout options",
+  "sidebar.text-entry.text-layout-options.align": "Align",
+  "sidebar.text-entry.text-layout-options.line-height": "Line height",
+  "sidebar.text-entry.text-layout-options.text-size": "Size",
   "sidebar.text-entry.text-shaping-options": "Opciones de modelado de texto",
   "sidebar.text-entry.text-shaping.options.tooltip":
     "Opciones adicionales de modelado de texto",

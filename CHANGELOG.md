@@ -1,13 +1,27 @@
 # Changelog for Fontra
 
-## 2026-09-?? [version 2026.9.0]
+## 2026-09-?? [version 2026.9.1]
 
 ### New features
 
-[command line] The `fontra` command line tool got a new subcommand `new`, for creating a new font. [Discussion 2761](https://github.com/fontra/fontra/discussions/2761), [PR 2762](https://github.com/fontra/fontra/pull/2762)
+- [font overview / glyph cell] Add tooltip for each glyph, showing the full glyph name, unicode character, code point and unicode name. [Issue 2767](https://github.com/fontra/fontra/issues/2767), [PR 2768](https://github.com/fontra/fontra/pull/2768)
 
 ### Fixes
 
+### Improvements
+
+- [tooltips] Use standard HTML "title" tooltip functionality instead of custom and error-prone CSS solution. Looks a little different, works a lot better. [PR 2769](https://github.com/fontra/fontra/pull/2769)
+
+## 2026-09-14 [version 2026.9.0]
+
+### New features
+
+- [text entry panel] Add fields to set the text size and line height. Add new "Text layout options" accordion section for text alignment, text size and line height. [Issue 105](https://github.com/fontra/fontra/issues/105), [Issue 1400](https://github.com/fontra/fontra/issues/1400), [PR 2765](https://github.com/fontra/fontra/pull/2765)
+- [command line] The `fontra` command line tool got a new subcommand `new`, for creating a new font. [Discussion 2761](https://github.com/fontra/fontra/discussions/2761), [PR 2762](https://github.com/fontra/fontra/pull/2762)
+
+### Fixes
+
+- [glyph editor] Fix behavior when moving a window between screens with different resolutions. [PR 2766](https://github.com/fontra/fontra/pull/2766)
 - [fontra-pak linux] Fix window appearance and behavior on GNOME Wayland. [fontra-pak PR 267](https://github.com/fontra/fontra-pak/pull/267)
 - [opentype features panel] Recompile when glyphs are being added to or deleted from the font. [PR 2764](https://github.com/fontra/fontra/pull/2764)
 - [firefox] Work around text selection problem within draggable boxes. [PR 2763](https://github.com/fontra/fontra/pull/2763)

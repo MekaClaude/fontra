@@ -50,8 +50,7 @@ export class Sidebar {
         {
           "class": "sidebar-tab",
           "data-sidebarName": panelElement.identifier,
-          "data-tooltip": translate("sidebar." + panelElement.identifier),
-          "data-tooltipposition": this.identifier === "right" ? "left" : "right",
+          "title": translate("sidebar." + panelElement.identifier),
         },
         [iconElement]
       )
