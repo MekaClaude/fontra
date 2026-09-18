@@ -4,13 +4,22 @@
 
 ### New features
 
+- [glyph editor] Allow the arrow key nudge values to be customized. [Issue 2772](https://github.com/fontra/fontra/issues/2772), [PR 2773](https://github.com/fontra/fontra/pull/2773)
 - [font overview / glyph cell] Add tooltip for each glyph, showing the full glyph name, unicode character, code point and unicode name. [Issue 2767](https://github.com/fontra/fontra/issues/2767), [PR 2768](https://github.com/fontra/fontra/pull/2768)
 
 ### Fixes
 
+- [linux] Revert GNOME Wayland appearance fixes as they caused crashes. [fontra-pak PR 270](https://github.com/fontra/fontra-pak/pull/270)
+- [linux] Fix a bug in the version check. [fontra-pak PR 269](https://github.com/fontra/fontra-pak/pull/269)
+- [conditional substitutions] Respond to changes in the set of glyphs, and update the glyphname suggestions in the substitution fields. [PR 2771](https://github.com/fontra/fontra/pull/2771)
+
 ### Improvements
 
 - [tooltips] Use standard HTML "title" tooltip functionality instead of custom and error-prone CSS solution. Looks a little different, works a lot better. [PR 2769](https://github.com/fontra/fontra/pull/2769)
+
+### Miscellaneous
+
+- [source code] Drop support for Python 3.10. [PR 2774](https://github.com/fontra/fontra/pull/2774)
 
 ## 2026-09-14 [version 2026.9.0]
 

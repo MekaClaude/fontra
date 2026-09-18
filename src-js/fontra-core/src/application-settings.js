@@ -11,6 +11,9 @@ export const applicationSettingsController = new ObservableController({
   toolsMenuPosition: "top",
   showAllTools: false,
   outputGlyphsShowKerningForAdvance: true,
+  arrowKeyNudgeValue: 1,
+  arrowKeyNudgeValueShift: 10,
+  arrowKeyNudgeValueShiftControl: 100,
 });
 
 applicationSettingsController.synchronizeWithLocalStorage(
