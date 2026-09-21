@@ -53,7 +53,13 @@
   
   --border-color-light: #e0e0e0;
   --border-color-dark: #444444;
-  --border-color: var(--border-color-light, var(--border-color-dark));
+  --border-color: var(--border-color-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root.figma-theme {
+    --border-color: var(--border-color-dark);
+  }
 }
 
 /* === Editor Tool Buttons - Figma Style === */
