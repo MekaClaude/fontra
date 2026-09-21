@@ -12,7 +12,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from importlib.resources import files
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -108,15 +108,22 @@ def get_glyph_tips(glyph_name: str) -> GlyphTips:
                 }
             )
 
-    # Find the phase info
-    phase_num = glyph_data.get("phase", 0)
+    # Find the phase info (JSON stores phase as string or int)
+    raw_phase = glyph_data.get("phase", 0)
+    try:
+        phase_num = int(raw_phase)
+    except (TypeError, ValueError):
+        phase_num = 0
     phase_name = ""
     phase_desc = ""
     for phase in phases:
-        if phase.get("phase") == phase_num:
-            phase_name = phase.get("name", "")
-            phase_desc = phase.get("description", "")
-            break
+        try:
+            if int(phase.get("phase", -1)) == phase_num:
+                phase_name = phase.get("name", "")
+                phase_desc = phase.get("description", "")
+                break
+        except (TypeError, ValueError):
+            continue
 
     return GlyphTips(
         glyphName=glyph_name,
@@ -169,7 +176,7 @@ def get_design_phases() -> list[DesignPhase]:
 
     return [
         DesignPhase(
-            phase=p.get("phase", 0),
+            phase=int(p.get("phase", 0)),
             name=p.get("name", ""),
             description=p.get("description", ""),
             glyphs=p.get("glyphs", []),
@@ -179,7 +186,7 @@ def get_design_phases() -> list[DesignPhase]:
     ]
 
 
-def get_design_phase(glyph_name: str) -> Optional[DesignPhase]:
+def get_design_phase(glyph_name: str) -> DesignPhase | None:
     """Get the design phase for a specific glyph.
 
     Args:
@@ -194,17 +201,24 @@ def get_design_phase(glyph_name: str) -> Optional[DesignPhase]:
         return None
 
     phase_num = glyph_data.get("phase", 0)
+    try:
+        phase_num = int(phase_num)
+    except (TypeError, ValueError):
+        return None
     phases_data = kb.get("designOrder", {}).get("phases", [])
 
     for p in phases_data:
-        if p.get("phase") == phase_num:
-            return DesignPhase(
-                phase=p.get("phase", 0),
-                name=p.get("name", ""),
-                description=p.get("description", ""),
-                glyphs=p.get("glyphs", []),
-                tips=p.get("tips", []),
-            )
+        try:
+            if int(p.get("phase", -1)) == phase_num:
+                return DesignPhase(
+                    phase=int(p.get("phase", 0)),
+                    name=p.get("name", ""),
+                    description=p.get("description", ""),
+                    glyphs=p.get("glyphs", []),
+                    tips=p.get("tips", []),
+                )
+        except (TypeError, ValueError):
+            continue
 
     return None
 

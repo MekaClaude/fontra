@@ -3,7 +3,7 @@
     "n": {
       "unicode": "U+006E",
       "name": "lowercase n: The Foundation",
-      "category": "unknown",
+      "category": "foundation",
       "dna_role": "primary_foundation",
       "phase": "1",
       "builds_from": [],
@@ -29,22 +29,29 @@
         "Side bearings rule of thumb: measure the inner counter width, divide by 4, use that value on both sides. For n, this typically yields consistent rhythm with h and m."
       ],
       "commonMistakes": [],
-      "reusableComponents": [],
+      "reusableComponents": [
+        "stem"
+      ],
       "opticalCorrections": []
     },
     "o": {
       "unicode": "U+006F",
       "name": "lowercase o: The Curve Master",
-      "category": "unknown",
+      "category": "foundation",
       "dna_role": "primary_foundation",
       "phase": "1",
       "builds_from": [],
       "informsDesignOf": [
         "c",
+        "e",
         "b",
         "d",
         "p",
         "q"
+      ],
+      "informsDesignOfCapitals": [
+        "O",
+        "C"
       ],
       "informedBy": [
         "b",
@@ -64,7 +71,10 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": []
+      "opticalCorrections": [
+        "OPT-002",
+        "OPT-005"
+      ]
     },
     "h": {
       "unicode": "U+0068",
@@ -451,7 +461,10 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": []
+      "opticalCorrections": [
+        "OPT-002",
+        "OPT-005"
+      ]
     },
     "a": {
       "unicode": "U+0061",
@@ -693,7 +706,9 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": []
+      "opticalCorrections": [
+        "OPT-004"
+      ]
     },
     "y": {
       "unicode": null,
@@ -752,12 +767,14 @@
     "H": {
       "unicode": "U+0048",
       "name": "uppercase H: Capital Anchor",
-      "category": "uppercase",
+      "category": "capital_foundation",
       "dna_role": "capital_foundation",
-      "phase": "2",
+      "phase": "5",
       "builds_from": [],
       "informsDesignOf": [
         "I",
+        "B",
+        "E",
         "L",
         "T",
         "N"
@@ -784,14 +801,16 @@
       ],
       "commonMistakes": [],
       "reusableComponents": [],
-      "opticalCorrections": []
+      "opticalCorrections": [
+        "OPT-001"
+      ]
     },
     "O": {
       "unicode": "U+004F",
       "name": "uppercase O: Curve Anchor",
       "category": "uppercase",
       "dna_role": "capital_foundation",
-      "phase": "2",
+      "phase": "5",
       "builds_from": [],
       "informsDesignOf": [
         "C",
@@ -1502,6 +1521,25 @@
         "name": "Numerals & Symbols",
         "description": "Final details"
       }
+    ]
+  },
+  "spacingPrinciples": {
+    "fundamentals": [
+      "Side bearings rule of thumb: measure the inner counter width, divide by 4, use that value on both sides.",
+      "Curved letters need less side bearing than straight stems because curves provide visual padding.",
+      "Test spacing with reference strings such as nnn, ooo, non, ono, HHH, HOH at text sizes."
+    ],
+    "referenceStrings": [
+      "nnn",
+      "ooo",
+      "non",
+      "ono",
+      "HHH",
+      "HOH"
+    ],
+    "rules": [
+      "Match left and right side bearings for symmetric letters.",
+      "Keep the rhythm of stems even across h, m, u, n."
     ]
   },
   "commonTerms": {

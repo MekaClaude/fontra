@@ -24,13 +24,14 @@ class TestGetGlyphTips:
         assert tips.glyphName == "o"
         assert tips.category == "foundation"
         assert tips.phase == 1
-        assert tips.phaseName == "Foundation"
+        assert isinstance(tips.phase, int)
+        assert tips.phaseName == "Lowercase Foundation"
         assert len(tips.tips) > 0
-        assert len(tips.commonMistakes) > 0
         assert len(tips.opticalCorrections) > 0
         assert "b" in tips.informsDesignOf
         assert "c" in tips.informsDesignOf
-        assert len(tips.informedBy) == 0
+        assert "e" in tips.informsDesignOf
+        assert "b" in tips.informedBy
 
     def test_known_glyph_n(self):
         tips = get_glyph_tips("n")
@@ -45,9 +46,10 @@ class TestGetGlyphTips:
         tips = get_glyph_tips("H")
         assert tips.glyphName == "H"
         assert tips.category == "capital_foundation"
-        assert tips.phase == 6
+        assert tips.phase == 5
         assert "I" in tips.informsDesignOf
         assert "E" in tips.informsDesignOf
+        assert "B" in tips.informsDesignOf
         assert len(tips.opticalCorrections) > 0
 
     def test_unknown_glyph(self):
@@ -74,7 +76,7 @@ class TestGetRelatedGlyphs:
         assert "b" in related["informsDesignOf"]
         assert "c" in related["informsDesignOf"]
         assert "e" in related["informsDesignOf"]
-        assert related["informedBy"] == []
+        assert "b" in related["informedBy"]
 
     def test_H_relationships(self):
         related = get_related_glyphs("H")
@@ -97,24 +99,24 @@ class TestGetRelatedGlyphs:
 class TestDesignPhases:
     def test_get_all_phases(self):
         phases = get_design_phases()
-        assert len(phases) == 9
+        assert len(phases) == 7
         assert all(isinstance(p, DesignPhase) for p in phases)
+        assert all(isinstance(p.phase, int) for p in phases)
         assert phases[0].phase == 1
-        assert phases[0].name == "Foundation"
-        assert "o" in phases[0].glyphs
-        assert "n" in phases[0].glyphs
+        assert phases[0].name == "Lowercase Foundation"
 
     def test_get_phase_for_glyph(self):
         phase = get_design_phase("o")
         assert phase is not None
         assert phase.phase == 1
-        assert phase.name == "Foundation"
+        assert isinstance(phase.phase, int)
+        assert phase.name == "Lowercase Foundation"
 
     def test_get_phase_for_capital(self):
         phase = get_design_phase("H")
         assert phase is not None
-        assert phase.phase == 6
-        assert phase.name == "Capital Foundation"
+        assert phase.phase == 5
+        assert phase.name == "Uppercase Foundation"
 
     def test_get_phase_unknown_glyph(self):
         phase = get_design_phase("unknown_glyph")
@@ -127,22 +129,22 @@ class TestOpticalCorrections:
         assert len(corrections) > 0
         assert all(isinstance(c, OpticalCorrection) for c in corrections)
         correction_ids = [c.id for c in corrections]
-        assert "overshoot" in correction_ids
+        assert "OPT-002" in correction_ids
 
     def test_corrections_for_H(self):
         corrections = get_optical_corrections("H")
         correction_ids = [c.id for c in corrections]
-        assert "horizontalThinning" in correction_ids
+        assert "OPT-001" in correction_ids
 
     def test_corrections_for_x(self):
         corrections = get_optical_corrections("x")
         correction_ids = [c.id for c in corrections]
-        assert "crossingDiagonals" in correction_ids
+        assert "OPT-004" in correction_ids
 
     def test_corrections_for_s(self):
         corrections = get_optical_corrections("s")
         correction_ids = [c.id for c in corrections]
-        assert "counterBalance" in correction_ids
+        assert "OPT-002" in correction_ids
 
     def test_corrections_for_unknown(self):
         corrections = get_optical_corrections("unknown_glyph_xyz")

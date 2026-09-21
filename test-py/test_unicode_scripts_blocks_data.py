@@ -1,5 +1,6 @@
 import pathlib
 import subprocess
+import sys
 
 repoDir = pathlib.Path(__file__).resolve().parent.parent
 scriptPath = repoDir / "scripts" / "rebuild_unicode_scripts_blocks_data.py"
@@ -7,7 +8,10 @@ scriptPath = repoDir / "scripts" / "rebuild_unicode_scripts_blocks_data.py"
 
 def test_unicode_scripts_data_needs_update():
     try:
-        subprocess.run(f"python {scriptPath} --check", check=True, shell=True)
+        subprocess.run(
+            [sys.executable, str(scriptPath), "--check"],
+            check=True,
+        )
     except subprocess.CalledProcessError:
         assert (
             0
