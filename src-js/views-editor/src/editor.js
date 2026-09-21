@@ -78,7 +78,6 @@ import { PointerTools } from "./edit-tools-pointer.js";
 import { PowerRulerTool } from "./edit-tools-power-ruler.js";
 import { ShapeTool } from "./edit-tools-shape.js";
 import { TriangleGuardianTool } from "./edit-tools-triangle-guardian.js";
-import TriangleGuardianPanel from "./panel-triangle-guardian.js";
 import {
   SceneController,
   numQuadraticOffCurvePointsOptions,

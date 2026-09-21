@@ -85,12 +85,21 @@ export class EditorBehaviorPanel extends MultiPanelBasePanel {
 
 
     const menuPositionContainer = html.createDomElement("div", {
-      style: "display: flex; flex-wrap: wrap; align-items: center; gap: 0.5em; margin-top: 1em;",
+      style:
+        "display: flex; flex-wrap: wrap; align-items: center; gap: 0.5em; margin-top: 1em; grid-column: 1 / 3;",
     });
 
-    const menuPositionLabel = html.createDomElement("label", {
-      style: "margin-right: 0.5em;",
-    }, ["Tools menu position"]);
+    const menuPositionHeader = html.span({ class: "section-header" }, [
+      translate("application-settings.editor-behavior.tools-menu-section"),
+    ]);
+
+    const menuPositionLabel = html.createDomElement(
+      "label",
+      {
+        style: "margin-right: 0.5em;",
+      },
+      [translate("application-settings.editor-behavior.tools-menu-position")]
+    );
 
     const topCheckboxID = "tools-menu-position-top";
     const topCheckbox = html.input({ type: "checkbox", id: topCheckboxID });
@@ -132,6 +141,7 @@ export class EditorBehaviorPanel extends MultiPanelBasePanel {
     menuPositionContainer.appendChild(bottomCheckbox);
     menuPositionContainer.appendChild(bottomLabel);
 
+    container.appendChild(menuPositionHeader);
     container.appendChild(menuPositionContainer);
 
     this.panelElement.appendChild(container);

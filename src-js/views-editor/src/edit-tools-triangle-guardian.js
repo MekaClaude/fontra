@@ -12,9 +12,10 @@ const TRIANGLE_GUARDIAN_IDENTIFIER = "fontra.triangle.guardian";
 let activeToolInstance = null;
 let theTriangleGuardianTool = null; // singleton for external access
 
-registerVisualizationLayerDefinition({
-  identifier: TRIANGLE_GUARDIAN_IDENTIFIER,
-  name: "sidebar.user-settings.glyph.triangleguardian",
+try {
+  registerVisualizationLayerDefinition({
+    identifier: TRIANGLE_GUARDIAN_IDENTIFIER,
+    name: "sidebar.user-settings.glyph.triangleguardian",
   selectionFunc: glyphSelector("editing"),
   userSwitchable: true,
   defaultOn: false,
@@ -39,6 +40,9 @@ registerVisualizationLayerDefinition({
   draw: (context, positionedGlyph, parameters, model, controller) =>
     activeToolInstance?.draw(context, positionedGlyph, parameters, model, controller),
 });
+} catch (e) {
+  console.warn("Triangle Guardian visualization layer already registered:", e);
+}
 
 export function isDegenerate(P0, P1, P2, P3) {
   if (P0.x === P3.x && P0.y === P3.y) return true;
@@ -123,6 +127,9 @@ export class TriangleGuardianTool extends BaseTool {
     // Lazy import to avoid circular dependency with panel-triangle-guardian.js
     import("./panel-triangle-guardian.js").then((mod) => {
       const TriangleGuardianPanel = mod.default;
+      if (editor.getSidebarPanel?.("triangle-guardian-panel")) {
+        return;
+      }
       const panel = new TriangleGuardianPanel(editor);
       panel.tool = this;
       editor.addSidebarPanel(panel, "right");

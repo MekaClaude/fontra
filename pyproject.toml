@@ -113,7 +113,7 @@ pytest-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov
 
 
 [[tool.hatch.envs.test.matrix]]
-python = ["310", "311"]
+python = ["311", "314"]
 
 
 [tool.coverage.run]

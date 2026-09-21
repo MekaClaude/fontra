@@ -95,13 +95,7 @@ class FontraServer:
             )
         )
 
-        try:
-            self.httpApp.add_routes(routes)
-        except RuntimeError as e:
-            if "method HEAD is already registered" in str(e):
-                pass
-            else:
-                raise
+        self.httpApp.add_routes(routes)
 
         if self.launchWebBrowser:
             self.httpApp.on_startup.append(self.launchWebBrowserCallback)

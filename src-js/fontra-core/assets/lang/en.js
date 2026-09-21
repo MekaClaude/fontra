@@ -81,6 +81,8 @@ export const strings = {
   "application-settings.editor-behavior.selection-behavior-section":
     "Selection behavior",
   "application-settings.editor-behavior.title": "Editor Behavior",
+  "application-settings.editor-behavior.tools-menu-section": "Tools menu",
+  "application-settings.editor-behavior.tools-menu-position": "Tools menu position",
   "application-settings.plugins-manager.title": "Plugin Manager",
   "application-settings.server-info.title": "Server info",
   "application-settings.shortcuts.title": "Shortcuts",
@@ -449,7 +451,9 @@ export const strings = {
   "sidebar.pro-advice.optical-corrections": "Optical Corrections",
   "sidebar.pro-advice.spacing-fundamentals": "Spacing Fundamentals",
   "sidebar.pro-advice.design-phase": "Design Phase",
-  "sidebar.pro-advice.no-specific-tips": "No specific tips found for this glyph.",
+  "sidebar.pro-advice.phase": "Phase %0",
+  "sidebar.pro-advice.no-specific-tips":
+    'No specific tips found for "%0". General spacing and design principles still apply.',
   "sidebar.pro-advice.select-glyph": "Select a glyph to see design advice",
   "sidebar.related-glyphs": "Related Glyphs & Characters",
   "sidebar.related-glyphs.alternate-glyphs": "Alternate glyphs",

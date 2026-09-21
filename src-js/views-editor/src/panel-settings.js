@@ -45,6 +45,11 @@ export default class SettingsPanel extends Panel {
         t("sidebar.settings.dark-mode", "Dark Mode"),
         themeController.model.theme === "dark",
         (checked) => {
+          // Don't clobber an explicit "figma" theme selection from App Settings;
+          // the Figma theme handles light/dark via prefers-color-scheme.
+          if (themeController.model.theme === "figma") {
+            return;
+          }
           themeController.model.theme = checked ? "dark" : "light";
         }
       )

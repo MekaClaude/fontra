@@ -5,7 +5,6 @@ import os
 import pathlib
 import secrets
 import subprocess
-import sys
 from importlib.metadata import entry_points
 
 from . import __version__ as fontraVersion
