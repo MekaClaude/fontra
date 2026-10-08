@@ -1,11 +1,21 @@
 # Changelog for Fontra
 
+## 2026-10-?? [version 2026.10.1]
+
+### New features
+
+- [fontra pak/linux] Add native Linux install and uninstall script. [fontra-pak PR 289](https://github.com/fontra/fontra-pak/pull/289)
+
+### Fixes
+
+- [fontra-workflow] Fixed instantiating named guidelines. Among other things, this fixes exporting a variable font made with variable components that use named guidelines. [Issue 2800](https://github.com/fontra/fontra/issues/2800), [Issue 2799](https://github.com/fontra/fontra/issues/2799), [PR 2801](https://github.com/fontra/fontra/pull/2801)
+
 ## 2026-10-05 [version 2026.10.0]
 
 ### New features
 
-- [fontra pak] Added an "Open Font..." button to the main window, using a modified Open dialog that can select font projects that are folders, such as `.fontra` and `.ufo`. Contributed by Khaled Hosny. [Issue 253](https://github.com/fontra/fontra-pak/issues/253), [PR 281](https://github.com/fontra/fontra-pak/pull/281), [PR 282](https://github.com/fontra/fontra-pak/pull/282)
-- [fontra pak] Added a menu bar with a "File" menu, that has two items: "New Font..." and "Open Font...". [Issue 89](https://github.com/fontra/fontra-pak/issues/89), [PR 283](https://github.com/fontra/fontra-pak/pull/283)
+- [fontra pak] Added an "Open Font..." button to the main window, using a modified Open dialog that can select font projects that are folders, such as `.fontra` and `.ufo`. Contributed by Khaled Hosny. [fontra-pak Issue 253](https://github.com/fontra/fontra-pak/issues/253), [fontra-pak PR 281](https://github.com/fontra/fontra-pak/pull/281), [fontra-pak PR 282](https://github.com/fontra/fontra-pak/pull/282)
+- [fontra pak] Added a menu bar with a "File" menu, that has two items: "New Font..." and "Open Font...". [fontra-pak Issue 89](https://github.com/fontra/fontra-pak/issues/89), [fontra-pak PR 283](https://github.com/fontra/fontra-pak/pull/283)
 - [fontra pak] Made drop area double-clickable as an alternative to open a font. Contributed by Tarik Rokhsane. [fontra-pak PR 288](https://github.com/fontra/fontra-pak/pull/288)
 
 ### Fixes
