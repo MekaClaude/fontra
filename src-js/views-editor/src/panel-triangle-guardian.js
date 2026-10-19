@@ -27,7 +27,7 @@ export default class TriangleGuardianPanel extends Panel {
       font-size: 11px; font-weight: 500; text-transform: uppercase;
       letter-spacing: .05em; color: var(--ui-element-foreground-color);
       opacity: .55; padding-bottom: 2px;
-      border-bottom: 0.5px solid var(--ui-element-background-color-1);
+      border-bottom: 0.5px solid var(--ui-element-background-color);
     }
     .tg-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .tg-label { font-size: 12px; color: var(--ui-element-foreground-color); }
@@ -38,7 +38,7 @@ export default class TriangleGuardianPanel extends Panel {
       cursor: pointer; font-size: 11px;
       color: var(--ui-element-foreground-color);
     }
-    .tg-violation-item:hover { background: var(--ui-element-background-color-1); }
+    .tg-violation-item:hover { background: var(--ui-element-background-color); }
     .tg-violation-issue { color: var(--fontra-red); }
   `;
 
@@ -132,7 +132,7 @@ export default class TriangleGuardianPanel extends Panel {
       type: "button",
       value: this._controller.model.enabled ? "ON" : "OFF",
       style: `width: 100%; padding: 6px 0; font-size: 13px; font-weight: 600; cursor: pointer;
-        border: 1px solid var(--ui-element-background-color-1); border-radius: 4px;
+        border: 1px solid var(--ui-element-background-color); border-radius: 4px;
         background: ${this._controller.model.enabled
           ? "var(--fontra-green, #1D9E75)"
           : "var(--fontra-red, #E24B4A)"};

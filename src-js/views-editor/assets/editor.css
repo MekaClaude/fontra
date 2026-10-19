@@ -458,6 +458,9 @@ body {
 .tool-button.selected {
   background-color: var(--editor-tool-button-selected-background-color);
   fill: var(--background-color);
+  /* Phosphor icons are filled with `fill="currentColor"`, so the inherited
+     `color` -- not `fill` -- is what actually recolors them. */
+  color: var(--background-color);
 }
 
 .tool-button.selected .icon-tabler {
@@ -548,6 +551,7 @@ body {
 #edit-tools.tools-item--show-all .subtool-button.selected {
   background-color: var(--editor-tool-button-selected-background-color);
   fill: var(--background-color);
+  color: var(--background-color);
 }
 
 #edit-tools.tools-item--show-all .subtool-button.selected .icon-tabler {

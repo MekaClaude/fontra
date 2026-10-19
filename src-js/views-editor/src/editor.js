@@ -69,6 +69,7 @@ import "@fontra/web-components/inline-svg.js";
 import { MenuItemDivider, showMenu } from "@fontra/web-components/menu-panel.js";
 import { dialog, dialogSetup, message } from "@fontra/web-components/modal-dialog.js";
 import { parsePluginBasePath } from "@fontra/web-components/plugin-manager.js";
+import { BrushToolAdvanced } from "./edit-tools-brush-advanced.js";
 import { CJKDesignFrame } from "./cjk-design-frame.js";
 import { HandTool } from "./edit-tools-hand.js";
 import { KnifeTool } from "./edit-tools-knife.js";
@@ -78,6 +79,7 @@ import { PointerTools } from "./edit-tools-pointer.js";
 import { PowerRulerTool } from "./edit-tools-power-ruler.js";
 import { ShapeTool } from "./edit-tools-shape.js";
 import { TriangleGuardianTool } from "./edit-tools-triangle-guardian.js";
+import { registerBrushVisualizationLayers } from "./brush-tool-base.js";
 import {
   SceneController,
   numQuadraticOffCurvePointsOptions,
@@ -97,6 +99,7 @@ import {
 import { subVectors } from "@fontra/core/vector.js";
 import { ViewController } from "@fontra/core/view-controller.js";
 import CharactersGlyphsPanel from "./panel-characters-glyphs.js";
+import BrushPanel from "./panel-brush.js";
 import DesignspaceNavigationPanel from "./panel-designspace-navigation.js";
 import GlyphNotePanel from "./panel-glyph-note.js";
 import GlyphSearchPanel from "./panel-glyph-search.js";
@@ -116,6 +119,10 @@ const PASTE_BEHAVIOR_REPLACE = "replace";
 const PASTE_BEHAVIOR_ADD = "add";
 
 export class EditorController extends ViewController {
+  static titlePattern(displayName) {
+    return `Glyph Editor — ${displayName}`;
+  }
+
   constructor(font, projectIdentifier) {
     super(font, projectIdentifier);
     const canvas = document.querySelector("#edit-canvas");
@@ -155,6 +162,8 @@ export class EditorController extends ViewController {
       this.canvasController.requestUpdate();
     }, true);
 
+    registerBrushVisualizationLayers();
+
     this.sceneController = new SceneController(
       this.fontController,
       canvasController,
@@ -169,7 +178,10 @@ export class EditorController extends ViewController {
     this.sceneSettingsController.addKeyListener(
       [...persistentSceneSettingsKeys, "glyphLocation"],
       (event) => {
-        if (event.senderInfo?.senderID !== this && !event.senderInfo?.adjustViewBox) {
+        if (
+          !event.senderInfoStack?.find((senderInfo) => senderInfo.senderID === this) &&
+          !event.senderInfo?.adjustViewBox
+        ) {
           this.updateWindowLocation?.(); // scheduled with delay
         }
       }
@@ -272,6 +284,13 @@ export class EditorController extends ViewController {
     );
     window.addEventListener("keydown", (event) => this.keyDownHandler(event));
     window.addEventListener("keyup", (event) => this.keyUpHandler(event));
+
+    this.canvasController.canvas.addEventListener("pointerdown", (event) =>
+      this.pointerDownHandler(event)
+    );
+    this.canvasController.canvas.addEventListener("pointerup", (event) =>
+      this.pointerUpHandler(event)
+    );
 
     this.enteredText = "";
     this.updateWindowLocation = scheduleCalls(
@@ -960,6 +979,7 @@ export class EditorController extends ViewController {
       MetricsTool,
       PowerRulerTool,
       TriangleGuardianTool,
+      BrushToolAdvanced,
       HandTool,
     ];
 
@@ -1289,6 +1309,7 @@ export class EditorController extends ViewController {
     this.addSidebarPanel(new ProAdvicePanel(this), "right");
     this.addSidebarPanel(new CharactersGlyphsPanel(this), "right");
     this.addSidebarPanel(new SpeedPunkPanel(this), "right");
+    this.addSidebarPanel(new BrushPanel(this), "right");
 
     // Upon reload, the "animating" class may still be set (why?), so remove it
     for (const sidebarContainer of document.querySelectorAll(".sidebar-container")) {
@@ -3392,6 +3413,39 @@ export class EditorController extends ViewController {
     }
     const glyphInfo = this.sceneController.glyphInfoFromGlyphName(glyphName);
     this.insertGlyphInfos([glyphInfo], where, true);
+  }
+
+  pointerDownHandler(event) {
+    if (
+      event.button !== 1 ||
+      event.altKey ||
+      event.shitKey ||
+      event.ctrlKey ||
+      event.metaKey
+    ) {
+      return;
+    }
+
+    this.canvasController.canvas.setPointerCapture(event.pointerId);
+
+    this.savedSelectedToolIdentifier = this.selectedToolIdentifier;
+    this.setSelectedTool("hand-tool");
+  }
+
+  pointerUpHandler(event) {
+    if (
+      event.button !== 1 ||
+      event.altKey ||
+      event.shitKey ||
+      event.ctrlKey ||
+      event.metaKey
+    ) {
+      return;
+    }
+
+    this.canvasController.canvas.releasePointerCapture(event.pointerId);
+
+    this.setSelectedTool(this.savedSelectedToolIdentifier);
   }
 
   keyUpHandler(event) {

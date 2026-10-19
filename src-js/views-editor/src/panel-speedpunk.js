@@ -15,7 +15,7 @@ export default class SpeedPunkPanel extends Panel {
       font-size: 11px; font-weight: 500; text-transform: uppercase;
       letter-spacing: .05em; color: var(--ui-element-foreground-color);
       opacity: .55; padding-bottom: 2px;
-      border-bottom: 0.5px solid var(--ui-element-background-color-1);
+      border-bottom: 0.5px solid var(--ui-element-background-color);
       margin-bottom: 6px;
     }
     .sp-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
@@ -24,7 +24,7 @@ export default class SpeedPunkPanel extends Panel {
     .sp-value { width: 30px; text-align: right; font-size: 11px; }
     .sp-btn {
       width: 100%; padding: 6px 0; font-size: 13px; font-weight: 600;
-      cursor: pointer; border: 1px solid var(--ui-element-background-color-1);
+      cursor: pointer; border: 1px solid var(--ui-element-background-color);
       border-radius: 4px; color: white;
     }
     .sp-btn-on { background: var(--fontra-green, #1D9E75); }

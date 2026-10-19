@@ -12,6 +12,25 @@ const TRIANGLE_GUARDIAN_IDENTIFIER = "fontra.triangle.guardian";
 let activeToolInstance = null;
 let theTriangleGuardianTool = null; // singleton for external access
 
+// The editor keeps the active tool on SceneController (`selectedTool`), and the
+// selected identifier on EditorController (`selectedToolIdentifier`, which holds
+// the *parent* multi-tool identifier when a sub-tool is active). The tool also
+// tracks its own state via activate()/deactivate(), which is the most reliable
+// source, so check that first.
+function toolIsActive(editor, identifier) {
+  if (!editor) {
+    return false;
+  }
+  const instance = theTriangleGuardianTool;
+  if (instance && identifier === instance.identifier) {
+    return !!instance._isActive;
+  }
+  if (editor.sceneController?.selectedTool?.identifier === identifier) {
+    return true;
+  }
+  return editor.selectedToolIdentifier === identifier;
+}
+
 try {
   registerVisualizationLayerDefinition({
     identifier: TRIANGLE_GUARDIAN_IDENTIFIER,
@@ -37,7 +56,7 @@ try {
     violationColor: "#FF6B6B",
     sCurveColor: "#5BA3E6",
   },
-  draw: (context, positionedGlyph, parameters, model, controller) =>
+  draw: ({ context, positionedGlyph, parameters, model, controller }) =>
     activeToolInstance?.draw(context, positionedGlyph, parameters, model, controller),
 });
 } catch (e) {
@@ -102,6 +121,7 @@ export class TriangleGuardianTool extends BaseTool {
     theTriangleGuardianTool = this;
     this.fontController = editor.fontController;
     this._layerEnabled = editor.visualizationLayersSettings.model[TRIANGLE_GUARDIAN_IDENTIFIER];
+    this._isActive = false;
 
     this.educationalMode = false;
     this.showAllSegments = false;
@@ -127,7 +147,11 @@ export class TriangleGuardianTool extends BaseTool {
     // Lazy import to avoid circular dependency with panel-triangle-guardian.js
     import("./panel-triangle-guardian.js").then((mod) => {
       const TriangleGuardianPanel = mod.default;
-      if (editor.getSidebarPanel?.("triangle-guardian-panel")) {
+      if (
+        document.querySelector(
+          '.sidebar-content[data-sidebar-name="triangle-guardian-panel"]'
+        )
+      ) {
         return;
       }
       const panel = new TriangleGuardianPanel(editor);
@@ -138,6 +162,7 @@ export class TriangleGuardianTool extends BaseTool {
 
   activate() {
     super.activate();
+    this._isActive = true;
     // Ensure visualization layer is on when tool is selected
     if (!this._layerEnabled) {
       this._layerEnabled = true;
@@ -148,6 +173,7 @@ export class TriangleGuardianTool extends BaseTool {
 
   deactivate() {
     super.deactivate();
+    this._isActive = false;
     // Don't turn off the visualization layer — let it stay enabled for overlay mode.
     // The layer's draw() method checks whether this tool is the active tool to decide
     // whether to draw all segments (tool mode) or only selected ones (overlay mode).
@@ -188,7 +214,7 @@ export class TriangleGuardianTool extends BaseTool {
 
   /** Check if the triangle guardian tool is currently the active tool. */
   static isToolActive(editor) {
-    return editor?.selectedTool?.identifier === "triangle-guardian";
+    return toolIsActive(editor, TRIANGLE_GUARDIAN_IDENTIFIER);
   }
 
   /** Get the singleton tool instance. */
@@ -205,7 +231,7 @@ export class TriangleGuardianTool extends BaseTool {
     const path = glyph.path;
     // When this tool is the active tool → show ALL segments (tool mode)
     // When another tool (pointer) is active → show only selected/hovered segments (overlay mode)
-    const isToolActive = this.editor.selectedTool?.identifier === this.identifier;
+    const isToolActive = toolIsActive(this.editor, this.identifier);
     const educMode = this.educationalMode;
     const showAll = this.showAllSegments;
 

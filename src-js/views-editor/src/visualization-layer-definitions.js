@@ -716,7 +716,7 @@ registerVisualizationLayerDefinition({
   defaultOn: false,
   zIndex: 100,
   screenParameters: { strokeWidth: 1 },
-  draw: (context, positionedGlyph, parameters, model, controller) => {
+  draw: ({ context, positionedGlyph, parameters, model, controller }) => {
     if (!speedpunkState.enabled) return;
 
     const path = positionedGlyph.glyph.path;
@@ -2036,7 +2036,7 @@ registerVisualizationLayerDefinition({
     zoneColor: "#00BFFF15",
     zoneStrokeColor: "#80DFFF20",
   },
-  draw: (context, positionedGlyph, parameters, model, controller) => {
+  draw: ({ context, positionedGlyph, parameters, model, controller }) => {
     if (!model.fontSourceInstance) return;
     const lineMetrics = model.fontSourceInstance.lineMetricsHorizontalLayout;
     if (!lineMetrics) return;
@@ -2092,7 +2092,7 @@ registerVisualizationLayerDefinition({
     textColor: "#FFF",
     boxColor: "#FF6622"
   },
-  draw: (context, positionedGlyph, parameters, model, controller) => {
+  draw: ({ context, positionedGlyph, parameters, model, controller }) => {
     // Very simple fallback stem visualization since we can't easily 
     // call Python from here synchronously. We draw a "measurements active" 
     // label if the user enabled this, and in a real full implementation,

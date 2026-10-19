@@ -1,10 +1,132 @@
-import Panel from "@fontra/editor/panel.js";
-import { ObservableController } from "@fontra/core/observable-object.js";
-import { div, label, input, span } from "@fontra/core/html-utils.js";
 import { state } from "./triangle-guardian-state.js";
 
+// Plugins load via a native dynamic import, so `@fontra/...` specifiers cannot
+// be resolved. `Panel` (a thin `SimpleElement` subclass) and the tiny DOM
+// helpers are inlined here instead.
+class SimpleElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this._appendStyleLink("/css/shared.css");
+    if (this.constructor.styles) {
+      this._appendStyle(this.constructor.styles);
+    }
+  }
+
+  _appendStyle(cssText) {
+    const style = document.createElement("style");
+    style.textContent = cssText;
+    this.shadowRoot.appendChild(style);
+  }
+
+  _appendStyleLink(href) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    this.shadowRoot.appendChild(link);
+  }
+
+  appendStyle(cssText) {
+    this._appendStyle(cssText);
+  }
+}
+
+class Panel extends SimpleElement {
+  constructor(editorController) {
+    super();
+    this.editorController = editorController;
+    this.fontController = editorController.fontController;
+    this.contentElement = this.getContentElement();
+    this.shadowRoot.appendChild(this.contentElement);
+  }
+
+  getContentElement() {}
+
+  async toggle(on, focus) {}
+}
+
+const attrExceptions = { for: "htmlFor", class: "className", tabindex: "tabIndex" };
+
+function el(tagName, attributes, children) {
+  const element = document.createElement(tagName);
+  for (const [key, value] of Object.entries(attributes || {})) {
+    if (key === undefined || value === undefined || value === null) {
+      continue;
+    }
+    if (key.slice(0, 5) === "data-") {
+      element.dataset[key.slice(5)] = value;
+    } else {
+      element[attrExceptions[key] || key] = value;
+    }
+  }
+  for (const child of children || []) {
+    element.append(child);
+  }
+  return element;
+}
+
+const div = (attrs, ...children) => el("div", attrs, children);
+const span = (attrs, ...children) => el("span", attrs, children);
+const label = (attrs, ...children) => el("label", attrs, children);
+const input = (attrs) => el("input", attrs);
+
+class ObservableController {
+  constructor(model) {
+    this.model = model;
+    this._listeners = { all: [], byKey: new Map() };
+  }
+
+  addListener(listener) {
+    this._listeners.all.push(listener);
+  }
+
+  addKeyListener(keyOrKeys, listener) {
+    const keys = Array.isArray(keyOrKeys) ? keyOrKeys : [keyOrKeys];
+    for (const key of keys) {
+      if (!this._listeners.byKey.has(key)) {
+        this._listeners.byKey.set(key, []);
+      }
+      this._listeners.byKey.get(key).push(listener);
+    }
+  }
+
+  removeKeyListener(keyOrKeys, listener) {
+    const keys = Array.isArray(keyOrKeys) ? keyOrKeys : [keyOrKeys];
+    for (const key of keys) {
+      const listeners = this._listeners.byKey.get(key);
+      if (!listeners) {
+        continue;
+      }
+      const index = listeners.indexOf(listener);
+      if (index >= 0) {
+        listeners.splice(index, 1);
+      }
+    }
+  }
+
+  setItem(key, value) {
+    const oldValue = this.model[key];
+    if (oldValue === value) {
+      return;
+    }
+    this.model[key] = value;
+    const event = {
+      key,
+      oldValue,
+      newValue: value,
+      senderInfo: { senderID: this },
+    };
+    for (const listener of this._listeners.byKey.get(key) || []) {
+      listener(event);
+    }
+    for (const listener of this._listeners.all) {
+      listener(event);
+    }
+  }
+}
+
 export default class TriangleGuardianPanel extends Panel {
-  identifier = "triangle-guardian-panel";
+  identifier = "triangle-guardian-panel-plugin";
   inlineSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path d="M18 6 L6 30 L30 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="18" cy="6" r="2" fill="currentColor"/><circle cx="6" cy="30" r="2" fill="currentColor"/><circle cx="30" cy="30" r="2" fill="currentColor"/></svg>`;
 
   static styles = `
@@ -14,7 +136,7 @@ export default class TriangleGuardianPanel extends Panel {
       font-size: 11px; font-weight: 500; text-transform: uppercase;
       letter-spacing: .05em; color: var(--ui-element-foreground-color);
       opacity: .55; padding-bottom: 2px;
-      border-bottom: 0.5px solid var(--ui-element-background-color-1);
+      border-bottom: 0.5px solid var(--ui-element-background-color);
     }
     .tg-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .tg-label { font-size: 12px; color: var(--ui-element-foreground-color); }
@@ -244,4 +366,6 @@ function pointInTriangle(pt, A, B, C, eps = 0.5) {
   return !(hasNeg && hasPos);
 }
 
-customElements.define("panel-triangle-guardian", TriangleGuardianPanel);
+if (!customElements.get("panel-triangle-guardian-plugin")) {
+  customElements.define("panel-triangle-guardian-plugin", TriangleGuardianPanel);
+}

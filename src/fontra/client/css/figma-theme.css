@@ -101,6 +101,8 @@
 :root.figma-theme .tool-button.selected {
   background-color: var(--figma-blue);
   fill: white;
+  /* Phosphor icons use `fill="currentColor"`; recolor them via `color`. */
+  color: white;
   border-color: var(--figma-blue);
   box-shadow: var(--shadow-md);
 }
@@ -135,6 +137,7 @@
 :root.figma-theme .sidebar-tab.selected {
   background-color: var(--figma-blue);
   fill: white;
+  color: white;
 }
 
 :root.figma-theme .sidebar-tab.selected inline-svg {
