@@ -54,11 +54,12 @@ Also check auto-merged files (`git diff --cached --name-only`) — upstream may 
 
 Full procedure: `.skills-data-prompt/build-fontra-windows-skill.md`. Key facts:
 
-- One-command build: `python fontra-pak/build-timestamped.py` (auto-stamps version, runs bundle, PyInstaller).
+- One-command build: `python fontra-pak/build-timestamped.py` (auto-stamps version, runs bundle, PyInstaller). Run it with the venv's Python: `../venv/Scripts/python.exe build-timestamped.py`.
 - Version format `YYYY.MM.DD.HH` **GMT+1**; always a NEW folder `fontra-pak/dist/Fontra-Pak-v{VERSION}` — never overwrite/delete previous builds.
-- Output: `Fontra Pak.exe` (PyQt6 GUI wrapper, `FontraPakMain.py`, `console=False`). It takes **no CLI font/port args** — args are silently ignored; use `test-startup` mode to self-quit after init.
+- **One version source only**: `src/fontra/_version.py`. `fontra-pak/FontraPak.spec` (owned by upstream) builds the Windows version resource from `fontra.__version__`; there is no `version-info.txt` any more.
+- Output: `Fontra Pak.exe` (PyQt6 GUI wrapper, `FontraPakMain.py`, `console=False`). Font paths passed on the command line are opened (upstream feature); there is **no port argument**. Use `test-startup` mode to self-quit after init.
 - Prereqs: all changes committed or stashed, no running server, `npm run bundle` first if JS/CSS changed.
-- Verification: `npm test` (expected ~1212 passing), `python fontra-pak/test-export.py` (expect Passed 7 / Failed 0), check `_version.py` + `version-info.txt` match the folder version.
+- Verification: `npm test` (expected ~1212 core + ~171 plugin tests), `python fontra-pak/test-export.py` (expect Passed 7 / Failed 0), check `_version.py` matches the folder version.
 - Build log: `C:\Users\Clarence\AppData\Local\Temp\opencode\fontra-build.log`.
 
 ## Dev server
@@ -79,6 +80,14 @@ python run_server.py --http-port 8000 filesystem test-py/data/mutatorsans
 - JS sources: `src-js/**` (esbuild via `npm run bundle`); tests: `npm test`; syntax spot-check: `node --check <file>`.
 - After JS/CSS edits: `npm run bundle` → commit **both** source and `src/fontra/client/` output.
 
+## Local plugins
+
+- Live in `src/fontra/localplugins/<name>/` and are served at `/localplugins/<name>/` (the `fontra.webcontent` entry point). The server builds that route at start-up → **restart the server** after adding a plugin folder.
+- Enable one from the browser console (the list lives in `localStorage` under `fontra.pluginsplugins`):
+  `(()=>{const k="fontra.pluginsplugins";const p="/localplugins/<name>/";const a=JSON.parse(localStorage.getItem(k)||"[]");if(!a.some(x=>(x.address||"").includes("<name>"))){a.push({address:p});localStorage.setItem(k,JSON.stringify(a));location.reload();}})();`
+- A plugin is loaded with a **native** dynamic import, so it may only use *relative* imports inside its own folder — no `@fontra/...` specifiers. Everything else must come through the `editor` object passed to `registerPlugin(editor, pluginPath)`.
+- Tests: `node --test` inside the plugin folder, or `npm run test:plugins` from the repo root (this also runs in CI).
+
 ## GitHub CLI
 
 - `gh` v2.101.0 installed (winget), authenticated as **MekaClaude** (keyring; scopes: `repo, workflow, gist, read:org`).
@@ -89,6 +98,7 @@ python run_server.py --http-port 8000 filesystem test-py/data/mutatorsans
 
 - Shell is PowerShell 5.1, **French locale** (error messages in French); `rg`/`head` not available — use PowerShell cmdlets or grep tool.
 - Python: `venv\Scripts\python.exe` (3.13.x); Node v22 / npm 11.
+- **`venv\Scripts` must be on `PATH`** for the opentype backend and its tests: upstream added `sr-aef` as a dependency and it is called as a bare executable. Without it, `test_backends_opentype.py` fails with `FileNotFoundError`. Fix per shell: `$env:Path = "$(Resolve-Path venv\Scripts);$env:Path"`.
 - User skill docs live in `.skills-data-prompt/` (build skill, server skill, sync skill, feature plans).
-- `fontra-pak` is a nested git repo (no `.gitmodules` mapping — `git submodule status` fails; treat its dirty `version-info.txt` as build noise).
+- `fontra-pak` is a nested git repo (no `.gitmodules` mapping — `git submodule status` fails). It is a fork of `fontra/fontra-pak` with `origin` = `MekaClaude/fontra-pak`; **never push its `upstream`**. The fork is deliberately *upstream + a few additive Windows-build files* (`build-timestamped.py`, `test-export.py`, `hook-fontra*.py`, `scripts/convert-icons*.py`, `icon/fontra-icon-source.svg`, its own `icon/FontraIcon.ico`, and `requirements-dev.txt` with `delocate` commented out). When merging upstream into it, keep those files and take upstream's version of everything else — **including `FontraPak.spec`**.
 - Never commit without the user asking; never force-push `origin/main` (mirror resets are the only exception, and only with a `backup/*` branch first).
