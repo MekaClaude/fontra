@@ -2,9 +2,11 @@
 //
 // Two things live here:
 //
-// 1. `state` — a small plain object shared between the sidebar panel and the
-//    canvas layer (the same trick the reference "triangle-guardian" plugin
-//    uses with its own `triangle-guardian-state.js`).
+// 1. `state` — the state shared between the sidebar panel and the canvas
+//    layer (the same trick the reference "triangle-guardian" plugin uses with
+//    its own `triangle-guardian-state.js`). It is backed by the observable
+//    store below, so the settings the user can change are remembered between
+//    sessions.
 // 2. `SimpleObservable` — a tiny reactive key/value store.
 //
 // Why not import Fontra's own `ObservableController`
@@ -99,7 +101,10 @@ export class SimpleObservable {
     } catch (e) {
       console.warn("[cadence-spacer] could not load saved settings:", e);
     }
-    this.addAnyListener(() => {
+    // Only a change to a persisted key writes to localStorage. The model also
+    // carries runtime state that changes often (the last plan, the search
+    // progress), and that must not cause a write per change.
+    const save = () => {
       try {
         const toSave = {};
         for (const k of keys) {
@@ -110,7 +115,11 @@ export class SimpleObservable {
         // localStorage may be unavailable (private browsing, quota, etc).
         // Not fatal: the plugin just won't remember settings.
       }
-    });
+    };
+    for (const k of keys) {
+      this.addKeyListener(k, save);
+    }
+    return save;
   }
 }
 
@@ -118,24 +127,44 @@ export class SimpleObservable {
 // Shared runtime state (panel <-> canvas layer)
 // ---------------------------------------------------------------------------
 
-export const state = {
-  // Set by start.js
-  pluginPath: null,
+// The settings the user can change are remembered between sessions; the
+// runtime state (the plugin path, the last plan) is not.
+export const PERSISTED_KEYS = [
+  "enabled",
+  "showBeam",
+  "showCrossings",
+  "showSidebearings",
+  "showDesired",
+  "beamY",
+  "gridSteps",
+  "refGlyphName",
+];
 
-  // Layer on/off + what the layer draws
+export const settings = new SimpleObservable({
   enabled: true,
   showBeam: true,
   showCrossings: true,
   showSidebearings: true,
   showDesired: false,
-
-  // Measurement settings (mirrored into the panel's controls)
   beamY: 200,
   gridSteps: 32,
   refGlyphName: "n",
+});
 
-  // Last dry-run result, keyed by glyph name:
-  //   { currentLeft, currentRight, desiredLeft, desiredRight }
-  // The canvas layer uses this to draw the "desired" sidebearing markers.
-  plans: new Map(),
-};
+settings.synchronizeKeysWithLocalStorage(
+  "fontra.cadence-spacer.settings",
+  PERSISTED_KEYS
+);
+
+// `state` *is* the settings model, plus the runtime bits. Reading or writing
+// `state.beamY` therefore reads or writes the persisted value, and the panel
+// and the layer keep talking to `state` exactly as before.
+export const state = settings.model;
+
+// Set by start.js
+state.pluginPath = null;
+
+// Last dry-run result, keyed by glyph name:
+//   { currentLeft, currentRight, desiredLeft, desiredRight }
+// The canvas layer uses this to draw the "desired" sidebearing markers.
+state.plans = new Map();

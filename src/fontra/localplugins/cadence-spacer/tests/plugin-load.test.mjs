@@ -66,11 +66,16 @@ function installDomStub() {
   };
   globalThis.localStorage = {
     store: new Map(),
+    writeCount: 0,
     getItem(key) {
       return this.store.has(key) ? this.store.get(key) : null;
     },
     setItem(key, value) {
       this.store.set(key, String(value));
+      this.writeCount++;
+    },
+    removeItem(key) {
+      this.store.delete(key);
     },
   };
   globalThis.FileReader = class {
@@ -139,6 +144,27 @@ test("the panel module loads and defines its custom element", async () => {
   const module = await import("../cadence-panel.js");
   assert.equal(typeof module.default, "function");
   assert.ok(globalThis.customElements.get("panel-cadence-spacer-plugin"));
+});
+
+test("a setting the user changes is remembered in localStorage", async () => {
+  const { state } = await import("../cadence-state.js");
+  const storageKey = "fontra.cadence-spacer.settings";
+  const writesBefore = localStorage.writeCount;
+  state.beamY = 321;
+  assert.equal(localStorage.writeCount, writesBefore + 1);
+  const saved = JSON.parse(localStorage.getItem(storageKey));
+  assert.equal(saved.beamY, 321);
+  // Put it back, so the other tests see the default.
+  state.beamY = 200;
+  assert.equal(state.beamY, 200);
+});
+
+test("the runtime state does not cause a localStorage write", async () => {
+  const { state } = await import("../cadence-state.js");
+  const writesBefore = localStorage.writeCount;
+  state.plans = new Map();
+  state.pluginPath = "/localplugins/cadence-spacer/";
+  assert.equal(localStorage.writeCount, writesBefore);
 });
 
 test("registerPlugin adds the panel to the right sidebar", async () => {
