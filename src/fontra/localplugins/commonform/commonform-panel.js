@@ -363,6 +363,9 @@ export default class CommonformPanel extends Panel {
       nearFloor: state.nearFloor,
       nearFactor: state.nearFactor,
       signatureCount: this._signatureCount || DEFAULT_SIGNATURE_COUNT,
+      // The shape the designer is looking at is not a copy of itself: the
+      // glyph it came from is left out of the results.
+      sourceGlyphName: state.query?.glyphName ?? null,
     };
   }
 
@@ -487,11 +490,7 @@ export default class CommonformPanel extends Panel {
       }
       matches.sort((a, b) => a.distance - b.distance);
       state.matches = matches;
-      state.summary = summarizeMatches(matches, {
-        ...options,
-        // The shape the designer is looking at is not a copy of itself.
-        sourceGlyphName: state.query?.glyphName ?? null,
-      });
+      state.summary = summarizeMatches(matches, options);
       this._updateResults();
       this._setStatus(
         `Found ${matches.length} common form(s) in ${raw.length} contour(s).`,

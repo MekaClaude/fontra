@@ -404,3 +404,37 @@ test("findMatches accepts a bare prepared candidate as well as a pair", () => {
   assert.equal(matches.length, 1);
   assert.ok(matches[0].distance < 1e-6);
 });
+
+test("findMatches leaves out the glyph the query shape came from", () => {
+  // The shape the designer is looking at is not a copy of itself: the glyph it
+  // was taken from must not turn up in the results as a 0-unit "identical"
+  // match.
+  const query = prepared(bowlContour(120, 200, 24));
+  const options = { ...defaultSearchOptions(), sourceGlyphName: "b" };
+  const candidates = [
+    {
+      prepared: prepared(translatedContour(bowlContour(120, 200, 24), 3, 4)),
+      meta: { glyphName: "b" },
+    },
+    {
+      prepared: prepared(translatedContour(bowlContour(120, 200, 24), 40, 0)),
+      meta: { glyphName: "d" },
+    },
+  ];
+  const matches = findMatches(query, candidates, options);
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].glyphName, "d");
+});
+
+test("findMatches keeps the source glyph when no source glyph is given", () => {
+  const query = prepared(bowlContour(120, 200, 24));
+  const candidates = [
+    {
+      prepared: prepared(translatedContour(bowlContour(120, 200, 24), 3, 4)),
+      meta: { glyphName: "b" },
+    },
+  ];
+  const matches = findMatches(query, candidates, defaultSearchOptions());
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].glyphName, "b");
+});

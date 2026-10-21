@@ -568,6 +568,10 @@ export function defaultSearchOptions() {
     // How many directions the signature is measured in.
     signatureCount: DEFAULT_SIGNATURE_COUNT,
     stepsPerCurve: DEFAULT_STEPS_PER_CURVE,
+    // The glyph the query shape was taken from. It is never reported as a
+    // match of itself: the shape the designer is looking at is not a copy
+    // of itself. Set it to `null` to keep the source glyph in the results.
+    sourceGlyphName: null,
   };
 }
 
@@ -726,6 +730,13 @@ export function findMatches(query, candidates, options = defaultSearchOptions())
     // A candidate is either a prepared contour, or a {prepared, meta} pair.
     const candidate = entry.prepared || entry;
     const meta = entry.meta || {};
+    // The shape the designer is looking at is not a copy of itself, so the
+    // glyph it came from is never reported as a match. Without this, the
+    // query's own contour turns up as a 0.00-unit "identical" match, and
+    // the results table disagrees with the summary that counts the copies.
+    if (options.sourceGlyphName && meta.glyphName === options.sourceGlyphName) {
+      continue;
+    }
     const result = comparePrepared(query, candidate, options);
     if (result) {
       matches.push({ ...meta, ...result });
