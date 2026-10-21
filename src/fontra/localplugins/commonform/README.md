@@ -59,6 +59,10 @@ switched on automatically.
 4. The results table lists the matches, best first. Click a glyph name to
    jump to that glyph with the matching contour selected.
 
+The glyph the shape was taken from is **not** in the list: a shape is not a
+copy of itself. That is why the table and the summary always agree on the
+number of copies.
+
 The canvas overlay highlights the matches that are on screen, in a colour that
 says how well they matched.
 
@@ -106,6 +110,9 @@ match.
 | **Allow mirrored** | look for turned and mirrored copies too |
 | **Compare directions** | how many directions the shape is measured in (64 by default) |
 
+The settings are remembered between sessions: they are stored in
+`localStorage`, under the key `fontra.commonform.settings`.
+
 ## Running the tests
 
 ```
@@ -116,6 +123,12 @@ node --test
 No arguments, no dependencies, no `package.json`, no browser: the suite uses
 Node's built-in test runner, and the engine is deliberately free of the DOM
 and of Fontra imports, so it runs in plain Node.
+
+From the root of the Fontra checkout, both plugins' suites run at once:
+
+```
+npm run test:plugins
+```
 
 ### The real-font check
 
@@ -140,7 +153,7 @@ plugin is for.
 | `start.js` | the entry point the editor imports |
 | `commonform-engine.js` | the geometry: the signature, the tolerances, the tiers |
 | `commonform-font.js` | the Fontra-facing half: the selection, the walk over the font |
-| `commonform-state.js` | the small store the panel and the layer share |
+| `commonform-state.js` | the small store the panel and the layer share, and the settings that are remembered between sessions |
 | `commonform-layer.js` | the canvas overlay |
 | `commonform-panel.js` | the sidebar panel |
 | `register-dev.js` | a console one-liner that enables the plugin |

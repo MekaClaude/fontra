@@ -60,6 +60,10 @@ switched on automatically.
    sidebearings are.
 5. Press **Apply**. The changes go into the normal undo history.
 
+The panel's settings — the beam height, the grid steps, the reference glyph
+and the overlay toggles — are remembered between sessions: they are stored in
+`localStorage`, under the key `fontra.cadence-spacer.settings`.
+
 The canvas overlay draws the beam, the stem crossings, the current sidebearings
 and — after a preview — the desired ones, so you can see where a glyph is
 going to move to.
@@ -141,6 +145,12 @@ No arguments, no dependencies, no `package.json`, no browser: the suite uses
 Node's built-in test runner, and the engine is deliberately free of the DOM
 and of Fontra imports, so it runs in plain Node.
 
+From the root of the Fontra checkout, both plugins' suites run at once:
+
+```
+npm run test:plugins
+```
+
 There is also a **real-font check**, which runs both plugins' engines over a
 real typeface and reports what they find:
 
@@ -155,7 +165,7 @@ node ../commonform/tests/real-font-check.mjs [path/to/font.fontra]
 | `plugin.json` | the manifest the editor reads |
 | `start.js` | the entry point the editor imports |
 | `cadence-engine.js` | all the maths: parsing, measuring, planning, applying |
-| `cadence-state.js` | the small store the panel and the layer share |
+| `cadence-state.js` | the small store the panel and the layer share, and the settings that are remembered between sessions |
 | `cadence-presets.js` | the three built-in spacing tables |
 | `cadence-layer.js` | the canvas overlay |
 | `cadence-panel.js` | the sidebar panel |
