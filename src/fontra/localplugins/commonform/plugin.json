@@ -1,0 +1,10 @@
+{
+  "name": "Commonform",
+  "identifier": "com.fontra.plugins.commonform",
+  "version": "1.0.0",
+  "description": "Finds the shapes a typeface reuses — the common forms — across the whole font, and reports how far the copies have drifted apart.",
+  "author": "Fontra Community",
+  "license": "MIT",
+  "init": "start.js",
+  "function": "registerPlugin"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Cadence Spacer",
+  "identifier": "com.fontra.plugins.cadence-spacer",
+  "version": "1.0.0",
+  "description": "Cadence / auto-spacing for Fontra: applies a Cadence Unit Spacing Table (CUST) to a font's sidebearings, measured against the stem rhythm of a reference lowercase at a chosen beam height.",
+  "author": "Fontra Community",
+  "license": "MIT",
+  "init": "start.js",
+  "function": "registerPlugin"
+}
