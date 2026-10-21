@@ -4,10 +4,13 @@
 
 ### New features
 
+- [fontra pak] When starting the application from the command line, open any fonts passed as arguments. Contributed by Tarik Rokhsane. [fontra-pak PR 292](https://github.com/fontra/fontra-pak/pull/292)
+- [opentype backend] Convert OpenType features to .fea code when reading. This preserves features when exporting as (say) .fontra. This uses the new `sr-aef` tool by Simon Cozens, with contributions by Khaled Hosny. [Issue 2294](https://github.com/fontra/fontra/issues/2294), [PR 2810](https://github.com/fontra/fontra/pull/2810)
 - [fontra pak/linux] Add native Linux install and uninstall script. [fontra-pak PR 289](https://github.com/fontra/fontra-pak/pull/289)
 
 ### Fixes
 
+- [editor] Fix proposed x/y coordinates for "Add Anchor" and "Add Guideline" dialogs in the case they are triggered by a shortcut instead of the context menu. [Issue 2813](https://github.com/fontra/fontra/issues/2813), [PR 2814](https://github.com/fontra/fontra/pull/2814)
 - [vivaldi] Make shortcuts work in the Vivaldi browser. [Issue 2807](https://github.com/fontra/fontra/issues/2807), [PR 2808](https://github.com/fontra/fontra/pull/2808)
 - [fontra-workflow] Fixed instantiating named guidelines. Among other things, this fixes exporting a variable font made with variable components that use named guidelines. [Issue 2800](https://github.com/fontra/fontra/issues/2800), [Issue 2799](https://github.com/fontra/fontra/issues/2799), [PR 2801](https://github.com/fontra/fontra/pull/2801)
 
