@@ -544,61 +544,78 @@ export class BrushToolBase extends BrushStrokeToolBase {
     if (targetId && targetId !== this.identifier) this.editor.setSelectedTool(targetId);
   }
 
-  // ── Click-click straight line (default: no Shift required) ─────────────────
-  // First click sets an anchor; second click commits a straight stroke between
-  // them. Shift-constrain still applies during the drag between clicks.
+  // Clear any pending click-click anchor when a real drag starts, so a drag
+  // never gets swallowed by the anchor FSM.
+  async handleDrag(eventStream, initialEvent) {
+    this._clearPendingAnchor();
+    return super.handleDrag(eventStream, initialEvent);
+  }
 
-  async _onStrokeBegin(initialPoint, initialEvent) {
+  /** Forget the pending click-click anchor and its preview marker. */
+  _clearPendingAnchor() {
     if (!this._pendingAnchor) {
-      // First click: store the anchor and show a preview marker.
-      this._pendingAnchor = { x: initialPoint.x, y: initialPoint.y };
-      const marker = new Path2D();
-      marker.arc(this._pendingAnchor.x, this._pendingAnchor.y, 6, 0, Math.PI * 2);
-      this.sceneModel.brushPreviewPath = marker;
-      this.sceneModel.brushPreviewCenterline = null;
-      this.sceneModel.brushAngle = this.brushEngine.brushAngle;
-      this.canvasController.requestUpdate();
-      this._showToast(
-        `Anchor set at ${Math.round(this._pendingAnchor.x)}, ${Math.round(this._pendingAnchor.y)} — click again to commit line`,
-        "anchor"
-      );
-      return true; // consume the click, don't start a drag stroke
+      return;
     }
-    // Second click: commit the straight stroke between anchor and this point.
-    const anchor = this._pendingAnchor;
     this._pendingAnchor = null;
     delete this.sceneModel.brushPreviewPath;
     delete this.sceneModel.brushPreviewCenterline;
-    await this._commitStroke(
-      [
-        { x: anchor.x, y: anchor.y, pressure: 0.5, timestamp: Date.now() },
-        { x: initialPoint.x, y: initialPoint.y, pressure: 0.5, timestamp: Date.now() },
-      ],
-      { didDrag: true, initialEvent }
+  }
+
+  /** Remember a click as the first end of a click-click straight line. */
+  _setPendingAnchor(point) {
+    this._pendingAnchor = { x: point.x, y: point.y };
+    const marker = new Path2D();
+    marker.arc(this._pendingAnchor.x, this._pendingAnchor.y, 6, 0, Math.PI * 2);
+    this.sceneModel.brushPreviewPath = marker;
+    this.sceneModel.brushPreviewCenterline = null;
+    this.sceneModel.brushAngle = this.brushEngine.brushAngle;
+    this.canvasController.requestUpdate();
+    this._showToast(
+      `Anchor set at ${Math.round(this._pendingAnchor.x)}, ${Math.round(this._pendingAnchor.y)} — click again to commit line`,
+      "anchor"
     );
-    return true;
   }
 
   // Click-without-drag: dot stamp (or anchor if Shift was held on release).
   async _commitStroke(rawPoints, { didDrag, initialEvent } = {}) {
-    if (!didDrag || this.strokeLength < DOT_MAX_STROKE_LENGTH) {
-      if (initialEvent?.shiftKey && rawPoints[0]) {
-        this._pendingAnchor = { x: rawPoints[0].x, y: rawPoints[0].y };
-        const marker = new Path2D();
-        marker.arc(this._pendingAnchor.x, this._pendingAnchor.y, 6, 0, Math.PI * 2);
-        this.sceneModel.brushPreviewPath = marker;
-        this.sceneModel.brushPreviewCenterline = null;
-        this.sceneModel.brushAngle = this.brushEngine.brushAngle;
-        this.canvasController.requestUpdate();
-        this._showToast(
-          `Anchor set at ${Math.round(this._pendingAnchor.x)}, ${Math.round(this._pendingAnchor.y)} — click again to commit line`,
-          "anchor"
-        );
+    // Click (no drag): implement click-click straight line by default.
+    if (!didDrag) {
+      // Alt+click → dot stamp (modifier-based, since click-click defaults to anchors).
+      if (initialEvent?.altKey && rawPoints?.[0]) {
+        this._clearPendingAnchor();
+        await this._commitDot(rawPoints[0]);
         return;
       }
-      if (rawPoints[0]) await this._commitDot(rawPoints[0]);
+      // Second click while an anchor is pending → commit the straight stroke.
+      if (this._pendingAnchor && rawPoints?.[0]) {
+        const anchor = this._pendingAnchor;
+        this._clearPendingAnchor();
+        const pts = [
+          { x: anchor.x, y: anchor.y, pressure: 0.5, timestamp: Date.now() },
+          { x: rawPoints[0].x, y: rawPoints[0].y, pressure: 0.5, timestamp: Date.now() },
+        ];
+        const contour = this._buildStrokeForCommit(pts);
+        if (!contour) {
+          this._resetStrokeState();
+          this._showToast(translate("edit-tools-brush.stroke-too-small"), "stroke-small");
+          return;
+        }
+        this._resetStrokeState();
+        await this._appendContourToGlyph(contour, "edit-tools-brush.undo.add-stroke");
+        return;
+      }
+      // Shift+click → set an anchor (legacy, explicit).
+      if (initialEvent?.shiftKey && rawPoints?.[0]) {
+        this._setPendingAnchor(rawPoints[0]);
+        return;
+      }
+      // Default first click → set an anchor (click-click straight line).
+      if (rawPoints?.[0]) {
+        this._setPendingAnchor(rawPoints[0]);
+      }
       return;
     }
+    this._clearPendingAnchor();
     if (rawPoints.length < 2) {
       this._resetStrokeState();
       return;

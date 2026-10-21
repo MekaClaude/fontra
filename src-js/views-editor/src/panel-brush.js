@@ -73,6 +73,7 @@ export default class BrushPanel extends Panel {
     // that tool is selected (see _syncFromTool).
     this._sharedStore = BrushSettingsStore.for("fontra.brush-v2.");
     this._toolStore = null;
+    this._toolChangeListener = this.editorController.registerToolChangeListener(() => this._syncFromTool());
     this._onStoreChange = (e) => {
       // With no brush tool active the panel copy is the UI truth: fold the
       // clamped write into it (with a tool active _syncFromTool pulls
@@ -107,6 +108,7 @@ export default class BrushPanel extends Panel {
   }
 
   disconnectedCallback() {
+    this._toolChangeListener?.();
     this._sharedStore?.removeEventListener("change", this._onStoreChange);
     this._toolStore?.removeEventListener("change", this._onStoreChange);
     this._toolStore = null;
@@ -195,7 +197,7 @@ export default class BrushPanel extends Panel {
   }
 
   _createSizeSection() {
-    return html.div({ class: "brush-panel-section" }, [
+    return html.div({ class: "brush-panel-section", id: "brush-size-section" }, [
       html.div({ class: "brush-panel-label" }, [translate("sidebar.brush-settings.size")]),
       this._createSlider("maxWidth", translate("sidebar.brush-settings.max-width"),
                          BRUSH_BOUNDS.maxWidth[0], BRUSH_BOUNDS.maxWidth[1], this._brushSettings.maxWidth),
@@ -227,7 +229,7 @@ export default class BrushPanel extends Panel {
   }
 
   _createAngleSection() {
-    return html.div({ class: "brush-panel-section" }, [
+    return html.div({ class: "brush-panel-section", id: "brush-angle-section" }, [
       html.div({ class: "brush-panel-label" }, [translate("sidebar.brush-settings.angle")]),
       this._createSlider("brushAngle", translate("sidebar.brush-settings.brush-angle"),
                          BRUSH_BOUNDS.brushAngle[0], BRUSH_BOUNDS.brushAngle[1], this._brushSettings.brushAngle),
@@ -235,7 +237,7 @@ export default class BrushPanel extends Panel {
   }
 
   _createAdvancedSection() {
-    return html.div({ class: "brush-panel-section" }, [
+    return html.div({ class: "brush-panel-section", id: "brush-advanced-section" }, [
       html.div({ class: "brush-panel-label" }, [translate("sidebar.brush-settings.advanced")]),
       this._createSlider("contrast",   translate("sidebar.brush-settings.contrast"),   BRUSH_BOUNDS.contrast[0],   BRUSH_BOUNDS.contrast[1],   this._brushSettings.contrast),
       this._createSlider("smoothness", translate("sidebar.brush-settings.smoothness"), BRUSH_BOUNDS.smoothness[0], BRUSH_BOUNDS.smoothness[1], this._brushSettings.smoothness),
@@ -363,6 +365,10 @@ export default class BrushPanel extends Panel {
     this._syncToggle("brush-pressure-toggle", "usePressure");
     this._syncToggle("brush-union-toggle", "autoUnion");
     // Section visibility
+    const isDraw = this._currentMode === BRUSH_MODES.CALLIGRAPHIC || this._currentMode === BRUSH_MODES.STRAIGHT;
+    this._setSectionVisible("brush-size-section", isDraw);
+    this._setSectionVisible("brush-angle-section", isDraw);
+    this._setSectionVisible("brush-advanced-section", isDraw);
     this._setSectionVisible("eraser-section", this._currentMode === BRUSH_MODES.ERASER);
     this._setSectionVisible("sculpt-section", this._currentMode === BRUSH_MODES.SCULPT);
     this._updatePreview();

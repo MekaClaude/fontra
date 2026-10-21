@@ -1344,6 +1344,17 @@ export class EditorController extends ViewController {
     this.sidebars.push(sidebar);
   }
 
+  registerToolChangeListener(callback) {
+    this._toolChangeListeners ??= [];
+    this._toolChangeListeners.push(callback);
+    return () => this.unregisterToolChangeListener(callback);
+  }
+
+  unregisterToolChangeListener(callback) {
+    if (!this._toolChangeListeners) return;
+    this._toolChangeListeners = this._toolChangeListeners.filter((cb) => cb !== callback);
+  }
+
   addSidebarPanel(panelElement, sidebarName) {
     const sidebar = this.sidebars.find((sidebar) => sidebar.identifier === sidebarName);
 
@@ -1478,6 +1489,13 @@ export class EditorController extends ViewController {
     }
     this.sceneController.setSelectedTool(this.tools[selectedToolIdentifier]);
     this.selectedToolIdentifier = selectedToolIdentifier;
+    for (const cb of this._toolChangeListeners ?? []) {
+      try {
+        cb(this.tools[selectedToolIdentifier]);
+      } catch (e) {
+        console.warn("tool change listener failed", e);
+      }
+    }
   }
 
   getPenTool() {

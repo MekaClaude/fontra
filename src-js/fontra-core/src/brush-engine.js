@@ -33,7 +33,7 @@
  */
 import * as vector from "./vector.js";
 import { Bezier } from "bezier-js";
-import { fitCubic } from "./fit-cubic.js";
+import { fitCubic, computeMaxError, chordLengthParameterize } from "./fit-cubic.js";
 import { BRUSH_BOUNDS, BRUSH_PRESETS, DEFAULT_OPTIONS } from "./brush-settings.js";
 
 // ── Tunables ──
@@ -342,8 +342,10 @@ function fitRun(points, error, depth = 0) {
   const leftTangent = endTangent(points, true);
   const rightTangent = endTangent(points, false);
   if (!leftTangent || !rightTangent) return straightRunBezier(points);
-  const { bezier, maxError, splitPoint } = fitCubic(points, leftTangent, rightTangent, error);
+  const bezier = fitCubic(points, leftTangent, rightTangent, error);
   if (!isFiniteBezier(bezier)) return straightRunBezier(points);
+  const parameters = chordLengthParameterize(points);
+  const [maxError, splitPoint] = computeMaxError(points, bezier, parameters);
   if (maxError <= error || depth >= 12) return [bezier];
   const sp = Math.max(1, Math.min(points.length - 2, splitPoint));
   if (sp <= 0 || sp >= points.length - 1) return [bezier];
