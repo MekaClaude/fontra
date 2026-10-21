@@ -1,7 +1,8 @@
 {
   "name": "fontra",
   "scripts": {
-    "test": "npm run --workspace src-js test",
+    "test": "npm run --workspace src-js test && npm run test:plugins",
+    "test:plugins": "node --test \"src/fontra/localplugins/*/tests/*.test.mjs\"",
     "bundle": "webpack --config webpack.config.cjs --mode production",
     "bundle-watch": "webpack --config webpack.config.cjs --watch"
   },

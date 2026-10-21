@@ -78,3 +78,7 @@ jobs:
       - name: Run Node tests
         run: |
           npm test
+
+      - name: Run local plugin tests
+        run: |
+          npm run test:plugins
