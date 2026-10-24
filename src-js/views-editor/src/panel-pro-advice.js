@@ -244,6 +244,52 @@ export default class ProAdvicePanel extends Panel {
       container.appendChild(mistakesSection);
     }
 
+    // Pro Tips
+    if (glyphData.proTips?.length) {
+      const proSection = html.div({ class: "pro-advice-section" }, [
+        html.div({ class: "pro-advice-section-title" }, [
+          "Pro Tips & Tricks",
+        ]),
+      ]);
+      for (const tip of glyphData.proTips) {
+        proSection.appendChild(html.div({ class: "pro-advice-tip" }, [tip]));
+      }
+      container.appendChild(proSection);
+    }
+
+    // Reusable Components
+    const components = glyphData.components || glyphData.reusableComponents || [];
+    if (components.length) {
+      const compSection = html.div({ class: "pro-advice-section" }, [
+        html.div({ class: "pro-advice-section-title" }, [
+          translate("sidebar.pro-advice.reusable-components"),
+        ]),
+      ]);
+      for (const comp of components) {
+        const definition = terms[comp] || (kb.components?.[comp] || "");
+        const tipText = definition ? `${comp}: ${definition}` : comp;
+        compSection.appendChild(html.div({ class: "pro-advice-tip" }, [tipText]));
+      }
+      // acceleration note
+      compSection.appendChild(
+        html.div({ class: "pro-advice-tip", style: "font-style: italic; opacity: 0.8" }, [
+          "Reuse these components across glyphs to accelerate the design process.",
+        ])
+      );
+      container.appendChild(compSection);
+    }
+
+    // Suggestions
+    if (glyphData.suggestions?.length) {
+      const sugSection = html.div({ class: "pro-advice-section" }, [
+        html.div({ class: "pro-advice-section-title" }, ["Suggestions"]),
+      ]);
+      for (const sug of glyphData.suggestions) {
+        sugSection.appendChild(html.div({ class: "pro-advice-warning" }, [sug]));
+      }
+      container.appendChild(sugSection);
+    }
+
     // Related Glyphs
     const informsOf = glyphData.informsDesignOf || [];
     const informsCapitals = glyphData.informsDesignOfCapitals || [];

@@ -494,6 +494,8 @@ export const strings = {
   "sidebar.pro-advice.informed-by": "Informed by:",
   "sidebar.pro-advice.reusable-components": "Reusable Components",
   "sidebar.pro-advice.optical-corrections": "Optical Corrections",
+  "sidebar.pro-advice.pro-tips": "Pro Tips & Tricks",
+  "sidebar.pro-advice.suggestions": "Suggestions",
   "sidebar.pro-advice.spacing-fundamentals": "Spacing Fundamentals",
   "sidebar.pro-advice.design-phase": "Design Phase",
   "sidebar.pro-advice.phase": "Phase %0",

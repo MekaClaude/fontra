@@ -56,6 +56,50 @@ export class CardRenderer {
     return card.title || "Contextual tip";
   }
 
+
+  renderMasonry(cards, container) {
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const grid = document.createElement('div');
+    grid.className = 'coach-card-grid';
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;';
+    for (const card of cards || []) {
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'coach-card masonry';
+      cardDiv.style.cssText = 'border:1px solid #444;border-radius:8px;padding:8px;background:#2a2a2a;';
+      const h = document.createElement('h4');
+      h.textContent = card.title || '';
+      cardDiv.appendChild(h);
+      const body = document.createElement('div');
+      body.innerHTML = this.sanitize(card.body || '');
+      cardDiv.appendChild(body);
+      if (card.tips && card.tips.length) {
+        const ul = document.createElement('ul');
+        for (const t of card.tips) {
+          const li = document.createElement('li');
+          li.innerHTML = this.sanitize(t);
+          ul.appendChild(li);
+        }
+        cardDiv.appendChild(ul);
+      }
+      grid.appendChild(cardDiv);
+    }
+    container.appendChild(grid);
+  }
+
+  renderSuggestions(suggestions, container) {
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const wrap = document.createElement('div');
+    wrap.className = 'coach-suggestions';
+    for (const sug of suggestions || []) {
+      const div = document.createElement('div');
+      div.className = 'coach-suggestion';
+      div.style.cssText = 'padding:6px;margin:4px 0;border-left:3px solid #ff9800;background:#2a2a2a;';
+      div.textContent = typeof sug === 'string' ? sug : (sug.text || '');
+      wrap.appendChild(div);
+    }
+    container.appendChild(wrap);
+  }
+
   sanitize(text) {
     if (!text) return '';
 
