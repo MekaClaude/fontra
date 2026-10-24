@@ -43,6 +43,7 @@ import {
   enumerate,
   eventIsCausedByWritingURLFragment,
   fetchJSON,
+  filterObject,
   hyphenatedToCamelCase,
   hyphenatedToLabel,
   isActiveElementTypeable,
@@ -2566,21 +2567,35 @@ export class EditorController extends ViewController {
   }
 
   async doAddComponent() {
-    const glyphName = await this.runGlyphSearchDialog(
+    const glyphName = this.sceneController.getSelectedGlyphName();
+
+    const componentGlyphName = await this.runGlyphSearchDialog(
       translate("action.add-component"),
       translate("dialog.add"),
-      true
+      true,
+      this.sceneController.getSelectedGlyphName()
     );
-    if (!glyphName) {
+
+    if (!componentGlyphName) {
       return;
     }
 
-    const baseGlyph = await this.fontController.getGlyph(glyphName);
+    const baseGlyph = await this.fontController.getGlyph(componentGlyphName);
+
+    const nestedComponentNames = await baseGlyph.getGlyphDependenciesDeep();
+    if (nestedComponentNames.has(glyphName)) {
+      await message(
+        translate("dialog.cant-add-component.title", componentGlyphName),
+        translate("dialog.cant-add-component.content-2")
+      );
+      return;
+    }
+
     const location = Object.fromEntries(
       baseGlyph.glyph.axes.map((axis) => [axis.name, axis.defaultValue])
     );
     const newComponent = {
-      name: glyphName,
+      name: componentGlyphName,
       transformation: getDecomposedIdentity(),
       location: location,
     };
@@ -3383,7 +3398,8 @@ export class EditorController extends ViewController {
   async runGlyphSearchDialog(
     titleLabel = translate("dialog.glyphs.search"),
     okLabel = translate("dialog.add"),
-    showOnlyGlyphsInFont = false
+    showOnlyGlyphsInFont = false,
+    skipGlyphName = null
   ) {
     const glyphSearch = document.createElement("glyph-search-list");
 
@@ -3393,6 +3409,13 @@ export class EditorController extends ViewController {
       glyphSearch.allowUnknownGlyphSearchResults = true;
     } else {
       glyphSearch.glyphMap = this.fontController.glyphMap;
+    }
+
+    if (skipGlyphName) {
+      glyphSearch.glyphMap = filterObject(
+        this.fontController.glyphMap,
+        (glyphName) => glyphName !== skipGlyphName
+      );
     }
 
     glyphSearch.addEventListener("selectedGlyphNameChanged", (event) => {

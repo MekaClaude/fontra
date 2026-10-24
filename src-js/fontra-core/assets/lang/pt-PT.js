@@ -64,7 +64,7 @@ export const strings = {
   "action.nudge-selection": "Deslocar seleção",
   "action.paste": "Colar",
   "action.redo": "Refazer",
-  "action.reverse-contour": "Reverter direção do contorno",
+  "action.reverse-contour": "Inverter direção do contorno",
   "action.select-all": "Seleccionar tudo",
   "action.select-none": "Desseleccionar",
   "action.set-contour-start": "Definir ponto de início",
@@ -196,6 +196,11 @@ export const strings = {
     "O valor precisa ser um número positivo.",
   "dialog.add": "Adicionar",
   "dialog.cancel": "Cancelar",
+  "dialog.cant-add-component.content-1":
+    "This is the current glyph, and would cause a cyclic reference.",
+  "dialog.cant-add-component.content-2":
+    "It uses the current glyph as a component, and would cause a cyclic reference.",
+  "dialog.cant-add-component.title": "Glyph '%0' cannot be used as a component here",
   "dialog.cant-create-glyph.title": 'Não é possível criar o glifo "%0"',
   "dialog.cant-edit-font.title": "Não é possível fazer alterações",
   "dialog.cant-edit-glyph.content": "Essa fonte é somente leitura.",
@@ -480,7 +485,7 @@ export const strings = {
   "sidebar.related-glyphs.loading": "(a carregar)",
   "sidebar.related-glyphs.no-glyph-selected": "(Sem glifo selecionado)",
   "sidebar.related-glyphs.no-related-glyphs-or-characters-were-found":
-    "Não foram encontrados glifos ou caracteres relacionados)",
+    "(Não foram encontrados glifos ou caracteres relacionados)",
   "sidebar.related-glyphs.related-glyphs": "Glifos relacionados",
   "sidebar.related-glyphs.replace-selected-glyph": "Substituir glifos selecionados",
   "sidebar.related-glyphs.title": "Glifos e caracteres relacionados a %0",
@@ -602,7 +607,7 @@ export const strings = {
   "sidebar.user-settings.theme": "Configuração do tema",
   "sidebar.user-settings.theme.auto": "Automático (usar definição do sistema)",
   "sidebar.user-settings.theme.dark": "Escuro",
-  "sidebar.user-settings.theme.light": "Claro",
+  "sidebar.user-settings.theme.light": "Luz",
   "sources.button.go-to-nearest-source": "Ir para a matriz mais próxima",
   "sources.button.new-font-source": "Nova matriz de fonte…",
   "sources.button.new-glyph-source": "Nova matriz",
