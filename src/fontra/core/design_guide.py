@@ -52,6 +52,9 @@ class GlyphTips:
     reusableComponents: list[str] = field(default_factory=list)
     informsDesignOf: list[str] = field(default_factory=list)
     informedBy: list[str] = field(default_factory=list)
+    proTips: list[str] = field(default_factory=list)
+    components: list[str] = field(default_factory=list)
+    suggestions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -137,6 +140,9 @@ def get_glyph_tips(glyph_name: str) -> GlyphTips:
         reusableComponents=glyph_data.get("reusableComponents", []),
         informsDesignOf=glyph_data.get("informsDesignOf", []),
         informedBy=glyph_data.get("informedBy", []),
+        proTips=glyph_data.get("proTips", []),
+        components=glyph_data.get("components", glyph_data.get("reusableComponents", [])),
+        suggestions=glyph_data.get("suggestions", []),
     )
 
 
@@ -302,3 +308,93 @@ def get_all_terms() -> dict[str, str]:
     """
     kb = _load_knowledge_base()
     return kb.get("commonTerms", {})
+
+
+def get_components(glyph_name: str) -> list[str]:
+    kb = _load_knowledge_base()
+    glyph_data = kb.get("glyphs", {}).get(glyph_name)
+    if glyph_data is None:
+        return []
+    return glyph_data.get("components", glyph_data.get("reusableComponents", []))
+
+
+def get_common_mistakes(glyph_name: str) -> list[str]:
+    kb = _load_knowledge_base()
+    glyph_data = kb.get("glyphs", {}).get(glyph_name)
+    if glyph_data is None:
+        return []
+    return glyph_data.get("commonMistakes", [])
+
+
+def get_pro_tips(glyph_name: str) -> list[str]:
+    kb = _load_knowledge_base()
+    glyph_data = kb.get("glyphs", {}).get(glyph_name)
+    if glyph_data is None:
+        return kb.get("proTips", [])
+    tips = list(glyph_data.get("proTips", []))
+    if not tips:
+        tips = list(glyph_data.get("tips", []))
+    return tips
+
+
+def get_suggestions(glyph_name: str) -> list[str]:
+    kb = _load_knowledge_base()
+    glyph_data = kb.get("glyphs", {}).get(glyph_name)
+    if glyph_data is None:
+        return kb.get("suggestions", {}).get("general", [])
+    return glyph_data.get("suggestions", [])
+
+
+def get_component_catalog() -> dict[str, str]:
+    kb = _load_knowledge_base()
+    return kb.get("components", {})
+
+
+def get_card_layout() -> dict:
+    kb = _load_knowledge_base()
+    return kb.get("cardLayout", {})
+
+
+def get_all_components() -> dict[str, str]:
+    return get_component_catalog()
+
+
+def get_info_cards(glyph_name: str) -> list[dict]:
+    kb = _load_knowledge_base()
+    glyph_data = kb.get("glyphs", {}).get(glyph_name)
+    if glyph_data is None:
+        return []
+    cards = []
+    phase = get_design_phase(glyph_name)
+    if phase is not None:
+        cards.append({"type": "phase", "title": "Design Phase", "body": f"{phase.name} - {phase.description}"})
+    if glyph_data.get("tips"):
+        cards.append({"type": "construction", "title": "Construction Tips", "tips": glyph_data.get("tips", [])})
+    comps = glyph_data.get("components", glyph_data.get("reusableComponents", []))
+    if comps:
+        cards.append({"type": "component", "title": "Reusable Components", "components": comps})
+    if glyph_data.get("commonMistakes"):
+        cards.append({"type": "mistake", "title": "Common Mistakes", "mistakes": glyph_data.get("commonMistakes", [])})
+    if glyph_data.get("proTips"):
+        cards.append({"type": "tip", "title": "Pro Tips", "tips": glyph_data.get("proTips", [])})
+    if glyph_data.get("suggestions"):
+        cards.append({"type": "suggestion", "title": "Suggestions", "suggestions": glyph_data.get("suggestions", [])})
+    if glyph_data.get("opticalCorrections"):
+        cards.append({"type": "optical", "title": "Optical Corrections", "corrections": glyph_data.get("opticalCorrections", [])})
+    return cards
+
+
+def get_cards(glyph_name: str) -> list[dict]:
+    return get_info_cards(glyph_name)
+
+
+def get_layout() -> dict:
+    return get_card_layout()
+
+
+def get_acceleration_tips(glyph_name: str) -> list[str]:
+    return get_pro_tips(glyph_name)
+
+
+def get_pro_advice(glyph_name: str):
+    return get_glyph_tips(glyph_name)

@@ -1,0 +1,217 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Curve Trajectory — preview</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        background: #2b2b2b;
+        color: #e8e8e8;
+        font-family: fontra-ui-regular, "Segoe UI", system-ui, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 22px 20px 30px;
+      }
+      h1 {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: 0.02em;
+      }
+      p.sub {
+        margin: 0;
+        font-size: 12px;
+        opacity: 0.6;
+      }
+      .stage {
+        background: #333;
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      canvas {
+        display: block;
+      }
+      .legend {
+        display: flex;
+        gap: 20px;
+        font-size: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .legend span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .dash {
+        width: 16px;
+        height: 0;
+        border-top: 2px dashed #a99bff;
+        display: inline-block;
+      }
+      .ring {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #ff6b6b;
+        display: inline-block;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "@fontra/core/": "/src-js/fontra-core/src/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Curve Trajectory</h1>
+    <p class="sub">
+      The trajectory a curve should follow, drawn over the curve itself
+    </p>
+    <div class="stage"><canvas id="canvas" width="1180" height="520"></canvas></div>
+    <div class="legend">
+      <span><i class="dash"></i> reference trajectory</span>
+      <span><i class="dot" style="background: #3ecf9e"></i> on trajectory</span>
+      <span><i class="dot" style="background: #f2b457"></i> close</span>
+      <span><i class="dot" style="background: #ff6b6b"></i> off trajectory</span>
+      <span><i class="ring"></i> anchor with an issue</span>
+    </div>
+    <p class="sub" id="status">…</p>
+
+    <script type="module">
+      const statusElement = document.getElementById("status");
+
+      try {
+        await main();
+      } catch (error) {
+        statusElement.textContent = "ERROR: " + error.message;
+        statusElement.style.color = "#ff6b6b";
+      }
+
+      async function main() {
+        const { drawAnchorRings, drawCurveTrajectory } = await import(
+          "@fontra/core/curve-trajectory-drawing.js"
+        );
+
+        const PARAMETERS = {
+          strokeWidth: 1.5,
+          trajectoryStrokeWidth: 1.6,
+          circleStrokeWidth: 1,
+          ribbonOpacity: 0.16,
+          handleRadius: 4,
+          ringRadius: 8,
+          ringStrokeWidth: 1.5,
+          labelFontSize: 11,
+          dashLength: 7,
+          dashGap: 5,
+          dotLength: 1,
+          dotGap: 4,
+          haloWidth: 3,
+          idealColor: "#a99bff",
+          okColor: "#3ecf9e",
+          warnColor: "#f2b457",
+          errorColor: "#ff6b6b",
+          haloColor: "#2b2b2b",
+        };
+
+        const data = await fetch("curve-trajectory-preview-data.json").then(
+          (response) => response.json()
+        );
+
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+        context.fillStyle = "#333";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        context.save();
+        context.translate(30, 30);
+
+        // The glyph outlines, the way the editor draws them.
+        drawOutline(context, data.outline.o, true);
+        drawOutline(context, [data.outline.s], false);
+
+        // The overlay.
+        for (const entry of data.o.segments) {
+          if (entry.analysis) {
+            drawCurveTrajectory(context, entry, PARAMETERS, {
+              showLabels: true,
+            });
+          }
+        }
+        drawAnchorRings(
+          context,
+          fakePath(data.o.segments),
+          data.o.segments,
+          data.o,
+          PARAMETERS
+        );
+
+        for (const entry of data.s.segments) {
+          if (entry.analysis) {
+            drawCurveTrajectory(context, entry, PARAMETERS, {
+              showLabels: true,
+            });
+          }
+        }
+        drawAnchorRings(
+          context,
+          fakePath(data.s.segments),
+          data.s.segments,
+          data.s,
+          PARAMETERS
+        );
+
+        context.restore();
+
+        statusElement.textContent =
+          `${data.o.segments.length} curves in the O (${data.o.issues.length} issues) · ` +
+          `${data.s.segments.length} S-curve (${data.s.issues.length} issue)`;
+
+        function fakePath(segments) {
+          const points = new Map();
+          for (const segment of segments) {
+            (segment.pointIndices || []).forEach((index, i) => {
+              if (!points.has(index)) {
+                points.set(index, segment.points[i]);
+              }
+            });
+          }
+          return { getPoint: (index) => points.get(index) };
+        }
+
+        function drawOutline(ctx, contours, closed) {
+          for (const contour of contours) {
+            const [p0, c0, c1, p3] = contour;
+            ctx.beginPath();
+            ctx.moveTo(p0.x, p0.y);
+            ctx.bezierCurveTo(c0.x, c0.y, c1.x, c1.y, p3.x, p3.y);
+            if (closed) {
+              ctx.closePath();
+            }
+            ctx.fillStyle = "rgba(80, 140, 220, 0.16)";
+            ctx.fill();
+            ctx.strokeStyle = "#7aa7f0";
+            ctx.lineWidth = 1.6;
+            ctx.stroke();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -71,6 +71,7 @@ import { dialog, dialogSetup, message } from "@fontra/web-components/modal-dialo
 import { parsePluginBasePath } from "@fontra/web-components/plugin-manager.js";
 import { BrushToolAdvanced } from "./edit-tools-brush-advanced.js";
 import { CJKDesignFrame } from "./cjk-design-frame.js";
+import { CurveTrajectoryTool } from "./edit-tools-curve-trajectory.js";
 import { HandTool } from "./edit-tools-hand.js";
 import { KnifeTool } from "./edit-tools-knife.js";
 import { MetricsTool } from "./edit-tools-metrics.js";
@@ -982,6 +983,7 @@ export class EditorController extends ViewController {
       MetricsTool,
       PowerRulerTool,
       TriangleGuardianTool,
+      CurveTrajectoryTool,
       BrushToolAdvanced,
       HandTool,
     ];
