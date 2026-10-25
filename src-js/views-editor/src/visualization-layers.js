@@ -1,4 +1,4 @@
-import { withSavedState } from "@fontra/core/utils.ts";
+import { enumerate, withSavedState } from "@fontra/core/utils.ts";
 import { mulScalar } from "@fontra/core/var-funcs.js";
 import { equalGlyphSelection } from "./scene-controller.js";
 
@@ -131,6 +131,36 @@ function getGlyphsBySelectionMode(model) {
       (glyph) => glyph !== selectedPositionedGlyph || !model.selectedGlyph?.isEditing
     ),
   };
+}
+
+/**
+ * The same glyphs as `getGlyphsBySelectionMode()`, but each one comes with the
+ * line and glyph index it has in the scene. This is what a panel needs when
+ * it wants to select a glyph, for example when the user clicks a finding.
+ */
+export function getGlyphEntriesBySelectionMode(model) {
+  const glyphsBySelectionMode = getGlyphsBySelectionMode(model);
+
+  const entryByGlyph = new Map();
+  for (const [lineIndex, line] of enumerate(model.positionedLines || [])) {
+    for (const [glyphIndex, positionedGlyph] of enumerate(line.glyphs || [])) {
+      if (!entryByGlyph.has(positionedGlyph)) {
+        entryByGlyph.set(positionedGlyph, {
+          positionedGlyph,
+          lineIndex,
+          glyphIndex,
+        });
+      }
+    }
+  }
+
+  const result = {};
+  for (const [mode, glyphs] of Object.entries(glyphsBySelectionMode)) {
+    result[mode] = glyphs
+      .map((positionedGlyph) => entryByGlyph.get(positionedGlyph))
+      .filter((entry) => entry !== undefined);
+  }
+  return result;
 }
 
 function hoveredGlyphs(model) {

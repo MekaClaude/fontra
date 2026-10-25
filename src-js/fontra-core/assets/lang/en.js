@@ -518,10 +518,16 @@ export const strings = {
  "sidebar.curve-trajectory-panel.legend-error": "Off trajectory",
  "sidebar.curve-trajectory-panel.findings": "Findings",
  "sidebar.curve-trajectory-panel.summary": "%0 curves · %1 off trajectory",
+ "sidebar.curve-trajectory-panel.summary-multi":
+  "%0 glyphs · %1 curves · %2 off trajectory",
  "sidebar.curve-trajectory-panel.no-findings": "Every curve is on trajectory",
- "sidebar.curve-trajectory-panel.no-glyph": "No glyph selected",
+ "sidebar.curve-trajectory-panel.no-glyphs-in-scope": "No glyphs in scope",
  "sidebar.curve-trajectory-panel.fix-flagged": "Fix flagged",
  "sidebar.curve-trajectory-panel.fix-selected": "Fix selected",
+ "sidebar.curve-trajectory-panel.skipped":
+  "%0 glyph could not be edited at this location",
+ "sidebar.curve-trajectory-panel.skipped.plural":
+  "%0 glyphs could not be edited at this location",
  "sidebar.curve-trajectory-panel.note":
   "A curve that is meant to be round is an arc. Its handles belong at d = (4/3)·R·tan(θ/4) — the classic kappa distance — and an S-curve should be point symmetric about the chord.",
  "sidebar.user-settings.overshoot-zones": "Overshoot zones",

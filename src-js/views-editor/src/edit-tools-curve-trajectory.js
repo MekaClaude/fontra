@@ -2,10 +2,9 @@ import {
   drawAnchorRings,
   drawCurveTrajectory,
 } from "@fontra/core/curve-trajectory-drawing.js";
+import { scopeToSelectionMode } from "@fontra/core/curve-trajectory-scope.js";
 import {
-  SEVERITY_ERROR,
   SEVERITY_OK,
-  SEVERITY_WARN,
   analyzePath,
   applyIdealHandles,
 } from "@fontra/core/ideal-curve.js";
@@ -14,6 +13,7 @@ import { ObservableController } from "@fontra/core/observable-object.js";
 import { parseSelection } from "@fontra/core/utils.js";
 import { BaseTool } from "./edit-tools-base.js";
 import { registerVisualizationLayerDefinition } from "./visualization-layer-definitions.js";
+import { getGlyphEntriesBySelectionMode } from "./visualization-layers.js";
 
 const CURVE_TRAJECTORY_IDENTIFIER = "fontra.curve.trajectory";
 
@@ -25,9 +25,7 @@ try {
     name: "sidebar.user-settings.glyph.curve-trajectory",
     selectionFunc: (visContext) => {
       const scope = activeToolInstance?.scope || "editing";
-      const mode =
-        scope === "all" ? "all" : scope === "selected" ? "selected" : "editing";
-      return visContext.glyphsBySelectionMode[mode] || [];
+      return visContext.glyphsBySelectionMode[scopeToSelectionMode(scope)] || [];
     },
     userSwitchable: true,
     defaultOn: false,
@@ -264,6 +262,42 @@ export class CurveTrajectoryTool extends BaseTool {
     return { path: path, analysis: this.getAnalysis(path) };
   }
 
+  /**
+   * The glyphs that are in scope, as `{ positionedGlyph, lineIndex, glyphIndex }`.
+   *
+   * This is exactly the set that the overlay draws, so the panel and the
+   * canvas can never disagree about which glyphs are being looked at.
+   */
+  getScopeGlyphEntries() {
+    const model = this.sceneModel;
+    if (!model) {
+      return [];
+    }
+    const entries = getGlyphEntriesBySelectionMode(model);
+    return entries[scopeToSelectionMode(this.scope)] || [];
+  }
+
+  /**
+   * The glyphs in scope, one entry per glyph name: a glyph that occurs more
+   * than once in the text is one glyph, with one set of curves.
+   */
+  getScopeGlyphsByName() {
+    const byName = new Map();
+    for (const entry of this.getScopeGlyphEntries()) {
+      const glyphName = entry.positionedGlyph.glyphName;
+      if (!glyphName || byName.has(glyphName)) {
+        continue;
+      }
+      byName.set(glyphName, {
+        glyphName: glyphName,
+        positionedGlyph: entry.positionedGlyph,
+        lineIndex: entry.lineIndex,
+        glyphIndex: entry.glyphIndex,
+      });
+    }
+    return [...byName.values()];
+  }
+
   // ---------------------------------------------------------------------
   // Drawing
   // ---------------------------------------------------------------------
@@ -347,16 +381,37 @@ export class CurveTrajectoryTool extends BaseTool {
   // Actions
   // ---------------------------------------------------------------------
 
-  /** Select the points of a segment, so the user can see which one it is. */
-  selectSegment(entry) {
+  /**
+   * Select the points of a segment, so the user can see which one it is.
+   *
+   * When the segment belongs to another glyph, that glyph is selected first,
+   * so the user lands on the curve that was clicked.
+   */
+  selectSegment(entry, glyphEntry = null) {
     if (!entry?.pointIndices) {
       return;
+    }
+    if (glyphEntry && !this._isEditingGlyph(glyphEntry.positionedGlyph)) {
+      this.sceneSettings.selectedGlyph = {
+        lineIndex: glyphEntry.lineIndex,
+        glyphIndex: glyphEntry.glyphIndex,
+        isEditing: true,
+      };
     }
     const selection = new Set();
     for (const index of entry.pointIndices) {
       selection.add(`point/${index}`);
     }
     this.sceneController.selection = selection;
+  }
+
+  _isEditingGlyph(positionedGlyph) {
+    const editingGlyph = this.sceneModel.getSelectedPositionedGlyph();
+    return (
+      !!editingGlyph &&
+      !!positionedGlyph &&
+      editingGlyph.glyphName === positionedGlyph.glyphName
+    );
   }
 
   /** The curve segments that the current selection touches. */
@@ -373,57 +428,188 @@ export class CurveTrajectoryTool extends BaseTool {
       return [];
     }
 
-    return result.analysis.segments.filter((entry) => {
-      if (!entry.pointIndices || !entry.analysis || entry.analysis.degenerate) {
-        return false;
-      }
-      return entry.pointIndices.some((index) => selectedSet.has(index));
-    });
+    const glyphName = this.sceneModel.getSelectedPositionedGlyph()?.glyphName;
+
+    return result.analysis.segments
+      .filter((entry) => {
+        if (!entry.pointIndices || !entry.analysis || entry.analysis.degenerate) {
+          return false;
+        }
+        return entry.pointIndices.some((index) => selectedSet.has(index));
+      })
+      .map((entry) => ({
+        glyphName: glyphName,
+        contourIndex: entry.contourIndex,
+        segmentIndex: entry.segmentIndex,
+      }));
   }
 
   /**
    * Move the handles of the flagged curves onto their ideal trajectory.
    *
-   * The edit is applied to the editing layer(s) and is undoable.
+   * The edit is applied to every glyph that is in scope, and it is undoable.
+   *
+   * `entries` is a list of `{ glyphName, contourIndex, segmentIndex }`
+   * objects, or null to fix every flagged curve in scope.
+   *
+   * Returns `{ changed, skipped }`: `skipped` holds the names of the glyphs
+   * that could not be edited at the current location.
    */
   async applyIdealTrajectory(entries = null) {
-    const sceneController = this.sceneController;
+    const scopeGlyphs = this.getScopeGlyphsByName();
+    if (!scopeGlyphs.length) {
+      return { changed: false, skipped: [] };
+    }
+
+    const entriesByGlyphName = new Map();
+    if (entries) {
+      for (const entry of entries) {
+        const list = entriesByGlyphName.get(entry.glyphName) || [];
+        list.push(entry);
+        entriesByGlyphName.set(entry.glyphName, list);
+      }
+    }
+
+    let changed = false;
+    const skipped = [];
+
+    for (const scopeGlyph of scopeGlyphs) {
+      const glyphEntries = entries
+        ? entriesByGlyphName.get(scopeGlyph.glyphName)
+        : null;
+      if (entries && !glyphEntries) {
+        // This glyph has nothing to fix.
+        continue;
+      }
+      const result = await this._applyIdealTrajectoryToGlyph(
+        scopeGlyph,
+        glyphEntries
+      );
+      if (result === "skipped") {
+        skipped.push(scopeGlyph.glyphName);
+      } else if (result) {
+        changed = true;
+      }
+    }
+
+    this._invalidateAnalysis();
+    this.canvasController.requestUpdate();
+    return { changed, skipped };
+  }
+
+  async _applyIdealTrajectoryToGlyph(scopeGlyph, entries) {
+    if (this._isEditingGlyph(scopeGlyph.positionedGlyph)) {
+      return await this._applyIdealTrajectoryToEditingGlyph(entries);
+    }
+    return await this._applyIdealTrajectoryToNamedGlyph(scopeGlyph, entries);
+  }
+
+  /**
+   * Fix the glyph that is being edited: its editing layer(s) are edited
+   * directly, which is the safest thing to do, as the editor takes care of
+   * the source bookkeeping.
+   */
+  async _applyIdealTrajectoryToEditingGlyph(entries) {
     let changed = false;
 
-    await sceneController.editLayersAndRecordChanges((layerGlyphs) => {
+    await this.sceneController.editLayersAndRecordChanges((layerGlyphs) => {
       for (const layerGlyph of Object.values(layerGlyphs)) {
-        const path = layerGlyph.path;
-        if (!path) {
-          continue;
-        }
-        const analysis = analyzePath(path, { strictness: this.strictness });
-        for (const entry of analysis.segments) {
-          if (!entry.analysis || entry.analysis.degenerate) {
-            continue;
-          }
-          if (entries) {
-            const match = entries.some(
-              (target) =>
-                target.contourIndex === entry.contourIndex &&
-                target.segmentIndex === entry.segmentIndex
-            );
-            if (!match) {
-              continue;
-            }
-          } else if (entry.analysis.severity === SEVERITY_OK) {
-            // Nothing to fix: the curve already follows its trajectory.
-            continue;
-          }
-          if (applyIdealHandles(path, entry)) {
-            changed = true;
-          }
-        }
+        changed = this._applyIdealHandlesToPath(layerGlyph.path, entries) || changed;
       }
       return translate("edit-tools-curve-trajectory.undo.apply-trajectory");
     });
 
-    this._invalidateAnalysis();
-    this.canvasController.requestUpdate();
+    return changed;
+  }
+
+  /**
+   * Fix a glyph that is in scope, but is not being edited: its source layer
+   * is edited directly.
+   *
+   * A glyph that is not backed by a source at the current location is skipped:
+   * writing to a source that is not on display would change the wrong shape.
+   */
+  async _applyIdealTrajectoryToNamedGlyph(scopeGlyph, entries) {
+    const glyphName = scopeGlyph.glyphName;
+    const controller = scopeGlyph.positionedGlyph.glyph;
+
+    if (!controller?.canEdit) {
+      return "skipped";
+    }
+
+    const layerName = await this._getSourceLayerName(glyphName);
+    if (!layerName || layerName !== controller.layerName) {
+      // The glyph is not on display from a source at this location, so we
+      // cannot safely edit it here.
+      return "skipped";
+    }
+
+    let changed = false;
+
+    await this.sceneController.editNamedGlyphAndRecordChanges(
+      glyphName,
+      (glyph) => {
+        const path = glyph.layers?.[layerName]?.glyph?.path;
+        if (path) {
+          changed = this._applyIdealHandlesToPath(path, entries) || changed;
+        }
+        return translate("edit-tools-curve-trajectory.undo.apply-trajectory");
+      }
+    );
+
+    return changed;
+  }
+
+  /**
+   * The name of the layer that is on display for a glyph at the current
+   * location, or undefined if the location is not at a source.
+   */
+  async _getSourceLayerName(glyphName) {
+    const varGlyph = await this.fontController.getGlyph(glyphName);
+    if (!varGlyph) {
+      return undefined;
+    }
+    const location = this.sceneModel.getLocationForGlyph(glyphName);
+    const sourceIndex = varGlyph.getSourceIndex(location);
+    if (sourceIndex === undefined) {
+      return undefined;
+    }
+    return varGlyph.sources[sourceIndex]?.layerName;
+  }
+
+  /**
+   * Apply the ideal handles to the flagged segments of a path.
+   *
+   * The path is analysed again here, so the segment indices refer to the path
+   * that is being edited, and not to the path that was on display.
+   */
+  _applyIdealHandlesToPath(path, entries) {
+    if (!path) {
+      return false;
+    }
+    let changed = false;
+    const analysis = analyzePath(path, { strictness: this.strictness });
+    for (const entry of analysis.segments) {
+      if (!entry.analysis || entry.analysis.degenerate) {
+        continue;
+      }
+      if (entries) {
+        const match = entries.some(
+          (target) =>
+            target.contourIndex === entry.contourIndex &&
+            target.segmentIndex === entry.segmentIndex
+        );
+        if (!match) {
+          continue;
+        }
+      } else if (entry.analysis.severity === SEVERITY_OK) {
+        // Nothing to fix: the curve already follows its trajectory.
+        continue;
+      }
+      if (applyIdealHandles(path, entry)) {
+        changed = true;
+      }
+    }
     return changed;
   }
 

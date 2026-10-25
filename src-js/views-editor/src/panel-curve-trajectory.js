@@ -1,3 +1,4 @@
+import { aggregateScopeFindings } from "@fontra/core/curve-trajectory-scope.js";
 import {
   RULE_LABELS,
   SEVERITY_ERROR,
@@ -5,7 +6,7 @@ import {
   SEVERITY_WARN,
 } from "@fontra/core/ideal-curve.js";
 import { div, input, label, span } from "@fontra/core/html-utils.js";
-import { translate } from "@fontra/core/localization.js";
+import { translate, translatePlural } from "@fontra/core/localization.js";
 import { themeController } from "@fontra/core/theme-settings.js";
 import Panel from "./panel.js";
 
@@ -205,6 +206,20 @@ export default class CurveTrajectoryPanel extends Panel {
       min-width: 34px;
     }
 
+    .ct-finding-glyph {
+      flex: none;
+      font-weight: 600;
+      font-size: 10px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: var(--ui-element-background-color);
+      color: var(--ct-ideal);
+      max-width: 84px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .ct-finding-text { flex: 1; }
 
     .ct-finding-rule {
@@ -242,6 +257,15 @@ export default class CurveTrajectoryPanel extends Panel {
     .ct-button:disabled { opacity: .4; cursor: default; }
     .ct-button:disabled:hover { border-color: var(--horizontal-rule-color); color: var(--ui-element-foreground-color); }
 
+    .ct-fix-message {
+      display: none;
+      font-size: 10.5px;
+      line-height: 1.45;
+      color: var(--ct-warn);
+    }
+
+    .ct-fix-message.visible { display: block; }
+
     .ct-note {
       font-size: 10.5px;
       line-height: 1.5;
@@ -260,6 +284,8 @@ export default class CurveTrajectoryPanel extends Panel {
     super(editorController);
     this._tool = null;
     this._findings = [];
+    this._scopeGlyphs = [];
+    this._scopeGlyphsByName = new Map();
   }
 
   set tool(tool) {
@@ -323,6 +349,7 @@ export default class CurveTrajectoryPanel extends Panel {
 
     this._summary = div({ class: "ct-summary" });
     this._findingsList = div({ class: "ct-findings" });
+    this._fixMessage = div({ class: "ct-fix-message" });
 
     this._fixAllButton = input({
       type: "button",
@@ -405,6 +432,7 @@ export default class CurveTrajectoryPanel extends Panel {
           this._fixSelectedButton,
           this._fixAllButton,
         ]),
+        this._fixMessage,
       ])
     );
 
@@ -421,6 +449,13 @@ export default class CurveTrajectoryPanel extends Panel {
     this.editorController.sceneSettingsController.addKeyListener(
       "selectedGlyphName",
       () => this._updateFindings()
+    );
+    this.editorController.sceneSettingsController.addKeyListener(
+      "positionedLines",
+      () => this._updateFindings()
+    );
+    this.editorController.fontController.addEditListener(() =>
+      this._updateFindings()
     );
     this.editorController.visualizationLayersSettings.addKeyListener(
       CURVE_TRAJECTORY_IDENTIFIER,
@@ -555,39 +590,51 @@ export default class CurveTrajectoryPanel extends Panel {
       return;
     }
 
-    const result = this._tool?.getCurrentGlyphAnalysis();
-    const analysis = result?.analysis;
+    // The findings follow the scope: they describe exactly the glyphs that
+    // the overlay draws, so the panel and the canvas cannot disagree.
+    const scopeGlyphs = this._tool?.getScopeGlyphsByName?.() || [];
+    this._scopeGlyphs = scopeGlyphs;
+    this._scopeGlyphsByName = new Map(
+      scopeGlyphs.map((scopeGlyph) => [scopeGlyph.glyphName, scopeGlyph])
+    );
 
-    this._findings = analysis ? [...analysis.issues] : [];
-    this._findings.sort((a, b) => {
-      const order = { error: 0, warn: 1, ok: 2 };
-      return (order[a.severity] ?? 3) - (order[b.severity] ?? 3);
+    const glyphAnalyses = scopeGlyphs.map((scopeGlyph) => {
+      const path = scopeGlyph.positionedGlyph?.glyph?.path;
+      return {
+        glyphName: scopeGlyph.glyphName,
+        analysis: path ? this._tool.getAnalysis(path) : null,
+      };
     });
 
-    this._updateSummary(analysis);
+    const aggregated = aggregateScopeFindings(glyphAnalyses);
+    this._findings = aggregated.findings;
+
+    this._updateSummary(aggregated);
     this._renderFindings();
   }
 
-  _updateSummary(analysis) {
-    if (!analysis) {
+  _updateSummary(aggregated) {
+    if (!aggregated.glyphCount) {
       this._summary.textContent = translate(
-        "sidebar.curve-trajectory-panel.no-glyph"
+        "sidebar.curve-trajectory-panel.no-glyphs-in-scope"
       );
       return;
     }
 
-    const curves = analysis.segments.filter(
-      (segment) => segment.analysis && !segment.analysis.degenerate
-    );
-    const off = curves.filter(
-      (segment) => segment.analysis.severity !== SEVERITY_OK
-    );
-
-    this._summary.textContent = translate(
-      "sidebar.curve-trajectory-panel.summary",
-      curves.length,
-      off.length
-    );
+    if (aggregated.glyphCount > 1) {
+      this._summary.textContent = translate(
+        "sidebar.curve-trajectory-panel.summary-multi",
+        aggregated.glyphCount,
+        aggregated.curveCount,
+        aggregated.offCount
+      );
+    } else {
+      this._summary.textContent = translate(
+        "sidebar.curve-trajectory-panel.summary",
+        aggregated.curveCount,
+        aggregated.offCount
+      );
+    }
   }
 
   _renderFindings() {
@@ -608,6 +655,8 @@ export default class CurveTrajectoryPanel extends Panel {
     this._fixAllButton.disabled = false;
     this._fixSelectedButton.disabled = false;
 
+    const showGlyphNames = this._scopeGlyphs.length > 1;
+
     for (const issue of this._findings) {
       const severity = SEVERITY_COLORS[issue.severity] || "ok";
       const segment = issue.segment;
@@ -615,20 +664,28 @@ export default class CurveTrajectoryPanel extends Panel {
         ? `c${segment.contourIndex}·s${segment.segmentIndex}`
         : "";
 
-      const item = div({ class: "ct-finding" }, [
-        span({ class: "ct-dot " + severity, style: "margin-top: 4px;" }),
-        span({ class: "ct-finding-id" }, [id]),
+      const children = [span({ class: "ct-dot " + severity, style: "margin-top: 4px;" })];
+      if (showGlyphNames) {
+        children.push(span({ class: "ct-finding-glyph" }, [issue.glyphName]));
+      }
+      children.push(span({ class: "ct-finding-id" }, [id]));
+      children.push(
         span({ class: "ct-finding-text" }, [
           issue.message,
           span({ class: "ct-finding-rule" }, [
             RULE_LABELS[issue.rule] || issue.rule,
           ]),
-        ]),
-      ]);
+        ])
+      );
+
+      const item = div({ class: "ct-finding" }, children);
 
       item.addEventListener("click", () => {
         if (segment) {
-          this._tool?.selectSegment(segment);
+          this._tool?.selectSegment(
+            segment,
+            this._scopeGlyphsByName.get(issue.glyphName)
+          );
         }
       });
 
@@ -644,20 +701,31 @@ export default class CurveTrajectoryPanel extends Panel {
     if (!this._tool) {
       return;
     }
-    await this._tool.applyIdealTrajectory(entries);
+    const result = await this._tool.applyIdealTrajectory(entries);
     this._updateFindings();
+    this._updateFixMessage(result);
   }
 
   async _fixSelected() {
-    const result = this._tool?.getCurrentGlyphAnalysis();
-    if (!result) {
-      return;
-    }
-    const selected = this._tool.getSelectedSegmentEntries?.();
+    const selected = this._tool?.getSelectedSegmentEntries?.();
     if (!selected || !selected.length) {
       return;
     }
     await this._fix(selected);
+  }
+
+  _updateFixMessage(result) {
+    const skipped = result?.skipped || [];
+    if (skipped.length) {
+      this._fixMessage.textContent = translatePlural(
+        "sidebar.curve-trajectory-panel.skipped",
+        skipped.length
+      );
+      this._fixMessage.classList.add("visible");
+    } else {
+      this._fixMessage.textContent = "";
+      this._fixMessage.classList.remove("visible");
+    }
   }
 
   async toggle(on, focus) {
