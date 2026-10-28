@@ -44,16 +44,16 @@ export class DNAPanel extends HTMLElement {
     style.textContent = `
       :host {
         display: block;
-        background: var(--fontra-panel-bg, #1e1e1e);
-        color: var(--fontra-text-primary, #e0e0e0);
-        font-family: var(--fontra-font-ui, sans-serif);
+        background: var(--fontra-ui-surface-color, var(--fontra-panel-bg, #1e1e1e));
+        color: var(--fontra-ui-on-surface-color, var(--fontra-text-primary, #e0e0e0));
+        font-family: var(--fontra-ui-font, var(--fontra-font-ui, sans-serif));
         padding: 8px;
       }
       .section { margin-bottom: 1em; }
-      .title { color: var(--fontra-text-secondary, #888); font-size: 0.9em; text-transform: uppercase; margin-bottom: 4px; }
+      .title { color: var(--fontra-ui-on-surface-color, var(--fontra-text-secondary, #888)); opacity: .7; font-size: 0.9em; text-transform: uppercase; margin-bottom: 4px; }
       .glyph-item { display: flex; align-items: center; justify-content: space-between; padding: 4px; cursor: pointer; border-radius: 4px;}
-      .glyph-item:hover { background: #3a3a3a; }
-      .pill { font-size: 0.8em; padding: 2px 4px; border-radius: 4px; background: #444;}
+      .glyph-item:hover { background: var(--fontra-ui-secondary-color, #3a3a3a); }
+      .pill { font-size: 0.8em; padding: 2px 4px; border-radius: 4px; background: var(--fontra-ui-element-bg-color, #444);}
       .knowledge-card-container { margin-bottom: 12px; }
     `;
     this.shadowRoot.appendChild(style);

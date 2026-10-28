@@ -34,10 +34,10 @@ describe('OPT-001 Horizontal Bar Weight', () => {
     expect(opt001).toBeUndefined();
   });
 
-  it('is filtered out at Expert verbosity when below threshold', () => {
+  it('is still shown at Expert verbosity (expert sees learner rules)', () => {
     const analysis = { stems: [{ width: 85, side: 'left', isMain: true }],
                        horizontalBars: [{ width: 85, isMain: true }] };
     const warnings = evaluateRules('H', analysis, testKnowledgeBundle, { verbosity: 'expert' });
-    expect(warnings.filter(w => w.ruleId === 'OPT-001')).toHaveLength(0);
+    expect(warnings.filter(w => w.ruleId === 'OPT-001')).toHaveLength(1);
   });
 });

@@ -8,6 +8,10 @@
 *.log
 *.tmp
 *.swp
+test_output*.txt
+
+# Editor/agent scratch state
+.qwen/
 
 # Editors and IDEs
 .vscode/

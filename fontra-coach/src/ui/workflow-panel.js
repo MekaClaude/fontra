@@ -11,12 +11,12 @@ export class WorkflowPanel extends HTMLElement {
       <style>
         :host {
           display: block;
-          background: var(--fontra-panel-bg, #1e1e1e);
-          color: var(--fontra-text-primary, #e0e0e0);
-          font-family: var(--fontra-font-ui, sans-serif);
+          background: var(--fontra-ui-surface-color, var(--fontra-panel-bg, #1e1e1e));
+          color: var(--fontra-ui-on-surface-color, var(--fontra-text-primary, #e0e0e0));
+          font-family: var(--fontra-ui-font, var(--fontra-font-ui, sans-serif));
           padding: 8px;
         }
-        .stage { padding: 4px; border-left: 2px solid #555; margin-bottom: 8px; margin-left:8px; }
+        .stage { padding: 4px; border-left: 2px solid var(--horizontal-rule-color, #555); margin-bottom: 8px; margin-left:8px; }
       </style>
       <div class="workflow-panel">
         <h3>Recommended Build Order</h3>

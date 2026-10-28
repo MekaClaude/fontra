@@ -2,13 +2,14 @@
   "name": "fontra-coach",
   "version": "1.0.0",
   "description": "Type design coaching and best practice guidance",
-  "author": "Your Name",
+  "author": "MekaClaude",
+  "license": "MIT",
   "type": "module",
   "main": "src/plugin.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:kb": "node tools/kb-validate.js knowledge/v1/ && node tools/kb-lint.js knowledge/v1/",
-    "build:kb": "node tools/kb-bundle.js knowledge/v1/ --output dist/coach-kb-1.0.0.json"
+    "build:kb": "node tools/kb-bundle.js knowledge/v1/ --output dist/coach-kb-bundle.json"
   },
   "devDependencies": {
     "ajv": "^8.12.0",

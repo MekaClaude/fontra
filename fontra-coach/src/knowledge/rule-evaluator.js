@@ -12,13 +12,20 @@ export function evaluateRules(glyphName, analysis, knowledgeBundle, userSettings
 
   for (const rule of rules) {
     const ruleLevel = verbosityLevels[rule.verbosity_threshold] || 1;
-    if (userLevel !== ruleLevel) continue;
+    if (userLevel < ruleLevel) continue;
 
-    if (rule.applies_to_glyphs !== 'all' && !rule.applies_to_glyphs.includes(glyphName)) {
-      continue;
-    }
+    // Hide rules that are not yet implemented (stubs) so no fabricated
+    // data is surfaced to users.
+    if (rule.implementation_status === 'stub') continue;
 
-    if (isDismissed(rule.id, glyphName)) continue;
+    const appliesTo = rule.applies_to_glyphs;
+    const applies =
+      appliesTo === 'all' ||
+      (Array.isArray(appliesTo) && appliesTo.includes(glyphName)) ||
+      appliesTo === glyphName;
+    if (!applies) continue;
+
+    if (isDismissed(rule.id, glyphName, analysis)) continue;
 
     const conditionType = rule.detection.method;
     const warning = evaluateCondition(conditionType, rule, analysis, glyphName);
@@ -88,13 +95,42 @@ function fillTemplate(template, context) {
   });
 }
 
-export function isDismissed(ruleId, glyphName) {
-  if (typeof localStorage === 'undefined') return false;
-  return localStorage.getItem(`coach.dismissed.${ruleId}.${glyphName}`) === 'true';
+export function glyphContentHash(glyphOrAnalysis) {
+  try {
+    // Prefer real path coordinates when available.
+    const src = glyphOrAnalysis?.path?.coordinates || glyphOrAnalysis?.coordinates;
+    if (Array.isArray(src) && src.length) {
+      let h = 0x811c9dc5;
+      for (let i = 0; i < src.length; i++) {
+        h ^= (src[i] | 0);
+        h = Math.imul(h, 0x01000193);
+      }
+      return `${h}_${src.length}`;
+    }
+    // Fall back to hashing the analysis result so dismissals expire when
+    // the glyph's measurements change.
+    const json = JSON.stringify(glyphOrAnalysis || {});
+    if (json && json !== '{}') {
+      let h = 0x811c9dc5;
+      for (let i = 0; i < json.length; i++) {
+        h ^= json.charCodeAt(i);
+        h = Math.imul(h, 0x01000193);
+      }
+      return `${h}_${json.length}`;
+    }
+  } catch (e) { /* ignore */ }
+  return 'nohash';
 }
 
-export function dismiss(ruleId, glyphName) {
+export function isDismissed(ruleId, glyphName, glyphOrAnalysis) {
+  if (typeof localStorage === 'undefined') return false;
+  const hash = glyphContentHash(glyphOrAnalysis);
+  return localStorage.getItem(`coach.dismissed.${ruleId}.${glyphName}.${hash}`) === 'true';
+}
+
+export function dismiss(ruleId, glyphName, glyphOrAnalysis) {
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(`coach.dismissed.${ruleId}.${glyphName}`, 'true');
+    const hash = glyphContentHash(glyphOrAnalysis);
+    localStorage.setItem(`coach.dismissed.${ruleId}.${glyphName}.${hash}`, 'true');
   }
 }

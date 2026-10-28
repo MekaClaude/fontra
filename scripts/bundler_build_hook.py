@@ -16,5 +16,5 @@ class RollupBuildHook(BuildHookInterface):
         )
         if path.exists():
             shutil.rmtree(path)
-        subprocess.check_output("npm install", shell=True)
-        subprocess.check_output("npm run bundle", shell=True)
+        subprocess.check_output(["npm", "install"], shell=False)
+        subprocess.check_output(["npm", "run", "bundle"], shell=False)

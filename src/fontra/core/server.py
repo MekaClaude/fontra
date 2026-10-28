@@ -64,8 +64,12 @@ class FontraServer:
         # Deduplicate entry points to avoid duplicate route registration
         seenEntryPoints = {}
         for ep in entry_points(group="fontra.webcontent"):
-            if ep.name not in seenEntryPoints:
-                seenEntryPoints[ep.name] = ep.value
+            if ep.name in seenEntryPoints:
+                logger.warning(
+                    "duplicate fontra.webcontent entry point %r; keeping first", ep.name
+                )
+                continue
+            seenEntryPoints[ep.name] = ep.value
         for epName, epValue in seenEntryPoints.items():
             routes.append(
                 web.get(
@@ -269,6 +273,20 @@ class FontraServer:
         path = request.path
         if pathPrefix and path.startswith(pathPrefix):
             path = path[len(pathPrefix) :]
+
+        # Guard against path traversal: reject any segment that escapes the
+        # content root (including URL-encoded variants).
+        from urllib.parse import unquote
+
+        decoded = unquote(path)
+        segments = decoded.split("/")
+        # Block traversal segments, backslashes (Windows path separators) and null bytes.
+        if (
+            any(seg in (".", "..") for seg in segments)
+            or any("\\" in seg or "\x00" in seg for seg in segments)
+            or "\x00" in decoded
+        ):
+            raise web.HTTPNotFound()
 
         ifModSince = request.if_modified_since
         if ifModSince is not None and ifModSince >= self.startupTime:
