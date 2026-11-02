@@ -1,22 +1,32 @@
 # Changelog for Fontra
 
-## 2026-10-?? [version 2026.10.1]
+## 2026-10-30 [version 2026.10.2]
+
+### Fixes
+
+- [fontra pak] Fixed extracting OpenType features from binary files. This was caused by a bundling problem. [fontra-pak Issue 302](https://github.com/fontra/fontra-pak/issues/302), [PR 2828](https://github.com/fontra/fontra/pull/2828), [fontra-pak PR 303](https://github.com/fontra/fontra-pak/pull/303)
+
+## 2026-10-30 [version 2026.10.1]
 
 ### New features
 
 - [languages] Norwegian (bokmål) contributed by Peder Vatn Austad. [PR 2817](https://github.com/fontra/fontra/pull/2817)
-- [fontra pak] When starting the application from the command line, open any fonts passed as arguments. Contributed by Tarik Rokhsane. [fontra-pak PR 292](https://github.com/fontra/fontra-pak/pull/292)
+- [opentype backend] Extract kerning from binary fonts. [Issue 2137](https://github.com/fontra/fontra/issues/2137), [PR 2827](https://github.com/fontra/fontra/pull/2827)
 - [opentype backend] Convert OpenType features to .fea code when reading. This preserves features when exporting as (say) .fontra. This uses the new `sr-aef` tool by Simon Cozens, with contributions by Khaled Hosny. [Issue 2294](https://github.com/fontra/fontra/issues/2294), [PR 2810](https://github.com/fontra/fontra/pull/2810)
+- [fontra pak] When starting the application from the command line, open any fonts passed as arguments. Contributed by Tarik Rokhsane. [fontra-pak PR 292](https://github.com/fontra/fontra-pak/pull/292)
 - [fontra pak/linux] Add native Linux install and uninstall script. [fontra-pak PR 289](https://github.com/fontra/fontra-pak/pull/289)
 
 ### Fixes
 
+- [fontra pak/macOS/Intel/x86] Made Fontra Pak work again on macOS/Intel. [fontra-pak Issue 298](https://github.com/fontra/fontra-pak/issues/298), [fontra-pak PR 299](https://github.com/fontra/fontra-pak/pull/299)
+- [opentype feature code editor] Make "select all" (and other shortcuts) work in read-only mode. [PR 2824](https://github.com/fontra/fontra/pull/2824)
 - [editor] Fix proposed x/y coordinates for "Add Anchor" and "Add Guideline" dialogs in the case they are triggered by a shortcut instead of the context menu. [Issue 2813](https://github.com/fontra/fontra/issues/2813), [PR 2814](https://github.com/fontra/fontra/pull/2814)
 - [vivaldi] Make shortcuts work in the Vivaldi browser. [Issue 2807](https://github.com/fontra/fontra/issues/2807), [PR 2808](https://github.com/fontra/fontra/pull/2808)
 - [fontra-workflow] Fixed instantiating named guidelines. Among other things, this fixes exporting a variable font made with variable components that use named guidelines. [Issue 2800](https://github.com/fontra/fontra/issues/2800), [Issue 2799](https://github.com/fontra/fontra/issues/2799), [PR 2801](https://github.com/fontra/fontra/pull/2801)
 
 ### Improvements
 
+- [fontra pak/windows] Show the Fontra icon in the titlebar. Contributed by Tarik Rokhsane. [PR 297](https://github.com/fontra/fontra-pak/pull/297)
 - [opentype] Updated the OpenType reader so it can correctly read fonts with variable components according to the latest `VARC` specification. [PR 2819](https://github.com/fontra/fontra/pull/2819)
 - [fontra pak/linux/windows] On Windows and Linux, launch files in an existing Fontra Pak instance instead of opening a new one. Contributed by Tarik Rokhsane. [fontra-pak PR 295](https://github.com/fontra/fontra-pak/pull/295)
 - [editor] Prevent adding components that would cause a cyclic reference. [Issue 517](https://github.com/fontra/fontra/issues/517), [PR 2818](https://github.com/fontra/fontra/pull/2818)
