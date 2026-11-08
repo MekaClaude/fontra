@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "fontra": {
+        "type": "local",
+        "command": [
+          "D:/DEVWEB/MINIMAX AGENT/fontra/fontra/venv/Scripts/python.exe",
+          "-m",
+          "fontra_mcp.server"
+        ],
+        "cwd": ".",
+        "environment": {
+          "FONTRA_MCP_ROOT": ".;D:/DESIGN",
+          "FONTRA_MCP_ALLOW_WRITES": "1"
+        }
+      }
+    }
+  }
+}

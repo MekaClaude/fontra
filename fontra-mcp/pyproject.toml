@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fontra-mcp"
+version = "1.0.0"
+description = "MCP server + CLI bridging Fontra to AI agents (read-only v1)"
+readme = "README.md"
+license = { text = "GNU General Public License v3" }
+authors = [{ name = "MekaClaude" }]
+requires-python = ">=3.11"
+dependencies = [
+    # fontra itself is intentionally NOT listed here: the server must run
+    # inside a venv where fontra is installed (editable from the repo root).
+    "mcp>=1,<2",
+]
+
+[project.scripts]
+fontra-mcp = "fontra_mcp.server:main"
+fontra-cli = "fontra_mcp.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fontra_mcp"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/fontra_mcp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
