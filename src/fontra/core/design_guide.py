@@ -171,6 +171,27 @@ def get_related_glyphs(glyph_name: str) -> dict[str, list[str]]:
     }
 
 
+def get_phase_glyphs() -> dict[int, list[str]]:
+    """Map phase number -> the glyph names that belong to that phase.
+
+    The knowledge base stores the phase per glyph ("phase": "2") rather
+    than listing the glyphs on the phase itself, so the phase -> glyph
+    mapping has to be derived.
+
+    Returns:
+        Dict mapping phase number to a sorted list of glyph names.
+    """
+    kb = _load_knowledge_base()
+    result: dict[int, list[str]] = {}
+    for glyphName, glyphData in kb.get("glyphs", {}).items():
+        try:
+            phase = int(glyphData.get("phase", 0))
+        except (TypeError, ValueError):
+            continue
+        result.setdefault(phase, []).append(glyphName)
+    return {phase: sorted(names) for phase, names in sorted(result.items())}
+
+
 def get_design_phases() -> list[DesignPhase]:
     """Get the full recommended design order as a list of phases.
 
@@ -179,17 +200,30 @@ def get_design_phases() -> list[DesignPhase]:
     """
     kb = _load_knowledge_base()
     phases_data = kb.get("designOrder", {}).get("phases", [])
+    phaseGlyphs = get_phase_glyphs()
 
-    return [
-        DesignPhase(
-            phase=int(p.get("phase", 0)),
-            name=p.get("name", ""),
-            description=p.get("description", ""),
-            glyphs=p.get("glyphs", []),
-            tips=p.get("tips", []),
+    phases = []
+    for p in phases_data:
+        try:
+            phaseNumber = int(p.get("phase", 0))
+        except (TypeError, ValueError):
+            phaseNumber = 0
+        glyphs = list(p.get("glyphs", []))
+        # Fill in the glyph list from the per-glyph "phase" field when the
+        # phase itself does not carry one.
+        for glyphName in phaseGlyphs.get(phaseNumber, []):
+            if glyphName not in glyphs:
+                glyphs.append(glyphName)
+        phases.append(
+            DesignPhase(
+                phase=phaseNumber,
+                name=p.get("name", ""),
+                description=p.get("description", ""),
+                glyphs=glyphs,
+                tips=list(p.get("tips", [])),
+            )
         )
-        for p in phases_data
-    ]
+    return phases
 
 
 def get_design_phase(glyph_name: str) -> DesignPhase | None:
@@ -212,16 +246,21 @@ def get_design_phase(glyph_name: str) -> DesignPhase | None:
     except (TypeError, ValueError):
         return None
     phases_data = kb.get("designOrder", {}).get("phases", [])
+    phaseGlyphs = get_phase_glyphs().get(phase_num, [])
 
     for p in phases_data:
         try:
             if int(p.get("phase", -1)) == phase_num:
+                glyphs = list(p.get("glyphs", []))
+                for glyphName in phaseGlyphs:
+                    if glyphName not in glyphs:
+                        glyphs.append(glyphName)
                 return DesignPhase(
                     phase=int(p.get("phase", 0)),
                     name=p.get("name", ""),
                     description=p.get("description", ""),
-                    glyphs=p.get("glyphs", []),
-                    tips=p.get("tips", []),
+                    glyphs=glyphs,
+                    tips=list(p.get("tips", [])),
                 )
         except (TypeError, ValueError):
             continue

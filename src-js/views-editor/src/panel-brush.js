@@ -60,7 +60,7 @@ const STYLES = `
 
 export default class BrushPanel extends Panel {
   identifier = "brush-settings";
-  iconPath = "/images/brush.svg";
+  iconPath = "/images/brush-calligraphic.svg";
   static styles = STYLES;
 
   constructor(editorController) {

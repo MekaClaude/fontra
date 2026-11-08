@@ -303,7 +303,10 @@ class FontraServer:
         ext = resourceName.rsplit(".", 1)[-1].lower()
         if ext not in self.allowedFileExtensions:
             raise web.HTTPNotFound()
-        contentType = mimeTypes.get(resourceName.rsplit(".")[-1], "")
+        # Use the lower-cased extension for the MIME lookup as well: the
+        # extension is case-insensitive, so "EN.JS" must resolve to
+        # "application/javascript" just like "en.js".
+        contentType = mimeTypes.get(ext, "")
         response = web.Response(body=data, content_type=contentType)
         response.last_modified = self.startupTime
         return response
