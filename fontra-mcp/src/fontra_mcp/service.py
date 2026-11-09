@@ -67,6 +67,18 @@ DEFAULT_MAX_DEPTH = 3
 # Kerning table key used when a font does not have a kerning table yet.
 DEFAULT_KERN_TABLE = "kern"
 
+# The writable fields of a glyph layer (a StaticGlyph).
+LAYER_FIELDS = (
+    "path",
+    "xAdvance",
+    "yAdvance",
+    "verticalOrigin",
+    "components",
+    "anchors",
+    "guidelines",
+    "backgroundImage",
+)
+
 
 class FontServiceError(RuntimeError):
     """Raised for any service-level error (bad path, unknown font, ...)."""
@@ -718,12 +730,22 @@ class FontService:
         layerName: str,
         glyphData: dict,
         dryRun: bool = True,
+        mode: str = "patch",
     ) -> dict:
-        """Replace a single layer of a glyph, leaving other masters intact.
+        """Replace or patch one layer of a glyph, leaving other masters intact.
 
         `glyphData` is a StaticGlyph dict (the `glyph` value of a layer),
         e.g. `{"path": {...}, "xAdvance": 350, "components": [...],
         "anchors": [...]}`.
+
+        Two modes:
+
+        - `mode="patch"` (default): only the fields that are *present* in
+          `glyphData` are written. A payload with just a `path` keeps the
+          layer's anchors, components and advance — otherwise a small
+          edit silently throws away everything that was set up before.
+        - `mode="replace"`: the whole StaticGlyph is replaced; fields
+          missing from `glyphData` fall back to their defaults.
         """
         self._requireWrites()
         if not glyphData or not isinstance(glyphData, dict):
@@ -742,10 +764,35 @@ class FontService:
             raise FontServiceError(f"Invalid layer payload: {e}") from e
 
         layers = dict(existing.layers)
-        if layerName in layers:
-            layers[layerName] = replace(layers[layerName], glyph=staticGlyph)
+        baseLayer = (
+            layers[layerName]
+            if layerName in layers
+            else existing.layers[self._defaultLayerName(existing)]
+        )
+
+        if mode == "patch":
+            newGlyph = baseLayer.glyph
+            patchedFields = []
+            for fieldName in LAYER_FIELDS:
+                if fieldName in glyphData:
+                    newGlyph = replace(
+                        newGlyph, **{fieldName: getattr(staticGlyph, fieldName)}
+                    )
+                    patchedFields.append(fieldName)
+            if not patchedFields:
+                raise FontServiceError(
+                    "glyphData contains none of the writable layer fields "
+                    f"({', '.join(LAYER_FIELDS)})."
+                )
+        elif mode == "replace":
+            newGlyph = staticGlyph
+            patchedFields = list(LAYER_FIELDS)
         else:
-            layers[layerName] = replace(existing.layers[self._defaultLayerName(existing)], glyph=staticGlyph)
+            raise FontServiceError(
+                f"Unknown write mode: {mode!r} (use 'patch' or 'replace')"
+            )
+
+        layers[layerName] = replace(baseLayer, glyph=newGlyph)
 
         sources = list(existing.sources or [])
         if not any(s.layerName == layerName for s in sources):
@@ -764,6 +811,8 @@ class FontService:
             "font": self._fontId(fontPath),
             "glyph": glyphName,
             "layer": layerName,
+            "mode": mode,
+            "patchedFields": patchedFields,
             "layers": list(glyph.layers.keys()),
             "codepoints": cps,
             "summary": _summarizeGlyph(glyph),
@@ -772,6 +821,48 @@ class FontService:
             result["dryRun"] = True
             return result
         await self._writeGlyph(handler, glyphName, glyph, cps)
+        result["written"] = True
+        return result
+
+    async def deleteGlyph(
+        self,
+        font: str,
+        glyphName: str,
+        dryRun: bool = True,
+    ) -> dict:
+        """Delete a glyph from the font.
+
+        The glyph file is removed and the glyph map is updated. Getters
+        that reference the deleted glyph as a component will report it as
+        a missing component.
+        """
+        self._requireWrites()
+        handler = self._getHandler(font)
+        fontPath = self._resolveFontPath(font)
+        glyphMap = await handler.getGlyphMap()
+        if glyphName not in glyphMap:
+            raise FontServiceError(f"Glyph not found: {glyphName!r}")
+        backend = handler.writableBackend
+        if backend is None:
+            raise FontServiceError("Backend does not support writing.")
+        if not hasattr(backend, "deleteGlyph"):
+            raise FontServiceError("Backend does not support deleting glyphs.")
+        result = {
+            "font": self._fontId(fontPath),
+            "glyph": glyphName,
+            "codepoints": list(glyphMap.get(glyphName, [])),
+        }
+        if dryRun:
+            result["dryRun"] = True
+            return result
+        await backend.deleteGlyph(glyphName)
+        if hasattr(backend, "flush"):
+            backend.flush()
+        glyphMap = await handler.getGlyphMap()
+        glyphMap.pop(glyphName, None)
+        handler.glyphMap = glyphMap
+        handler.localData["glyphMap"] = glyphMap
+        handler.localData.pop(("glyphs", glyphName), None)
         result["written"] = True
         return result
 

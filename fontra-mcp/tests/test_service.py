@@ -183,8 +183,16 @@ async def test_kerning_values_are_lists_per_source(service):
 
 
 async def test_find_glyphs_using_does_not_crash(service):
-    """Regression: FontHandler.findGlyphsThatUseGlyph() needs a connection."""
-    result = await service.findGlyphsUsing("MutatorSans.fontra", "A")
+    """Regression: FontHandler.findGlyphsThatUseGlyph() needs a connection.
+
+    The backend lookup used to run in a spawned process, which hung
+    forever in a host whose __main__ is not spawn-safe.
+    """
+    import asyncio
+
+    result = await asyncio.wait_for(
+        service.findGlyphsUsing("MutatorSans.fontra", "A"), timeout=30
+    )
     assert result["supported"] is True
     assert "Aacute" in result["glyphs"]
 
@@ -376,6 +384,84 @@ async def test_set_glyph_layer_only_touches_one_layer(writeService):
     assert after["layers"]["bold-condensed"]["xAdvance"] == 999
     assert after["layers"]["light-condensed"]["xAdvance"] != 999
     assert before["layers"]["bold-condensed"]["xAdvance"] == boldBefore
+
+
+async def test_set_glyph_layer_patches_only_the_given_fields(writeService):
+    """Regression: a layer payload without anchors silently dropped them."""
+    await writeService.setAnchors(
+        "MutatorSans.fontra", "A", [{"name": "top", "x": 300, "y": 800}],
+        layerName="light-condensed", dryRun=False,
+    )
+    layerData = {
+        "xAdvance": 999,
+        "path": (await writeService.getGlyphFull("MutatorSans.fontra", "A"))["layers"][
+            "bold-condensed"
+        ]["glyph"]["path"],
+    }
+    result = await writeService.setGlyphLayer(
+        "MutatorSans.fontra", "A", "light-condensed", layerData, dryRun=False
+    )
+    assert result["mode"] == "patch"
+    assert set(result["patchedFields"]) == {"xAdvance", "path"}
+    glyph = await writeService.getGlyph("MutatorSans.fontra", "A")
+    assert glyph["layers"]["light-condensed"]["anchors"] == ["top"]
+    assert glyph["layers"]["light-condensed"]["xAdvance"] == 999
+
+
+async def test_set_glyph_layer_replace_mode_clears_other_fields(writeService):
+    await writeService.setAnchors(
+        "MutatorSans.fontra", "A", [{"name": "top", "x": 300, "y": 800}],
+        layerName="light-condensed", dryRun=False,
+    )
+    layerData = {
+        "path": (await writeService.getGlyphFull("MutatorSans.fontra", "A"))["layers"][
+            "light-condensed"
+        ]["glyph"]["path"],
+    }
+    await writeService.setGlyphLayer(
+        "MutatorSans.fontra", "A", "light-condensed", layerData,
+        dryRun=False, mode="replace",
+    )
+    glyph = await writeService.getGlyph("MutatorSans.fontra", "A")
+    assert glyph["layers"]["light-condensed"]["anchors"] == []
+
+
+async def test_set_glyph_layer_requires_a_known_field(writeService):
+    with pytest.raises(FontServiceError, match="none of the writable layer fields"):
+        await writeService.setGlyphLayer(
+            "MutatorSans.fontra", "A", "light-condensed", {"nonsense": 1}, dryRun=True
+        )
+
+
+async def test_delete_glyph(writeService):
+    await writeService.copyGlyph(
+        "MutatorSans.fontra", "A", "Scratch", codepoints=[], dryRun=False
+    )
+    result = await writeService.deleteGlyph(
+        "MutatorSans.fontra", "Scratch", dryRun=False
+    )
+    assert result["written"] is True
+    with pytest.raises(FontServiceError):
+        await writeService.getGlyph("MutatorSans.fontra", "Scratch")
+    glyphMap = (await writeService.listGlyphs("MutatorSans.fontra"))["codepoints"]
+    assert "Scratch" not in glyphMap
+
+
+async def test_delete_glyph_dry_run_keeps_the_glyph(writeService):
+    await writeService.copyGlyph(
+        "MutatorSans.fontra", "A", "Scratch", codepoints=[], dryRun=False
+    )
+    result = await writeService.deleteGlyph(
+        "MutatorSans.fontra", "Scratch", dryRun=True
+    )
+    assert result["dryRun"] is True
+    glyph = await writeService.getGlyph("MutatorSans.fontra", "Scratch")
+    assert glyph["name"] == "Scratch"
+
+
+async def test_delete_glyph_requires_writes_flag(service):
+    with pytest.raises(FontServiceError, match="Writes are disabled"):
+        await service.deleteGlyph("MutatorSans.fontra", "A", dryRun=False)
 
 
 async def test_copy_glyph(writeService):

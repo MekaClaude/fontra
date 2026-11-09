@@ -27,7 +27,7 @@ from ..core.classes import (
 )
 from ..core.glyphdependencies import GlyphDependencies
 from ..core.protocols import WritableFontBackend
-from ..core.subprocess import runInSubProcess
+from ..core.workers import runInWorker
 from .base import WritableBaseBackend
 from .filenames import fileNameToString, stringToFileName
 from .filewatcher import Change
@@ -673,7 +673,7 @@ class Scheduler:
 async def extractGlyphDependenciesFromFontra(
     glyphsDir: pathlib.Path,
 ) -> GlyphDependencies:
-    componentInfo = await runInSubProcess(_extractComponentInfoFromFontra, glyphsDir)
+    componentInfo = await runInWorker(_extractComponentInfoFromFontra, glyphsDir)
 
     dependencies = GlyphDependencies()
     for glyphName, componentNames in componentInfo.items():

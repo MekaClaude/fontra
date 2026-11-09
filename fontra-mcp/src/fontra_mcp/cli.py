@@ -130,7 +130,15 @@ async def _run(args: argparse.Namespace) -> int:
                 glyphData = _loadGlyphPayload(args)
                 _printJson(
                     await service.setGlyphLayer(
-                        args.font, args.glyph, args.layer, glyphData, dryRun=not args.write
+                        args.font, args.glyph, args.layer, glyphData,
+                        dryRun=not args.write, mode=args.mode,
+                    ),
+                    args.compact,
+                )
+            elif args.subcommand == "delete":
+                _printJson(
+                    await service.deleteGlyph(
+                        args.font, args.glyph, dryRun=not args.write
                     ),
                     args.compact,
                 )
@@ -353,7 +361,18 @@ def buildParser() -> argparse.ArgumentParser:
     p.add_argument("layer")
     p.add_argument("--data", default=None, help="StaticGlyph as inline JSON")
     p.add_argument("--from-file", default=None, help="StaticGlyph JSON file path")
+    p.add_argument(
+        "--mode",
+        default="patch",
+        choices=("patch", "replace"),
+        help="'patch' writes only the fields present in the payload",
+    )
     p.add_argument("--write", action="store_true", help="Actually write (default is dry-run)")
+
+    p = gsub.add_parser("delete", help="Delete a glyph from the font")
+    _addFontArgs(p)
+    p.add_argument("glyph")
+    p.add_argument("--write", action="store_true", help="Actually delete (default is dry-run)")
 
     p = gsub.add_parser("copy", help="Copy a glyph to a new name")
     _addFontArgs(p)

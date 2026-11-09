@@ -19,7 +19,7 @@ from aiohttp import WSCloseCode, web
 from .protocols import ProjectManager
 from .remote import RemoteObjectConnection, RemoteObjectConnectionException
 from .serverutils import apiFunctions
-from .subprocess import shutdownProcessPool
+from .workers import shutdownWorkerPool
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +105,7 @@ class FontraServer:
             self.httpApp.on_startup.append(self.launchWebBrowserCallback)
         self.httpApp.on_shutdown.append(self.closeActiveWebsockets)
         self.httpApp.on_shutdown.append(self.closeProjectManager)
-        self.httpApp.on_shutdown.append(self.shutdownProcessPool)
+        self.httpApp.on_shutdown.append(self.shutdownWorkerPool)
         self._activeWebsockets: set = set()
 
     def run(self, showLaunchBanner: bool = True) -> None:
@@ -147,8 +147,8 @@ class FontraServer:
     async def closeProjectManager(self, httpApp: web.Application) -> None:
         await self.projectManager.aclose()
 
-    async def shutdownProcessPool(self, httpApp: web.Application) -> None:
-        shutdownProcessPool()
+    async def shutdownWorkerPool(self, httpApp: web.Application) -> None:
+        shutdownWorkerPool()
 
     async def websocketHandler(self, request: web.Request) -> web.WebSocketResponse:
         projectIdentifier = request.query.get("project")

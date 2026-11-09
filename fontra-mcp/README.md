@@ -87,13 +87,17 @@ The plan also reports, per glyph, what it is **built from** and what it
 The build loop for each glyph:
 
 ```
-copy_glyph(n → m)            # start from the closest relative
+copy_glyph(n → m, codepoints=[...])  # start from the closest relative
 add_component(m, n, {...})   # place the reused arch + stem
-set_glyph_layer(m, "default", …)   # adjust the result
+set_glyph_layer(m, "default", {...})   # adjust the result
 set_anchors(m, [...])        # anchor the new junctions
 find_glyphs_using(n)         # prove the component is shared
-analyze_glyph(m)             # check stem width and overshoot
 ```
+
+`copy_glyph` has no codepoint to inherit for a brand-new glyph, so pass
+`codepoints` explicitly when the copy should be encodable — otherwise
+the editor draws it as a missing-glyph placeholder. `delete_glyph` cleans
+up scratch glyphs.
 
 ## Usage
 
@@ -121,9 +125,9 @@ fontra-cli serve          # start the MCP server
 `get_component_graph`, `analyze_glyph`
 
 **Writes** (need `FONTRA_MCP_ALLOW_WRITES=1`, dry-run by default) —
-`set_glyph`, `set_glyph_layer`, `copy_glyph`, `add_component`,
-`remove_component`, `set_anchors`, `decompose_glyph`, `interpolate_glyph`,
-`add_source`, `set_kerning`
+`set_glyph`, `set_glyph_layer`, `copy_glyph`, `delete_glyph`,
+`add_component`, `remove_component`, `set_anchors`, `decompose_glyph`,
+`interpolate_glyph`, `add_source`, `set_kerning`
 
 **Design knowledge** — `get_glyph_tips`, `get_design_phase`,
 `get_design_phases`, `get_pro_advice`, `get_optical_corrections`,
@@ -185,6 +189,14 @@ returns it.
   other masters.
 
 `set_glyph_layer` writes exactly one layer and never touches the others.
+It has two modes of its own:
+
+* `mode="patch"` (default) writes only the fields that are *present* in
+  the payload, so a payload with just a `path` keeps the layer's anchors
+  and components.
+* `mode="replace"` replaces the whole layer.
+
+The result reports `patchedFields` either way.
 
 ## Security model
 

@@ -277,9 +277,6 @@ repo server on port 8123).
 **Fix:** the panel uses `/images/brush-calligraphic.svg` — the default
 brush mode of the panel.
 
-> The committed client bundle still contains the old reference until
-> `npm run bundle` is re-run. See "Not done" below.
-
 ### B2. The MIME lookup was case-sensitive — **fixed**
 
 `src/fontra/core/server.py`:
@@ -295,7 +292,30 @@ The allow-list was case-insensitive but the MIME lookup was not, so a
 file named `EN.JS` would be served with an empty content type. The lookup
 now uses the same lower-cased extension.
 
-### B3. The console errors were caused by a broken running instance — **no code fix**
+### B3. The worker pool deadlocked the component lookup — **fixed**
+
+`find_glyphs_using` (and the editor's own "find glyphs that use this
+glyph") hung **forever** when the host's `__main__` was not safe to
+re-execute — which is the case for an MCP server started with
+`python -m fontra_mcp.server`.
+
+`fontra/core/subprocess.py` ran the glyph-dependency scan in a
+`concurrent.futures.ProcessPoolExecutor`. On Windows the default start
+method is `spawn`, and a spawned worker re-executes the parent's
+`__main__` module before it starts working. The worker never got there:
+the pool broke and the awaiting `await` never returned. Reproduced with
+a 30-second timeout — the tool call never came back.
+
+**Fix:** `fontra/core/subprocess.py` became `fontra/core/workers.py` and
+the pool is now thread-based. The work is a directory scan plus JSON
+parsing, which is I/O-bound, so a thread pool is both safe and much
+faster than spawning a process — no `__main__` is ever re-executed.
+
+*Tests:* `test-py/test_workers.py` (4 tests, including
+`test_runInWorkerDoesNotSpawnAProcess`), and the MCP test now wraps the
+call in a timeout so a regression fails instead of hanging the suite.
+
+### B4. The console errors were caused by a broken running instance — **no code fix**
 
 The reported errors
 
@@ -335,16 +355,109 @@ instance — those comments do not exist anywhere in the current source
 
 ---
 
+## Part C — what the letter build turned up
+
+Building `o` and `h` through the MCP server surfaced two more defects.
+
+### C1. `set_glyph_layer` silently dropped anchors and components — **fixed**
+
+`set_glyph_layer` replaced the whole `StaticGlyph`. Because `structure()`
+fills in defaults for missing fields, a payload that only carried a
+`path` also wiped the layer's anchors, components and advance — exactly
+the "master-dropping" class of bug as A7, one level down.
+
+**Fix:** `set_glyph_layer` has two modes:
+
+* `mode="patch"` (default): only the fields that are *present* in the
+  payload are written. A payload with just a `path` keeps the anchors.
+* `mode="replace"`: the old behaviour — the whole layer is replaced and
+  missing fields fall back to their defaults.
+
+The result reports `patchedFields` so the caller can see what changed.
+
+*Tests:* `test_set_glyph_layer_patches_only_the_given_fields`,
+`test_set_glyph_layer_replace_mode_clears_other_fields`,
+`test_set_glyph_layer_requires_a_known_field`
+
+### C2. `copy_glyph` produced an unencoded glyph — **fixed by a new tool**
+
+`copy_glyph` has no codepoint to inherit for a brand-new glyph, so
+`copy_glyph(n → h)` created `h` with an empty codepoint list. The editor
+then drew it as a missing-glyph placeholder, because the text panel maps
+characters to glyphs through the glyph map.
+
+**Fix:** `copy_glyph` already accepts `codepoints`; the new
+`delete_glyph` tool complements it, so an agent can copy, encode, and
+clean up scratch glyphs without touching the filesystem. `delete_glyph`
+is gated and dry-run by default like every other write tool.
+
+*Test:* `test_delete_glyph` (in `fontra-mcp/tests/test_service.py`)
+
+---
+
+## The letter build itself
+
+`o` and `h` were designed and written into
+`D:\DESIGN\FONT MAKING\experiment.fontra` through the MCP server only —
+every step went through a registered tool over real MCP stdio, not
+through the service layer directly.
+
+**Design references taken from the existing `n`:** stem weight 90
+(24→114 and 242→332), x-height 502, advance 350, ink 24→332, arch outer
+apex 516, arch inner apex 434 (a quadratic's apex is at the *control*
+point minus a quarter, so the arch strokes measure 82 — the horizontal
+stroke weight, thinned from the 90-unit vertical stem, exactly as the
+design already does it).
+
+**`o`** — a round bowl at the same weight: outer 25→325 × −12→512,
+counter 115→235 × 70→430, 12 units of overshoot on both sides, drawn as
+four cubic segments per contour (κ = 0.5523). The counter is wound
+**opposite** to the outer contour, because Fontra fills with the
+non-zero rule (verified against `O^1.json` in the test font, whose
+contour areas are `[+275588, −197608]`).
+
+**`h`** — built twice, and the two builds are identical:
+
+1. *Contour build:* `copy_glyph(n → h)`, then the ascender is added by
+   extending the left stem from 502 to 750 — the DNA method
+   (`n → h`, `add_ascender`, parts_used `left_stem`). One point inserted,
+   one moved.
+2. *Component build:* the arch + right stem of `n` was extracted as
+   `comp.shoulder` (normalised to its own origin, ink 0→218), and `h`
+   became its own ascender stem plus that component placed at
+   `translateX: 114`.
+
+`decompose_glyph` on a copy of the component build gives bounds
+`[24, 0, 332, 750]` — **identical** to the contour build — which proves
+the component placement is geometrically equivalent to drawing the
+outline directly. `find_glyphs_using("comp.shoulder")` returns `["h"]`.
+
+**Final state of the project:**
+
+| glyph | advance | bounds | contours | points | anchors | components |
+|---|---|---|---|---|---|---|
+| `n` | 350 | 24, 0, 332, 530 | 1 | 11 | — | — |
+| `o` | 350 | 25, −12, 325, 512 | 2 | 24 | top, bottom, left, right | — |
+| `h` | 350 | 24, 0, 114, 750 | 1 | 4 | top, bottom | `comp.shoulder` |
+| `comp.shoulder` | 218 | 0, 0, 218, 530 | 1 | 8 | — | — |
+
+`n` was not modified. A backup of the project before the build is at
+`D:\DESIGN\FONT MAKING\experiment.fontra.bak-2026-11-09`.
+
+**What still needs a designer's eye:** the `o`'s sidebearings are a first
+pass (25/25 against the `n`'s asymmetric 24/18), and the counter is small
+for the weight — both are judgement calls the agent can make but a
+designer should confirm.
+
+---
+
 ## Not done / deliberately out of scope
 
-* **The client bundle was not rebuilt.** `npm run bundle` was not run, so
-  `src/fontra/client/js/*` still contains the old `panel-brush.js` with
-  the dead `/images/brush.svg` reference. The webpack bundle is not
-  byte-reproducible, so it must be rebuilt and committed in one step
-  (never rebuilt again afterwards). The B1 fix only reaches the browser
-  after that rebuild.
-* **No new `Fontra Pak` artefact was built**; the fix needs a new build
-  to reach the packaged app.
+* **The client bundle was rebuilt twice** (once for the artefact build,
+  once after the worker-pool fix). The committed bundle is the one from
+  the final build. The webpack bundle is not byte-reproducible, so it
+  must be rebuilt and committed in one step, and never rebuilt again
+  afterwards.
 * **Interpolation is linear** between two layers (point positions, x
   advance, component transforms). It refuses to interpolate layers with
   different point counts, point types, contour counts or component counts

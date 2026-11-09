@@ -188,15 +188,33 @@ def buildServer(service: FontService) -> FastMCP:
         layer_name: str,
         glyph_data: dict,
         dry_run: bool = True,
+        mode: str = "patch",
     ) -> dict:
-        """Replace one layer (master) of a glyph, leaving the other masters intact.
+        """Write one layer (master) of a glyph, leaving the other masters intact.
 
         `glyph_data` is a StaticGlyph object: `{"path": {...}, "xAdvance": 350,
         "components": [...], "anchors": [...]}`.
+
+        `mode="patch"` (default) writes only the fields that are present in
+        `glyph_data`, so a payload with just a `path` keeps the layer's
+        anchors and components. `mode="replace"` replaces the whole layer.
         """
         return await service.setGlyphLayer(
-            font, glyph_name, layer_name, glyph_data, dryRun=dry_run
+            font, glyph_name, layer_name, glyph_data, dryRun=dry_run, mode=mode
         )
+
+    @mcp.tool()
+    async def delete_glyph(
+        font: str,
+        glyph_name: str,
+        dry_run: bool = True,
+    ) -> dict:
+        """Delete a glyph from the font (gated write).
+
+        Use it to clean up a scratch glyph. With `dry_run=True` (default)
+        nothing is removed.
+        """
+        return await service.deleteGlyph(font, glyph_name, dryRun=dry_run)
 
     @mcp.tool()
     async def copy_glyph(

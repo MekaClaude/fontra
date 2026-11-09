@@ -72,7 +72,7 @@ from ..core.classes import (
 from ..core.glyphdependencies import GlyphDependencies
 from ..core.path import PackedPathPointPen
 from ..core.protocols import WritableFontBackend
-from ..core.subprocess import runInSubProcess
+from ..core.workers import runInWorker
 from ..core.varutils import locationToTuple, makeDenseLocation, makeSparseLocation
 from .base import WritableBaseBackend
 from .filewatcher import Change
@@ -2650,7 +2650,7 @@ class ComponentsOnlyPointPen(PackedPathPointPen):
 async def extractGlyphDependenciesFromUFO(
     ufoPath: str, layerName: str
 ) -> GlyphDependencies:
-    componentInfo = await runInSubProcess(
+    componentInfo = await runInWorker(
         _extractComponentInfoFromUFO, ufoPath, layerName
     )
     dependencies = GlyphDependencies()
