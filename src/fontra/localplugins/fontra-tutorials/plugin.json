@@ -1,0 +1,6 @@
+{
+  "name": "Fontra Tutorials",
+  "description": "Guided tours and hands-on lessons inside the Fontra editor: around the editor, your first font, Font Info, the font overview, coming from Glyphs or RoboFont.",
+  "init": "init.js",
+  "function": "init"
+}

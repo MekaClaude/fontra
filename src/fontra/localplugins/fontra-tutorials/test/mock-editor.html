@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- A mock of the editor's page, enough for the plug-in to load and for a
+     tour to show: the toolbar, the sidebar tabs and panels, and an
+     `editor` object with addSidebarPanel and toggleSidebar. No Fontra. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>mock editor</title>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  #edit-tools { position: absolute; top: 40px; left: 50%; display: flex; gap: 4px; }
+  .tool-button { width: 28px; height: 28px; border: 1px solid #888; }
+  #edit-canvas { position: absolute; inset: 80px 60px 0 60px; background: #eee; }
+  .sidebar-container { position: absolute; top: 80px; bottom: 0; width: 240px; background: #ddd; display: none; }
+  .sidebar-container.visible { display: block; }
+  .sidebar-container.left { left: 0; } .sidebar-container.right { right: 0; }
+  .sidebar-tab { position: absolute; width: 36px; height: 36px; border: 1px solid #999; background: #fff; }
+</style>
+</head>
+<body>
+<div id="edit-tools">
+  <div class="tool-button" data-tool="pointer-tools"></div>
+  <div class="tool-button" data-tool="pen-tool"></div>
+  <div class="tool-button" data-tool="shape-tool"></div>
+  <div class="tool-button" data-tool="metrics-tool"></div>
+</div>
+<div id="edit-canvas"></div>
+<div class="sidebar-tab" data-sidebar-name="text-entry" style="left:12px;top:90px"></div>
+<div class="sidebar-tab" data-sidebar-name="designspace-navigation" style="left:12px;top:136px"></div>
+<div class="sidebar-tab" data-sidebar-name="selection-info" style="right:12px;top:90px"></div>
+<div class="sidebar-tab" data-sidebar-name="selection-transformation" style="right:12px;top:136px"></div>
+<div class="sidebar-container left"></div>
+<div class="sidebar-container right"></div>
+<script type="module">
+  const font = { glyphMap: {}, axes: { axes: [] }, sources: {}, getGlyph: async () => null };
+  const editor = {
+    fontController: font,
+    sceneSettings: {},
+    panels: [],
+    addSidebarPanel(panel, side) {
+      const tab = document.createElement("div");
+      tab.className = "sidebar-tab";
+      tab.dataset.sidebarName = panel.identifier;
+      tab.style.cssText = side === "right" ? "right:12px;top:182px" : "left:12px;top:182px";
+      document.body.append(tab);
+      document.querySelector(`.sidebar-container.${side}`).append(panel);
+      this.panels.push(panel);
+    },
+    toggleSidebar(name) {
+      const tab = document.querySelector(`.sidebar-tab[data-sidebar-name="${name}"]`);
+      tab.classList.toggle("selected");
+    },
+  };
+  window.editorController = editor;
+  window.mockFont = font;
+  const { init } = await import("../init.js");
+  init(editor, new URL("..", location.href).href.replace(/\/$/, ""));
+  window.pluginLoaded = true;
+</script>
+</body>
+</html>

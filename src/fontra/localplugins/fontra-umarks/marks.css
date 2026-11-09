@@ -1,0 +1,975 @@
+/* The panel's own styles. Fontra links /css/shared.css into every panel's
+   shadow root, so `fontra-button` and the theme variables are already here;
+   the state colours follow Fontra's own light/dark mechanism
+   (`--fontra-theme-marker`, see fontra-core/assets/css/core.css). */
+
+.marks-panel {
+  --umarks-ok-light: var(--fontra-theme-marker) #1f7a3d;
+  --umarks-ok-dark: #5fd48a;
+  --umarks-ok: var(--umarks-ok-light, var(--umarks-ok-dark));
+
+  --umarks-stale-light: var(--fontra-theme-marker) #a86c00;
+  --umarks-stale-dark: #ffc24d;
+  --umarks-stale: var(--umarks-stale-light, var(--umarks-stale-dark));
+
+  --umarks-missing-light: var(--fontra-theme-marker) #9a9a9a;
+  --umarks-missing-dark: #8a8a8a;
+  --umarks-missing: var(--umarks-missing-light, var(--umarks-missing-dark));
+
+  --umarks-impossible-light: var(--fontra-theme-marker) #c2284a;
+  --umarks-impossible-dark: #ff6b8a;
+  --umarks-impossible: var(--umarks-impossible-light, var(--umarks-impossible-dark));
+
+  --umarks-pending: #8884;
+}
+
+/* the panel scrolls as one: the path, the open glyph, the foot */
+
+.marks-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.marks-panel > .panel-section {
+  padding: 0.6em 1em;
+}
+
+/* ① the target */
+
+.umarks-target {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  padding-bottom: 0.5em;
+}
+
+.umarks-target-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3em 0.5em;
+}
+
+/* as wide as the target's name; the open menu shows every entry whole, and
+   some of Fontra's presets are longer than the sidebar is wide */
+.umarks-target-line select {
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.umarks-step-name {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.umarks-target-list {
+  font-family: var(--fontra-font-family-monospace, monospace);
+  font-size: 0.9em;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.umarks-target-info {
+  font-size: 0.9em;
+  opacity: 0.8;
+  padding-left: 1.6em;
+}
+
+.umarks-target-info--error {
+  color: var(--umarks-impossible);
+  opacity: 1;
+}
+
+.umarks-done {
+  color: var(--umarks-ok);
+  opacity: 1;
+}
+
+/* ②–⑥: one line each, in Fontra's ui-accordion (this stylesheet is linked
+   into the accordion's shadow root too) */
+
+.umarks-step-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1em 0.6em;
+  min-width: 0;
+}
+
+.umarks-step-count {
+  font-weight: normal;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+
+.umarks-step-count.umarks-done {
+  font-weight: bold;
+}
+
+.umarks-step-aux {
+  padding-left: 0.4em;
+}
+
+.umarks-step-aux .fontra-button {
+  padding: 0.2em 0.8em;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+/* the glyph lists sit under the line's name; the positions and Adjust take
+   the whole width, their sentences are long */
+.umarks-step-body {
+  padding-left: 0 !important;
+}
+
+.umarks-glyph-list {
+  padding-left: 1.4em;
+}
+
+.umarks-glyph-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.umarks-glyph-list:empty {
+  display: none;
+}
+
+.umarks-glyph-row {
+  display: grid;
+  grid-template-columns: 1.3em auto 1fr;
+  gap: 0.4em;
+  align-items: baseline;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  cursor: default;
+  user-select: none;
+}
+
+.umarks-glyph-row:hover {
+  background-color: #8882;
+}
+
+.umarks-glyph-row input[type="checkbox"] {
+  margin: 0;
+}
+
+.umarks-row-detail {
+  font-size: 0.85em;
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.umarks-glyph-row--waiting .umarks-row-detail,
+.umarks-glyph-row--stale .umarks-row-detail {
+  color: var(--umarks-stale);
+  opacity: 1;
+}
+
+.umarks-glyph-row--impossible .umarks-row-detail {
+  color: var(--umarks-impossible);
+  opacity: 1;
+}
+
+/* ⑤ drawn by hand: done, kept apart, ticked only to be overwritten — muted, never italic
+   (Fontra ships no italic of its UI font: the browser would fake one) */
+.umarks-glyph-row--drawn .umarks-row-name {
+  opacity: 0.7;
+}
+
+.umarks-subheading {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+  padding-top: 0.4em;
+}
+
+.umarks-step-extra:empty {
+  display: none;
+}
+
+.umarks-step-extra {
+  border-top: 1px solid var(--horizontal-rule-color, #8884);
+  margin-top: 0.3em;
+}
+
+/* sections: the content of Fontra's ui-accordion items (this stylesheet is
+   linked into the accordion's shadow root too) */
+
+.umarks-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0.2em 0 0.6em 0;
+}
+
+.umarks-sections .umarks-section-title {
+  font-weight: bold;
+  padding: 0.4em 0;
+}
+
+.umarks-counts {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.umarks-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  align-items: center;
+}
+
+.umarks-buttons--spread {
+  justify-content: space-between;
+}
+
+.umarks-buttons .fontra-button {
+  padding: 0.3em 1em;
+  font-size: 0.9em;
+}
+
+.umarks-primary {
+  font-weight: bold;
+}
+
+.umarks-button--small {
+  padding: 0.1em 0.6em !important;
+  min-width: 2em;
+}
+
+.umarks-link-button {
+  align-self: flex-start;
+  background: none !important;
+  border: none !important;
+  padding: 0.1em 0 !important;
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.umarks-link-button:hover {
+  opacity: 1;
+}
+
+.umarks-busy {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* `hidden` wins over the display of our own classes — and only of ours: the
+   accordion marks its closed items' content `hidden` and shows them by class */
+[class*="umarks-"][hidden],
+input[hidden],
+button[hidden] {
+  display: none !important;
+}
+
+/* rows */
+
+.umarks-row-name {
+  font-family: var(--fontra-font-family-monospace, monospace);
+}
+
+.umarks-dot {
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+  background-color: var(--umarks-pending);
+}
+
+.umarks-dot--ok {
+  background-color: var(--umarks-ok);
+}
+.umarks-dot--stale {
+  background-color: var(--umarks-stale);
+}
+.umarks-dot--missing {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--umarks-missing);
+}
+.umarks-dot--impossible {
+  background-color: var(--umarks-impossible);
+}
+
+.umarks-empty {
+  opacity: 0.55;
+  padding: 0.4em 0;
+}
+
+/* the open glyph */
+
+.umarks-glyph {
+  border-top: 1px solid var(--horizontal-rule-color, #8884);
+}
+
+.umarks-glyph-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+}
+
+.umarks-glyph-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2em 0.6em;
+}
+
+.umarks-glyph-name {
+  font-family: var(--fontra-font-family-monospace, monospace);
+  font-weight: bold;
+}
+
+.umarks-glyph-what {
+  font-size: 0.9em;
+  opacity: 0.75;
+}
+
+.umarks-glyph-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.umarks-glyph-row-line {
+  display: grid;
+  grid-template-columns: 4.6em minmax(0, 1fr);
+  gap: 0.5em;
+  align-items: baseline;
+}
+
+.umarks-glyph-label {
+  font-size: 0.85em;
+  opacity: 0.65;
+}
+
+.umarks-glyph-row-line select {
+  width: auto;
+  max-width: 100%;
+  justify-self: start;
+}
+
+.umarks-rule-wrap,
+.umarks-rule-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25em 0.4em;
+}
+
+.umarks-badge {
+  font-size: 0.75em;
+  padding: 0.05em 0.5em;
+  border-radius: 0.8em;
+  white-space: nowrap;
+}
+
+.umarks-badge--suggested {
+  box-shadow: inset 0 0 0 1px #8888;
+  opacity: 0.8;
+}
+
+.umarks-badge--manual {
+  background-color: #8883;
+  font-weight: bold;
+}
+
+.umarks-state--ok {
+  color: var(--umarks-ok);
+}
+
+.umarks-state--stale,
+.umarks-state--waiting {
+  color: var(--umarks-stale);
+}
+
+.umarks-state--impossible {
+  color: var(--umarks-impossible);
+}
+
+.umarks-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+}
+
+.umarks-chip {
+  font: inherit;
+  color: inherit;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15em;
+  padding: 0.1em 0.35em;
+  border: 1px solid #8886;
+  border-radius: 0.3em;
+  background: none;
+  cursor: pointer;
+}
+
+.umarks-chip:hover {
+  background-color: #8882;
+}
+
+.umarks-chip.selected {
+  background-color: #8884;
+  border-color: currentColor;
+}
+
+.umarks-chip-char {
+  font-size: 1.15em;
+}
+
+.umarks-chip-mark {
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+.umarks-chip--made .umarks-chip-mark {
+  color: var(--umarks-ok);
+  opacity: 1;
+}
+
+.umarks-chip--possible {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+/* a glyph without a character (a rule from the anchors): its name, smaller */
+.umarks-chip--named .umarks-chip-char {
+  font-size: 0.85em;
+}
+
+.umarks-anchor-composes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.umarks-name-input {
+  font: inherit;
+  width: 9em;
+}
+
+.umarks-legend {
+  font-size: 0.75em;
+  opacity: 0.6;
+  padding-left: 5.6em;
+}
+
+.umarks-composable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  margin-left: 5.1em;
+  padding: 0.4em 0.5em;
+  border-radius: 0.3em;
+  background-color: #8881;
+}
+
+.umarks-bases {
+  font-family: var(--fontra-font-family-monospace, monospace);
+}
+
+.umarks-warning {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3em 0.6em;
+  padding: 0.35em 0.5em;
+  border-radius: 0.3em;
+  font-size: 0.9em;
+  color: var(--umarks-stale);
+  background-color: #a86c0014;
+}
+
+/* a base's glyphs out of date, condensed (6d § 1): the cause once, the
+   glyphs on one line that cuts cleanly, the detail behind ▸; six lines at
+   most, the rest scrolls */
+.umarks-warning--stale {
+  /* the cause and the list take the whole width; Recompute goes under them */
+  flex-direction: column;
+  align-items: stretch;
+  --umarks-line: 1.4em;
+}
+
+.umarks-warning--stale > .fontra-button {
+  align-self: flex-end;
+}
+
+.umarks-warning-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  line-height: var(--umarks-line);
+}
+
+
+.umarks-stale-cause {
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.umarks-stale-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4em;
+  align-items: baseline;
+}
+
+.umarks-stale-list {
+  /* already cut between two names by staleListText: it wraps, never mid-name */
+  overflow-wrap: anywhere;
+}
+
+.umarks-stale-toggle {
+  border: none;
+  background: none;
+  padding: 0 0.2em;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: transform 120ms;
+}
+
+.umarks-stale-toggle.open {
+  transform: rotate(90deg);
+}
+
+/* the cause and the list stay put; only the detail, open, scrolls (six lines) */
+.umarks-stale-details {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.6em;
+  max-height: calc(6 * var(--umarks-line));
+  overflow-y: auto;
+}
+
+.umarks-stale-detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6em;
+  align-items: baseline;
+  cursor: default;
+}
+
+.umarks-stale-detail .umarks-row-detail {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* a long batch, unfolded in the foot: a detail once, its glyphs on one line */
+.umarks-report-cause {
+  overflow-wrap: anywhere;
+}
+
+.umarks-report-names {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.3em;
+}
+
+.umarks-current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  padding-bottom: 0.6em;
+}
+
+.umarks-heading {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.umarks-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.umarks-row--checkbox {
+  grid-template-columns: auto auto;
+  justify-content: left;
+  gap: 0.3em;
+}
+
+.umarks-base,
+.umarks-on {
+  font-family: var(--fontra-font-family-monospace, monospace);
+}
+
+.umarks-mark-row {
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.umarks-at {
+  opacity: 0.6;
+}
+
+.umarks-on {
+  font-size: 0.85em;
+  opacity: 0.6;
+}
+
+.umarks-note {
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+
+/* ③: one line per position */
+
+.umarks-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.umarks-preset {
+  border-radius: 0.3em;
+}
+
+.umarks-preset.open {
+  background-color: #8881;
+  padding-bottom: 0.4em;
+}
+
+.umarks-preset-line {
+  display: grid;
+  grid-template-columns: auto 4.2em 2.8em 1fr;
+  gap: 0.45em;
+  align-items: baseline;
+  padding: 0.25em 0.3em;
+  border-radius: 0.3em;
+  cursor: pointer;
+}
+
+.umarks-preset-line:hover {
+  background-color: #8882;
+}
+
+.umarks-preset-line input[type="checkbox"] {
+  margin: 0;
+  align-self: start;
+  position: relative;
+  top: 0.15em;
+}
+
+.umarks-phrase {
+  line-height: 1.35;
+}
+
+.umarks-phrase-part {
+  white-space: nowrap;
+}
+
+.umarks-preset-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  padding: 0.2em 0.4em 0 1.9em;
+}
+
+.umarks-remove {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.umarks-add {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.umarks-add-row {
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+}
+
+.umarks-add-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* the sentences: what a button is about to do */
+
+.umarks-sentence {
+  font-size: 0.92em;
+  line-height: 1.4;
+  padding: 0.45em 0.6em;
+  border-radius: 0.3em;
+  background-color: #8882;
+}
+
+.umarks-sentence:empty {
+  display: none;
+}
+
+.umarks-sentence--waiting {
+  opacity: 0.6;
+}
+
+/* fields: labels above, menus as wide as their longest entry */
+
+.umarks-field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 0.6em;
+  align-items: flex-end;
+}
+
+.umarks-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  font-size: 0.85em;
+}
+
+.umarks-field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.umarks-field > span {
+  opacity: 0.65;
+}
+
+.umarks-field select {
+  width: auto;
+  max-width: none;
+}
+
+.umarks-field input[type="text"] {
+  width: 9em;
+  box-sizing: border-box;
+}
+
+/* the number fields: Fontra's (a text field, ↑/↓ ±1, ⇧ ±10), no arrows of their own */
+.umarks-field input.umarks-number,
+input.umarks-number {
+  width: 4.5em;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+}
+
+input.umarks-name,
+.umarks-field input.umarks-name {
+  width: 6em;
+  box-sizing: border-box;
+}
+
+.umarks-op {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+/* the footer: the ghosts, and the last report */
+
+.umarks-footer {
+  border-top: 1px solid var(--horizontal-rule-color, #8884);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.umarks-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  flex-wrap: wrap;
+}
+
+.umarks-footer-row--last {
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  /* an unfolded report grows downwards: the button stays on its first line */
+  align-items: flex-start;
+}
+
+.umarks-footer-row--last .umarks-last {
+  flex: 1;
+  min-width: 0;
+}
+
+.umarks-footer-row input[type="range"] {
+  flex: 1;
+  min-width: 5em;
+}
+
+.umarks-status {
+  font-size: 0.85em;
+  opacity: 0.7;
+  font-family: var(--fontra-font-family-monospace, monospace);
+  overflow-wrap: anywhere;
+}
+
+.umarks-last {
+  font-size: 0.88em;
+  cursor: pointer;
+}
+
+.umarks-last-line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.4em;
+  align-items: baseline;
+}
+
+.umarks-last-label {
+  font-weight: bold;
+}
+
+.umarks-last-summary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.umarks-last-toggle {
+  opacity: 0.6;
+  transition: transform 120ms;
+}
+
+.umarks-last.open .umarks-last-toggle {
+  transform: rotate(90deg);
+}
+
+.umarks-last-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  padding: 0.3em 0 0 0.3em;
+  /* six lines at most, the rest scrolls (6d § 1) */
+  line-height: 1.4em;
+  max-height: calc(6 * 1.4em);
+  overflow-y: auto;
+}
+
+.umarks-report-line {
+  overflow-wrap: anywhere;
+}
+
+/* the report of a batch, unfolded: its glyphs by what they came to */
+.umarks-last-details .umarks-subheading {
+  padding-top: 0.5em;
+}
+
+.umarks-report-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6em;
+  align-items: baseline;
+  padding: 0.05em 0.3em;
+  border-radius: 0.25em;
+  cursor: default;
+}
+
+.umarks-report-row:hover {
+  background-color: #8882;
+}
+
+.umarks-report-row--left .umarks-row-detail {
+  color: var(--umarks-stale);
+  opacity: 1;
+}
+
+.umarks-report-row--impossible .umarks-row-detail {
+  color: var(--umarks-impossible);
+  opacity: 1;
+}
+
+/* ① `…`: export and import, Fontra's menu icon */
+.umarks-target-line .umarks-more {
+  width: 1.3em;
+  height: 1.3em;
+  flex: none;
+}
+
+/* ① `?`: the guide, in a new tab (6b § 2) — a small round button at the end of the line */
+.umarks-target-line .umarks-help {
+  flex: none;
+  margin-left: auto;
+  width: 1.6em;
+  height: 1.6em;
+  padding: 0;
+  border-radius: 50%;
+  font-weight: bold;
+  line-height: 1.6em;
+}
+
+/* the first pass (6b § 3): one short message under ①, closed for good by × */
+.umarks-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  margin: 0.5em 0 0.2em 1.6em;
+  padding: 0.45em 0.6em;
+  border-radius: 0.4em;
+  background-color: #8881;
+  border-left: 3px solid var(--umarks-ok);
+  font-size: 0.9em;
+  line-height: 1.35;
+}
+
+.umarks-tip-text {
+  flex: 1;
+}
+
+.umarks-tip .umarks-tip-close {
+  flex: none;
+  padding: 0 0.45em;
+  border-radius: 0.5em;
+  background: none;
+  opacity: 0.6;
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+.umarks-tip .umarks-tip-close:hover {
+  opacity: 1;
+}
+
+/* the version, in the foot: small and muted, never italic */
+.umarks-version {
+  font-size: 0.8em;
+  opacity: 0.5;
+  text-align: right;
+  padding-top: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ⑤'s half line, and the open glyph's line, when Fontra shapes the canvas
+   (6d § 2): an information, in the colour of a note, not a warning */
+.umarks-step-note {
+  padding: 0.1em 0.3em 0.3em;
+}
+
+.umarks-step-note[hidden] {
+  display: none;
+}
+
+.umarks-shaping-note {
+  overflow-wrap: anywhere;
+}
