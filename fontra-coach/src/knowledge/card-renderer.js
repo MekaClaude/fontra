@@ -119,10 +119,11 @@ export class CardRenderer {
     // Wrap in paragraph tags and sanitize with DOMPurify
     html = `<p>${html}</p>`;
 
-    // Use DOMPurify to allow safe HTML tags while preventing XSS
+    // The knowledge base contains no links, so anchor tags and attributes
+    // are removed outright — keep the allowlist minimal.
     return DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: ['p', 'strong', 'em', 'code', 'br', 'ul', 'ol', 'li', 'a'],
-      ALLOWED_ATTR: ['href', 'target', 'rel'],
+      ALLOWED_TAGS: ['p', 'strong', 'em', 'code', 'br', 'ul', 'ol', 'li'],
+      ALLOWED_ATTR: [],
     });
   }
 }

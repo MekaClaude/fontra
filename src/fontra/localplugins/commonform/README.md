@@ -43,8 +43,6 @@ under the key `fontra.pluginsplugins`:
 })();
 ```
 
-The same one-liner is in `register-dev.js`, for pasting into the console.
-
 The plugin then appears as a tab in the **right sidebar**, and its overlay is
 switched on automatically.
 
@@ -156,7 +154,6 @@ plugin is for.
 | `commonform-state.js` | the small store the panel and the layer share, and the settings that are remembered between sessions |
 | `commonform-layer.js` | the canvas overlay |
 | `commonform-panel.js` | the sidebar panel |
-| `register-dev.js` | a console one-liner that enables the plugin |
 | `tests/` | the unit suite, and the real-font check |
 
 ## License

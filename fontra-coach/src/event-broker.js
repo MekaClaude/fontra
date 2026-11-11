@@ -1,15 +1,16 @@
 export class EventBroker {
   constructor(fontraEventBus, analysisEngine) {
-    this.queue = [];
-    this.processing = false;
-    this.debounceTimer = null;
     this.analysisEngine = analysisEngine;
 
-    // Hook into Fontra event bus
+    // Per-glyph debounce so rapid edits to one glyph coalesce, without
+    // dropping unrelated selections or edits to other glyphs.
+    this.editTimers = new Map();
+    this.editDelay = 150;
+
     if (fontraEventBus && fontraEventBus.on) {
-      fontraEventBus.on('glyphEdited', (e) => this.enqueue('glyphEdited', e));
-      fontraEventBus.on('glyphSelected', (e) => this.enqueue('glyphSelected', e));
-      fontraEventBus.on('fontChanged', (e) => {
+      fontraEventBus.on('glyphEdited', (e) => this.scheduleEdit(e?.glyphName, e?.glyphData));
+      fontraEventBus.on('glyphSelected', (e) => this.handleSelected(e?.glyphName));
+      fontraEventBus.on('fontChanged', () => {
         if (this.analysisEngine && this.analysisEngine.invalidateCache) {
           this.analysisEngine.invalidateCache();
         }
@@ -17,24 +18,25 @@ export class EventBroker {
     }
   }
 
-  enqueue(type, payload) {
-    clearTimeout(this.debounceTimer);
-    this.debounceTimer = setTimeout(() => {
-      this.processEvent(type, payload);
-    }, 50);
+  scheduleEdit(glyphName, glyphData) {
+    if (!glyphName) return;
+    const existing = this.editTimers.get(glyphName);
+    if (existing) clearTimeout(existing);
+
+    const timer = setTimeout(() => {
+      this.editTimers.delete(glyphName);
+      if (this.analysisEngine && this.analysisEngine.onGlyphEdited) {
+        this.analysisEngine.onGlyphEdited(glyphName, glyphData);
+      }
+    }, this.editDelay);
+
+    this.editTimers.set(glyphName, timer);
   }
 
-  processEvent(type, payload) {
-    if (!this.analysisEngine) return;
-    
-    if (type === 'glyphEdited') {
-      if (this.analysisEngine.onGlyphEdited) {
-        this.analysisEngine.onGlyphEdited(payload.glyphName, payload.glyphData);
-      }
-    } else if (type === 'glyphSelected') {
-      if (this.analysisEngine.onGlyphSelected) {
-        this.analysisEngine.onGlyphSelected(payload.glyphName);
-      }
+  handleSelected(glyphName) {
+    if (!glyphName) return;
+    if (this.analysisEngine && this.analysisEngine.onGlyphSelected) {
+      this.analysisEngine.onGlyphSelected(glyphName);
     }
   }
 }

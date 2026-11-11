@@ -4,7 +4,7 @@
  * Works on real Fontra packed paths via the path adapter, while still
  * accepting the legacy invented contour format used by older fixtures.
  */
-import { distance, midPoint, angleFromVertical, isNearVertical } from '../utils/geom.js';
+import { isNearVertical } from '../utils/geom.js';
 import { getContours, isEmptyPath } from '../utils/path-adapter.js';
 
 export function analyzeGlyph(glyphData, metrics) {
@@ -12,10 +12,6 @@ export function analyzeGlyph(glyphData, metrics) {
   return {
     stems: measureStems(glyphData),
     overshoot: measureOvershoot(glyphData, metrics),
-    counter: measureCounter(glyphData),
-    strokeContrast: measureContrast(glyphData),
-    stressAngle: estimateStressAngle(glyphData),
-    shape: classifyGlyphShape(glyphData),
     horizontalBars: measureHorizontalBars(glyphData)
   };
 }
@@ -74,30 +70,13 @@ export function measureHorizontalBars(glyphData) {
 export function measureOvershoot(glyphData, metrics) {
   const contours = getContours(glyphData?.path);
   if (!contours.length) return null;
-  const pts = findExtrema(contours, 'bottom');
+  const pts = findExtrema(contours);
   if (pts.length === 0) return null;
   const lowestPoint = Math.min(...pts.map(pt => pt.y));
   return { bottom: (metrics?.baseline || 0) - lowestPoint };
 }
 
-export function measureCounter(glyphData) {
-  return { area: 150000, estimatedWidth: 200, shape: 'oval' };
-}
-
-export function measureContrast(glyphData) {
-  const stems = measureStems(glyphData);
-  const bars = measureHorizontalBars(glyphData);
-  if (stems.length && bars.length) {
-    return { ratio: stems[0].width / (bars[0].width || 1), thickWidth: stems[0].width, thinWidth: bars[0].width };
-  }
-  return { ratio: 1.0, thickWidth: 85, thinWidth: 85 };
-}
-
-export function estimateStressAngle(glyphData) {
-  return 0;
-}
-
-export function findExtrema(contours, direction) {
+export function findExtrema(contours) {
   const pts = [];
   for (const c of contours) {
     if (!c.points) continue;
@@ -129,9 +108,3 @@ function findSegments(glyphData, conditionFx) {
   return segments;
 }
 
-export function classifyGlyphShape(glyphData) {
-  const contours = getContours(glyphData?.path);
-  const pts = findExtrema(contours, 'all');
-  const curvePts = pts.filter(p => p.kind === 'offcurve' || p.type === 'curve');
-  return curvePts.length > pts.length * 0.5 ? "round" : "square";
-}

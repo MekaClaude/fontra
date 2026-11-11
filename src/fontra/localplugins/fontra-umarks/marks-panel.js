@@ -438,7 +438,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         try {
           this.glyphData = await loadGlyphData();
         } catch (error) {
-          console.log("U+Marks: could not load Fontra's glyph data", error);
+          console.warn("U+Marks: could not load Fontra's glyph data", error);
         }
       }
       return this.glyphData;
@@ -449,7 +449,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         const response = await fetch(PRESETS_URL, { cache: "no-cache" });
         this.presetCollections = response.ok ? await response.json() : [];
       } catch (error) {
-        console.log("U+Marks: could not load Fontra's glyph set presets", error);
+        console.warn("U+Marks: could not load Fontra's glyph set presets", error);
         this.presetCollections = [];
       }
       this.render();
@@ -1402,7 +1402,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
       try {
         return await work();
       } catch (error) {
-        console.log("U+Marks: a batch failed", error);
+        console.warn("U+Marks: a batch failed", error);
         this.report([`${text.replace(/…$/, "")}: failed — ${error.message}`]);
         return null;
       } finally {
@@ -1651,7 +1651,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         const after = previewSVG(shapes, { ...frame, xAdvance: layer?.xAdvance ?? 0 });
         return { before, after };
       } catch (error) {
-        console.log("U+Marks: no preview for", glyphName, error);
+        console.warn("U+Marks: no preview for", glyphName, error);
         return { before: "", after: "" };
       }
     }
@@ -1723,7 +1723,6 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         this.lastDetails,
         all.map((line) => element("div", { class: "umarks-report-line", text: line }))
       );
-      console.log(`U+Marks: ${all.join(" | ")}`);
     }
 
     /**
@@ -1797,9 +1796,6 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         }
       }
       replaceChildren(this.lastDetails, nodes);
-      console.log(
-        `U+Marks: ${summary} | ${groups.map((group) => `${group.title}: ${group.rows.map((row) => row.glyph).join(", ")}`).join(" | ")}`
-      );
     }
 
     async undoBatch() {
@@ -1972,7 +1968,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
         try {
           pending = await this.planOperation(this.anchorsView.operation, this.anchorsView.operationValues());
         } catch (error) {
-          console.log("U+Marks: could not work out the preview", error);
+          console.warn("U+Marks: could not work out the preview", error);
           pending = { sentence: { text: `Could not work it out: ${error.message}`, ready: false } };
         }
         if (token !== this.adjustToken) {

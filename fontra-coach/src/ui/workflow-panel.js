@@ -7,8 +7,8 @@ export class WorkflowPanel extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot.innerHTML = `
-      <style>
+    const style = document.createElement('style');
+    style.textContent = `
         :host {
           display: block;
           background: var(--fontra-ui-surface-color, var(--fontra-panel-bg, #1e1e1e));
@@ -17,12 +17,19 @@ export class WorkflowPanel extends HTMLElement {
           padding: 8px;
         }
         .stage { padding: 4px; border-left: 2px solid var(--horizontal-rule-color, #555); margin-bottom: 8px; margin-left:8px; }
-      </style>
-      <div class="workflow-panel">
-        <h3>Recommended Build Order</h3>
-        <div id="stages-container"></div>
-      </div>
     `;
+    this.shadowRoot.appendChild(style);
+
+    const panel = document.createElement('div');
+    panel.className = 'workflow-panel';
+    const heading = document.createElement('h3');
+    heading.textContent = 'Recommended Build Order';
+    panel.appendChild(heading);
+    const stages = document.createElement('div');
+    stages.id = 'stages-container';
+    panel.appendChild(stages);
+    this.shadowRoot.appendChild(panel);
+
     this.renderStages();
   }
 

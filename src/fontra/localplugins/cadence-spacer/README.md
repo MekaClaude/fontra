@@ -43,8 +43,6 @@ under the key `fontra.pluginsplugins`:
 })();
 ```
 
-The same one-liner is in `register-dev.js`, for pasting into the console.
-
 The plugin then appears as a tab in the **right sidebar**, and its overlay is
 switched on automatically.
 
@@ -169,7 +167,6 @@ node ../commonform/tests/real-font-check.mjs [path/to/font.fontra]
 | `cadence-presets.js` | the three built-in spacing tables |
 | `cadence-layer.js` | the canvas overlay |
 | `cadence-panel.js` | the sidebar panel |
-| `register-dev.js` | a console one-liner that enables the plugin |
 
 ## License
 

@@ -1,59 +1,32 @@
+/**
+ * Knowledge base discovery and loading.
+ *
+ * Throws when the bundle is missing or invalid so callers can decide
+ * whether to disable the coach instead of running with an empty KB.
+ */
 export class KnowledgeLoader {
-  constructor() {
-    this.bundle = null;
-    this.version = null;
-    this.watchers = new Set();
-  }
-
   static async loadDefault() {
-    const loader = new KnowledgeLoader();
-    try {
-      // Use a consistent path relative to where the plugin is likely running
-      const bundleUri = new URL('../../dist/coach-kb-bundle.json', import.meta.url).href;
-      await loader.load(bundleUri);
-    } catch (e) {
-      console.warn("Default KB load failed, returning empty", e);
+    const bundleUri = new URL('../../dist/coach-kb-bundle.json', import.meta.url).href;
+    const response = await fetch(bundleUri);
+
+    if (!response.ok) {
+      throw new Error(`knowledge base bundle not found (HTTP ${response.status})`);
     }
-    return loader.bundle;
+
+    const bundle = await response.json();
+    KnowledgeLoader.#validate(bundle);
+    return bundle;
   }
 
-
-  async load(bundlePath) {
-    try {
-      // Typically via fetch() in Fontra's browser context
-      const response = await fetch(bundlePath);
-      const bundle = await response.json();
-      this.validateBundle(bundle); // throws if invalid
-      this.bundle = bundle;
-      this.version = bundle.meta.version;
-      this.notify();
-    } catch (e) {
-      console.error("Failed to load knowledge base", e);
-    }
-  }
-
-  async hotReload(bundlePath) {
-    const tempLoader = new KnowledgeLoader();
-    await tempLoader.load(bundlePath);
-    if (tempLoader.bundle) {
-      this.bundle = tempLoader.bundle;
-      this.version = tempLoader.version;
-      this.notify();
-    }
-  }
-
-  validateBundle(bundle) {
+  static #validate(bundle) {
     if (!bundle || !bundle.meta || !bundle.meta.version) {
-      throw new Error("Invalid knowledge bundle format");
+      throw new Error('invalid knowledge bundle format: missing meta.version');
     }
-  }
-
-  subscribe(callback) {
-    this.watchers.add(callback);
-    return () => this.watchers.delete(callback);
-  }
-
-  notify() {
-    for (const cb of this.watchers) cb(this.bundle);
+    const required = ['opticalRules', 'workflowSequences'];
+    for (const key of required) {
+      if (!bundle[key]) {
+        throw new Error(`invalid knowledge bundle format: missing ${key}`);
+      }
+    }
   }
 }

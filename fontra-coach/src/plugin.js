@@ -7,12 +7,13 @@ import { EventBroker } from './event-broker.js';
 import { analyzeGlyph } from './analysis/geom-analyzer.js';
 import { evaluateRules } from './knowledge/rule-evaluator.js';
 import { AnalysisCache } from './utils/cache.js';
+import { hashGlyphData } from './utils/hash.js';
 
 export const pluginManifest = {
   name: "fontra-coach",
   version: "1.0.0",
   description: "Type design coaching and best practice guidance",
-  author: "Your Name",
+  author: "MekaClaude",
   fontraVersion: ">=0.9.0",
   panels: [
     { id: "coach-dna", title: "DNA", component: "DNAPanel" },
@@ -24,6 +25,23 @@ export const pluginManifest = {
   ],
 };
 
+const DEFAULT_METRICS = Object.freeze({ baseline: 0, xHeight: 500 });
+
+function getRealMetrics(fontController) {
+  if (!fontController) return null;
+  if (typeof fontController.getMetrics === 'function') {
+    try {
+      const m = fontController.getMetrics();
+      if (m && typeof m === 'object') return m;
+    } catch {
+      // fall through to next source
+    }
+  }
+  const m = fontController.metrics;
+  if (m && typeof m === 'object') return m;
+  return null;
+}
+
 class AnalysisEngine {
   constructor(kb, fontController) {
     this.kb = kb;
@@ -32,26 +50,34 @@ class AnalysisEngine {
     this.listeners = new Set();
     this.stateListeners = new Set();
     this.userSettings = { verbosity: 'learner' };
+    this._warnedAboutMetrics = false;
+
+    const realMetrics = getRealMetrics(fontController);
+    if (!realMetrics && !this._warnedAboutMetrics) {
+      console.warn(
+        '[fontra-coach] fontController.getMetrics() unavailable; ' +
+        'using default metrics (baseline: 0, xHeight: 500).'
+      );
+      this._warnedAboutMetrics = true;
+    }
+    this.metrics = realMetrics || { ...DEFAULT_METRICS };
   }
 
   onGlyphSelected(glyphName) {
-    this.cache.invalidate(glyphName); // Ensure fresh state
     this.notifyStateUpdate(glyphName);
   }
 
   onGlyphEdited(glyphName, glyphData) {
-    this.cache.invalidate(glyphName);
-    
-    let metrics = { baseline: 0, xHeight: 500 }; 
-    if (this.fontController && typeof this.fontController.getMetrics === 'function') {
-      try {
-        metrics = this.fontController.getMetrics() || metrics;
-      } catch(e) { /* ignore */ }
+    const hash = hashGlyphData(glyphData);
+
+    let analysis = this.cache.get(glyphName, hash);
+    if (!analysis) {
+      analysis = analyzeGlyph(glyphData, this.metrics);
+      if (analysis) {
+        this.cache.set(glyphName, hash, analysis);
+      }
     }
-    
-    const analysis = analyzeGlyph(glyphData, metrics);
-    this.cache.set(glyphName, "mockHash", analysis);
-    
+
     const warnings = evaluateRules(glyphName, analysis, this.kb, this.userSettings);
     this.notifyWarnings(warnings);
     this.notifyStateUpdate(glyphName);
@@ -80,10 +106,17 @@ class AnalysisEngine {
 
 
 export async function activate(context) {
-  const { fontController, glyphController, eventBus, ui } = context;
+  const { fontController, eventBus, ui } = context;
 
-  // 1. Load knowledge base
-  const kb = await KnowledgeLoader.loadDefault();
+  // 1. Load knowledge base — without it the coach has nothing to teach,
+  //    so bail out loudly instead of rendering an empty UI.
+  let kb;
+  try {
+    kb = await KnowledgeLoader.loadDefault();
+  } catch (e) {
+    console.error('[fontra-coach] failed to load knowledge base; coach is disabled:', e);
+    return;
+  }
 
   // 2. Bootstrap analysis engine
   const engine = new AnalysisEngine(kb, fontController);
@@ -96,7 +129,7 @@ export async function activate(context) {
     ui.registerPanel('coach-dna', () => new DNAPanel(engine, kb));
     ui.registerPanel('coach-workflow', () => new WorkflowPanel(engine, kb));
     ui.registerPanel('coach-consistency', () => new ConsistencyPanel(engine, kb));
-    
+
     const overlay = new OverlayLayer(engine);
     engine.onWarningsUpdated(warnings => overlay.updateWarnings(warnings));
     ui.registerVisualizationLayer('coach-overlay', () => overlay);

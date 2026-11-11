@@ -26,16 +26,20 @@ export class ConsistencyPanel extends HTMLElement {
     p.textContent = 'Font-wide Consistency Audit';
     container.appendChild(p);
 
+    const note = document.createElement('p');
+    note.textContent = 'Not implemented yet — this audit will compare every glyph against the font-wide DNA.';
+    note.style.cssText = 'color:#888; font-size:0.85em;';
+    container.appendChild(note);
+
     const button = document.createElement('button');
     button.id = 'run-audit-btn';
     button.textContent = 'Run Audit';
+    button.disabled = true;
+    button.title = 'Not implemented yet';
+    button.style.cssText = 'cursor:default; opacity:0.4;';
     container.appendChild(button);
 
     this.shadowRoot.appendChild(container);
-
-    this.shadowRoot.getElementById('run-audit-btn').addEventListener('click', () => {
-      console.log('Audit requested');
-    });
   }
 }
 
