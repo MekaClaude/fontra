@@ -111,6 +111,32 @@ export class MenuPanel extends SimpleElement {
       text-wrap: nowrap;
     }
 
+    .item-label {
+      display: flex;
+      gap: 0.5em;
+      align-items: center;
+    }
+
+    .item-icon {
+      width: 1.1em;
+      height: 1.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+    }
+
+    .item-icon inline-svg {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .item-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
     .submenu-icon {
       width: 1.1em;
       height: 1.1em;
@@ -244,12 +270,22 @@ export class MenuPanel extends SimpleElement {
         if (hasSubMenu) {
           classNames.push("with-submenu");
         }
+        const titleContent =
+          typeof item.title === "function"
+            ? item.title()
+            : item.title || getActionTitle(item.actionIdentifier);
+
+        const labelContent = item.icon
+          ? [
+              html.span({ class: "item-icon" }, [new InlineSVG(item.icon)]),
+              titleContent,
+            ]
+          : [titleContent];
+
         const itemElementContent = [
           html.div({ class: "check-mark" }, [item.checked ? "✓" : ""]),
           html.div({ class: "item-content" }, [
-            typeof item.title === "function"
-              ? item.title()
-              : item.title || getActionTitle(item.actionIdentifier),
+            html.div({ class: "item-label" }, labelContent),
             hasSubMenu
               ? html.div(
                   {

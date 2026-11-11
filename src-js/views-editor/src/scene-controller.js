@@ -29,6 +29,7 @@ import { MouseTracker } from "@fontra/core/mouse-tracker.js";
 import { ObservableController } from "@fontra/core/observable-object.ts";
 import {
   connectContours,
+  getSelectionByContour,
   scalePoint,
   splitPathAtPointIndices,
 } from "@fontra/core/path-functions.js";
@@ -1010,13 +1011,17 @@ export class SceneController {
       if (!clickedSelection.size) {
         // Clicked on nothing, ignore selection
         relevantSelection = clickedSelection;
+      } else if (isSuperset(this.selection, clickedSelection)) {
+        // Use the existing selection as context
+        relevantSelection = this.selection;
+      } else if (this._clickedItemIsInSelectedContour(clickedSelection)) {
+        // The user right-clicked a point of a contour that is already (partly)
+        // selected. The selection is the context of the menu, so we keep it,
+        // but the clicked item is the context for the point operations.
+        relevantSelection = clickedSelection;
       } else {
-        if (!isSuperset(this.selection, clickedSelection)) {
-          // Clicked on something that wasn't yet selected; select it
-          this.selection = clickedSelection;
-        } else {
-          // Use the existing selection as context
-        }
+        // Clicked on something that wasn't yet selected; select it
+        this.selection = clickedSelection;
         relevantSelection = this.selection;
       }
     }
@@ -1035,6 +1040,34 @@ export class SceneController {
           pointSelection
         )
       : [];
+  }
+
+  // Return true if the clicked selection contains a point that belongs to a
+  // contour that is already touched by the current selection. This is used to
+  // avoid narrowing the selection when the user right-clicks a point of a
+  // contour that is already (partly) selected: the selection is the context
+  // of the context menu.
+  _clickedItemIsInSelectedContour(clickedSelection) {
+    const positionedGlyph = this.sceneModel.getSelectedPositionedGlyph();
+    const path = positionedGlyph?.glyph?.path;
+    if (!path) {
+      return false;
+    }
+
+    const { point: clickedPointIndices } = parseSelection(clickedSelection);
+    const { point: selectedPointIndices } = parseSelection(this.selection);
+    if (!clickedPointIndices?.length || !selectedPointIndices?.length) {
+      return false;
+    }
+
+    const selectedContours = getSelectionByContour(path, selectedPointIndices);
+    const clickedContours = getSelectionByContour(path, clickedPointIndices);
+    for (const contourIndex of clickedContours.keys()) {
+      if (selectedContours.has(contourIndex)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   getContextMenuItems(event) {

@@ -89,6 +89,10 @@ import {
 } from "./scene-controller.js";
 import { MIN_SIDEBAR_WIDTH, Sidebar } from "./sidebar.js";
 import {
+  getSelectionTransformationMenuItems,
+  registerSelectionTransformationActions,
+} from "./selection-transformations.js";
+import {
   allGlyphsCleanVisualizationLayerDefinition,
   visualizationLayerDefinitions,
 } from "./visualization-layer-definitions.js";
@@ -330,6 +334,11 @@ export class EditorController extends ViewController {
   }
 
   initActions() {
+    registerSelectionTransformationActions(
+      this.sceneController,
+      this.fontController
+    );
+
     {
       const topic = "0030-action-topics.menu.edit";
 
@@ -1714,6 +1723,12 @@ export class EditorController extends ViewController {
     this.glyphEditContextMenuItems.push({ actionIdentifier: "action.lock-guideline" });
 
     this.glyphEditContextMenuItems.push(...this.sceneController.getContextMenuItems());
+
+    // Align / Distribute / Path Operations, for the selection that is being
+    // edited. These are also available in the sidebar panel, but having them
+    // here means they are one right-click away.
+    this.selectionTransformContextMenuItems =
+      getSelectionTransformationMenuItems();
 
     this.glyphSelectedContextMenuItems = [];
 
@@ -3539,6 +3554,8 @@ export class EditorController extends ViewController {
     ];
     if (this.sceneSettings.selectedGlyph?.isEditing) {
       this.sceneController.updateContextMenuState(event);
+      menuItems.push(MenuItemDivider);
+      menuItems.push(...this.selectionTransformContextMenuItems);
       menuItems.push(MenuItemDivider);
       menuItems.push(...this.glyphEditContextMenuItems);
     }

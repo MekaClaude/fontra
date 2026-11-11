@@ -35,7 +35,7 @@ import * as vector from "@fontra/core/vector.js";
 import { EditBehaviorFactory } from "./edit-behavior.js";
 import { BaseTool, shouldInitiateDrag } from "./edit-tools-base.js";
 import { handlesEqual } from "./edit-tools-pen.js";
-import { getPinPoint } from "./panel-transformation.js";
+import { getPinPoint } from "./selection-transformations.js";
 import { equalGlyphSelection } from "./scene-controller.js";
 import {
   glyphSelector,
