@@ -79,10 +79,7 @@ export function registerBrushVisualizationLayers() {
       const path = positionedGlyph.model.brushPreviewPath;
       if (!path) return;
       context.fillStyle = parameters.fillColor;
-      context.strokeStyle = parameters.strokeColor;
-      context.lineWidth = parameters.strokeWidth;
       context.fill(path);
-      context.stroke(path);
     },
   });
 
