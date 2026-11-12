@@ -690,6 +690,8 @@ export const strings = {
   "sidebar.user-settings.theme.dark": "Dark",
   "sidebar.user-settings.theme.figma": "Figma (High Contrast)",
   "sidebar.user-settings.theme.light": "Light",
+  "sidebar.user-settings.theme.deep-dark": "Deep Dark",
+  "sidebar.user-settings.theme.soft-light": "Soft Light",
   "sources.button.go-to-nearest-source": "Go to nearest source",
   "sources.button.new-font-source": "New font source...",
   "sources.button.new-glyph-source": "New source",

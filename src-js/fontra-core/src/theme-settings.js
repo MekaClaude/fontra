@@ -5,6 +5,8 @@ function setupThemeOverride(value) {
   rootElement.classList.remove("light-theme");
   rootElement.classList.remove("dark-theme");
   rootElement.classList.remove("figma-theme");
+  rootElement.classList.remove("deep-dark-theme");
+  rootElement.classList.remove("soft-light-theme");
   if (value !== "automatic") {
     rootElement.classList.add(value + "-theme");
   }

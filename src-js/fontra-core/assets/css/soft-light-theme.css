@@ -1,0 +1,147 @@
+/*
+ * Fontra Soft Light Theme
+ * A clean, high-harmony light theme.
+ *
+ * Inspiration: shadcn/ui light palette + Fontra default theme.
+ * White background, near-black text, soft borders.
+ * Text contrast meets WCAG AAA on the base background.
+ */
+:root.soft-light-theme {
+  /* Force the light variables (CSS custom-property toggle trick used by core.css) */
+  --fontra-theme-marker: ;
+
+  /* === Base Colors - Soft Light === */
+  --foreground-color-light: #0f0f0f;
+  --background-color-light: #ffffff;
+  --ui-element-foreground-color-light: #18181b;
+  --ui-element-background-color-light: #f5f5f5;
+  --text-input-foreground-color-light: #0f0f0f;
+  --text-input-background-color-light: #fafafa;
+  --top-bar-background-color-light: #ffffff;
+  --border-color-light: #d4d4d4;
+  --horizontal-rule-color: #c9c9c9;
+
+  /* Fontra brand accent */
+  --fontra-red-color: #f11759;
+  --fontra-light-red-color: #ff3366;
+
+  /* === Component Tokens === */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 4px 16px rgb(0 0 0 / 0.10);
+
+  /* === Editor tokens (resolved, explicit) === */
+  --editor-tool-button-hover-background-color: #f5f5f5;
+  --editor-tool-button-active-background-color: #eaeaea;
+  --editor-tool-button-selected-background-color: #f11759;
+  --editor-mini-console-background-color: #f5f5f5;
+  --editor-mini-console-foreground-color: #0f0f0f;
+
+  /* Metrics / sidebearing handles */
+  --metrics-handle-color: rgb(150 150 150);
+  --positive-metrics-handle-color: rgb(23 89 241);
+  --negative-metrics-handle-color: rgb(241 23 89);
+}
+
+/* Tool buttons - soft light */
+:root.soft-light-theme .tool-button,
+:root.soft-light-theme .subtool-button {
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+:root.soft-light-theme .tool-button:hover,
+:root.soft-light-theme .subtool-button:hover {
+  background-color: var(--editor-tool-button-hover-background-color);
+  border-color: var(--border-color-light);
+  box-shadow: var(--shadow-sm);
+}
+
+:root.soft-light-theme .tool-button.selected,
+:root.soft-light-theme .subtool-button.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: white;
+  color: white;
+  border-color: var(--editor-tool-button-selected-background-color);
+  box-shadow: var(--shadow-md);
+}
+
+:root.soft-light-theme .tool-button.selected .icon-tabler,
+:root.soft-light-theme .subtool-button.selected .icon-tabler {
+  stroke: white;
+}
+
+:root.soft-light-theme .tool-icon:hover {
+  transform: scale(1.12, 1.12);
+}
+
+/* Sidebar and panels */
+:root.soft-light-theme .sidebar-container {
+  border-right: 1px solid var(--border-color-light);
+}
+
+:root.soft-light-theme .sidebar-tab {
+  border-radius: var(--border-radius-md);
+  transition: all 0.12s ease;
+}
+
+:root.soft-light-theme .sidebar-tab:hover {
+  background-color: #eaeaea;
+  box-shadow: var(--shadow-sm);
+}
+
+:root.soft-light-theme .sidebar-tab.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: white;
+  color: white;
+}
+
+:root.soft-light-theme .sidebar-tab.selected inline-svg {
+  fill: white;
+}
+
+:root.soft-light-theme .sidebar-tab.selected .icon-tabler {
+  stroke: white;
+}
+
+/* Top bar */
+:root.soft-light-theme .top-bar-container {
+  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+/* Tools overlay */
+:root.soft-light-theme .tools-item {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color-light);
+}
+
+/* Mini console */
+:root.soft-light-theme #mini-console {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color-light);
+  box-shadow: var(--shadow-md);
+}
+
+/* Inputs */
+:root.soft-light-theme input[type="text"],
+:root.soft-light-theme input[type="number"],
+:root.soft-light-theme input[type="password"] {
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--border-radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root.soft-light-theme input[type="text"]:focus,
+:root.soft-light-theme input[type="number"]:focus,
+:root.soft-light-theme input[type="password"]:focus {
+  border-color: #f11759;
+  box-shadow: 0 0 0 2px rgb(241 23 89 / 0.2);
+  outline: none;
+}

@@ -48,8 +48,16 @@ export class ThemeSettingsPanel extends MultiPanelBasePanel {
                 displayName: translate("sidebar.user-settings.theme.light"),
               },
               {
+                key: "soft-light",
+                displayName: translate("sidebar.user-settings.theme.soft-light"),
+              },
+              {
                 key: "dark",
                 displayName: translate("sidebar.user-settings.theme.dark"),
+              },
+              {
+                key: "deep-dark",
+                displayName: translate("sidebar.user-settings.theme.deep-dark"),
               },
               {
                 key: "figma",

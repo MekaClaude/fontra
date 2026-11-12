@@ -1,0 +1,147 @@
+/*
+ * Fontra Deep Dark Theme
+ * A deep, high-contrast dark theme.
+ *
+ * Inspiration: shadcn/ui dark palette + Fontra default theme.
+ * Near-black background, elevated surfaces, Fontra red accents.
+ * Text contrast meets WCAG AAA on the base background.
+ */
+:root.deep-dark-theme {
+  /* Force the dark variables (CSS custom-property toggle trick used by core.css) */
+  --fontra-theme-marker: initial;
+
+  /* === Base Colors - Deep Dark === */
+  --foreground-color-dark: #f5f5f5;
+  --background-color-dark: #0a0a0a;
+  --ui-element-foreground-color-dark: #e5e5e5;
+  --ui-element-background-color-dark: #141414;
+  --text-input-foreground-color-dark: #f5f5f5;
+  --text-input-background-color-dark: #0f0f0f;
+  --top-bar-background-color-dark: #0a0a0a;
+  --border-color-dark: #2a2a2a;
+  --horizontal-rule-color: #1a1a1a;
+
+  /* Fontra brand accent, kept vibrant on the dark canvas */
+  --fontra-red-color: #f11759;
+  --fontra-light-red-color: #ff4d6e;
+
+  /* === Component Tokens === */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45);
+  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 4px 16px rgb(0 0 0 / 0.65);
+
+  /* === Editor tokens (resolved, explicit) === */
+  --editor-tool-button-hover-background-color: #232323;
+  --editor-tool-button-active-background-color: #2a2a2a;
+  --editor-tool-button-selected-background-color: #f11759;
+  --editor-mini-console-background-color: #141414;
+  --editor-mini-console-foreground-color: #f5f5f5;
+
+  /* Metrics / sidebearing handles */
+  --metrics-handle-color: rgb(120 120 120);
+  --positive-metrics-handle-color: rgb(59 130 246);
+  --negative-metrics-handle-color: rgb(239 68 68);
+}
+
+/* Tool buttons - deep dark */
+:root.deep-dark-theme .tool-button,
+:root.deep-dark-theme .subtool-button {
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+:root.deep-dark-theme .tool-button:hover,
+:root.deep-dark-theme .subtool-button:hover {
+  background-color: var(--editor-tool-button-hover-background-color);
+  border-color: var(--border-color-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+:root.deep-dark-theme .tool-button.selected,
+:root.deep-dark-theme .subtool-button.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: white;
+  color: white;
+  border-color: var(--editor-tool-button-selected-background-color);
+  box-shadow: var(--shadow-md);
+}
+
+:root.deep-dark-theme .tool-button.selected .icon-tabler,
+:root.deep-dark-theme .subtool-button.selected .icon-tabler {
+  stroke: white;
+}
+
+:root.deep-dark-theme .tool-icon:hover {
+  transform: scale(1.12, 1.12);
+}
+
+/* Sidebar and panels */
+:root.deep-dark-theme .sidebar-container {
+  border-right: 1px solid var(--border-color-dark);
+}
+
+:root.deep-dark-theme .sidebar-tab {
+  border-radius: var(--border-radius-md);
+  transition: all 0.12s ease;
+}
+
+:root.deep-dark-theme .sidebar-tab:hover {
+  background-color: #1e1e1e;
+  box-shadow: var(--shadow-sm);
+}
+
+:root.deep-dark-theme .sidebar-tab.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: white;
+  color: white;
+}
+
+:root.deep-dark-theme .sidebar-tab.selected inline-svg {
+  fill: white;
+}
+
+:root.deep-dark-theme .sidebar-tab.selected .icon-tabler {
+  stroke: white;
+}
+
+/* Top bar */
+:root.deep-dark-theme .top-bar-container {
+  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+/* Tools overlay */
+:root.deep-dark-theme .tools-item {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color-dark);
+}
+
+/* Mini console */
+:root.deep-dark-theme #mini-console {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color-dark);
+  box-shadow: var(--shadow-md);
+}
+
+/* Inputs */
+:root.deep-dark-theme input[type="text"],
+:root.deep-dark-theme input[type="number"],
+:root.deep-dark-theme input[type="password"] {
+  border: 1px solid var(--border-color-dark);
+  border-radius: var(--border-radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root.deep-dark-theme input[type="text"]:focus,
+:root.deep-dark-theme input[type="number"]:focus,
+:root.deep-dark-theme input[type="password"]:focus {
+  border-color: #ff4d6e;
+  box-shadow: 0 0 0 2px rgb(255 77 110 / 0.25);
+  outline: none;
+}
