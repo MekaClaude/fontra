@@ -4,6 +4,7 @@ import {
   canAlignOrDistribute,
   canDoPathOperation,
   countMovableObjects,
+  getExplicitPointTargets,
   getMovableObjectSelections,
   getSelectedContourIndices,
   splitSelection,
@@ -143,6 +144,59 @@ describe("Selection Transformations tests", () => {
 
     it("is false without a path", () => {
       expect(canAlignOrDistribute(null, selection(0))).to.equal(false);
+    });
+  });
+
+  describe("point-level (align/distribute points)", () => {
+    it("splits a closed contour into individual points", () => {
+      const path = makeTwoClosedContours();
+      const result = splitSelection(path, selection(0, 2), { pointLevel: true });
+      expect(result.points).to.deep.equal([0, 2]);
+      expect(result.contours).to.deep.equal([]);
+    });
+
+    it("counts each selected point as its own object", () => {
+      const path = makeTwoClosedContours();
+      expect(
+        countMovableObjects(path, selection(0, 2, 4), { pointLevel: true })
+      ).to.equal(3);
+      expect(
+        countMovableObjects(path, selection(0, 1, 2, 3), { pointLevel: true })
+      ).to.equal(4);
+    });
+
+    it("needs at least two movable points", () => {
+      const path = makeTwoClosedContours();
+      expect(canAlignOrDistribute(path, selection(0), { pointLevel: true })).to.equal(
+        false
+      );
+      expect(
+        canAlignOrDistribute(path, selection(0, 4), { pointLevel: true })
+      ).to.equal(true);
+    });
+  });
+
+  describe("getExplicitPointTargets", () => {
+    it("returns the position a selected point must end up at", () => {
+      const path = makeTwoClosedContours();
+      const targets = getExplicitPointTargets(path, selection(0, 1), {
+        x: -10,
+        y: 5,
+      });
+      expect(targets.get(0)).to.deep.equal({ x: -10, y: 5 });
+      expect(targets.get(1)).to.deep.equal({ x: 90, y: 5 });
+    });
+
+    it("ignores points that are out of bounds", () => {
+      const path = makeTwoClosedContours();
+      const targets = getExplicitPointTargets(path, selection(0, 99), { x: 1, y: 1 });
+      expect(targets.size).to.equal(1);
+      expect(targets.has(99)).to.equal(false);
+    });
+
+    it("returns an empty map without a path", () => {
+      const targets = getExplicitPointTargets(null, selection(0), { x: 1, y: 1 });
+      expect(targets.size).to.equal(0);
     });
   });
 

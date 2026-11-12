@@ -19,7 +19,12 @@ export function getSelectedContourIndices(path, selection) {
 // Split the selection into groups of points that move as a unit: a closed
 // contour is a single unit, an open contour contributes its individual
 // points, and components, anchors and background images are units as well.
-export function splitSelection(path, selection) {
+//
+// When `pointLevel` is true, every selected point is treated as its own unit,
+// even when it belongs to a closed contour. This is used by the "align/distribute
+// points" actions, which operate on individual points instead of whole objects.
+export function splitSelection(path, selection, options = {}) {
+  const { pointLevel = false } = options || {};
   const {
     point: pointIndices,
     component: componentIndices,
@@ -50,7 +55,7 @@ export function splitSelection(path, selection) {
 
     for (const [contourIndex, contourPointIndices] of pointIndicesByContour) {
       const contourInfo = path.contourInfo[contourIndex];
-      if (contourInfo.isClosed) {
+      if (!pointLevel && contourInfo.isClosed) {
         // A closed contour is moved as a whole, even if only some of its
         // points are selected.
         const contourStartIndex = path.getAbsolutePointIndex(contourIndex, 0);
@@ -66,10 +71,12 @@ export function splitSelection(path, selection) {
 }
 
 // Return the selection of each object that can be moved independently.
-export function getMovableObjectSelections(path, selection) {
+export function getMovableObjectSelections(path, selection, options = {}) {
+  const { pointLevel = false } = options || {};
   const { points, contours, components, anchors, backgroundImages } = splitSelection(
     path,
-    selection
+    selection,
+    { pointLevel }
   );
 
   const movableObjects = [];
@@ -96,16 +103,45 @@ export function getMovableObjectSelections(path, selection) {
 
 // The number of objects that can be moved independently. Align and
 // distribute need at least two.
-export function countMovableObjects(path, selection) {
+export function countMovableObjects(path, selection, options = {}) {
   if (!path) {
     return 0;
   }
-  return getMovableObjectSelections(path, selection).length;
+  return getMovableObjectSelections(path, selection, options).length;
 }
 
 // Align and distribute need at least two independently movable objects.
-export function canAlignOrDistribute(path, selection) {
-  return countMovableObjects(path, selection) >= 2;
+export function canAlignOrDistribute(path, selection, options = {}) {
+  return countMovableObjects(path, selection, options) >= 2;
+}
+
+// The positions that the explicitly selected points must end up at, given the
+// move delta of the object they belong to.
+//
+// Moving an on-curve point also drags the off-curve handles next to it along,
+// so the change of one object can write the position of a point that belongs
+// to another object. The explicit position of a selected point must win, so it
+// is computed up front, from the unmodified geometry.
+export function getExplicitPointTargets(path, selection, delta) {
+  const targets = new Map();
+  if (!path) {
+    return targets;
+  }
+
+  const { point: pointIndices } = parseSelection(selection);
+  for (const pointIndex of pointIndices || []) {
+    if (pointIndex < 0 || pointIndex >= path.numPoints) {
+      // Ignore out-of-bounds indices
+      continue;
+    }
+    const point = path.getPoint(pointIndex);
+    targets.set(pointIndex, {
+      x: Math.round(point.x + delta.x),
+      y: Math.round(point.y + delta.y),
+    });
+  }
+
+  return targets;
 }
 
 // The boolean path operations: "union" merges the selected contours (or all

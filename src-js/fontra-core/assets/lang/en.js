@@ -322,6 +322,7 @@ export const strings = {
   "menu.selection-transformations.exclude": "Exclude",
   "menu.selection-transformations.intersect": "Intersect",
   "menu.selection-transformations.path-operations": "Path Operations",
+  "menu.selection-transformations.points": "points",
   "menu.selection-transformations.subtract": "Subtract",
   "menu.selection-transformations.union": "Union",
   "menubar.edit": "Edit",

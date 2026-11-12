@@ -21,15 +21,27 @@ import {
   canAlignOrDistribute as canAlignOrDistributeForPath,
   canDoPathOperation as canDoPathOperationForPath,
   countMovableObjects as countMovableObjectsForPath,
+  getExplicitPointTargets,
   getMovableObjectSelections,
   getSelectedContourIndices,
   splitSelection,
 } from "@fontra/core/selection-transformations.js";
+import { MenuItemDivider } from "@fontra/web-components/menu-panel.js";
 import { EditBehaviorFactory } from "./edit-behavior.js";
 
 export { getSelectedContourIndices, splitSelection };
 
 const ACTION_TOPIC = "0070-action-topics.selection-transformations";
+
+// The label of the point-level variants, eg. "Align left (points)". The
+// translation may be missing in languages that have not been updated yet, in
+// which case we fall back to English.
+function getPointsLabel(keyPart) {
+  const title = translate(`sidebar.selection-transformation.${keyPart}`);
+  const pointsKey = "menu.selection-transformations.points";
+  const points = translate(pointsKey);
+  return `${title} (${points === pointsKey ? "points" : points})`;
+}
 
 export const pathOperations = {
   unionPath: Backend.unionPath.bind(Backend),
@@ -76,26 +88,27 @@ export function getSelectedEditablePath(sceneController) {
 
 // Return the objects that can be moved independently, as MovableObject
 // instances.
-export function getMovableObjects(path, selection) {
-  return getMovableObjectSelections(path, selection).map(
+export function getMovableObjects(path, selection, pointLevel = false) {
+  return getMovableObjectSelections(path, selection, { pointLevel }).map(
     (objectSelection) => new MovableObject(objectSelection)
   );
 }
 
 // The number of objects that can be moved independently. Align and
 // distribute need at least two.
-export function countMovableObjects(sceneController) {
+export function countMovableObjects(sceneController, pointLevel = false) {
   const path = getSelectedEditablePath(sceneController);
   if (!path) {
     return 0;
   }
-  return countMovableObjectsForPath(path, sceneController.selection);
+  return countMovableObjectsForPath(path, sceneController.selection, { pointLevel });
 }
 
-export function canAlignOrDistribute(sceneController) {
+export function canAlignOrDistribute(sceneController, pointLevel = false) {
   return canAlignOrDistributeForPath(
     getSelectedEditablePath(sceneController),
-    sceneController.selection
+    sceneController.selection,
+    { pointLevel }
   );
 }
 
@@ -107,12 +120,18 @@ export function canDoPathOperation(sceneController, keyPart) {
   );
 }
 
-export async function moveObjects(sceneController, fontController, moveDescriptor) {
+export async function moveObjects(
+  sceneController,
+  fontController,
+  moveDescriptor,
+  pointLevel = false
+) {
   const glyphController =
     await sceneController.sceneModel.getSelectedStaticGlyphController();
   const movableObjects = getMovableObjects(
     glyphController.instance.path,
-    sceneController.selection
+    sceneController.selection,
+    pointLevel
   );
   if (movableObjects.length <= 1) {
     return;
@@ -149,15 +168,50 @@ export async function moveObjects(sceneController, fontController, moveDescripto
         boundingBoxes,
         transformationParameters.customDistributionSpacing
       );
+
+      // Compute the change of every object *before* applying any of them, so
+      // that all objects move relative to the same, unmodified geometry.
+      const objectChanges = [];
+      const explicitTargets = new Map();
       for (const [delta, movableObject] of zip(deltas, movableObjects)) {
         const [editChange, rollbackChange] = movableObject.makeChangesForDelta(
           delta,
           layerGlyph,
           sceneController
         );
+        objectChanges.push({ editChange, rollbackChange });
+        if (pointLevel) {
+          // Moving an on-curve point also drags the off-curve handles next to
+          // it along, so the change of one object can write the position of a
+          // point that belongs to another object. Remember where each
+          // explicitly selected point must end up.
+          for (const [pointIndex, position] of getExplicitPointTargets(
+            layerGlyph.path,
+            movableObject.selection,
+            delta
+          )) {
+            explicitTargets.set(pointIndex, position);
+          }
+        }
+      }
+
+      for (const { editChange, rollbackChange } of objectChanges) {
         applyChange(layerGlyph, editChange);
         editChanges.push(consolidateChanges(editChange, changePath));
         rollbackChanges.push(consolidateChanges(rollbackChange, changePath));
+      }
+
+      if (explicitTargets.size) {
+        // Write the explicitly selected points to their target position, so
+        // they end up aligned, even if they were dragged along by the move of
+        // another object.
+        const targetChanges = [];
+        for (const [pointIndex, { x, y }] of explicitTargets) {
+          targetChanges.push({ f: "=xy", a: [pointIndex, x, y] });
+        }
+        const targetChange = consolidateChanges(targetChanges, ["path"]);
+        applyChange(layerGlyph, targetChange);
+        editChanges.push(consolidateChanges(targetChange, changePath));
       }
     }
 
@@ -391,6 +445,29 @@ export function registerSelectionTransformationActions(
     );
   }
 
+  // Point-level variants: align/distribute the selected points themselves
+  // instead of the whole objects (contours, components, ...).
+  for (const [keyPart, moveDescriptor, shortCutKey] of moveActions) {
+    registerAction(
+      `action.selection-transformation.${keyPart}.points`,
+      {
+        topic: ACTION_TOPIC,
+        titleKey: `sidebar.selection-transformation.${keyPart}`,
+        defaultShortCuts: [
+          {
+            baseKey: shortCutKey,
+            commandKey: true,
+            altKey: true,
+            shiftKey: true,
+          },
+        ],
+      },
+      () => moveObjects(sceneController, fontController, moveDescriptor, true),
+      () => canAlignOrDistribute(sceneController, true),
+      () => getPointsLabel(keyPart)
+    );
+  }
+
   const pathActions = [
     ["union", pathOperations.unionPath, "u"],
     ["subtract", pathOperations.subtractPath, "s"],
@@ -416,6 +493,8 @@ export function registerSelectionTransformationActions(
 // The menu items for the selection transformation actions, shared by the
 // canvas context menu and the top bar Edit menu.
 export function getSelectionTransformationMenuItems() {
+  const pointSuffix = (keyPart) => getPointsLabel(keyPart);
+
   return [
     {
       title: () => translate("menu.selection-transformations.align"),
@@ -444,6 +523,37 @@ export function getSelectionTransformationMenuItems() {
           actionIdentifier: "action.selection-transformation.align.bottom",
           icon: "/tabler-icons/horizontal-align-bottom.svg",
         },
+        MenuItemDivider,
+        {
+          title: () => pointSuffix("align.left"),
+          actionIdentifier: "action.selection-transformation.align.left.points",
+          icon: "/tabler-icons/vertical-align-left.svg",
+        },
+        {
+          title: () => pointSuffix("align.center"),
+          actionIdentifier: "action.selection-transformation.align.center.points",
+          icon: "/tabler-icons/vertical-align-center.svg",
+        },
+        {
+          title: () => pointSuffix("align.right"),
+          actionIdentifier: "action.selection-transformation.align.right.points",
+          icon: "/tabler-icons/vertical-align-right.svg",
+        },
+        {
+          title: () => pointSuffix("align.top"),
+          actionIdentifier: "action.selection-transformation.align.top.points",
+          icon: "/tabler-icons/horizontal-align-top.svg",
+        },
+        {
+          title: () => pointSuffix("align.middle"),
+          actionIdentifier: "action.selection-transformation.align.middle.points",
+          icon: "/tabler-icons/horizontal-align-center.svg",
+        },
+        {
+          title: () => pointSuffix("align.bottom"),
+          actionIdentifier: "action.selection-transformation.align.bottom.points",
+          icon: "/tabler-icons/horizontal-align-bottom.svg",
+        },
       ],
     },
     {
@@ -455,6 +565,19 @@ export function getSelectionTransformationMenuItems() {
         },
         {
           actionIdentifier: "action.selection-transformation.distribute.vertically",
+          icon: "/tabler-icons/layout-distribute-horizontal.svg",
+        },
+        MenuItemDivider,
+        {
+          title: () => pointSuffix("distribute.horizontally"),
+          actionIdentifier:
+            "action.selection-transformation.distribute.horizontally.points",
+          icon: "/tabler-icons/layout-distribute-vertical.svg",
+        },
+        {
+          title: () => pointSuffix("distribute.vertically"),
+          actionIdentifier:
+            "action.selection-transformation.distribute.vertically.points",
           icon: "/tabler-icons/layout-distribute-horizontal.svg",
         },
       ],
@@ -539,7 +662,7 @@ export class MovableObject {
 }
 
 // Define moveDescriptor objects
-const alignLeft = {
+export const alignLeft = {
   undoLabel: "align left", // TODO: maybe use translate("sidebar.selection-transformation.align.left")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const xMins = boundingBoxes.map((bounds) => bounds.xMin);
@@ -551,7 +674,7 @@ const alignLeft = {
   },
 };
 
-const alignCenter = {
+export const alignCenter = {
   undoLabel: "align center", // TODO: maybe use translate("sidebar.selection-transformation.align.center")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const xMaxes = boundingBoxes.map((bounds) => bounds.xMax);
@@ -565,7 +688,7 @@ const alignCenter = {
   },
 };
 
-const alignRight = {
+export const alignRight = {
   undoLabel: "align right", // TODO: maybe use translate("sidebar.selection-transformation.align.right")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const xMaxes = boundingBoxes.map((bounds) => bounds.xMax);
@@ -577,7 +700,7 @@ const alignRight = {
   },
 };
 
-const alignTop = {
+export const alignTop = {
   undoLabel: "align top", // TODO: maybe use translate("sidebar.selection-transformation.align.top")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const yMaxes = boundingBoxes.map((bounds) => bounds.yMax);
@@ -589,7 +712,7 @@ const alignTop = {
   },
 };
 
-const alignMiddle = {
+export const alignMiddle = {
   undoLabel: "align middle", // TODO: maybe use translate("sidebar.selection-transformation.align.middle")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const yMaxes = boundingBoxes.map((bounds) => bounds.yMax);
@@ -603,7 +726,7 @@ const alignMiddle = {
   },
 };
 
-const alignBottom = {
+export const alignBottom = {
   undoLabel: "align bottom", // TODO: maybe use translate("sidebar.selection-transformation.align.bottom")
   computeDeltasFromBoundingBoxes: (boundingBoxes) => {
     const yMins = boundingBoxes.map((bounds) => bounds.yMin);
@@ -662,5 +785,8 @@ class DistributeObjectsDescriptor {
   }
 }
 
-const distributeHorizontally = new DistributeObjectsDescriptor("horizontally", "x");
-const distributeVertically = new DistributeObjectsDescriptor("vertically", "y");
+export const distributeHorizontally = new DistributeObjectsDescriptor(
+  "horizontally",
+  "x"
+);
+export const distributeVertically = new DistributeObjectsDescriptor("vertically", "y");
