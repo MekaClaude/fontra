@@ -1,6 +1,11 @@
 import {
+  canPerformAction,
   doPerformAction,
   getActionIdentifierFromKeyEvent,
+  getActionIdentifiers,
+  getActionInfo,
+  getActionTitle,
+  getShortCutRepresentationFromActionIdentifier,
   registerAction,
   registerActionCallbacks,
 } from "@fontra/core/actions.js";
@@ -795,6 +800,19 @@ export class EditorController extends ViewController {
       plugins: [],
     });
     observablePlugins.synchronizeWithLocalStorage("fontra.plugins");
+    // Give plugins access to the action system (enumerate, title, execute,
+    // register). Plugins can't import @fontra modules themselves.
+    this.actionExecutor = {
+      canPerformAction,
+      doPerformAction,
+      getActionIdentifierFromKeyEvent,
+      getActionIdentifiers,
+      getActionInfo,
+      getActionTitle,
+      getShortCutRepresentationFromActionIdentifier,
+      registerAction,
+      registerActionCallbacks,
+    };
     for (const { address } of observablePlugins.model.plugins) {
       const pluginPath = parsePluginBasePath(address);
       let meta;
@@ -1543,7 +1561,7 @@ export class EditorController extends ViewController {
     if (themeValue === "automatic") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches;
     } else {
-      return themeValue === "dark";
+      return themeValue === "dark" || themeValue === "deep-dark";
     }
   }
 

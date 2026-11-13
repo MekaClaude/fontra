@@ -1,31 +1,36 @@
 /*
- * Fontra Deep Dark Theme
+ * Fontra Deep Dark Theme (fork-local)
  * A deep, high-contrast dark theme.
  *
- * Inspiration: shadcn/ui dark palette + Fontra default theme.
- * Near-black background, elevated surfaces, Fontra red accents.
- * Text contrast meets WCAG AAA on the base background.
+ * Inspiration: shadcn/ui zinc palette + the default Fontra theme.
+ * Near-black zinc canvas (#0f0f12), elevated zinc panels (#1a1a1f),
+ * recessed inputs (#232329), soft-blue selection accent (#5c9dff).
+ *
+ * Text contrast on the canvas is ~15:1 (WCAG AAA); panel/input pairs
+ * are ~12:1 and ~9.5:1. The marker toggle (core.css trick) is forced
+ * to "initial" so every shadow-DOM component renders its dark palette,
+ * independent of the OS color scheme.
  */
 :root.deep-dark-theme {
   /* Force the dark variables (CSS custom-property toggle trick used by core.css) */
   --fontra-theme-marker: initial;
 
-  /* === Base Colors - Deep Dark === */
-  --foreground-color-dark: #f5f5f5;
-  --background-color-dark: #0a0a0a;
-  --ui-element-foreground-color-dark: #e5e5e5;
-  --ui-element-background-color-dark: #141414;
-  --text-input-foreground-color-dark: #f5f5f5;
-  --text-input-background-color-dark: #0f0f0f;
-  --top-bar-background-color-dark: #0a0a0a;
-  --border-color-dark: #2a2a2a;
-  --horizontal-rule-color: #1a1a1a;
+  /* === Base colors - deep dark === */
+  --foreground-color-dark: #e8e8ec;
+  --background-color-dark: #0f0f12;
+  --ui-element-foreground-color-dark: #e8e8ec;
+  --ui-element-background-color-dark: #1a1a1f;
+  --text-input-foreground-color-dark: #e8e8ec;
+  --text-input-background-color-dark: #232329;
+  --top-bar-background-color-dark: #16161b;
+  --border-color: #2b2b33;
+  --horizontal-rule-color: #2b2b33;
 
-  /* Fontra brand accent, kept vibrant on the dark canvas */
-  --fontra-red-color: #f11759;
-  --fontra-light-red-color: #ff4d6e;
+  /* Accent colors */
+  --fontra-red-color: #ff5470;
+  --fontra-light-red-color: #ff7a92;
 
-  /* === Component Tokens === */
+  /* === Component tokens === */
   --border-radius-sm: 4px;
   --border-radius-md: 6px;
   --border-radius-lg: 8px;
@@ -35,16 +40,16 @@
   --shadow-lg: 0 4px 16px rgb(0 0 0 / 0.65);
 
   /* === Editor tokens (resolved, explicit) === */
-  --editor-tool-button-hover-background-color: #232323;
-  --editor-tool-button-active-background-color: #2a2a2a;
-  --editor-tool-button-selected-background-color: #f11759;
-  --editor-mini-console-background-color: #141414;
-  --editor-mini-console-foreground-color: #f5f5f5;
+  --editor-tool-button-hover-background-color: #232329;
+  --editor-tool-button-active-background-color: #2e2e37;
+  --editor-tool-button-selected-background-color: #5c9dff;
+  --editor-mini-console-background-color: #1a1a1f;
+  --editor-mini-console-foreground-color: #e8e8ec;
 
   /* Metrics / sidebearing handles */
-  --metrics-handle-color: rgb(120 120 120);
-  --positive-metrics-handle-color: rgb(59 130 246);
-  --negative-metrics-handle-color: rgb(239 68 68);
+  --metrics-handle-color: #9a9aa5;
+  --positive-metrics-handle-color: #5c9dff;
+  --negative-metrics-handle-color: #ff5470;
 }
 
 /* Tool buttons - deep dark */
@@ -58,22 +63,22 @@
 :root.deep-dark-theme .tool-button:hover,
 :root.deep-dark-theme .subtool-button:hover {
   background-color: var(--editor-tool-button-hover-background-color);
-  border-color: var(--border-color-dark);
+  border-color: var(--border-color);
   box-shadow: var(--shadow-sm);
 }
 
 :root.deep-dark-theme .tool-button.selected,
 :root.deep-dark-theme .subtool-button.selected {
   background-color: var(--editor-tool-button-selected-background-color);
-  fill: white;
-  color: white;
+  fill: #0f0f12;
+  color: #0f0f12;
   border-color: var(--editor-tool-button-selected-background-color);
   box-shadow: var(--shadow-md);
 }
 
 :root.deep-dark-theme .tool-button.selected .icon-tabler,
 :root.deep-dark-theme .subtool-button.selected .icon-tabler {
-  stroke: white;
+  stroke: #0f0f12;
 }
 
 :root.deep-dark-theme .tool-icon:hover {
@@ -82,7 +87,7 @@
 
 /* Sidebar and panels */
 :root.deep-dark-theme .sidebar-container {
-  border-right: 1px solid var(--border-color-dark);
+  border-right: 1px solid var(--border-color);
 }
 
 :root.deep-dark-theme .sidebar-tab {
@@ -91,49 +96,60 @@
 }
 
 :root.deep-dark-theme .sidebar-tab:hover {
-  background-color: #1e1e1e;
+  background-color: #232329;
   box-shadow: var(--shadow-sm);
 }
 
 :root.deep-dark-theme .sidebar-tab.selected {
   background-color: var(--editor-tool-button-selected-background-color);
-  fill: white;
-  color: white;
+  fill: #0f0f12;
+  color: #0f0f12;
 }
 
 :root.deep-dark-theme .sidebar-tab.selected inline-svg {
-  fill: white;
+  fill: #0f0f12;
 }
 
 :root.deep-dark-theme .sidebar-tab.selected .icon-tabler {
-  stroke: white;
+  stroke: #0f0f12;
 }
 
 /* Top bar */
 :root.deep-dark-theme .top-bar-container {
   box-shadow: var(--shadow-md);
-  border-bottom: 1px solid var(--border-color-dark);
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* Tools overlay */
 :root.deep-dark-theme .tools-item {
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border-color-dark);
+  border: 1px solid var(--border-color);
 }
 
 /* Mini console */
 :root.deep-dark-theme #mini-console {
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--border-color-dark);
+  border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
+}
+
+/* Buttons: shared.css hardcodes light greys; use tokens instead. */
+:root.deep-dark-theme .fontra-button {
+  background-color: var(--ui-element-background-color);
+  color: var(--ui-element-foreground-color);
+  border: 1px solid var(--border-color);
+}
+
+:root.deep-dark-theme .fontra-button:hover {
+  background-color: var(--text-input-background-color);
 }
 
 /* Inputs */
 :root.deep-dark-theme input[type="text"],
 :root.deep-dark-theme input[type="number"],
 :root.deep-dark-theme input[type="password"] {
-  border: 1px solid var(--border-color-dark);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -141,7 +157,7 @@
 :root.deep-dark-theme input[type="text"]:focus,
 :root.deep-dark-theme input[type="number"]:focus,
 :root.deep-dark-theme input[type="password"]:focus {
-  border-color: #ff4d6e;
-  box-shadow: 0 0 0 2px rgb(255 77 110 / 0.25);
+  border-color: var(--editor-tool-button-selected-background-color);
+  box-shadow: 0 0 0 2px rgb(92 157 255 / 0.25);
   outline: none;
 }

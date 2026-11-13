@@ -1,0 +1,10 @@
+{
+  "name": "Sketch Layer",
+  "identifier": "com.fontra.plugins.sketch-layer",
+  "version": "1.0.0",
+  "description": "Draw free-hand sketches on top of glyphs. Strokes live in glyph coordinates (they follow the glyph when you edit or move it) and are saved per project in localStorage. Toggle drawing mode with S.",
+  "author": "Fontra Community",
+  "license": "MIT",
+  "init": "start.js",
+  "function": "registerPlugin"
+}

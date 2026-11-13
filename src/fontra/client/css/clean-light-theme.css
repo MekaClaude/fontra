@@ -1,0 +1,163 @@
+/*
+ * Fontra Clean Light Theme (fork-local)
+ * A refined light theme.
+ *
+ * Inspiration: shadcn/ui light palette + the default Fontra theme.
+ * Soft zinc canvas (#f7f7f8), white elevated panels (#ffffff),
+ * white inputs, near-black zinc text (#18181b), blue accent (#2563eb).
+ *
+ * Text contrast on the canvas is ~16:1 (WCAG AAA); panel/input pairs
+ * are ~15:1 and ~15.6:1. The marker toggle (core.css trick) is forced
+ * to a space so every shadow-DOM component renders its light palette,
+ * independent of the OS color scheme.
+ */
+:root.clean-light-theme {
+  /* Force the light variables (CSS custom-property toggle trick used by core.css) */
+  --fontra-theme-marker: ;
+
+  /* === Base colors - clean light === */
+  --foreground-color-light: #18181b;
+  --background-color-light: #f7f7f8;
+  --ui-element-foreground-color-light: #18181b;
+  --ui-element-background-color-light: #ffffff;
+  --text-input-foreground-color-light: #18181b;
+  --text-input-background-color-light: #ffffff;
+  --top-bar-background-color-light: #ececee;
+  --border-color: #e4e4e7;
+  --horizontal-rule-color: #e3e3e7;
+
+  /* Accent colors */
+  --fontra-red-color: #e11d48;
+  --fontra-light-red-color: #ff3366;
+
+  /* === Component tokens === */
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 4px 16px rgb(0 0 0 / 0.1);
+
+  /* === Editor tokens (resolved, explicit) === */
+  --editor-tool-button-hover-background-color: #ececef;
+  --editor-tool-button-active-background-color: #e0e0e4;
+  --editor-tool-button-selected-background-color: #2563eb;
+  --editor-mini-console-background-color: #ffffff;
+  --editor-mini-console-foreground-color: #18181b;
+
+  /* Metrics / sidebearing handles */
+  --metrics-handle-color: #71717a;
+  --positive-metrics-handle-color: #2563eb;
+  --negative-metrics-handle-color: #e11d48;
+}
+
+/* Tool buttons - clean light */
+:root.clean-light-theme .tool-button,
+:root.clean-light-theme .subtool-button {
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+:root.clean-light-theme .tool-button:hover,
+:root.clean-light-theme .subtool-button:hover {
+  background-color: var(--editor-tool-button-hover-background-color);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+:root.clean-light-theme .tool-button.selected,
+:root.clean-light-theme .subtool-button.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: #ffffff;
+  color: #ffffff;
+  border-color: var(--editor-tool-button-selected-background-color);
+  box-shadow: var(--shadow-md);
+}
+
+:root.clean-light-theme .tool-button.selected .icon-tabler,
+:root.clean-light-theme .subtool-button.selected .icon-tabler {
+  stroke: #ffffff;
+}
+
+:root.clean-light-theme .tool-icon:hover {
+  transform: scale(1.12, 1.12);
+}
+
+/* Sidebar and panels */
+:root.clean-light-theme .sidebar-container {
+  border-right: 1px solid var(--border-color);
+}
+
+:root.clean-light-theme .sidebar-tab {
+  border-radius: var(--border-radius-md);
+  transition: all 0.12s ease;
+}
+
+:root.clean-light-theme .sidebar-tab:hover {
+  background-color: #ececef;
+  box-shadow: var(--shadow-sm);
+}
+
+:root.clean-light-theme .sidebar-tab.selected {
+  background-color: var(--editor-tool-button-selected-background-color);
+  fill: #ffffff;
+  color: #ffffff;
+}
+
+:root.clean-light-theme .sidebar-tab.selected inline-svg {
+  fill: #ffffff;
+}
+
+:root.clean-light-theme .sidebar-tab.selected .icon-tabler {
+  stroke: #ffffff;
+}
+
+/* Top bar */
+:root.clean-light-theme .top-bar-container {
+  box-shadow: var(--shadow-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Tools overlay */
+:root.clean-light-theme .tools-item {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+/* Mini console */
+:root.clean-light-theme #mini-console {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+/* Buttons: shared.css hardcodes light greys; use tokens instead. */
+:root.clean-light-theme .fontra-button {
+  background-color: var(--ui-element-background-color);
+  color: var(--ui-element-foreground-color);
+  border: 1px solid var(--border-color);
+}
+
+:root.clean-light-theme .fontra-button:hover {
+  background-color: var(--background-color);
+}
+
+/* Inputs */
+:root.clean-light-theme input[type="text"],
+:root.clean-light-theme input[type="number"],
+:root.clean-light-theme input[type="password"] {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root.clean-light-theme input[type="text"]:focus,
+:root.clean-light-theme input[type="number"]:focus,
+:root.clean-light-theme input[type="password"]:focus {
+  border-color: var(--editor-tool-button-selected-background-color);
+  box-shadow: 0 0 0 2px rgb(37 99 235 / 0.2);
+  outline: none;
+}

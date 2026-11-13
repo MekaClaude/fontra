@@ -40,18 +40,10 @@ export default class SettingsPanel extends Panel {
     // ── Section: Theme ──────────────────────────────────────────────────
     this._container.appendChild(this._makeHeader(t("sidebar.settings.theme", "Theme")));
     this._container.appendChild(
-      this._makeCheckbox(
-        "setting-theme-dark",
-        t("sidebar.settings.dark-mode", "Dark Mode"),
-        themeController.model.theme === "dark",
-        (checked) => {
-          // Don't clobber an explicit "figma" theme selection from App Settings;
-          // the Figma theme handles light/dark via prefers-color-scheme.
-          if (themeController.model.theme === "figma") {
-            return;
-          }
-          themeController.model.theme = checked ? "dark" : "light";
-        }
+      this._makeThemeSelect(
+        "setting-theme",
+        t("sidebar.settings.theme.select", "Theme"),
+        themeController.model.theme
       )
     );
 
@@ -186,6 +178,44 @@ export default class SettingsPanel extends Panel {
       { class: "panel-section--checkbox", style: "margin-bottom: 0.35em;" },
       [checkbox, lbl]
     );
+  }
+
+  _makeThemeSelect(id, label, value) {
+    const t = (key, fallback) => {
+      const res = translate(key);
+      return res === key ? fallback : res;
+    };
+
+    const options = [
+      ["automatic", t("sidebar.user-settings.theme.auto", "Automatic")],
+      ["light", t("sidebar.user-settings.theme.light", "Light")],
+      ["dark", t("sidebar.user-settings.theme.dark", "Dark")],
+      ["figma", t("sidebar.user-settings.theme.figma", "Figma")],
+      ["deep-dark", t("sidebar.user-settings.theme.deep-dark", "Deep Dark")],
+      [
+        "clean-light",
+        t("sidebar.user-settings.theme.clean-light", "Clean Light"),
+      ],
+    ].map(([key, displayName]) =>
+      html.option({ value: key, selected: key === value }, [displayName])
+    );
+
+    const select = html.select(
+      {
+        id,
+        ariaLabel: label,
+        style:
+          "width: 100%; box-sizing: border-box; padding: 0.25em 0.4em; border-radius: 0.35em;" +
+          "border: 1px solid var(--border-color, #aaa8); background-color: var(--text-input-background-color);" +
+          "color: var(--text-input-foreground-color); font-family: inherit; font-size: 100%;",
+        onchange: (e) => {
+          themeController.model.theme = e.target.value;
+        },
+      },
+      options
+    );
+
+    return html.div({ style: "display: flex; flex-direction: column;" }, [select]);
   }
 }
 
