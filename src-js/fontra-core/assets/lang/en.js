@@ -56,7 +56,6 @@ export const strings = {
   "action.lock-background-images": "Lock Background Images",
   "action.lock-guideline": "Lock Guideline",
   "action.lock-guideline.plural": "Lock Guidelines",
-  "action.command-palette": "Command Palette",
   "action.nudge-selection": "nudge selection",
   "action.paste": "Paste",
   "action.redo": "Redo",
