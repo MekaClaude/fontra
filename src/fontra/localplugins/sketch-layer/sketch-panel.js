@@ -5,6 +5,8 @@
 // cannot be resolved. `Panel` (a thin `SimpleElement` subclass) and the tiny
 // DOM helpers are inlined here, mirroring the triangle-guardian plugin.
 
+import { el } from "../_shared/dom.js";
+
 class SimpleElement extends HTMLElement {
   constructor() {
     super();
@@ -44,28 +46,8 @@ class Panel extends SimpleElement {
   async toggle(on, focus) {}
 }
 
-const attrExceptions = { for: "htmlFor", class: "className", tabindex: "tabIndex" };
+// `el` is imported from ../_shared/dom.js (single source of truth).
 
-function el(tagName, attributes, children) {
-  const element = document.createElement(tagName);
-  for (const [key, value] of Object.entries(attributes || {})) {
-    if (value === undefined || value === null) {
-      continue;
-    }
-    if (key.slice(0, 5) === "data-") {
-      element.dataset[key.slice(5)] = value;
-    } else {
-      element[attrExceptions[key] || key] = value;
-    }
-  }
-  // Accept both el(tag, attrs, child1, child2) and el(tag, attrs, [child1,
-  // child2]) — flatten so an array argument never ends up as a single
-  // "[object ...]" text child.
-  for (const child of (children || []).flat(Infinity)) {
-    element.append(child);
-  }
-  return element;
-}
 
 const div = (attrs, ...children) => el("div", attrs, children);
 const span = (attrs, ...children) => el("span", attrs, children);

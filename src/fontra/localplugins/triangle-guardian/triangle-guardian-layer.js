@@ -44,6 +44,8 @@ const layerDef = {
     const path = glyph.path;
     const educMode = state.educationalMode;
     const showAll = state.showAllSegments;
+    // Honor the user's opacity setting instead of the layer's static default.
+    const params = { ...parameters, triangleOpacity: state.triangleOpacity ?? parameters?.triangleOpacity ?? 0.18 };
 
     // Parse selection to get point indices
     const { point: selectedPointIndices } = parseSelection(model.selection);
@@ -76,9 +78,9 @@ const layerDef = {
         context.save();
 
         if (isSCurve) {
-          drawSCurveTriangles(context, P0, P1, P2, P3, parameters);
+          drawSCurveTriangles(context, P0, P1, P2, P3, params);
         } else {
-          drawSimpleTriangle(context, P0, P1, P2, P3, apex, p1Outside, p2Outside, parameters);
+          drawSimpleTriangle(context, P0, P1, P2, P3, apex, p1Outside, p2Outside, params);
         }
 
         context.restore();
@@ -144,10 +146,38 @@ export function registerLayer(editor) {
   }
 
   const settings = editor.visualizationLayersSettings;
-  if (settings) {
+  if (settings && settings.model[LAYER_IDENTIFIER] === undefined) {
     settings.model[LAYER_IDENTIFIER] = true;
   }
-  visualizationLayers.toggle(LAYER_IDENTIFIER, true);
+  const enabled = settings?.model?.[LAYER_IDENTIFIER] !== false;
+  visualizationLayers.toggle(LAYER_IDENTIFIER, enabled);
+
+  // Duplication mitigation: the editor already ships a built-in Triangle
+  // Guardian viz layer ("fontra.triangle.guardian"). When it is on (e.g. the
+  // TG tool is active) let it own drawing (tool mode, show-all) and have this
+  // plugin layer stand down, so segments are never drawn twice.
+  const builtInId = "fontra.triangle.guardian";
+  const originalDraw = layerDef.draw;
+  const guardedDraw = (args) => {
+    try {
+      if (settings?.model?.[builtInId]) return;
+    } catch (e) {
+      // ignore and fall through to drawing
+    }
+    return originalDraw(args);
+  };
+  layerDef.draw = guardedDraw;
+  // Patch any already-built layer objects too (layers are built lazily but
+  // may already exist by the time plugins load).
+  try {
+    const layers = visualizationLayers.layers || [];
+    for (const l of layers) {
+      if (l && l.draw === originalDraw) l.draw = guardedDraw;
+    }
+  } catch (e) {
+    // best-effort
+  }
+
   editor.canvasController?.requestUpdate();
 }
 

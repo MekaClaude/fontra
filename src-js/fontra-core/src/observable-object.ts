@@ -304,7 +304,16 @@ function synchronizeWithLocalStorage<T extends {}>(
   }
 
   function setItemOnObject<K extends keyof T & string>(key: K, value: string) {
-    controller.model[key] = stringKeys[key] ? value : JSON.parse(value);
+    if (stringKeys[key]) {
+      controller.model[key] = value;
+      return;
+    }
+    try {
+      controller.model[key] = JSON.parse(value);
+    } catch (e) {
+      console.warn("[observable-object] could not parse stored value for", key, e);
+      // Leave the model's default in place rather than crashing startup.
+    }
   }
 
   function setItemOnStorage<K extends keyof T & string>(key: K, value: T[K]) {

@@ -62,6 +62,24 @@ Full procedure: `.skills-data-prompt/build-fontra-windows-skill.md`. Key facts:
 - Verification: `npm test` (expected ~1212 core + ~171 plugin tests), `python fontra-pak/test-export.py` (expect Passed 7 / Failed 0), check `_version.py` matches the folder version.
 - Build log: `C:\Users\Clarence\AppData\Local\Temp\opencode\fontra-build.log`.
 
+## Two-variant Windows builds (planned)
+
+Goal: ship two Windows artifacts from the same tree, so users can pick size vs. features.
+
+| Variant | Name suffix | Contents | Notes |
+|---|---|---|---|
+| **Slim** | `Fontra-Pak-v{VERSION}-slim` | Core Fontra only; dead code and unused modules stripped; **no local plugins** bundled | Smaller download; aimed at users who only need the editor. Requires the Batch F hygiene pass (dead-code removal, `_shared` extraction) to land first so "dead code" is actually removable. |
+| **Full** | `Fontra-Pak-v{VERSION}` (default) | Everything in Slim **plus all plugins** under `src/fontra/localplugins/` (cadence-spacer, commonform, sketch-layer, triangle-guardian, fontra-tutorials, fontra-umarks) | Current behavior — `collect_all("fontra")` pulls the plugins in as a side effect of bundling the `fontra` package. |
+
+Implementation plan (not yet wired up):
+- Add a `--variant {slim,full}` flag to `fontra-pak/build-timestamped.py` (default `full`), and propagate it into the output folder name (`Fontra-Pak-v{VERSION}[-slim]`).
+- For `slim`: build with `FONTRA_MCP_ALLOW_WRITES` irrelevant; instead pass an env var `FONTRA_BUILD_VARIANT=slim` that a small, **additive** hook (e.g. `hook-fontra.slim.py`, kept alongside the other additive hooks) reads to skip collecting `localplugins/` and to exclude the known-dead modules. Never edit upstream's `FontraPak.spec` — keep the variant logic in additive hooks/scripts, consistent with the "keep these files, take upstream's spec" rule.
+- For `full`: unchanged current behavior.
+- Both variants must still pass `python fontra-pak/test-export.py` (extend it with a `/localplugins/` presence/absence assertion per variant) and the startup smoke test.
+- Version source stays single (`src/fontra/_version.py`); the variant is an artifact-name concern only, not a version.
+
+Status: documented only — not implemented. Green-light before wiring.
+
 ## Dev server
 
 ```bash

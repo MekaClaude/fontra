@@ -53,7 +53,8 @@ export function registerLayer(editor) {
   if (settings && settings.model[LAYER_IDENTIFIER] === undefined) {
     settings.model[LAYER_IDENTIFIER] = true;
   }
-  visualizationLayers.toggle(LAYER_IDENTIFIER, true);
+  const enabled = settings?.model?.[LAYER_IDENTIFIER] !== false;
+  visualizationLayers.toggle(LAYER_IDENTIFIER, enabled);
 }
 
 export function drawSketches({ context, positionedGlyph }) {

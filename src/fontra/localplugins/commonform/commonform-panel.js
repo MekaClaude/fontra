@@ -27,7 +27,8 @@ import {
   collectCandidates,
   selectContour,
 } from "./commonform-font.js";
-import { state } from "./commonform-state.js";
+import { state, clearSearch } from "./commonform-state.js";
+import { el } from "../_shared/dom.js";
 
 class SimpleElement extends HTMLElement {
   constructor() {
@@ -71,40 +72,8 @@ class Panel extends SimpleElement {
   async toggle(on, focus) {}
 }
 
-const attrExceptions = {
-  for: "htmlFor",
-  class: "className",
-  tabindex: "tabIndex",
-  colspan: "colSpan",
-  rowspan: "rowSpan",
-  readonly: "readOnly",
-  maxlength: "maxLength",
-};
+// `el` is imported from ../_shared/dom.js (single source of truth).
 
-function el(tagName, attributes, children) {
-  const element = document.createElement(tagName);
-  for (const [key, value] of Object.entries(attributes || {})) {
-    if (key === undefined || value === undefined || value === null) {
-      continue;
-    }
-    if (key.slice(0, 5) === "data-") {
-      element.dataset[key.slice(5)] = value;
-    } else {
-      element[attrExceptions[key] || key] = value;
-    }
-  }
-  // `children` is the rest-argument list of the helpers below, so a call
-  // site usually passes ONE array of children: div(attrs, [a, b]).
-  const childList = Array.isArray(children)
-    ? children.flat()
-    : children === undefined || children === null
-    ? []
-    : [children];
-  for (const child of childList) {
-    element.append(child);
-  }
-  return element;
-}
 
 const div = (attrs, ...children) => el("div", attrs, children);
 const span = (attrs, ...children) => el("span", attrs, children);
@@ -165,7 +134,11 @@ export default class CommonformPanel extends Panel {
     // The query follows what the user has selected. The selection changes
     // while points are being dragged around, so the refresh is debounced.
     const sceneController = this.editorController.sceneController;
-    sceneController?.addCurrentGlyphChangeListener?.(() => this._scheduleQueryRefresh());
+    sceneController?.addCurrentGlyphChangeListener?.(() => {
+      // Drop stale matches/highlights so they aren't shown next to a new glyph.
+      try { clearSearch(); } catch (e) { /* ignore */ }
+      this._scheduleQueryRefresh();
+    });
     sceneController?.sceneSettingsController?.addKeyListener?.(
       "selection",
       () => this._scheduleQueryRefresh()

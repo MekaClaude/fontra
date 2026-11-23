@@ -23,6 +23,7 @@ import {
 } from "./cadence-engine.js";
 import { getPresetNames, loadPreset } from "./cadence-presets.js";
 import { state } from "./cadence-state.js";
+import { el } from "../_shared/dom.js";
 
 class SimpleElement extends HTMLElement {
   constructor() {
@@ -66,48 +67,8 @@ class Panel extends SimpleElement {
   async toggle(on, focus) {}
 }
 
-const attrExceptions = {
-  for: "htmlFor",
-  class: "className",
-  tabindex: "tabIndex",
-  colspan: "colSpan",
-  rowspan: "rowSpan",
-  readonly: "readOnly",
-  maxlength: "maxLength",
-};
+// `el` is imported from ../_shared/dom.js (single source of truth).
 
-function el(tagName, attributes, children) {
-  const element = document.createElement(tagName);
-  for (const [key, value] of Object.entries(attributes || {})) {
-    if (key === undefined || value === undefined || value === null) {
-      continue;
-    }
-    if (key.slice(0, 5) === "data-") {
-      element.dataset[key.slice(5)] = value;
-    } else {
-      element[attrExceptions[key] || key] = value;
-    }
-  }
-  // `children` is the rest-argument list of the helpers below, so a call
-  // site usually passes ONE array of children: div(attrs, [a, b]).
-  //
-  // Element.append() follows the DOM standard: a non-Node argument is
-  // converted to a DOMString. Appending the array itself would therefore
-  // turn the children into the text "[object HTMLDivElement],..." and the
-  // panel would render as a single line of garbage. Flatten one level
-  // first — this is the same convention as Fontra's own
-  // createDomElement(tagName, attributes, children), which takes a single
-  // array of children (src-js/fontra-core/src/html-utils.js:119-132).
-  const childList = Array.isArray(children)
-    ? children.flat()
-    : children === undefined || children === null
-    ? []
-    : [children];
-  for (const child of childList) {
-    element.append(child);
-  }
-  return element;
-}
 
 const div = (attrs, ...children) => el("div", attrs, children);
 const span = (attrs, ...children) => el("span", attrs, children);
@@ -180,16 +141,32 @@ export default class CadenceSpacerPanel extends Panel {
   }
 
   getContentElement() {
-    // Start out with the first built-in preset.
-    const presetName = getPresetNames()[0];
-    this._cust = loadPreset(presetName).cust;
-    this._custSource = presetName;
+    // Start out with the first built-in preset, unless a previously-edited
+    // table was persisted.
+    let restored = false;
+    try {
+      const raw = localStorage.getItem("fontra.cadence-spacer.cust");
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (saved && typeof saved.text === "string") {
+          this._cust = loadCustText(saved.text, saved.source || "saved");
+          this._custSource = saved.source || "saved";
+          restored = true;
+        }
+      }
+    } catch (e) {
+      restored = false;
+    }
+    if (!restored) {
+      const presetName = getPresetNames()[0];
+      this._cust = loadPreset(presetName).cust;
+      this._custSource = presetName;
+    }
     this._results = null;
     this._busy = false;
-    // The table may declare its own beam height ("nBeam=200").
-    if (this._cust.meta.nBeam != null) {
-      state.beamY = this._cust.meta.nBeam;
-    }
+    // NOTE: do NOT adopt the table's beam height on initial load — doing so
+    // would clobber a beam height the user has persisted. The table's nBeam is
+    // only adopted when the user explicitly loads a preset (see _loadPreset).
 
     return div({ id: "cs-panel" }, [
       this._buildTableSection(),
@@ -226,6 +203,7 @@ export default class CadenceSpacerPanel extends Panel {
         this._cust = loadCustText(text, file.name);
         this._custSource = file.name;
         this._adoptTableBeam();
+        this._persistCust();
         this._setStatus(`Loaded spacing table "${file.name}".`, "ok");
         this._refreshTableEditor();
         this._invalidatePreview();
@@ -409,6 +387,7 @@ export default class CadenceSpacerPanel extends Panel {
         newName.value = "";
         this._refreshTableEditor();
         this._invalidatePreview();
+        this._persistCust();
         this._setStatus("Added a spacing-table entry.", "ok");
       } catch (e) {
         this._setStatus(e.message, "error");
@@ -425,6 +404,7 @@ export default class CadenceSpacerPanel extends Panel {
       const value = parseFloat(this._tabularWidthInput.value);
       this._cust.meta.tabularWidth = Number.isFinite(value) ? value : null;
       this._invalidatePreview();
+      this._persistCust();
     });
 
     this._tabularGlyphsInput = input({
@@ -437,6 +417,7 @@ export default class CadenceSpacerPanel extends Panel {
         .map((s) => s.trim())
         .filter(Boolean);
       this._invalidatePreview();
+      this._persistCust();
     });
 
     this._tabularPreviewButton = button({ type: "button" }, "Preview tabular");
@@ -466,6 +447,17 @@ export default class CadenceSpacerPanel extends Panel {
   // Actions
   // -------------------------------------------------------------------
 
+  _persistCust() {
+    try {
+      localStorage.setItem(
+        "fontra.cadence-spacer.cust",
+        JSON.stringify({ text: serializeCust(this._cust), source: this._custSource })
+      );
+    } catch (e) {
+      // Storage unavailable: ignore.
+    }
+  }
+
   _loadPreset(name) {
     let preset;
     try {
@@ -483,6 +475,7 @@ export default class CadenceSpacerPanel extends Panel {
     this._refreshTableEditor();
     this._invalidatePreview();
     this._updateDiagnostics();
+    this._persistCust();
     this._setStatus(`Loaded the "${name}" spacing table.`, "ok");
   }
 
@@ -860,24 +853,33 @@ export default class CadenceSpacerPanel extends Panel {
     const commit = () => {
       try {
         const newKey = nameInput.value.trim();
-        if (newKey !== key) {
-          deleteCustEntry(this._cust, key);
-          setCustEntry(this._cust, newKey, {
-            sideDef: sideSelect.value,
-            left: leftInput.value,
-            right: rightInput.value,
-            beam: entry.beam,
-          });
-          this._refreshTableEditor();
-        } else {
-          setCustEntry(this._cust, key, {
-            sideDef: sideSelect.value,
-            left: leftInput.value,
-            right: rightInput.value,
-            beam: entry.beam,
-          });
+        if (!newKey) {
+          this._setStatus("A spacing-table entry needs a glyph name.", "error");
+          nameInput.value = key;
+          return;
         }
+        const newValues = {
+          sideDef: sideSelect.value,
+          left: leftInput.value,
+          right: rightInput.value,
+          beam: entry.beam,
+        };
+        if (newKey === key) {
+          setCustEntry(this._cust, key, newValues);
+        } else {
+          if (this._cust.entries.has(newKey)) {
+            this._setStatus(`An entry named "${newKey}" already exists.`, "error");
+            nameInput.value = key;
+            return;
+          }
+          // Create the new entry first, then remove the old one, so a failure
+          // can never silently delete the user's data.
+          setCustEntry(this._cust, newKey, newValues);
+          deleteCustEntry(this._cust, key);
+        }
+        this._refreshTableEditor();
         this._invalidatePreview();
+        this._persistCust();
         this._setStatus(`Updated the entry for "${newKey}".`, "ok");
       } catch (e) {
         this._setStatus(e.message, "error");

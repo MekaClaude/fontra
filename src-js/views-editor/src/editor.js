@@ -74,6 +74,7 @@ import { VarPackedPath, joinPaths } from "@fontra/core/var-path.js";
 import "@fontra/web-components/inline-svg.js";
 import { MenuItemDivider, showMenu } from "@fontra/web-components/menu-panel.js";
 import { dialog, dialogSetup, message } from "@fontra/web-components/modal-dialog.js";
+import { registerQuickMenuAction } from "./quick-menu.js";
 import { parsePluginBasePath } from "@fontra/web-components/plugin-manager.js";
 import { BrushToolAdvanced } from "./edit-tools-brush-advanced.js";
 import { CJKDesignFrame } from "./cjk-design-frame.js";
@@ -709,6 +710,8 @@ export class EditorController extends ViewController {
         );
       }
     }
+
+    registerQuickMenuAction(this);
   }
 
   initActionsAfterStart() {
@@ -814,7 +817,13 @@ export class EditorController extends ViewController {
       registerActionCallbacks,
     };
     for (const { address } of observablePlugins.model.plugins) {
-      const pluginPath = parsePluginBasePath(address);
+      let pluginPath;
+      try {
+        pluginPath = parsePluginBasePath(address);
+      } catch (e) {
+        console.error(`${address} Plugin address could not be parsed.`, e);
+        continue;
+      }
       let meta;
       try {
         meta = await fetchJSON(`${pluginPath}/plugin.json`);

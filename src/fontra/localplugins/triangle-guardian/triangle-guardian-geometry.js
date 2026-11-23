@@ -19,7 +19,15 @@ export function computeApex(P0, P1, P2, P3) {
   const denom = d1x * d2y - d1y * d2x;
 
   if (Math.abs(denom) < 1e-6) {
-    return { apex: null, isSCurve: false };
+    // Parallel control-point vectors: treat as an S-curve when the handles
+    // sit on opposite sides of the baseline (matches the built-in tool, so
+    // the plugin no longer silently skips these segments).
+    const baselineX = P3.x - P0.x;
+    const baselineY = P3.y - P0.y;
+    const cross1 = d1x * baselineY - d1y * baselineX;
+    const cross2 = d2x * baselineY - d2y * baselineX;
+    const isSCurve = cross1 * cross2 < 0;
+    return { apex: null, isSCurve };
   }
 
   const dx = P3.x - P0.x;

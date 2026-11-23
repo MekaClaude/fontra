@@ -159,7 +159,11 @@ export function serializeProject(glyphsMap) {
       }
       let largest = names[0];
       for (const name of names) {
-        if (glyphs[name].p.length > glyphs[largest].p.length) {
+        // `glyphs[name]` is an array of serialized strokes ({c,w,p}), not a
+        // stroke, so count points across all of its strokes.
+        const pointCount = (strokes) =>
+          (strokes || []).reduce((sum, s) => sum + (Array.isArray(s?.p) ? s.p.length : 0), 0);
+        if (pointCount(glyphs[name]) > pointCount(glyphs[largest])) {
           largest = name;
         }
       }

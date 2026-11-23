@@ -136,9 +136,21 @@ function segmentsOfContour(path, contourIndex) {
   if (!path?.iterContourDecomposedSegments) {
     return [];
   }
+  // Guard against a stale contour index (contour deleted after the search,
+  // empty/dummy glyph, out-of-range index): the underlying iterator throws.
+  if (!Number.isInteger(contourIndex) || contourIndex < 0) {
+    return [];
+  }
+  if (typeof path.numContours === "number" && contourIndex >= path.numContours) {
+    return [];
+  }
   const segments = [];
-  for (const segment of path.iterContourDecomposedSegments(contourIndex)) {
-    segments.push({ type: segment.type, points: segment.points });
+  try {
+    for (const segment of path.iterContourDecomposedSegments(contourIndex)) {
+      segments.push({ type: segment.type, points: segment.points });
+    }
+  } catch (e) {
+    return [];
   }
   return segments;
 }

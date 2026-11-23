@@ -30,7 +30,11 @@ mimeTypes = {
     "csv": "text/csv",
     "html": "text/html",
     "ico": "image/x-icon",
+    "gif": "image/gif",
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
     "js": "application/javascript",
+    "png": "image/png",
     "json": "application/json",
     "svg": "image/svg+xml",
     "txt": "text/plain",
@@ -309,6 +313,9 @@ class FontraServer:
         contentType = mimeTypes.get(ext, "")
         response = web.Response(body=data, content_type=contentType)
         response.last_modified = self.startupTime
+        # Force revalidation on every load: the content root is versioned by
+        # the server's startup time, and plugin assets change between builds.
+        response.headers["Cache-Control"] = "no-cache"
         return response
 
     async def notFoundHandler(self, request: web.Request) -> web.Response:
