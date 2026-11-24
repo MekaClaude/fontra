@@ -1,5 +1,16 @@
 # Changelog for Fontra
 
+## 2026-11-?? [version 2026.11.0]
+
+### New features
+
+- [plugins] Use a user-settable local folder for plugins, to make it easier to develop plugins locally. Fontra Pak now has a Preferences panel for this. [PR 2839](https://github.com/fontra/fontra/pull/2839), [fontra-pak PR 317](https://github.com/fontra/fontra-pak/pull/317)
+
+### Improvements
+
+- [fontra pak/windows] Register selected file types with the Fontra Pak application. Contributed by Tarik Rokhsane. [fontra-pak Issue 210](https://github.com/fontra/fontra-pak/issues/210), [fontra-pak PR 306](https://github.com/fontra/fontra-pak/pull/306), [fontra-pak PR 315](https://github.com/fontra/fontra-pak/pull/315)
+- [fontra pak] Added Help menu, added Quit menu item, reorganized buttons, improved tabbing behavior. Contributed by MrPropre. [fontra-pak PR 307](https://github.com/fontra/fontra-pak/pull/307), [fontra-pak PR 308](https://github.com/fontra/fontra-pak/pull/308), [fontra-pak PR 309](https://github.com/fontra/fontra-pak/pull/309)
+
 ## 2026-10-30 [version 2026.10.2]
 
 ### Fixes

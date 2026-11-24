@@ -66,6 +66,10 @@ applicationsettings = "fontra.client"
 filesystem = "fontra.filesystem.projectmanager:FileSystemProjectManagerFactory"
 
 
+# The local plug-ins of this fork are served from /localplugins/ through the
+# `fontra.webcontent` entry point (see src/fontra/core/server.py). Upstream
+# removed this stanza when it moved to the generic --plugins-dir option;
+# keeping it is what makes the bundled plug-ins load.
 [project.entry-points."fontra.webcontent"]
 localplugins = "fontra.localplugins"
 

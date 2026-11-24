@@ -155,6 +155,11 @@ function withTimeout(promise, what) {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
+// Cache busting for the plug-in files: they live outside the bundle, so the
+// browser would otherwise keep serving a stale copy of a plug-in after it
+// has been updated on disk.
+const importTimeStamp = Date.now(); /* for cache busting */
+
 export class EditorController extends ViewController {
   static titlePattern(displayName) {
     return `Glyph Editor — ${displayName}`;
@@ -860,7 +865,7 @@ export class EditorController extends ViewController {
       }
       let meta;
       try {
-        meta = await fetchJSON(`${pluginPath}/plugin.json`, {
+        meta = await fetchJSON(`${pluginPath}/plugin.json?t=${importTimeStamp}`, {
           signal: pluginLoadSignal(),
         });
       } catch (e) {
@@ -875,7 +880,9 @@ export class EditorController extends ViewController {
         // lives outside the bundle (a URL or a server path), webpack must not
         // try to resolve it at build time.
         module = await withTimeout(
-          import(/* webpackIgnore: true */ `${pluginPath}/${initScript}`),
+          import(
+            /* webpackIgnore: true */ `${pluginPath}/${initScript}?t=${importTimeStamp}`
+          ),
           `Loading the plugin at ${pluginPath}`
         );
       } catch (e) {

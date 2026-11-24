@@ -53,6 +53,7 @@ class FontraServer:
     cookieMaxAge: int = 7 * 24 * 60 * 60
     allowedFileExtensions: frozenset[str] = frozenset(mimeTypes.keys())
     contentRoot: Traversable | None = None
+    pluginsDirectory: Traversable | None = None
 
     def setup(self) -> None:
         self.startupTime = datetime.now(timezone.utc).replace(microsecond=0)
@@ -82,6 +83,18 @@ class FontraServer:
                         self.staticContentHandler,
                         contentRoot=getPackageResourcePath(epValue),
                         pathPrefix=f"/{epName}",
+                    ),
+                )
+            )
+
+        if self.pluginsDirectory is not None:
+            routes.append(
+                web.get(
+                    "/plugins/{path:.*}",
+                    partial(
+                        self.staticContentHandler,
+                        contentRoot=self.pluginsDirectory,
+                        pathPrefix="/plugins",
                     ),
                 )
             )
