@@ -64,6 +64,7 @@ class FontraServer:
         routes.append(web.get("/websocket", self.websocketHandler))
         routes.append(web.get("/projectlist", self.projectListHandler))
         routes.append(web.get("/serverinfo", self.serverInfoHandler))
+        routes.append(web.get("/bundledplugins", self.bundledPluginsHandler))
         routes.append(web.post("/api/{function:.*}", self.webAPIHandler))
 
         # Deduplicate entry points to avoid duplicate route registration
@@ -86,6 +87,24 @@ class FontraServer:
                     ),
                 )
             )
+
+        # The plug-ins that are built into the application. The editor uses
+        # this list to enable them on the first run: a fresh installation
+        # would otherwise show none of them, and look like plain Fontra.
+        self.bundledPlugins = []
+        for epName, epValue in seenEntryPoints.items():
+            try:
+                contentRoot = getPackageResourcePath(epValue)
+                for item in sorted(contentRoot.iterdir(), key=lambda i: i.name):
+                    if not item.is_dir():
+                        continue
+                    if not (item / "plugin.json").is_file():
+                        continue
+                    self.bundledPlugins.append(
+                        {"name": item.name, "address": f"/{epName}/{item.name}/"}
+                    )
+            except Exception as e:
+                logger.warning("could not list the plug-ins of %r: %s", epName, e)
 
         if self.pluginsDirectory is not None:
             routes.append(
@@ -231,6 +250,18 @@ class FontraServer:
         return web.Response(
             text=json.dumps(projectList), content_type="application/json"
         )
+
+    async def bundledPluginsHandler(self, request: web.Request) -> web.Response:
+        """The plug-ins that are built into the application.
+
+        The editor enables them on the first run, so that a fresh
+        installation is not missing the plug-ins that ship with it.
+        """
+        authToken = await self.projectManager.authorize(request)
+        if not authToken:
+            raise web.HTTPUnauthorized()
+
+        return web.json_response({"plugins": getattr(self, "bundledPlugins", [])})
 
     async def serverInfoHandler(self, request: web.Request) -> web.Response:
         from .. import __version__ as fontraVersion

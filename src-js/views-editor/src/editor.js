@@ -837,11 +837,43 @@ export class EditorController extends ViewController {
     }
   }
 
+  // Enable the plug-ins that are built into the application.
+  //
+  // The plug-in list lives in the browser's local storage, so a fresh
+  // installation starts out with none of them — the editor looks like plain
+  // Fontra, and the panels that ship with it are nowhere to be seen. The
+  // server knows which plug-ins are bundled, so ask it, once, on the first
+  // run. After that the list belongs to the user: plug-ins they remove stay
+  // removed.
+  async _enableBundledPlugins(observablePlugins) {
+    const seedKey = "fontra.plugins.bundledEnabled";
+    try {
+      if (localStorage.getItem(seedKey)) {
+        return;
+      }
+      const response = await fetch("/bundledplugins");
+      if (!response.ok) {
+        return;
+      }
+      const info = await response.json();
+      const bundled = (info.plugins || []).map((plugin) => ({
+        address: plugin.address,
+      }));
+      if (bundled.length && !observablePlugins.model.plugins.length) {
+        observablePlugins.setItem("plugins", bundled);
+      }
+      localStorage.setItem(seedKey, "1");
+    } catch (e) {
+      console.warn("Could not enable the bundled plug-ins.", e);
+    }
+  }
+
   async initPlugins() {
     const observablePlugins = new ObservableController({
       plugins: [],
     });
     observablePlugins.synchronizeWithLocalStorage("fontra.plugins");
+    await this._enableBundledPlugins(observablePlugins);
     // Give plugins access to the action system (enumerate, title, execute,
     // register). Plugins can't import @fontra modules themselves.
     this.actionExecutor = {
