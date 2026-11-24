@@ -36,6 +36,20 @@ Notes:
 - The feature branch has merge history and exists on `origin`: prefer `git merge main` (or `git merge upstream/main`) for it; a rebase would require `--force-with-lease` on push.
 - Working tree should be clean before syncing (commit or stash first).
 
+### The `localplugins` entry point (upstream removed it — do not let it go)
+
+Upstream removed `[project.entry-points."fontra.webcontent"] localplugins = "fontra.localplugins"` from `pyproject.toml` (upstream commit 9fd30f27e, 2026-11-24) when it moved to the generic `--plugins-dir` option. The server builds the `/localplugins/` route from that entry point (`src/fontra/core/server.py`, the `entry_points(group="fontra.webcontent")` loop), so **taking the deletion makes every bundled plug-in 404** — in the dev server and in the exe.
+
+Git merges this silently: the stanza looks like it "survived" because the fork still mentions `localplugins` elsewhere in the file (`artifacts = [..., "src/fontra/localplugins/"]`). **After every upstream merge, check that the entry point is still there explicitly:**
+
+```bash
+grep -A2 'fontra.webcontent' pyproject.toml
+```
+
+Keep the entry point *and* take upstream's new `pluginsDirectory` / `--plugins-dir` / `/plugins/` route: both mechanisms can coexist.
+
+Upstream also added cache busting (`?t=${importTimeStamp}`) to the plug-in loader in `editor.js`, which collides with this branch's parallel loading and timeout. Keep both: the stamp on the query string, and the timeout on the fetch.
+
 ## Preserving local customizations when merging upstream
 
 Local customizations live on the feature branch. After any merge, verify these survived (keep local/`--ours` version on conflict):
@@ -49,6 +63,15 @@ Local customizations live on the feature branch. After any merge, verify these s
 - `src-js/views-fontoverview/src/fontoverview.js` — `"Fontra Font Overview — ${displayName}"` title pattern
 
 Also check auto-merged files (`git diff --cached --name-only`) — upstream may have silently removed a local feature.
+
+## macOS disk image (Apple Silicon)
+
+A `.dmg` cannot be built on Windows: it needs `hdiutil`, a macOS PyInstaller build and `codesign`. The route is CI on the fork's own `fontra-pak` repo:
+
+- `fontra-pak/.github/workflows/build-macos-fork.yml` (fork-local, added 2026-11-24) builds the **fork's** fontra on `macos-latest` (arm64) and produces an **unsigned** `FontraPak-MacOS-arm64.dmg`. It is unsigned and not notarized: the signing certificate and the notarization credentials exist upstream, not in the fork.
+- Trigger it with `gh workflow run build-macos-fork.yml --repo MekaClaude/fontra-pak -f fontra_ref=code-review-feedback-42427`.
+- `FontraPak.spec` builds `target_arch="universal2"`, so **every compiled dependency has to be a fat binary**. pip serves arm64-only wheels on an arm64 runner and PyInstaller refuses them (`IncompatibleBinaryArchError`). The workflow therefore runs `macos/ensure_universal_wheels.py` (needs `delocate`, which the fork has commented out of `requirements-dev.txt` because it is macOS-only) and installs the merged universal2 wheels over the platform ones.
+- The fork's fontra is installed by rewriting the upstream url in `requirements.txt` to the local checkout, so the app is the fork's and the client bundle in it is the fork's bundle.
 
 ## Windows exe build
 
