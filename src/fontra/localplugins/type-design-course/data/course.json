@@ -1,0 +1,2119 @@
+{
+  "meta": {
+    "title": "Type Design School",
+    "tagline": "A complete course in drawing typefaces, from seeing a letter to shipping a family. Ten phases, one lesson at a time, with something to do and a checklist at the end of every one.",
+    "version": "1.0",
+    "howToUse": [
+      "Work through the phases in order. Each one builds on the last, and the order is not arbitrary: spacing before capitals, drawing before vectorising.",
+      "A lesson is finished when its checklist is ticked, not when it has been read. The checks are the work.",
+      "Do the drawing exercises on paper first. The screen is for the drawing you want to keep.",
+      "When a lesson names a glyph, the card underneath shows what Fontra already knows about that glyph."
+    ]
+  },
+  "phases": [
+    {
+      "id": "seeing",
+      "number": 1,
+      "title": "Learning to See",
+      "goal": "Learn to read a letter as a shape rather than as a word, and to name every part of it.",
+      "why": "Almost every habit that makes a typeface ugly comes from looking at the black shape and forgetting the white one. Before you can draw well you have to be able to see well, and seeing is a learnable skill with a vocabulary attached to it.",
+      "milestone": "You can take any letter, cover its word, and describe its structure: which strokes, which curves, which counters, and where the white space sits.",
+      "glyphs": [
+        "n",
+        "o"
+      ],
+      "lessons": [
+        {
+          "id": "seeing.shapes",
+          "title": "Type is a shape, not a message",
+          "objective": "Understand that a letterform is a drawing first and a letter second, and that its quality is judged as a picture.",
+          "principles": [
+            {
+              "title": "Positive space is what you drew; negative space is what you did not",
+              "body": "A letter is two things at once: the ink you put down, and the holes you left. Designers talk about positive and negative space, and every hard problem in type lives in the second one. A bowl that is too open turns its counter into a hole; a cap that is too wide leaves a river of white between it and the next letter. When a design feels wrong and you cannot say why, it is almost always the white."
+            },
+            {
+              "title": "The picture, not the message",
+              "body": "Print the alphabet and then try to read it, deliberately, as a stranger would. You will find that legibility is rarer than you think, and that shapes you admired become unreadable when they are pulled out of context. Readability and beauty are not the same axis, and the work is holding both at once."
+            },
+            {
+              "title": "Look at the type you walk past",
+              "body": "The most useful reference library is the one you live in: shopfronts, hand-painted signage, the lettering on a delivery van, the numerals on a petrol pump. Sign painters solved spacing, rhythm and weight long before anyone wrote it down, and they solved it with a brush. Photograph what stops you. Keep a sketchbook. This is not sentimentality: it is the fastest way to build an instinct you cannot get from a tutorial."
+            },
+            {
+              "title": "A typeface is judged at a glance, then read",
+              "body": "Nobody reads a headline letter by letter. They feel it. So the first impression of your type is texture and rhythm, and only later does it become words. Design the texture first and the words will follow; do it the other way round and the words will fight the texture."
+            }
+          ],
+          "practice": [
+            "Print any familiar alphabet at 48 pt. Read it as a picture for ten seconds without trying to decode it. What is the first thing you notice: colour, texture, weight, rhythm?",
+            "Find three letterforms on your walk today that you find ugly, and write down for each exactly which stroke or curve offends you. Be specific: not the k, but the way the leg of the k meets the stem."
+          ],
+          "checklist": [
+            "I can point at the positive shape and the negative space of a letter and say which one I am looking at.",
+            "I have named, in my own words, the specific stroke that makes a letterform I dislike dislikeable.",
+            "I have collected and saved at least ten pieces of type that I like, with a note on why."
+          ],
+          "pitfalls": [
+            "Admiring a typeface for its ideas rather than its drawing. A concept can be brilliant and the letters can still be badly made.",
+            "Calling something ugly without finding the reason. The word is not a diagnosis.",
+            "Ignoring the letters you hate. They are usually telling you the truth about your own taste."
+          ],
+          "fontra": [
+            "Open the Glyph Advisor panel and pick a letter. Read its tips as a description of a shape, not as a to-do list."
+          ]
+        },
+        {
+          "id": "seeing.vocabulary",
+          "title": "The parts of a letter",
+          "objective": "Name every part of a letter precisely, so that you can say what you mean about it and what you want to change.",
+          "principles": [
+            {
+              "title": "Strokes and the shapes they make",
+              "body": "A letter is built from a small set of strokes. A stem is a vertical, a bowl is a curve that closes onto itself, an arch is the shoulder that joins two stems, a diagonal crosses the letter, a crossbar runs across it, a terminal is where a stroke ends. Nearly every lowercase letter is two or three of these, arranged."
+            },
+            {
+              "title": "Counters, and why they close",
+              "body": "A counter is the enclosed white space inside a letter. Counters are the first thing to suffer when weight goes up and the first thing to rescue a small size, because a counter that fills in with ink turns the letter into a blob. Every curve you draw encloses something, and the enclosed thing has to survive the boldest weight you will draw."
+            },
+            {
+              "title": "Openings and apertures",
+              "body": "The aperture is the gap a curve leaves: the opening of an a, the gap in a c, the mouth of an e. A small aperture looks tidy at text size and turns into a dark hole at display size. Apertures are the main thing you compensate for when you design a size, and the main thing that separates a display cut from a text cut of the same design."
+            },
+            {
+              "title": "Serifs, terminals and everything that ends",
+              "body": "Where a stroke stops, something happens. A terminal can be flat-cut, angled, round, teardropped, flared, or carry a serif. Serifs are only one of those options, which is worth remembering: classifying type by serif and sans serif hides the much more useful question of what the endings actually do."
+            },
+            {
+              "title": "The odd little parts",
+              "body": "Some letters have small features with their own names: the ear on a lowercase g, the spine of an s, the shoulder of an n, the tittle of an i, the loop of a g, the hook of a j. When a letter looks wrong and you cannot say what, it is often one of these small parts doing the wrong thing."
+            }
+          ],
+          "practice": [
+            "Draw the lowercase n at large size. Label the stem, the shoulder or arch, the terminal, the counter, and the aperture.",
+            "Take the alphabet apart: for each of a, c, e, g, s, write down which parts it is made of and which are unique to it.",
+            "Find the ear of a g in a font you like and compare it with the ear of a g in a font you dislike. Say what differs."
+          ],
+          "checklist": [
+            "I can name the parts of a lowercase letter without hesitating.",
+            "I can point at a counter, an aperture and a terminal in any letter I look at.",
+            "I know why counters and apertures are the first casualties of weight and of small size."
+          ],
+          "pitfalls": [
+            "Learning the vocabulary without using it. Words do not draw letters.",
+            "Assuming serif and sans serif are the only two kinds of type. They are two answers to one question about stroke endings."
+          ],
+          "fontra": [
+            "The Glyph Advisor panel lists the components of each glyph. Use it as a checklist while you draw."
+          ],
+          "glyphs": [
+            "n",
+            "o",
+            "a",
+            "s"
+          ]
+        },
+        {
+          "id": "seeing.metrics",
+          "title": "The lines that hold type together",
+          "objective": "Place every part of a letter on the right line, and know which lines are optical rather than mathematical.",
+          "principles": [
+            {
+              "title": "The five lines",
+              "body": "Most letters hang from a handful of horizontal guides: the baseline, where everything sits; the x-height, the top of the lowercase; the cap-height, the top of the capitals; the ascender line, above the capitals; and the descender line, below the baseline. Get these right and letters of different sizes still look like one family."
+            },
+            {
+              "title": "The x-height is a decision, not a default",
+              "body": "The name comes from the x, which is usually the only lowercase letter that has neither ascender nor descender, so it defines the line. Handwriting teaching often puts the x-height at half the cap height, which is far too small: a low x-height makes text grey and lifeless, and a high one makes it livid and tiring. Somewhere around two thirds of the cap height is the usual territory."
+            },
+            {
+              "title": "Curves overshoot, and must",
+              "body": "The top of a round o sits slightly above the x-height, and the bottom slightly below the baseline. Without that overshoot a round letter looks smaller than a flat one next to it, because the eye measures a round shape by its extremes. The overshoot is small, but it is not optional, and it grows with contrast."
+            },
+            {
+              "title": "Extenders are two different jobs",
+              "body": "Ascenders lift the letters that need to be told apart from capitals and figures. Descenders sink the letters that need to be told apart from the baseline. They solve different problems, so they do not have to be the same length, and in a narrow face they can look enormous while in a wide face they can be almost invisible."
+            },
+            {
+              "title": "Optical, not mathematical",
+              "body": "A curve is never exactly the same weight as a straight line, even when you draw them with the same pen. The eye reads a horizontal stroke as heavier than a vertical one of the same thickness, so horizontals are drawn thinner. This is why the letter E has thinner arms than its stem, and why an o drawn with uniform thickness looks wrong. Compensate for the eye, always."
+            }
+          ],
+          "practice": [
+            "Draw a lowercase o and a lowercase n on the same baseline, with the o overshooting above the x-height and below the baseline. Zoom in and look at the difference in apparent size.",
+            "Make three versions of the same lowercase h at x-heights of one half, two thirds, and three quarters of the cap height. Print them at 10 pt. Which is most readable, and which looks best at 48 pt?"
+          ],
+          "checklist": [
+            "I can draw a full set of guide lines and place a letter correctly on all of them.",
+            "I know my x-height as a proportion of my cap height, and I can defend it.",
+            "I know which letters need overshoot and which direction.",
+            "I can explain why horizontals are drawn thinner than verticals."
+          ],
+          "pitfalls": [
+            "Copying the half-cap x-height from handwriting practice sheets.",
+            "Using the same overshoot everywhere: the more contrast a letter has, the more it overshoots.",
+            "Treating the ascender and the descender as one length."
+          ],
+          "fontra": [
+            "Turn on the baseline, x-height and cap-height guides in the user settings while you draw."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idea",
+      "number": 2,
+      "title": "Finding the Idea",
+      "goal": "Decide what your typeface is about, and what shape that decision takes in concrete parameters.",
+      "why": "Projects die of vagueness, not of bad drawing. A typeface with no single idea behind it turns into a collection of letters that happen to be in the same file, and no amount of craft can rescue it later.",
+      "milestone": "You can write one sentence describing your typeface, and a list of parameters that sentence implies.",
+      "glyphs": [
+        "o",
+        "H",
+        "O"
+      ],
+      "lessons": [
+        {
+          "id": "idea.concept",
+          "title": "One idea is enough",
+          "objective": "Write a concept that is a single, testable statement, and let it do the work of deciding the details.",
+          "principles": [
+            {
+              "title": "A strong concept begins and ends with one idea",
+              "body": "It can be as plain as a high-contrast Caslon, or impossible geometry, or a shape language that borrows from signage rather than from books. The test is not whether it is clever. The test is whether it answers questions."
+            },
+            {
+              "title": "The concept should decide things for you",
+              "body": "A concept earns its keep by settling arguments. Single or double story a? Should there be a light weight? Do the caps overlap? Should there be swash alternates? Throw every question at the concept and see whether it answers. If it does not, the concept is not finished yet, and no amount of sketching will fix that."
+            },
+            {
+              "title": "Enthusiasm can outrun a concept",
+              "body": "The beginner's usual mistake is to pack a typeface full of good ideas, so that the whole thing has no shape of its own. If you cannot describe your typeface in one sentence without listing its features, you have a collection, not a concept."
+            },
+            {
+              "title": "A concept is a promise to the reader",
+              "body": "The reader will meet your typeface in contexts you cannot predict. A concept that holds together lets them predict something about it, and that predictability is what makes a family usable across a hundred different jobs rather than only in the one you imagined."
+            }
+          ],
+          "practice": [
+            "Write your concept in one sentence. No list, no adjectives, no explanation. If it takes more than one sentence, you do not have it yet.",
+            "Make a list of ten questions your typeface will have to answer (single or double story a? how many weights? serif or not?). For each, write the answer your concept implies.",
+            "Now find a typeface that answers the same questions the same way, and see what it does with the questions you did not think of."
+          ],
+          "checklist": [
+            "I can state my concept in a single sentence.",
+            "My concept has already decided at least five specific questions about the design.",
+            "I can name the typeface my concept is closest to, and say exactly how it differs."
+          ],
+          "pitfalls": [
+            "Writing a concept that is a style description rather than a decision: slightly quirky, modern, with character. These words constrain nothing.",
+            "Falling in love with a reference and calling it a concept. A reference is a source of shapes, not an idea."
+          ],
+          "fontra": [
+            "Write the concept in the font's own description field, so it survives in the file you are working in."
+          ]
+        },
+        {
+          "id": "idea.collecting",
+          "title": "Collecting, and looking harder",
+          "objective": "Build a reference library that is yours, and learn to work from memory rather than from the source.",
+          "principles": [
+            {
+              "title": "Save everything, look at it properly",
+              "body": "Photograph the signage, the letterpress books, the packaging, the bad choices as well as the good. Tag it so you can find it again. The value is not in the archive itself: it is in having looked at it often enough that you can pick something out of your head without hunting."
+            },
+            {
+              "title": "Drawing from memory is the point",
+              "body": "Redrawing a reference from memory is a classic exercise, and it is the one that teaches you. If you need the original beside you, you are copying shapes. If you do not, you are learning how that shape is built, because your hand has to supply what your eye no longer supplies. The gap between the original and your redrawing is where the learning is."
+            },
+            {
+              "title": "Similar inputs, similar outputs",
+              "body": "If everyone looks at the same references and uses the same tools, they get similar results. That is not a conspiracy, it is arithmetic. Having your own library, your own handwriting habits and your own recurring obsessions is what makes your work yours rather than a competent version of the prevailing mood."
+            },
+            {
+              "title": "Bad type is data",
+              "body": "The upside-down N, the inverted contrast on a sign, the letter spacing that fights the capitals: these used to offend you, and they are now the most useful reference material you own. Amateur work shows you what happens when a rule is broken, and therefore what the rule is for."
+            }
+          ],
+          "practice": [
+            "Start a folder of references today. Add five items this week: two you love, two you dislike, one you cannot explain.",
+            "Redraw one reference from memory, then put the original side by side. Write down the three biggest differences.",
+            "Draw the same six letters every day for a week, for five minutes, with no plan. Date every page."
+          ],
+          "checklist": [
+            "I have a reference folder that I add to without being asked.",
+            "I have redrawn something from memory and compared it honestly.",
+            "I can name three shapes that recur in my own handwriting."
+          ],
+          "pitfalls": [
+            "Collecting instead of studying. A folder you never open again is a folder of guilt.",
+            "Copying a reference so closely that you have made a worse version of someone else's typeface."
+          ]
+        },
+        {
+          "id": "idea.parameters",
+          "title": "The building materials",
+          "objective": "Describe any typeface as a set of parameters, so that you can change one without disturbing the others.",
+          "principles": [
+            {
+              "title": "Pen parameters and path parameters",
+              "body": "Some parameters change what the tool does: weight, contrast. Some change the line the tool follows: width, construction, x-height, extenders, proportions. Some change both: contrast type, optical size, stroke endings. Splitting the parameters this way is the single most useful thing to learn early, because it tells you which knobs you can turn independently and which are wired together."
+            },
+            {
+              "title": "Translation and expansion",
+              "body": "A broad nib held at a constant angle produces a fixed thick and thin that depends only on the direction of travel. Noordzij called that translation: the pen makes the same shape everywhere, and you move it around. A pointed pen opens with pressure, so thickness is a function of how hard you push. That is expansion. Almost every typeface you will ever look at is one of these two, or a hybrid."
+            },
+            {
+              "title": "Construction: roman and italic",
+              "body": "A roman letter is usually drawn in interrupted strokes: the pen leaves the paper and comes back. An italic is usually continuous: the pen stays down for the whole letter, which is why italic a and g become single-story, and why the two scripts differ so much in feel. If your typeface will have an italic, you are making a second construction, not a slanted copy."
+            },
+            {
+              "title": "Proportions: classical and modern",
+              "body": "In classical proportions, round capitals are circles and the flat capitals are about twice as tall as they are wide. In modern proportions the capitals are much closer to the same width, which is why modern sans capitals look wider and why they need tighter spacing. Pick a side deliberately: mixing the two within one family is visible."
+            },
+            {
+              "title": "Optical size is a parameter too",
+              "body": "The size a letter is meant to be read at changes its design. As type gets smaller, contrast drops, the x-height rises, spacing opens up, apertures close, and details like ink traps become bigger or vanish. As type gets bigger, the reverse happens. A family designed for one size and used at another always looks slightly wrong, and you can never quite say why."
+            },
+            {
+              "title": "You can invent parameters",
+              "body": "Terminal angle, stem concavity, aperture height, the amount of curve in a straight stroke, the ratio of extension to body: these are all parameters too, and the set is open. Once you can name what you are doing to the letter, you can repeat it across the whole alphabet and get a voice."
+            }
+          ],
+          "practice": [
+            "Pick any typeface you love and describe it entirely in parameters: weight, width, contrast, contrast type, optical size, construction, proportions, stroke endings, x-height, stem concavity. No adjectives.",
+            "Pick another typeface and change one parameter in your description. Draw what that would look like.",
+            "Compare the x-height ratio of three text typefaces you own on your computer. Most will land between 0.5 and 0.7 of the cap height."
+          ],
+          "checklist": [
+            "I can classify any typeface by contrast type, construction and proportions without guessing.",
+            "I can list at least eight parameters and say which ones are independent and which are coupled.",
+            "I can describe a typeface without using words like edgy, modern or vintage."
+          ],
+          "pitfalls": [
+            "Using adjectives where parameters belong. If you cannot name it, you cannot control it.",
+            "Assuming width is a free parameter. Changing width changes the ratio of white to black, so a stretched letter is also a lighter letter."
+          ],
+          "fontra": [
+            "The Glyph Advisor panel lists the design phases and the relationships between glyphs: read them as a map of the parameters."
+          ]
+        },
+        {
+          "id": "idea.axes",
+          "title": "Sources and instances",
+          "objective": "Understand what you draw by hand versus what a computer generates, and budget accordingly.",
+          "principles": [
+            {
+              "title": "Sources are drawn; instances are computed",
+              "body": "In a variable family, the shapes you draw by hand are called sources. Everything between them is generated: the machine blends them. A family with nine sources means every character you add later has to be drawn nine times, and the consistency checks multiply faster than the drawing does. The hard part is never the drawing; it is keeping nine drawings in agreement."
+            },
+            {
+              "title": "Decide the axes before the characters",
+              "body": "Weight is the cheapest axis to add because you can thicken a shape without redesigning it. Width is harder, because the proportion of white to black changes with it. Slant is hardest of all, because a true italic is a different construction. If you know your axes early, you can draw the characters with those axes in mind instead of discovering the problem in month four."
+            },
+            {
+              "title": "A design space is a room you live in",
+              "body": "Your typeface occupies a region of the possible space: some weights, some widths, some slants, one optical size or two. Drawing outside that region is expensive, because every extreme source becomes a promise. But a design space with only one point in it is not a family, it is a font."
+            },
+            {
+              "title": "More axes is not more value",
+              "body": "Each axis multiplies the work by the number of sources, and multiplies the consistency checking by more than that. A two-axis family at nine sources is a year. One axis at four sources is a few months and ships."
+            }
+          ],
+          "practice": [
+            "Write down the axes you will ship, the extremes of each, and the number of sources that implies. Then count the characters: that is your real workload.",
+            "Draw the same lowercase n at your four extremes and look at them together. If the extremes do not look like the same family, the space is broken.",
+            "Create your sources as separate masters in the font, and look at them side by side in the font overview."
+          ],
+          "checklist": [
+            "I know how many characters × how many sources I am signing up for.",
+            "I have drawn the extreme sources of my space and they look like one family.",
+            "I have decided which axis each character has to survive."
+          ],
+          "pitfalls": [
+            "Adding an axis because a variable font would look impressive. Every axis is a tax paid forever.",
+            "Promising a broad family on the strength of an exciting first style.",
+            "Treating the middle of the design space as a style instead of as a set of instances."
+          ],
+          "fontra": [
+            "Create your sources as separate masters in the font, and look at them side by side in the font overview."
+          ]
+        },
+        {
+          "id": "idea.designspace",
+          "title": "Choosing your sweet spot",
+          "objective": "Decide, early and on paper, which part of the design space your typeface will live in, and what it will not attempt.",
+          "principles": [
+            {
+              "title": "The most important decision is the first one",
+              "body": "The part of the design space your typeface will live in is settled at the very beginning, and it deserves the same care as the letters themselves. Everything after it is production."
+            },
+            {
+              "title": "Your typeface occupies a region, not a point",
+              "body": "Some weights, some widths, some slants, one optical size or two. A design space with only one point in it is not a family, it is a font. But every extreme source is a promise, so do not promise what you will not draw."
+            },
+            {
+              "title": "Decide what you are not doing",
+              "body": "No italics, no condensed, no small caps, no script companion. Write the exclusions down. They are what keeps a project inside the time you have, and they are far harder to add later than to abandon."
+            },
+            {
+              "title": "The milestone is one page",
+              "body": "Before you draw a single outline you should be able to write on one page: the axes you will ship, the extremes of each, the number of sources that implies, the character count, and the styles you are deliberately not making. If that page is not written, the scope is still a wish."
+            }
+          ],
+          "practice": [
+            "Write your one-page design space: axes, extremes, sources, instances, character count, and the exclusions.",
+            "Draw the same lowercase n at your four extremes and look at them together. If the extremes do not look like the same family, the space is broken.",
+            "Write down what you are NOT doing, and put it somewhere you will see it when you are tempted to add one more style."
+          ],
+          "checklist": [
+            "I have a one-page map of my design space: axes, extremes, sources, instances.",
+            "I have written down the styles I am deliberately not making.",
+            "I have drawn the extreme sources of my space and they look like one family.",
+            "I know how many characters × how many sources I am signing up for."
+          ],
+          "pitfalls": [
+            "Designing the extremes last, once the middle is done. The extremes tell you what the middle is.",
+            "Promising a broad family on the strength of an exciting first style.",
+            "Deciding the scope in your head instead of on paper."
+          ],
+          "fontra": [
+            "The font overview shows your masters side by side: use it to check that the extremes agree."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sketching",
+      "number": 3,
+      "title": "Sketching",
+      "goal": "Explore the design space quickly and cheaply, on paper, before committing a single outline to the screen.",
+      "why": "Sketching is not practice for drawing. It is a way of finding out what the design is, at a speed where changing your mind costs nothing.",
+      "milestone": "You have a wall of sketches that covers the extremes of your design space, and you can point at the two directions worth pursuing.",
+      "glyphs": [
+        "n",
+        "o"
+      ],
+      "lessons": [
+        {
+          "id": "sketching.rules",
+          "title": "A sketch is not a drawing",
+          "objective": "Adopt the rules that make sketching fast, and stop treating a sketch as something to be proud of.",
+          "principles": [
+            {
+              "title": "The only purpose of a sketch is to expose flaws",
+              "body": "If you like your sketch, you have probably made it too carefully and learned too little from it. The sketch exists to show you the weaknesses of your idea while they are still cheap to discard. If you find yourself proud of a page, you have probably been drawing instead of sketching."
+            },
+            {
+              "title": "Speed comes from the tool",
+              "body": "Use a thick marker, work at one or two inches of cap height, trace over your own lines instead of starting again, and use correction fluid the way you would use it on a print. Cut and paste are legitimate sketching tools: respacing a row of letters with scissors is faster and better than redrawing it, and it lets you judge spacing rather than drawing."
+            },
+            {
+              "title": "Draw the meat, not the outline",
+              "body": "Outlines hide the thing you are trying to judge. If you fill in the strokes in a dark enough colour, the positive and negative space stand in a real relationship, and you can see the spacing problem you would otherwise miss. An outline sketch is a drawing you have not finished."
+            },
+            {
+              "title": "Step back from the paper",
+              "body": "Every few minutes, stand up and look from further away. Problems you cannot see at arm's length are visible from across the room, and spacing problems in particular only appear at distance. If you cannot step back, photograph the page and look at the photograph."
+            },
+            {
+              "title": "Do not work through the alphabet",
+              "body": "You are prototyping a typeface, not making an alphabet poster. Draw invented words that give you a random mix of straight, round and diagonal strokes: something like CRANEW or BYIVQNSH. You get a more honest read on the texture, and you stop burning four days on the alphabet."
+            }
+          ],
+          "practice": [
+            "Sketch twenty n's in one sitting, each a different width, at one inch cap height, with a Sharpie. Time it: under five minutes each.",
+            "Draw one word in outline, then draw it again filled in. Notice how much harder the spacing is to judge when it is filled.",
+            "Draw a page of nonsense words, not letters. Then pick the three letters from it that you struggled with most."
+          ],
+          "checklist": [
+            "My sketch pages are ugly and fast, and I do not mind.",
+            "I have a page of twenty variants of one letter.",
+            "I have stood back from my sketch at least once and seen something I could not see from close up."
+          ],
+          "pitfalls": [
+            "Buying a nice pen to make your sketches beautiful. You are going to throw them away.",
+            "Posting sketches as you go. The audience turns the sketch into a performance.",
+            "Starting from A every time. Start from the letter that troubles you."
+          ]
+        },
+        {
+          "id": "sketching.explore",
+          "title": "Explore the design space",
+          "objective": "Push every parameter to its breaking point so you know where the edges are, then walk back to the middle.",
+          "principles": [
+            {
+              "title": "Push to the break, then come back",
+              "body": "You cannot choose a weight if you have only seen one weight. Take each parameter to the point where the letter stops working, look at it, and then come back a step or two. The useful range is always narrower than the range you can draw, and you can only find the edge by hitting it."
+            },
+            {
+              "title": "The extremes are where the system shows itself",
+              "body": "A design that is fine at regular will reveal its weaknesses at black and at light. Terminals that work in a bold will cut into awkward white in a light. Curves that look graceful at regular will look gawky at condensed. Draw the extremes early and you will not discover the problem in month five."
+            },
+            {
+              "title": "Sketch words, not letters",
+              "body": "A letter in isolation tells you almost nothing about spacing or texture. Sketch short words, ideally ones full of the shapes you are unsure about, with the spacing you intend. The rhythm is what you are designing; the letter is only the material."
+            },
+            {
+              "title": "Ask the questions that have no answer in a book",
+              "body": "How condensed is condensed? What is normal? How long should the descenders be? How high can the x-height go before it stops working? These cannot be looked up, which is exactly why they are worth sketching. The answer is only ever going to be the one you drew."
+            }
+          ],
+          "practice": [
+            "Take one lowercase n and draw it at ten widths, from absurdly narrow to absurdly wide. Find the two widths where it still works, and write the ratio down.",
+            "Draw the same word at three x-heights: very low, medium, very high. Which holds up in a paragraph?",
+            "Draw your word with a light and a bold. Look at the terminals. What breaks first?"
+          ],
+          "checklist": [
+            "I have drawn at least one parameter to its breaking point in both directions.",
+            "I can name the range my design works in, with numbers.",
+            "My extremes are recognisably the same family."
+          ],
+          "pitfalls": [
+            "Stopping at the first thing that looks nice. The nice thing is rarely the middle of anything.",
+            "Exploring only the weight axis and assuming the rest follows.",
+            "Falling in love with an extreme and redesigning the whole project around it."
+          ]
+        },
+        {
+          "id": "sketching.tools",
+          "title": "The tools that teach you",
+          "objective": "Understand what a broad nib and a pointed pen teach you about type, and use that knowledge even when you never draw by hand again.",
+          "principles": [
+            {
+              "title": "The broad nib and translation",
+              "body": "Hold a broad nib at a natural angle and it lands around thirty degrees. That single fact explains why the left side of an A is thin and the right side is thick, why the V is the other way round, and why an O is built from two strokes rather than a loop. The pen makes the same shape everywhere; only the direction of travel changes which part of the nib touches the paper."
+            },
+            {
+              "title": "The pointed pen and expansion",
+              "body": "A split nib opens under pressure, so thick and thin are a function of how hard you push. Light pressure gives a hairline, heavy pressure a broad stroke. The pen wants to move downwards, which is why pointed-penned letters have their stress on the left and why the letters seem to lean."
+            },
+            {
+              "title": "Learning from the tool, not the tool",
+              "body": "You do not have to keep drawing by hand. What you have to keep is the knowledge: that a shape has a stress angle, that stems meet shoulders at a specific angle, that a terminal is where the pen lifted. Hand drawing teaches this in the hand; it can also be learned by studying typefaces that were drawn by hand."
+            },
+            {
+              "title": "The pen wants to move downwards",
+              "body": "Both nibs are pulled, not pushed. Everything you know about the order of strokes in a letter comes from this: you draw down before you draw up, and the joins are where the pen changed direction. It is the reason a lowercase a is built from a bowl plus a stem and not the other way round."
+            }
+          ],
+          "practice": [
+            "Get a cheap broad-nib pen. Draw the alphabet once at 30 degrees of pen angle. Then draw it again at 45 degrees. Note which letters changed most.",
+            "Trace a photograph of a painted shop sign with a broad nib and see where your version disagrees with the original.",
+            "Identify the stress angle of a typeface you love by drawing lines across the stems of its round letters."
+          ],
+          "checklist": [
+            "I can explain the difference between translation and expansion and name a typeface of each.",
+            "I can find the pen angle of a typeface from a photograph.",
+            "I have held a broad nib pen long enough to feel where it wants to move."
+          ],
+          "pitfalls": [
+            "Buying expensive tools before you know what the tools are for.",
+            "Using the pen as the design rather than the explanation. The typeface decides the pen angle, not the other way round."
+          ]
+        },
+        {
+          "id": "sketching.practice",
+          "title": "Practice, not pages",
+          "objective": "Get the daily, aimless drawing habit that actually builds the skill, and keep it sustainable.",
+          "principles": [
+            {
+              "title": "A small daily practice beats an occasional masterpiece",
+              "body": "Ten minutes of drawing letters every day does more for your hand and your eye than a weekend spent on one serious piece. The daily version is low stakes, so you keep doing it; the serious version is high stakes, so you stop."
+            },
+            {
+              "title": "Let the tool set the brief",
+              "body": "You can give yourself a constraint you would never have chosen: draw a typeface using only straight lines; draw one with a fixed pen angle of exactly 30 degrees; draw one where every letter must fit in a circle. Constraints remove the decisions that stop you starting."
+            },
+            {
+              "title": "Combine two things",
+              "body": "Take two typefaces and smash their properties together. What would this serif look like if it were drawn by that brush? What would that geometric skeleton look like if it had that bracket? Nobody knows, so go and find out. Hybrid exercises break you out of habits you did not know you had."
+            },
+            {
+              "title": "Keep a practice that is fun",
+              "body": "If your practice is drudgery you will stop, and you will stop within a fortnight. Point the canoe downstream: bring in your other interests, draw your band names, draw your own name in forty different ways. Fun increases patience and patience increases quality."
+            }
+          ],
+          "practice": [
+            "Pick a prompt generator that hands out random type design briefs and do one every day for a month.",
+            "Draw your own name in thirty different styles, no two alike, over a week.",
+            "Find a design exercise with a constraint you would not have chosen yourself, and do it."
+          ],
+          "checklist": [
+            "I have a daily drawing habit that has lasted at least two weeks.",
+            "I have tried at least one exercise with a constraint I did not pick.",
+            "My practice is something I would actually do without a deadline."
+          ],
+          "pitfalls": [
+            "Setting a target of drawing a whole alphabet every day. You will quit.",
+            "Practising only what you are already good at."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lowercase",
+      "number": 4,
+      "title": "Drawing the Lowercase",
+      "goal": "Draw a complete, coherent lowercase alphabet from a small number of foundational shapes.",
+      "why": "The lowercase carries the text. Capital letters are for names, numbers and the start of sentences; the lowercase is read thousands of times a page.",
+      "milestone": "Every lowercase letter is derived from a shape you have already drawn, and the set reads as one voice.",
+      "glyphs": [
+        "n",
+        "o",
+        "b",
+        "d",
+        "p",
+        "q",
+        "a",
+        "g",
+        "s",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ],
+      "lessons": [
+        {
+          "id": "lowercase.foundations",
+          "title": "n and o: the two foundations",
+          "objective": "Draw the two letters that decide the character of your lowercase, and understand why they carry that weight.",
+          "principles": [
+            {
+              "title": "n is the straight one, o is the round one",
+              "body": "Between them they cover the two ways a letter can be built: a stem with an arch, and a curve that closes. Almost every other lowercase letter is one of those two, adjusted. The stem thickness of the n, the angle of its shoulder, the flatness of its terminals and the width of its arch set the expectations that the rest of the alphabet has to meet."
+            },
+            {
+              "title": "Where the shoulder meets the stem",
+              "body": "In a sans, the arch of the n meets the stem at a sharp angle, and the two strokes are the same weight. In a serif, the arch springs from the stem with a curve, and the joint thickens. Choose how the joint behaves here, and you have chosen how every other letter in the alphabet behaves."
+            },
+            {
+              "title": "The terminal angle",
+              "body": "The cut of the end of a stroke is one of the loudest signals a typeface sends. A vertical cut, a horizontal cut and a diagonal cut make three different voices, and they change the spacing as much as the drawing does. Decide it once and apply it everywhere."
+            },
+            {
+              "title": "The o sets the curve quality",
+              "body": "The o is where you decide how your curves behave: how much stress they carry, where the thickest point is, how the stroke thins as it turns. Get the o right and the b, the c, the d, the e and the p come with it."
+            },
+            {
+              "title": "Draw n before r, always",
+              "body": "The r is a piece of the n with the leg removed. Draw the n, copy it, and cut. The same trick works for the m (n with a second arch), the h (n with an ascender) and the u (n turned over)."
+            }
+          ],
+          "practice": [
+            "Draw the n and the o at your final weight, at least ten times each. Do not draw anything else until you are happy with them.",
+            "Draw the n three ways: the arch meeting the stem at a sharp angle, with a curve, and with a curve that has a flat top. Notice how the spacing of nn changes.",
+            "Copy the n four times on one line, and then the o four times on the next. Compare how the two rows space."
+          ],
+          "checklist": [
+            "I can draw my n and o without hesitating, at the final weight.",
+            "The n and the o in my typeface clearly belong to the same family.",
+            "I have decided how the arch meets the stem, and I can apply it everywhere.",
+            "My n and o have the same apparent weight when placed side by side."
+          ],
+          "pitfalls": [
+            "Drawing the whole alphabet before you are happy with n and o.",
+            "Treating n and o as simple letters and moving on too fast. They are the two hardest decisions in the lowercase.",
+            "Letting the o and the n have different stroke weights because they were drawn on different days."
+          ],
+          "fontra": [
+            "The Glyph Advisor panel calls n and o the foundation phase, and says why: they define the DNA of most of the lowercase."
+          ],
+          "glyphs": [
+            "n",
+            "o"
+          ]
+        },
+        {
+          "id": "lowercase.agbdpq",
+          "title": "The agbdpq group",
+          "objective": "Draw the five letters that share a bowl, and keep the one shape that makes all five consistent.",
+          "principles": [
+            {
+              "title": "One bowl, five positions",
+              "body": "The letters a, g, b, d, p and q all contain a bowl. The bowl is the same shape in all of them; what changes is where it sits relative to the stem and what else is attached. Draw the bowl once, then place it five ways."
+            },
+            {
+              "title": "The overshoot tells you the curve is round",
+              "body": "Because the bowl is a curve, it overshoots the baseline and the x-height slightly. A bowl that sits exactly on the lines reads as smaller and flatter than its neighbours and will spoil the rhythm of a word."
+            },
+            {
+              "title": "The shoulder of a b is not the arch of an n",
+              "body": "The upper join of a b, d, p and q is a different move from the arch of an n: it is shorter, it often curves, and in a serif it carries a serif that turns. Keep the two joins distinct or the letters will blur together in a word."
+            },
+            {
+              "title": "The ear of the g is a decision, not a detail",
+              "body": "The little stroke that turns the top of a g into a loop or a spur can be flat, angled or vertical, and it changes the personality of the letter more than almost anything else you will change. Decide it early, because it is visible in every word."
+            }
+          ],
+          "practice": [
+            "Draw the bowl once, large. Then copy it five times and attach a stem to make b, d, p, q and g.",
+            "Draw the five letters as a word, and again with the ear of the g at three different angles. Notice how the word changes."
+          ],
+          "checklist": [
+            "My five bowl letters are visibly the same bowl.",
+            "The bowls overshoot consistently.",
+            "The g has a deliberate ear, not an accidental one."
+          ],
+          "pitfalls": [
+            "Drawing the five bowls separately and hoping they match.",
+            "Making the bowl of the d different from the bowl of the b because the letter looks different in context."
+          ],
+          "glyphs": [
+            "a",
+            "g",
+            "b",
+            "d",
+            "p",
+            "q"
+          ]
+        },
+        {
+          "id": "lowercase.families",
+          "title": "The arch family and the rest",
+          "objective": "Derive h, m, u and r from the n, then handle the letters that have no family.",
+          "principles": [
+            {
+              "title": "h is n with an ascender",
+              "body": "Draw the n, copy it, and lift the left stem into an ascender. The arch stays exactly as it was. This is the single most productive habit in drawing a lowercase: build upwards from a shape you already like rather than drawing each letter from scratch."
+            },
+            {
+              "title": "m is n with a second arch",
+              "body": "The m must look like two n's that agree. The distance between the two arches has to relate to the width of the n, and the joint in the middle has to be the same kind of joint as the two outer ones."
+            },
+            {
+              "title": "u is n inverted",
+              "body": "In a sans, the u is literally the n turned over. In a serif it is not quite, because the serifs differ, but the curve at the bottom is the arch of the n. Turn your n over and you have your u."
+            },
+            {
+              "title": "r is n without the leg",
+              "body": "The shoulder of the r needs only a quarter turn. This sounds trivial and it is decisive: a quarter turn is a small, tight curve that leaves the stem quickly. A quarter turn gives a r that looks compact and sets well next to n; a half turn gives a r that bulges and pushes its neighbours away."
+            },
+            {
+              "title": "The letters without a family",
+              "body": "s, a and g are hard because they are not built from a simple stroke and a curve: their counters are open or half-open and the stroke changes direction without an obvious anchor. Diagonals are hard for a different reason: the eye wants them to be vertical, so a diagonal drawn at its true angle looks wrong and must be steepened. Take these letters last, and take them one at a time."
+            }
+          ],
+          "practice": [
+            "Build h, m, u and r by copying your n and editing the copy. Do not draw them fresh.",
+            "Draw the s at four different spine angles. Which one does your typeface want?",
+            "Draw a v at its true 45 degrees, then steeper. Measure the difference and decide which your alphabet needs."
+          ],
+          "checklist": [
+            "My h, m, u and r are visibly derived from my n.",
+            "The r turns away from the stem in the same way in every style.",
+            "I have drawn the s and the diagonals deliberately rather than by accident."
+          ],
+          "pitfalls": [
+            "Drawing the arch of the m wider than the arch of the n to fill the letter. The arches must be identical.",
+            "Leaving the r until last, when it is the letter that has to sit next to the n."
+          ],
+          "glyphs": [
+            "h",
+            "m",
+            "u",
+            "r"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spacing",
+      "number": 5,
+      "title": "Spacing",
+      "goal": "Make the white space between letters as good as the letters themselves.",
+      "why": "This is the phase beginners underestimate and professionals obsess over. A typeface with excellent letters and careless spacing looks amateur, and it is very hard to fix afterwards because spacing is not one thing but hundreds of small decisions.",
+      "milestone": "Your lowercase is spaced so evenly that no pair of letters draws the eye, and you can say why any given pair is looser or tighter.",
+      "glyphs": [
+        "n",
+        "o",
+        "H",
+        "O"
+      ],
+      "lessons": [
+        {
+          "id": "spacing.principle",
+          "title": "The rhythm of white",
+          "objective": "Learn the one relationship that governs spacing, and use it to reason about every pair you set.",
+          "principles": [
+            {
+              "title": "The space inside should equal the space between",
+              "body": "Put a dot in the counter of a letter and a dot in the gap next to it, and the two gaps should be the same size. That single test explains almost everything about why a word looks even. Bold letters need tighter spacing because their internal counters are smaller. Lowercase should not be tracked out because the letterforms and the spacing are one grid, and moving one moves the other."
+            },
+            {
+              "title": "Look at three letters at a time",
+              "body": "To space a pair, you do not look at the pair. You look at three, and ask whether the middle letter feels like it is in the middle. Not geometrically in the middle: optically in the middle. It works in script, it works in hairline extended figures, it works almost everywhere in the Latin alphabet, and it lets the letters themselves be as irregular as they like."
+            },
+            {
+              "title": "Even is not the same as equal",
+              "body": "A rhythm is a pattern of variation that the eye accepts. It is not a constant gap. Look at a well-spaced word: the gaps are not all the same width, but the eye does not find any of them. When you can point at a gap, that gap is wrong."
+            },
+            {
+              "title": "Consider the opposite",
+              "body": "When a word feels loose, the answer is rarely to loosen it further. Look at the shape of the white: a single wide white area reads as a hole, and two narrow ones read as a squeeze. Changing the distribution of the space fixes what adding space cannot."
+            }
+          ],
+          "practice": [
+            "Set the word hamburg in a text face you own and mark the internal counters with dots. Then mark the gaps between letters. Compare.",
+            "Set the same word three times at three different tracking values and mark which one makes your eye stop somewhere.",
+            "Set a word, then look at it upside down and backwards. Irregular spacing shows up immediately."
+          ],
+          "checklist": [
+            "I can point at a pair in my typeface that is too loose and say whether the problem is the inside space or the outside space.",
+            "I use the three-letter test when I space a pair.",
+            "My word spacing is even, and the space between words is distinguishable from the space between letters."
+          ],
+          "pitfalls": [
+            "Spacing letters one pair at a time and never looking at three.",
+            "Tracking a whole font to fix one bad pair.",
+            "Making every gap identical. That is not rhythm, it is a grid."
+          ],
+          "fontra": [
+            "Use the spacing overlay of the Cadence Spacer plug-in to see the beam crossings of your glyphs, or measure sidebearings directly in the selection info panel."
+          ],
+          "glyphs": [
+            "n",
+            "o"
+          ]
+        },
+        {
+          "id": "spacing.sidebearings",
+          "title": "Sidebearings and the control characters",
+          "objective": "Set sidebearings by hand, in the right order, with the right control letters.",
+          "principles": [
+            {
+              "title": "Start with n and o",
+              "body": "When you space a lowercase, begin with n, the most logical letter with two vertical strokes, and o, the most logical letter with rounds. These two set the foundation. If a spacing error exists on a control character, there is a crack in the foundation and everything built on it has to be rebuilt."
+            },
+            {
+              "title": "Uppercase has its own controls",
+              "body": "For the capitals, the straight control letter is H and the round one is still O. Capitals are spaced differently from lowercase because their counters are bigger, which is why you can often get away with looser capitals, and why a cap set that is too tight feels heavy."
+            },
+            {
+              "title": "The shape of the letter decides its sidebearing",
+              "body": "A round letter needs more space beside it than a flat one, because the white beside a curve is already generous. A diagonal, like an A or a V, needs more still, because the white opening out of the corner reads as space even when the outline is not there. A letter with a tail, like a Q or a J, may need negative space to compensate."
+            },
+            {
+              "title": "The same rule applies on both sides",
+              "body": "Sidebearings are a pair, not a number. A letter with a straight left edge and a round right edge wants a different pair from the same letter mirrored. This is why spacing is done by eye against the neighbour, not by a formula per glyph."
+            },
+            {
+              "title": "The alphabet tells you nothing about spacing",
+              "body": "You cannot judge spacing from a spaced-out alphabet. Set real words, in real sizes, and look for the pairs that drag. Then fix those specific pairs."
+            },
+            {
+              "title": "Why these four letters and not others",
+              "body": "The reason is that n and o, and H and O, are the pure cases: one is made of straight sides, one of round ones. Every other letter is a deviation from one of them. The TrueType reference manuals make the same point for the same reason, and it is why a space error on a control character is not a small error: it is a crack in the foundation the rest of the alphabet is built on."
+            },
+            {
+              "title": "The four-distance test",
+              "body": "Set n and o together in a repeating pair, so that you see the same four distances over and over: the space inside the n, the space between the n and the o, the space inside the o, and the space between the o and the next n. Adjust the two sidebearings until all four look equal. It is faster than judging one pair at a time, and it is the test that keeps you honest."
+            },
+            {
+              "title": "Let the sidebearings refer to each other",
+              "body": "Professional spacing does not re-type numbers. A glyph's sidebearing is written as a reference to another glyph's, with arithmetic on top, so that a change propagates instead of having to be repeated everywhere. The habit is worth forming early: it is the difference between a typeface that stays consistent under revision and one that drifts."
+            }
+          ],
+          "practice": [
+            "Space the whole lowercase in this order: n, o, then the straight letters, then the rounds, then the diagonals, then the rest. Do not go alphabetically.",
+            "Set the same letter twice in a row, at four different sidebearing values, and pick the one where the white between them equals the white inside them.",
+            "Make a list of the pairs that look wrong in a real paragraph and write down the fix for each in terms of which sidebearing to change.",
+            "Set the repeating pair n and o until all four distances look equal, and then write down the two sidebearing values you arrived at.",
+            "Give one letter's sidebearing as a reference to another letter's, and change the referenced one. Check that the change propagates."
+          ],
+          "checklist": [
+            "I have spaced my n and o first, and the rest of the alphabet follows from them.",
+            "Every sidebearing pair in my typeface has been judged against a neighbour, not against a formula.",
+            "I can name the pairs that needed special treatment and what I did about them.",
+            "I can explain why n, o, H and O are the control characters.",
+            "I have spaced the control characters before anything else.",
+            "I use references between sidebearings rather than repeating numbers."
+          ],
+          "pitfalls": [
+            "Spacing alphabetically, which puts the difficult letters first and the controls last.",
+            "Adjusting the right sidebearing of the first letter of a pair and the left of the second, when the problem is on the other side.",
+            "Spacing a letter in isolation."
+          ]
+        },
+        {
+          "id": "spacing.kerning",
+          "title": "Kerning",
+          "objective": "Know which pairs need kerning, how to find them, and when not to bother.",
+          "principles": [
+            {
+              "title": "Kerning is a last resort",
+              "body": "The space between two letters should be decided by the sidebearings, which are part of the design. Kerning is the emergency patch applied afterwards, when the shapes of two particular letters refuse to sit together. A typeface that needs a lot of kerning is a typeface whose sidebearings were wrong."
+            },
+            {
+              "title": "Kerning happens in groups",
+              "body": "Letters that pair badly do so with all their equivalents: every lowercase pair with an open side wants the same treatment, every pair of two diagonals wants the same treatment. Build the groups and apply each group once, rather than pair by pair."
+            },
+            {
+              "title": "The pairs that need it",
+              "body": "A capital next to a lowercase with an overhang: T followed by a, L followed by y. Two diagonals: A next to V, W next to a. A round next to a flat: o next to T, or a comma next to a quote. Punctuation is usually worse than letters, because punctuation is designed to be tight against the preceding letter."
+            },
+            {
+              "title": "Look for the holes",
+              "body": "The most reliable way to find a bad pair is to look for the white. When two letters leave a triangular or a lens-shaped hole between them, that hole is the problem, and no amount of general spacing will fix it."
+            }
+          ],
+          "practice": [
+            "Set a paragraph and circle every pair where a hole appears between the letters.",
+            "Write down the pairs you have found and group them: which letters are involved, regardless of case.",
+            "Compare the amount of kerning you need with a font you admire. If yours needs much more, your sidebearings are off."
+          ],
+          "checklist": [
+            "I know which pair groups need kerning in my typeface.",
+            "I have found my kerning pairs by looking for holes, not by guessing.",
+            "I have checked that the kerning is not compensating for a sidebearing mistake."
+          ],
+          "pitfalls": [
+            "Kerning before spacing is finished. The pairs move as you space.",
+            "Kerning individual pairs without grouping them, so the treatment is inconsistent.",
+            "Forgetting the punctuation pairs, which are the most visible ones."
+          ],
+          "fontra": [
+            "The selection info panel shows the sidebearings and margins of the selected glyph, so you can set them numerically."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capitals",
+      "number": 6,
+      "title": "Capitals, Figures and Punctuation",
+      "goal": "Draw the uppercase, the numbers and the punctuation so that they belong to the lowercase you already have.",
+      "why": "Capitals are read far less often than lowercase, so they are often the last thing drawn and the first thing that looks borrowed. Figures and punctuation are read constantly and are almost never given the attention they deserve.",
+      "milestone": "Your capitals are derived from two references rather than invented one by one, and your figures share the rhythm of the lowercase.",
+      "glyphs": [
+        "H",
+        "O",
+        "E",
+        "A",
+        "T"
+      ],
+      "lessons": [
+        {
+          "id": "capitals.references",
+          "title": "Build the capitals from two references",
+          "objective": "Draw H and O first, then derive every other capital from them or from a letter they contain.",
+          "principles": [
+            {
+              "title": "Every capital is a combination of letters you already have",
+              "body": "H is two stems and a bar. O is the round reference. E is the straight reference: the B, the F and the L all come out of the E, and the Z is the E turned over. The A is the V with a bar. The T is the I with an arm. The K is the H with a leg. If you cannot name the two letters a capital is made of, you are drawing it from scratch, and it will not match anything else."
+            },
+            {
+              "title": "The bar belongs above centre, and the A is the exception",
+              "body": "The crossbar of an H sits above the middle, and so does the top arm of an E, because a letter with a wide bottom needs its balance higher up. The A is the deliberate exception: its bar sits below centre, which is what stops the letter from looking like an upside-down V. Move these bars and the capitals stop relating to each other."
+            },
+            {
+              "title": "The lowercase is the uppercase, scaled",
+              "body": "For most letters the lowercase is simply the capital reduced: the same shape, drawn smaller. The c, the o, the w, the x and the z are exactly that. The v is close enough that it has to be redrawn, because a sharp point at a small size closes up. The a and the g are the two real exceptions in a roman face, and they are the two that make a roman a roman."
+            },
+            {
+              "title": "Capitals need their own spacing",
+              "body": "Capitals have larger counters than lowercase, so they can usually carry more space around them, and they need it: a capital set that is too tight looks heavy and a lowercase set that is too loose looks broken. Spacing capitals and lowercase on the same scale is the most common spacing mistake in a new typeface."
+            }
+          ],
+          "practice": [
+            "Draw the H and the O. Then draw the E, and from it the B, the F, the L and the Z.",
+            "Draw the capitals and their lowercase counterparts on the same line and compare. Find the ones that are not simply scaled.",
+            "Set a capital word next to a lowercase word and check that the colour of the two blocks matches."
+          ],
+          "checklist": [
+            "Every capital I drew can be described as a combination of two letters I drew earlier.",
+            "My H crossbar sits above centre and my A bar sits below it, on purpose.",
+            "The capitals and the lowercase have the same apparent colour in a line of text."
+          ],
+          "pitfalls": [
+            "Drawing the capitals last, after the lowercase, so they have to be reconciled to something already fixed.",
+            "Copying the proportions of a well-known capital instead of deriving it from your own references.",
+            "Forgetting that a letter set in caps needs a different rhythm than one set in lowercase."
+          ],
+          "fontra": [
+            "The Glyph Advisor panel splits the capitals into two phases: the foundation capitals H and O, and the extensions. Work in that order."
+          ],
+          "glyphs": [
+            "H",
+            "O"
+          ]
+        },
+        {
+          "id": "capitals.tricky",
+          "title": "The letters that fight back",
+          "objective": "Handle the capitals that have no single reference, and the optical corrections they need.",
+          "principles": [
+            {
+              "title": "The letters made of diagonals",
+              "body": "A, V, W, X, Y and Z are diagonals, and diagonals are hard because the eye reads them as vertical. The diagonal therefore has to be steeper than its true angle. The vertex of a V is a point, and a sharp point must dip below the baseline or it will look blunt; the middle apex of a W overshoots for the same reason."
+            },
+            {
+              "title": "The X and the illusion",
+              "body": "A diagonal next to a vertical makes the vertical look bent: the eye reads the pair as uneven even when it is not. This is the Poggendorf effect, and the X is where it is worst. The correction is to make the true verticals slightly unequal so that they look equal. Some designers do the opposite and exaggerate the effect deliberately, which is a legitimate choice, but it is a choice."
+            },
+            {
+              "title": "The T is a design decision, not an optical correction",
+              "body": "The top of the T is often allowed to sit above the cap height. It looks like an overshoot and it is not: it is there because the T is the widest capital and needs the extra room to balance. Knowing the difference matters, because a correction applied on top of a deliberate decision looks like a mistake."
+            },
+            {
+              "title": "The U that everybody draws wrong",
+              "body": "In a roman face the left stroke of the U is thick and the right is thin, following the pen. Draw both sides the same weight and you get the double-thick U that appears on hand-painted signs everywhere. It is the single most recognisable error in beginner capitals, and it is invisible to anyone who has not drawn one."
+            },
+            {
+              "title": "The G with its ear and spur",
+              "body": "The G is a C with an ear, a link and a spur added, and the added parts have to be consistent with the C they grow from. The bowl does not have to sit on the baseline: it can sit a little higher, which is what many classical Gs do."
+            }
+          ],
+          "practice": [
+            "Draw the V with a sharp vertex and watch it look blunt. Add the undershoot and watch it come right.",
+            "Draw the X with two perfectly equal verticals, then with the verticals slightly unequal. Which looks more even?",
+            "Draw the U both ways. Look at the difference in the weight of the two strokes, and ask which one the pen would have made."
+          ],
+          "checklist": [
+            "My diagonals are steeper than their geometric angle.",
+            "My pointed vertices overshoot or undershoot where they need to.",
+            "My U has a thick and a thin stroke, not two thick ones.",
+            "I know which of my design decisions are optical corrections and which are deliberate."
+          ],
+          "pitfalls": [
+            "Drawing the diagonals at their true angle because that is what the geometry says.",
+            "Treating every projection above a metric line as an overshoot.",
+            "Using the serif style of the vertical strokes on the diagonals."
+          ],
+          "glyphs": [
+            "A",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z",
+            "U",
+            "T"
+          ]
+        },
+        {
+          "id": "capitals.figures",
+          "title": "Figures and punctuation",
+          "objective": "Draw the numbers and the punctuation so that they read as part of the same alphabet, not as an afterthought.",
+          "principles": [
+            {
+              "title": "Lining or old-style: a decision with consequences",
+              "body": "Lining figures sit on the baseline and the cap height, which makes them predictable and easy to set in tables. Old-style figures have ascenders and descenders, which makes them feel like letters and look beautiful in text, but they are a nuisance in columns. Whichever you choose, the figures have to be made from the same parts as the letters: the same o, the same n, the same bowl."
+            },
+            {
+              "title": "The zero is an O",
+              "body": "The zero of a lining set is the O, narrowed if necessary, and it must be narrower than the capital O or it will be confused with it. The old-style zero is the same shape, and there is no reason to draw it twice."
+            },
+            {
+              "title": "Punctuation is drawn tight on purpose",
+              "body": "A comma, a full stop and a quotation mark are designed to sit close to the letter before them. This means they need generous space on their outer side and almost none on their inner side, and that spacing them evenly will look wrong. Punctuation is where most of the visible kerning work is."
+            },
+            {
+              "title": "The alphabet is not finished at Z",
+              "body": "Accented characters, fractions, currency signs, arrows, mathematical symbols: each is a design decision about how much of the alphabet it borrows from. Build them from parts that already exist and they will match; draw them from scratch and they will not."
+            }
+          ],
+          "practice": [
+            "Draw the zero, the O and the lowercase o at the same weight, and check that the zero can never be read as an O.",
+            "Set a paragraph of numbers and a paragraph of letters and compare the colour of the two blocks.",
+            "Draw the ampersand as a combination of forms you already have, then compare it with a drawn-from-scratch version."
+          ],
+          "checklist": [
+            "My figures are built from the same parts as my letters.",
+            "I have chosen lining or old-style deliberately.",
+            "My punctuation is spaced tight on the inner side and open on the outer side."
+          ],
+          "pitfalls": [
+            "Drawing the figures last, from a different sample font.",
+            "Spacing punctuation like letters.",
+            "Adding accented characters without deciding how the accent relates to the letter below it."
+          ],
+          "fontra": [
+            "Check the figures in the font overview before you proof them: a number set that does not match the letters is immediately visible."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proofing",
+      "number": 7,
+      "title": "Proofing",
+      "goal": "Test your typeface honestly, in context, and find the problems that only appear when letters are used.",
+      "why": "A typeface that looks good in isolation is untested. Proofing is the only way to find the errors that only exist in sequences, at sizes, or in the presence of other letters.",
+      "milestone": "You have a proof you can hand to someone else, and it shows you the three worst problems in your typeface.",
+      "glyphs": [
+        "n",
+        "o",
+        "H"
+      ],
+      "lessons": [
+        {
+          "id": "proofing.what",
+          "title": "What a proof is for",
+          "objective": "Understand that a proof is a tool for finding problems, not a presentation of the work.",
+          "principles": [
+            {
+              "title": "A proof answers three questions",
+              "body": "What problem is this typeface trying to solve? What problems does it currently have? What are the possible solutions to those problems? A proof that only answers the first question is a specimen. A specimen sells; a proof works."
+            },
+            {
+              "title": "A proof with no mistakes is a waste of paper",
+              "body": "The value of a proof is entirely in the things it reveals. If you are making proofs because they look good, you are making specimens and calling them proofs, and you will ship a typeface with undiscovered errors in it."
+            },
+            {
+              "title": "Read the proof, do not look at it",
+              "body": "The instinct is to scan the page for the part you are proud of. Force yourself to read the text as a reader would, and to notice where the eye stumbles. A dark patch, a hole, or a space that opens up is your eye telling you where the problem is."
+            },
+            {
+              "title": "Proof the design, not the font",
+              "body": "A proof asks questions. How does this behave at 9 points? What happens to the spacing in a long word? Does the italic hold up next to the roman? Each proof should have one question behind it, and the question should be written at the top of the page."
+            }
+          ],
+          "practice": [
+            "Write a one-line question at the top of a proof page, then design the page to answer it.",
+            "Set a paragraph and read it aloud. Every place you stumble is a problem.",
+            "Print your alphabet and look at it upside down and mirrored. Errors that the eye cannot catch head-on appear immediately."
+          ],
+          "checklist": [
+            "Every proof I make has a question written on it.",
+            "I read my proofs as text rather than scanning them as pictures.",
+            "I can name the three worst problems my typeface has right now."
+          ],
+          "pitfalls": [
+            "Showing a proof to someone and asking whether they like the font. You want problems, not opinions.",
+            "Making the proof beautiful instead of diagnostic.",
+            "Proofing only at the size you designed for."
+          ]
+        },
+        {
+          "id": "proofing.contents",
+          "title": "What goes in a proof",
+          "objective": "Build a proof that actually finds errors, and keep it short enough to use.",
+          "principles": [
+            {
+              "title": "Every character, large enough to mark up",
+              "body": "The first page of every proof is the full character set, drawn big, with room around it for notes. If a page has already been marked up and dealt with, take it out: a proof you cannot write on is a proof you will stop using."
+            },
+            {
+              "title": "Paragraphs and headlines at the sizes you will use",
+              "body": "The real meat of the proof is the typeface in action. If the design is for small sizes, you need paragraphs at that size; if it is for headlines, you need headlines. Set both, and set them at the size they are meant to be read, not at a convenient size on the page."
+            },
+            {
+              "title": "Spacing strings",
+              "body": "A spacing string is a piece of text built to expose specific letters. Set every letter between two control characters, so that every pair in the alphabet is visible at least once. This is the only way to find the pairs that pull."
+            },
+            {
+              "title": "Test the extremes",
+              "body": "When you are unsure about a decision, make two proofs that take it further in opposite directions: very loose and very tight, the smallest and the largest size. You cannot tell where you want to be until you have seen what too much looks like."
+            },
+            {
+              "title": "Keep it short, and date it",
+              "body": "The best proof is as short as it can be while still answering the question. Put the date in the header: it stops you comparing a proof from last month with one from this week and wondering what changed."
+            }
+          ],
+          "practice": [
+            "Build a spacing string that shows every pair in your lowercase at least once.",
+            "Set the same paragraph at six point, ten point and forty point, and mark where the texture changes.",
+            "Make two proofs of the same text, one tracked out and one tracked in, and decide which direction to move."
+          ],
+          "checklist": [
+            "My proof has a full character page, a text page at the intended size and a spacing string.",
+            "My proof has room for notes and a date.",
+            "I have tested at least one decision in both directions."
+          ],
+          "pitfalls": [
+            "Printing twenty pages of which eighteen have no marks on them.",
+            "Proofing at one size only.",
+            "Forgetting to define the missing-glyph marker, which then appears in every proof and distracts from the real characters."
+          ],
+          "fontra": [
+            "The font overview gives you the whole character set on one canvas, which is a fast first proof of the outlines."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vectorising",
+      "number": 8,
+      "title": "Drawing on the Screen",
+      "goal": "Turn your sketch into outlines that are accurate, editable and ready to be interpolated.",
+      "why": "This is where most of the technical learning lives, and it is the phase where beginners spend the longest. Good outlines are not only pretty: they are cheap to edit now and cheap to interpolate later.",
+      "milestone": "Every curve in your typeface has as few points as it can carry, is anchored where it needs to be, and was drawn by tracing the stroke.",
+      "glyphs": [
+        "n",
+        "o",
+        "s"
+      ],
+      "lessons": [
+        {
+          "id": "vectorising.points",
+          "title": "Points, handles and the fewest possible points",
+          "objective": "Place points so that the curve is right and the drawing is still editable a month from now.",
+          "principles": [
+            {
+              "title": "Fewer points, more control",
+              "body": "Every extra point is a decision you have to make again, and a place where your drawing can drift. Keep the point count as low as the shape allows: as long as you are getting the curve you want, less is more."
+            },
+            {
+              "title": "Put points at the extremes",
+              "body": "The highest, lowest, leftmost and rightmost point of a curve should each carry a point. When a point sits at an extreme, the two handles leave it horizontally or vertically, which means you can lock them to ninety degrees with a single modifier key and drag the shape predictably. This one rule makes most curves editable."
+            },
+            {
+              "title": "Put points at the inflections",
+              "body": "An inflection point is where a curve changes from bending one way to bending the other: the middle of an S, where the curve crosses the diagonal. A point there lets you shape both halves of the curve independently, which is often the only way to get the shape you want."
+            },
+            {
+              "title": "Corners are the exception",
+              "body": "Where two strokes meet at an angle, the point cannot have its handles at ninety degrees and still give the shape. Let them go where the shape needs them. A corner is a corner."
+            },
+            {
+              "title": "Draw freely, then anchor",
+              "body": "Beginners believe that the rules have to be followed while drawing. They do not. Draw the shape roughly any way you can, then put the extrema in, then remove the points you no longer need. The drawing gets easier when you stop treating it as a test."
+            }
+          ],
+          "practice": [
+            "Draw a lowercase o and count its points. Can you remove any? Try, and see whether the curve still holds.",
+            "Draw an s and place a point at the inflection. Compare it with an s that has no point there.",
+            "Open a typeface you admire and look at where its points are. Are they at the extremes?"
+          ],
+          "checklist": [
+            "Every curve in my typeface has its extrema anchored.",
+            "I have removed the points that were not earning their place.",
+            "I can edit any curve in my typeface without guessing where to click."
+          ],
+          "pitfalls": [
+            "Placing points evenly along a curve because it looks tidy.",
+            "Refusing to move a point because you are afraid of breaking the shape. Save a version first and move it anyway.",
+            "Leaving the corner points with ninety degree handles because the rule said so."
+          ]
+        },
+        {
+          "id": "vectorising.strokes",
+          "title": "Trace the stroke, not the perimeter",
+          "objective": "Draw the letter the way it would be painted, so that it stays editable and interpolates well.",
+          "principles": [
+            {
+              "title": "Trace how the shape was made",
+              "body": "If a sign painter would paint a T in two strokes, outline it as two shapes. The result looks more like the thing you are referencing, and — this is the practical win — you can then edit one side of a stroke without disturbing the other."
+            },
+            {
+              "title": "Share the tension across a joint",
+              "body": "Where two curves meet, the line joining their points and the line joining their handles are usually parallel. Getting this right is what makes a shape look smooth rather than lumpy, and it is the difference between a drawing that looks drawn and one that looks assembled."
+            },
+            {
+              "title": "Overlap with a small triangle",
+              "body": "To change the shape of a ball terminal without changing the stroke that leads into it, let the two shapes overlap in a small triangle. Editing one side then does not disturb the other. This small trick makes a surprising difference to how freely you can revise a curved letter later."
+            },
+            {
+              "title": "Keep the drawing ready for interpolation",
+              "body": "All of these techniques happen to produce outlines that blend cleanly, because the shapes are structured rather than traced out of a silhouette. If you will ship a family, you are drawing for the next style as well as for this one."
+            }
+          ],
+          "practice": [
+            "Draw a lowercase o as one closed shape. Then redraw it as two overlapping shapes, and compare how easy each is to adjust.",
+            "Draw a letter with a ball terminal and then change the ball without touching the stroke.",
+            "Check the point count of two overlapping shapes against a single outline of the same shape. The overlapping version is often *fewer* points."
+          ],
+          "checklist": [
+            "My curves share their tension across every joint.",
+            "My ball terminals and similar details are built as overlaps, so I can adjust them independently.",
+            "I can change the shape of one part of a stroke without disturbing the rest."
+          ],
+          "pitfalls": [
+            "Tracing the outline of a scanned or bitmap drawing and ending up with a hundred points.",
+            "Fighting the tools because you cannot yet draw the shape you want.",
+            "Not saving a version before a big change. Save As is the most liberating move in type design."
+          ],
+          "fontra": [
+            "The Curve Trajectory tool shows you the ideal handle positions for the curves of the selected glyph."
+          ],
+          "glyphs": [
+            "s",
+            "a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "family",
+      "number": 9,
+      "title": "The Family",
+      "goal": "Extend one good design into a family that holds together at every weight, width and size.",
+      "why": "A typeface is a family, not a set. The work of making a family is less about drawing new styles than about understanding which parts of the design were accidental.",
+      "milestone": "You have a bold, and it taught you something about your regular that you did not know.",
+      "glyphs": [
+        "n",
+        "o"
+      ],
+      "lessons": [
+        {
+          "id": "family.bold",
+          "title": "The bold is a test of the system",
+          "objective": "Draw a bold that exposes the weaknesses of your regular, and fix the regular first.",
+          "principles": [
+            {
+              "title": "The question is where the weight does not go",
+              "body": "Weight goes everywhere: to the left, to the right, and on top of some letters. Adding it only to the left and the right makes the bold wider than the light, which is jarring. A little extra x-height in the heavier weights compensates for that, and the change is almost invisible to the eye."
+            },
+            {
+              "title": "Bolds need tighter spacing",
+              "body": "The counters of a bold are smaller, so the space between the letters has to shrink to keep the same relationship between inside and outside. A bold that is spaced like its regular looks heavy and clumsy."
+            },
+            {
+              "title": "Drawing the bold first is a diagnostic",
+              "body": "Before you draw a regular, draw the bold. The bold will show you the terminals that are too weak, the joints that will not survive, and the counters that will close up. You can then fix the regular before you have spent a year on it."
+            },
+            {
+              "title": "The optical extremes teach you the middle",
+              "body": "If your regular looks good but your black looks like a different typeface, the problem is usually one of the small decisions: a terminal that is too blunt, a joint that is too soft, a counter that is too small. The extremes show you which."
+            }
+          ],
+          "practice": [
+            "Draw a black weight of your n and o before touching the rest of the alphabet. What breaks first?",
+            "Set your regular and your bold on the same line. Is the colour of the two blocks the same?",
+            "Take the tightest counter in your regular and thicken it. Does it survive?"
+          ],
+          "checklist": [
+            "My bold is not simply a wider version of my regular.",
+            "My bold is spaced tighter than my regular.",
+            "Drawing the bold taught me something and I changed the regular because of it.",
+            "Every counter in my bold is still open."
+          ],
+          "pitfalls": [
+            "Thickening the horizontal and vertical strokes by the same amount.",
+            "Adding weight without touching the terminals, which then look too small for the new weight.",
+            "Keeping the same spacing in the bold because it is easier."
+          ]
+        },
+        {
+          "id": "family.axes",
+          "title": "Width, slant and the axes you will not ship",
+          "objective": "Extend the design along the axes you have committed to, and understand what each one costs.",
+          "principles": [
+            {
+              "title": "Width changes the colour, not just the shape",
+              "body": "Stretching a typeface does not only make it wider: it makes the white inside the letters relatively larger, so the same drawing reads as a lighter weight. That is why a stretched font always looks thin, and why a real condensed has to be redrawn with more weight and a lower x-height."
+            },
+            {
+              "title": "A digital slant is not an italic",
+              "body": "Slanting a roman produces something that is nearly right and clearly wrong, especially in round and diagonal strokes: the joins break, the strokes thin out unevenly and the shapes lose their construction. A true italic is drawn with a continuous stroke, which changes the letters themselves. Draw it."
+            },
+            {
+              "title": "Optical size is a real design decision",
+              "body": "As type gets smaller, contrast drops, the x-height rises, spacing opens, apertures close and the fine detail disappears. As type gets bigger the reverse happens, and the weight of the joints can be thinned while the shape stays. A family designed for one size and used at another always looks slightly wrong."
+            },
+            {
+              "title": "Joints are not the same as thins",
+              "body": "The stroke that joins two curves is a different element from the thin of a high-contrast face, and it can be treated separately. A typeface with low contrast and very thin joints has a texture that shimmers, and it is a legitimate and increasingly common direction."
+            },
+            {
+              "title": "The axes have names, and the names are standard",
+              "body": "Weight is wght, width is wdth, slant is slnt, optical size is opsz, and roman against italic is ital. Using the registered names means your typeface behaves the way the reader's software expects: a reader can ask for a heavier weight and get one, instead of guessing from the family name."
+            },
+            {
+              "title": "Each axis doubles the number of sources",
+              "body": "One axis needs two sources: the default and the extreme. Two axes need four, at the corners of the space. Three need eight, and you will spend the rest of your life checking that they agree. The arithmetic is unforgiving, which is why the number of sources is really a decision about how much of your life the family gets."
+            },
+            {
+              "title": "Weight, width and slant are not the same kind of work",
+              "body": "Weight is the cheapest: a shape can be thickened without being redesigned. Width changes the ratio of white to black, so a condensed has to be redrawn with more weight and a lower x-height. Slant is the most expensive, because a true italic is a different construction rather than a different angle."
+            }
+          ],
+          "practice": [
+            "Condense your typeface by hand, one letter, and see how much extra weight it needs.",
+            "Compare a slanted version of your roman with the way a true italic would be built.",
+            "Set your typeface at 8 and at 72 points and mark every place the texture breaks.",
+            "Write your axes down with their registered names, and count the sources each one implies.",
+            "Draw the four corner sources of a two-axis family and check that the corners look like the same family."
+          ],
+          "checklist": [
+            "My condensed is redrawn, not scaled, and carries the right weight.",
+            "My italic is drawn as a continuous construction.",
+            "I know what my typeface looks like at the smallest and the largest size it will be used.",
+            "I use the registered axis names.",
+            "I know how many sources each axis I ship costs."
+          ],
+          "pitfalls": [
+            "Scaling horizontally and calling it a condensed.",
+            "Digitally slanting and calling it an italic.",
+            "Designing the text size first and using the same outlines at display size.",
+            "Choosing the number of sources by how good the demo looks rather than by how many drawings you can keep in agreement."
+          ]
+        },
+        {
+          "id": "family.optical",
+          "title": "Optical sizes",
+          "objective": "Understand what changes when a typeface is designed for a different size, and how the optical size axis expresses it.",
+          "principles": [
+            {
+              "title": "Small sizes want sturdier, larger sizes want finer",
+              "body": "Going down in size: the weight increases so the tone stays the same, the stroke contrast drops, the letters get slightly wider, the x-height rises, the ascenders and descenders shorten, the apertures open up, the shapes simplify and the serifs get heavier, and the spacing loosens. Going up in size, all of that reverses. The single most important change is the reduction of contrast in the small sizes, and it is sometimes the only one."
+            },
+            {
+              "title": "The axis is measured in points, and the browsers measure in pixels",
+              "body": "The optical size axis takes the text size in points, and a value between ten and sixteen is recommended as the default for ordinary text. The physical reasoning is a reading distance: a design made for twelve point text at fifteen inches should also work for twenty-four point text at thirty inches. The awkward part is that browsers have no idea how large the screen is, so they match the axis to the size in pixels. The specification says points; the browser says pixels. This is a real, and still unresolved, mismatch — and a good reason to check your typeface on the web rather than to trust the axis."
+            },
+            {
+              "title": "The sizes people actually ask for",
+              "body": "A useful set of buckets, from the largest to the smallest: display, from forty-eight points up; subhead, fourteen to twenty-four; text, nine to fourteen; and caption, five to nine. Real families put their axis range wherever their designs demand, and the default tends to sit in the text range."
+            },
+            {
+              "title": "What the axis actually changes, measured",
+              "body": "A survey of the variable fonts that ship an optical size axis found that the stem weight, the contrast, the width and the x-height all move together and in a consistent direction across almost every family: as the size grows, the stems get lighter, the contrast widens, the letters get wider and the x-height shrinks. The cap height barely moves. If your axis does not do that, you have probably drawn a weight axis and named it an optical one."
+            },
+            {
+              "title": "What x-height should be",
+              "body": "Measured across a wide range of real text families, the x-height sits between a third and a little over half of the em, with a median just above one half. Measured against the cap height instead, it runs from about sixty-two per cent in an old-style serif to about seventy-five per cent in the geometric sans serifs. Two thirds of the cap height is a good place to start, and then you check it on the page."
+            }
+          ],
+          "practice": [
+            "Set your typeface at eight points and at forty-eight points and mark every place the texture breaks.",
+            "Make a small version of your typeface: heavier, lower contrast, bigger x-height, looser. Compare the two as paragraphs.",
+            "Compare the x-height of three text fonts you own, as a fraction of the cap height, and decide what you want yours to be."
+          ],
+          "checklist": [
+            "I know what my typeface looks like at the smallest and the largest size it will be used.",
+            "I can say what changes between a text size and a display size in your own design.",
+            "I have checked the x-height of my typeface against a real number."
+          ],
+          "pitfalls": [
+            "Drawing one set of outlines and using them at every size, and calling the result a family.",
+            "Adding an optical size axis that is really a weight axis, and paying twice the file size for it."
+          ],
+          "fontra": [
+            "The font overview lets you put the masters of a family side by side, which is the fastest way to see whether an axis does what you meant."
+          ],
+          "glyphs": []
+        },
+        {
+          "id": "family.interpolation",
+          "title": "Designing for interpolation",
+          "objective": "Make the shapes in your family able to blend, and know what will not blend.",
+          "principles": [
+            {
+              "title": "The rules for compatible shapes",
+              "body": "Two shapes can only be interpolated if they have the same number of points, the points are in the same order, the contours start in the same place and run in the same direction, and the handles are compatible. A shape that is not compatible does not break loudly: it breaks quietly, and you find out in the middle of the weight range."
+            },
+            {
+              "title": "Compatible does not mean identical",
+              "body": "The same number of points is not enough: they have to correspond. If you add a point to one master you must add a point to all of them, in the same place, even if that point does nothing in some of them. This is why the number of points in a source is a design decision and not a by-product."
+            },
+            {
+              "title": "Check the middle, not the ends",
+              "body": "The extremes of a family are usually drawn and reviewed. The instances in between are generated, and they are where the failure shows: a counter that closes, a stem that thins unevenly, a terminal that changes shape halfway. Proof the middle weights."
+            },
+            {
+              "title": "The number of sources is the real budget",
+              "body": "Every source is a set of drawings you have to make and keep consistent. Nine sources means nine drawings of every character, and the consistency checking grows faster than the drawing does. Choose the number of sources for the family you will actually finish."
+            },
+            {
+              "title": "Equal counts are not enough",
+              "body": "Two shapes can have the same number of points and still be unable to blend, because the points do not correspond: the machine can connect the outside of one outline to the counter of the other. The property you need is called topological stability, and equal counts do not establish it. The symptoms are crossed relation lines, a counter that collapses in the middle of the range, and a corner appearing where a smooth join used to be."
+            },
+            {
+              "title": "Do not let the tool fix compatibility for you",
+              "body": "Automatic reconciliation guesses which point matches which. On a glyph whose masters genuinely differ by design, a guess can pair the wrong contours and produce an ugly blend that still passes the compatibility check. Use the tool to report the mismatch; decide the correspondence yourself."
+            },
+            {
+              "title": "Overlaps must survive the trip into a variable font",
+              "body": "Desktop production removes overlapping contours, because overlapping shapes can render badly at small sizes and confuse the rasteriser. In a variable font the opposite is true: removing an overlap in one master and not in another changes the point counts and breaks the interpolation. Overlapping contours are explicitly allowed in variable fonts, and if you do remove them, remove them identically everywhere."
+            },
+            {
+              "title": "The anchors have to correspond too",
+              "body": "A top anchor in one master must be the top anchor in the next, or the accents move as the weight changes. The vertical metrics of the family are a different matter entirely: they are held constant across the masters and are not interpolated at all."
+            },
+            {
+              "title": "Some changes cannot be interpolated",
+              "body": "A serifed I that has to become a plain I somewhere along the weight range is a discontinuity, and a continuous axis cannot express it. It is expressed as a substitution rule instead: a pair of glyphs and the conditions under which one replaces the other. The rule is applied at run time, which means the swapped glyph has to be referenced correctly by every component and every kerning pair."
+            },
+            {
+              "title": "Design the extremes first",
+              "body": "Draw the most extreme masters first and establish their point structure as you go, then keep every other master synchronised to it. A family whose extremes were designed together blends; a family whose extremes were designed years apart does not."
+            }
+          ],
+          "practice": [
+            "Compare the point counts of two letters of your typeface. If they differ, decide which is right before you build a family.",
+            "Interpolate between your regular and your bold and look at the middle. Is the counter still open?",
+            "Draw one character at every extreme of your design space and check the points line up.",
+            "Blend between your two extremes and look at the middle of the range: is any counter closing, is any corner appearing?",
+            "Compare the point counts of two glyphs across all your masters. Any difference has to be fixed before the family is worth building.",
+            "Draw one character at every corner of your design space and check that the points line up."
+          ],
+          "checklist": [
+            "Every character has the same point count in every source of my family.",
+            "My contours are in the same order and direction in every source.",
+            "I have proofed the interpolated middle weights, not just the extremes.",
+            "I know how many sources I have committed to.",
+            "Every character has the same point count in every source.",
+            "The contours are in the same order and direction in every source.",
+            "My anchors correspond by name across the masters.",
+            "I have proofed the interpolated middle weights, not just the extremes.",
+            "I have not removed an overlap in one master and not in another."
+          ],
+          "pitfalls": [
+            "Adding a point to one source and not the others.",
+            "Reviewing only the masters.",
+            "Committing to a large family because the axes look good on paper.",
+            "Trusting a compatibility report that says the counts match. It does not check that the points correspond.",
+            "Removing overlaps in the desktop build and keeping them in the variable build, or the other way round."
+          ],
+          "fontra": [
+            "The font overview shows your masters side by side: use it to check that the extremes agree."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shipping",
+      "number": 10,
+      "title": "Shipping",
+      "goal": "Turn a finished design into a released typeface that works for the people who will use it.",
+      "why": "The design is the easy, enjoyable part. Everything after it is production, and it is where most projects actually die.",
+      "milestone": "The typeface is released, and you know what it will be used for and what it will not.",
+      "glyphs": [],
+      "lessons": [
+        {
+          "id": "shipping.production",
+          "title": "What production actually means",
+          "objective": "Know what has to happen between a finished drawing and a font somebody can install.",
+          "principles": [
+            {
+              "title": "Production is a checklist, not a creative phase",
+              "body": "Interlocking the components, applying the vertical metrics, building the OpenType features, setting the name records, exporting in every format you intend to ship, and testing the result on the platforms you care about. None of it is design work, and all of it has to be done."
+            },
+            {
+              "title": "Components are a promise",
+              "body": "A component is a piece of a glyph stored separately so that it can be shared and moved together. If you ship components, you are promising that when the designer moves the top of an accented capital, the accent moves with it. Components that do not behave that way are worse than no components."
+            },
+            {
+              "title": "OpenType features are a design decision",
+              "body": "Ligatures, alternates, fractions, small capitals and stylistic sets are not extras to be sprinkled on at the end. Each one is a claim about what the typeface can do, and each one adds to the kerning, the testing and the support you have to provide afterwards."
+            },
+            {
+              "title": "Test on the platforms you will be used on",
+              "body": "A font that works in your editor may fall apart in a browser, on a phone, or in a word processor. Test the real file, on the real platforms, at the real sizes, before you announce anything."
+            },
+            {
+              "title": "The project starts as sources, not as a binary",
+              "body": "The first thing to set up is the family itself: every master and every instance you intend to ship, the naming scheme, and the build that produces the file. Setting the build up early, including the hinting stage, means the typeface is testable from the first day instead of at the end, when a problem is expensive."
+            },
+            {
+              "title": "The quality gate is different for a new family and for an update",
+              "body": "A new family is checked for consistency between the styles, the quality of the outlines, the basic spacing and kerning, and for nothing strange happening. An update is checked for regressions instead: no text reflowing, no shaping bug introduced, no big changes in the font tables, no change to the vertical metrics, and nothing changed that cannot be explained. The second list is much stricter, and it is the one that amateur releases fail."
+            },
+            {
+              "title": "Rebuild, do not ship the export",
+              "body": "The binaries that come out of a font editor are a starting point, not the artefact. The accepted practice at the largest open font libraries is to rebuild every release from the sources with a single toolchain, so that every family in the collection is produced the same way and a mistake can be fixed once."
+            },
+            {
+              "title": "A release is a bundle, not a file",
+              "body": "A release carries the font files in the formats you promised, the licence text, a changelog, a readme, and a version number that matches the tag. The packaging is part of the work, and it is the part most often skipped."
+            }
+          ],
+          "practice": [
+            "Write the production checklist for your own project before you start drawing, and tick it as you go.",
+            "Export your typeface and install it on a second machine. If it only works in your working copy, it does not work.",
+            "Set a paragraph in the exported font in a browser and in a word processor and compare them with your proof.",
+            "Write the release checklist for your own project: what files, what formats, what licence, what changelog, what version.",
+            "Test the exported font on a machine that is not the one you drew it on.",
+            "Diff your typeface against the previous release and write down every difference you can find. Anything you cannot explain is a bug."
+          ],
+          "checklist": [
+            "I have a production checklist for my project and it is finished.",
+            "The exported file is tested outside my editor.",
+            "Every feature I ship works as advertised.",
+            "I know which platforms and applications the typeface is for.",
+            "I have a release checklist and it is finished.",
+            "The exported file is tested outside my editor.",
+            "I have diffed this release against the last one and explained every difference.",
+            "The version number in the file matches the release."
+          ],
+          "pitfalls": [
+            "Building features nobody asked for and nobody will use.",
+            "Shipping components that do not move together.",
+            "Testing only the working copy inside the editor you drew in.",
+            "Shipping the file straight out of the editor.",
+            "Releasing without checking that the change you made did not change anything else."
+          ],
+          "fontra": [
+            "Fontra writes the standard formats directly, so the file you have been drawing in is the file you ship."
+          ]
+        },
+        {
+          "id": "shipping.release",
+          "title": "Releasing, and knowing when to stop",
+          "objective": "Get the typeface out, and recognise the moment when it is finished.",
+          "principles": [
+            {
+              "title": "Release early, release often",
+              "body": "Putting a partial family out while it is still growing gets you feedback, gets you income, and keeps the project alive. It also means that everything you learn goes into the next version rather than into a private file nobody sees."
+            },
+            {
+              "title": "Everything is done, at a different version",
+              "body": "A typeface never really finishes. Styles are added, languages are supported, mistakes are fixed. The useful question is not whether it is perfect but whether it is good enough to be used, and that question gets easier to answer the longer you look at it."
+            },
+            {
+              "title": "Enthusiasm is the signal",
+              "body": "When you can no longer justify more work on a project, that is how you know it is done. And when you are stuck, Save As: a clean version on disk, with the critic temporarily silenced, often frees you to move again."
+            },
+            {
+              "title": "Nothing is destructive",
+              "body": "Editing outlines is not like erasing a drawing. A repositioned point and a saved version can go a very long way towards reviving a project you thought was finished."
+            }
+          ],
+          "practice": [
+            "Put your current state out somewhere, even if it is only four styles and a few characters.",
+            "Make a list of the things you are still unhappy with, and decide which of them would actually stop somebody from using it.",
+            "Save a version of the project before you start a change you are not sure about."
+          ],
+          "checklist": [
+            "There is a version of this typeface that other people can use.",
+            "I have a list of what is still open, and I know which of those matter.",
+            "I have not abandoned a project that could still be good."
+          ],
+          "pitfalls": [
+            "Waiting for perfection that never arrives.",
+            "Polishing instead of shipping when the typeface is already good enough.",
+            "Abandoning a project in a low week instead of saving a version and coming back to it."
+          ],
+          "fontra": [
+            "Export the font from the font info panel when you are ready to share it."
+          ]
+        },
+        {
+          "id": "shipping.profession",
+          "title": "Type design as a profession",
+          "objective": "Understand how the work is paid for, scoped and valued, so that you can make realistic plans.",
+          "principles": [
+            {
+              "title": "There are two kinds of work",
+              "body": "A foundry typeface is a contribution to a catalogue and it earns over years, through licences. A commissioned typeface is a project with a client, a deadline, a scope and a fee. The skills overlap; the working methods do not, and confusing the two is how young designers end up working for years without being paid."
+            },
+            {
+              "title": "Scope is the deliverable",
+              "body": "Before anything is drawn, agree: how many characters, how many styles, which languages, which OpenType features, which formats, who owns the artwork, what the licence covers, when it is due and what it costs. Most professional disputes are scope disputes that were never spoken aloud."
+            },
+            {
+              "title": "Price the whole family, not the drawing",
+              "body": "The drawing is a fraction of the cost. The multiplication by styles and by languages, the kerning, the production, the testing and the support afterwards are the rest. Quote the family, not the first style."
+            },
+            {
+              "title": "Proofs are how you get paid for the thinking",
+              "body": "A client cannot judge a typeface by looking at outlines. They judge it by reading it, in their own words, at their own size. A good proof is the document that makes the value of the work legible, and it is worth as much as the drawing."
+            },
+            {
+              "title": "A practice, not a sprint",
+              "body": "Type design is roughly five per cent creativity and ninety-five per cent production. The people who get good at it are the ones who can stay with the production part, and they are the ones who ship."
+            },
+            {
+              "title": "The two markets price the same work in completely different ways",
+              "body": "Retail is priced per style or per seat, and it earns slowly over years: a single style from a retail foundry commonly runs somewhere between thirty and eighty dollars, and the money arrives as a trickle rather than a payment. Commission work is priced as a project: hourly rates around eighty dollars, or a fixed fee that starts around ten thousand for a focused single-master design and rises steeply with every extra master and every extra language."
+            },
+            {
+              "title": "The master is the unit of price",
+              "body": "A custom family quoted by master puts a family with three masters at roughly three times the price of one, and the figure quoted by one foundry was fifteen thousand per master. This is why the scope conversation, and not the drawing, decides what a commission costs."
+            },
+            {
+              "title": "Time is priced too",
+              "body": "A single weight takes three to five months. A full multi-weight family with scripts takes nine to eighteen. A typical family is three to nine months depending on scope. These are not the designer being slow; they are what the multiplication of styles, languages, kerning and testing actually adds up to."
+            },
+            {
+              "title": "Value-based licensing has overtaken seats and views",
+              "body": "More and more independent foundries price by the size of the licensing company rather than by the number of people using the font, charging once and for all. The argument is that a company with five thousand staff gets more value from the typeface than a company with five, and that per-seat pricing punishes exactly the organisations that can afford to commission work."
+            },
+            {
+              "title": "Selling unfinished work is a model, not a compromise",
+              "body": "The platform that sells fonts in progress lets the designer set the price, keeps a share, and raises the price as the work completes; the early buyers get every update for free, and every release carries notes on how far along it is. It also keeps the catalogue alive with something new, and it pays the designer before the family is finished, which is when the money is most needed."
+            },
+            {
+              "title": "What the client owns is worth writing down",
+              "body": "The usual arrangement is that the foundry keeps the copyright and the client gets exclusive use for a period or for a market. Some foundries will license exclusively and not sell the family at all during the licence. This is the part of the contract that decides what the work is worth later, and it is the part that is easiest to leave vague."
+            }
+          ],
+          "practice": [
+            "Write a scope document for a typeface you would like to be commissioned, with a number of styles, a character count and a price.",
+            "Count the hours you actually spent on the last project and compare them with the hours you drew. Write the ratio down.",
+            "Look at the licences of five fonts you own and see how many different models are in use.",
+            "Price a two-master family for a client by the hour, and then by the master, and see how far apart the two answers are.",
+            "Write a scope document for a family you would like to be commissioned: the styles, the character count, the languages, the features, the formats, the licence, the deadline and the fee.",
+            "Look at the licences of five fonts you own and see how many different pricing models are in use."
+          ],
+          "checklist": [
+            "I know whether I am working on a library project or a commission.",
+            "I can write a scope for a family, with a price.",
+            "I know what my licence grants and what it does not.",
+            "I can make a proof that shows a client what they are buying.",
+            "I know whether I am working on a library project or a commission.",
+            "I can write a scope for a family, with a price and a deadline.",
+            "I know what my licence grants and what it does not.",
+            "I can make a proof that shows a client what they are buying."
+          ],
+          "pitfalls": [
+            "Quoting per style and then discovering that the styles multiply.",
+            "Starting a family before the client has agreed what the family is.",
+            "Treating the drawing as the work and the production as overhead.",
+            "Quoting per style and then discovering that the styles multiply.",
+            "Starting a family before the client has agreed what the family is.",
+            "Treating the drawing as the work and the production as overhead."
+          ]
+        }
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Aperture",
+      "definition": "The opening left by a curve: the gap of a c, the mouth of an e, the opening of an a. Small apertures look tidy at text size and turn into dark holes at display size.",
+      "also": [
+        "opening"
+      ]
+    },
+    {
+      "term": "Ascender",
+      "definition": "The part of a letter that rises above the x-height: b, d, f, h, k, l. It separates those letters from the capitals and from the figures.",
+      "also": []
+    },
+    {
+      "term": "Axis",
+      "definition": "The diagonal through the thickest points of a round letter, which shows where the stress of the curve falls.",
+      "also": [
+        "stress angle"
+      ]
+    },
+    {
+      "term": "Baseline",
+      "definition": "The line on which the letters sit. Everything in a typeface is measured from it and against it.",
+      "also": []
+    },
+    {
+      "term": "Bold",
+      "definition": "A heavier style of a family. It is also the best test of a design: drawing it shows you which decisions were accidental.",
+      "also": [
+        "weight"
+      ]
+    },
+    {
+      "term": "Bowl",
+      "definition": "A curved stroke that closes back on itself. The b, d, p and q share one bowl; the a and the g each have their own.",
+      "also": []
+    },
+    {
+      "term": "Cap height",
+      "definition": "The line the capitals reach. Ascenders usually rise slightly above it.",
+      "also": [
+        "cap line"
+      ]
+    },
+    {
+      "term": "Component",
+      "definition": "A shared piece of a glyph stored separately so that it can be moved together with the letters that use it. A promise that has to be kept.",
+      "also": []
+    },
+    {
+      "term": "Contrast",
+      "definition": "The difference in thickness between the thick and thin parts of a stroke. The eye reads horizontals as heavier than verticals, so a true contrast is never as extreme as it looks on the drawing.",
+      "also": []
+    },
+    {
+      "term": "Contrast type",
+      "definition": "Whether the thick and thin come from the movement of the tool or from pressure on it: translation (broad nib) or expansion (pointed pen). Most typefaces are one, or a hybrid.",
+      "also": [
+        "translation",
+        "expansion"
+      ]
+    },
+    {
+      "term": "Counter",
+      "definition": "The enclosed white space inside a letter. It is the first thing to close up when the weight goes up, and the first thing to rescue a small size.",
+      "also": []
+    },
+    {
+      "term": "Crotch",
+      "definition": "The interior angle where two strokes meet: the point of the V, the upper joints of the W, the meeting of the diagonals in the Y.",
+      "also": []
+    },
+    {
+      "term": "Crossbar",
+      "definition": "The horizontal stroke that crosses a letter. It sits above centre in the H and below centre in the A, and both positions are deliberate.",
+      "also": [
+        "bar"
+      ]
+    },
+    {
+      "term": "Descender",
+      "definition": "The part of a letter that falls below the baseline: g, j, p, q, y. It separates those letters from the baseline itself.",
+      "also": []
+    },
+    {
+      "term": "Design space",
+      "definition": "The region of the possible that a typeface occupies: its weights, widths, slants and sizes. Also the region a designer explores while sketching.",
+      "also": [
+        "designspace"
+      ]
+    },
+    {
+      "term": "Double-storey a",
+      "definition": "The roman form of the lowercase a, with a bowl and a shoulder. The single-storey form is the italic and the sans alternative.",
+      "also": [
+        "two-storey a"
+      ]
+    },
+    {
+      "term": "Ear",
+      "definition": "The small stroke that turns the top of a g into a spur or a loop. It is a small feature with a large effect on the letter's personality.",
+      "also": []
+    },
+    {
+      "term": "Extender",
+      "definition": "An ascender or a descender. The two do different jobs and do not have to be the same length.",
+      "also": []
+    },
+    {
+      "term": "Expansion",
+      "definition": "A contrast model in which the thick and thin come from pressure on a pointed pen. Bodoni and Didot are expansion designs.",
+      "also": []
+    },
+    {
+      "term": "Extrema",
+      "definition": "The highest, lowest, leftmost and rightmost points of a curve. Putting a point there makes the handles leave horizontally or vertically, which makes the curve easy to edit.",
+      "also": []
+    },
+    {
+      "term": "Figure",
+      "definition": "A numeral. Lining figures sit on the baseline and the cap height; old-style figures have ascenders and descenders.",
+      "also": [
+        "numeral"
+      ]
+    },
+    {
+      "term": "Glyph",
+      "definition": "One drawn character, as stored in the font. The character you type is not always the glyph you get.",
+      "also": []
+    },
+    {
+      "term": "Inflection point",
+      "definition": "The point on a curve where it changes from bending one way to bending the other, as in the middle of an S. A point there lets you shape both halves independently.",
+      "also": []
+    },
+    {
+      "term": "Interpolation",
+      "definition": "The machine blending between two drawn shapes to make the styles in between. It only works if the shapes are compatible: same point count, same order, same direction.",
+      "also": []
+    },
+    {
+      "term": "Kerning",
+      "definition": "The adjustment of the space between a particular pair of letters, applied after the sidebearings. It is a patch, not a design.",
+      "also": []
+    },
+    {
+      "term": "Lobe",
+      "definition": "The bowl of a capital P, when it is distinguished from the bowl of a B.",
+      "also": []
+    },
+    {
+      "term": "Optical size",
+      "definition": "The size a typeface is meant to be read at. It changes contrast, x-height, spacing, apertures and the size of the fine detail.",
+      "also": []
+    },
+    {
+      "term": "Overshoot",
+      "definition": "The small amount by which a round or pointed letter passes above or below a metric line, so that it looks the same size as its flat neighbours.",
+      "also": []
+    },
+    {
+      "term": "Poggendorf illusion",
+      "definition": "The effect by which a vertical stroke next to a diagonal appears to lean. The X is where it is strongest, and the correction is to make the true verticals slightly unequal.",
+      "also": []
+    },
+    {
+      "term": "Proportion",
+      "definition": "The relationship between the parts of a letter. Classical proportions make the round capitals circles and the flat capitals about twice as tall as wide; modern proportions make the capitals more nearly equal in width.",
+      "also": []
+    },
+    {
+      "term": "Proof",
+      "definition": "A document that tests a typeface and shows its problems. A proof answers what the design is trying to solve, what is wrong with it and what could be done about it.",
+      "also": []
+    },
+    {
+      "term": "Shoulder",
+      "definition": "The curve that joins two stems in an n, m or h, and the equivalent join on the letters with a bowl.",
+      "also": [
+        "arch"
+      ]
+    },
+    {
+      "term": "Sidebearing",
+      "definition": "The space to the left and right of a letter, outside its outline. It is what determines how the letter sits next to its neighbours.",
+      "also": []
+    },
+    {
+      "term": "Source",
+      "definition": "A shape that is drawn by hand. The styles in between are generated from the sources, so every source is a set of drawings you have to keep in agreement.",
+      "also": []
+    },
+    {
+      "term": "Spine",
+      "definition": "The main curved stroke of an s. Where the s is thickest is a decision, not an accident.",
+      "also": []
+    },
+    {
+      "term": "Stem",
+      "definition": "The main vertical stroke of a letter. Its thickness defines the weight of the whole typeface.",
+      "also": []
+    },
+    {
+      "term": "Stress",
+      "definition": "Where a curved stroke is thickest. It comes from the tool, and it is what makes a c look different from a mirror of it.",
+      "also": []
+    },
+    {
+      "term": "Terminal",
+      "definition": "Where a stroke ends. A terminal can be flat, angled, round, flared or carry a serif, and the choice changes the voice of the whole family.",
+      "also": []
+    },
+    {
+      "term": "Tittle",
+      "definition": "The dot of an i and a j. Where the capital I is dotted, the tittle is wider than the stem.",
+      "also": []
+    },
+    {
+      "term": "Translation",
+      "definition": "A contrast model in which the thick and thin come from the constant angle of a broad nib, so only the direction of travel changes the weight. Jenson and blackletter are translation designs.",
+      "also": []
+    },
+    {
+      "term": "Vertex",
+      "definition": "The bottom point of a V. A sharp vertex must dip below the baseline or it reads as blunt.",
+      "also": []
+    },
+    {
+      "term": "Weight",
+      "definition": "How heavy the strokes are. It is the cheapest parameter to change and the one that most changes how a typeface reads.",
+      "also": []
+    },
+    {
+      "term": "Width",
+      "definition": "How wide the letters are. Changing it also changes the ratio of white to black, so a condensed has to be redrawn rather than squeezed.",
+      "also": []
+    },
+    {
+      "term": "x-height",
+      "definition": "The height of the lowercase, named after the x, which is usually the only lowercase letter with neither ascender nor descender. It is usually around two thirds of the cap height.",
+      "also": [
+        "ex-height"
+      ]
+    }
+  ],
+  "letterChecks": [
+    {
+      "letter": "A",
+      "checks": [
+        "The bar sits below the middle, not at it.",
+        "The two diagonals have different weights, following the pen.",
+        "The apex is deliberate: sharp, blunted or flat, but chosen."
+      ]
+    },
+    {
+      "letter": "B",
+      "checks": [
+        "The upper bowl is smaller than the lower one.",
+        "The lower bowl is wider than the upper.",
+        "The whole letter is shorter than the O next to it."
+      ]
+    },
+    {
+      "letter": "C",
+      "checks": [
+        "The aperture is placed deliberately, not left to the curve.",
+        "The thick point sits where the pen would leave it.",
+        "The lowercase c is the same shape as the capital, scaled."
+      ]
+    },
+    {
+      "letter": "D",
+      "checks": [
+        "The bowl is the lowercase b turned upside down.",
+        "The join at the top left is flat, not rounded.",
+        "The letter is narrower than the O."
+      ]
+    },
+    {
+      "letter": "E",
+      "checks": [
+        "The top arm sits above the middle.",
+        "The leg is longer than the arm.",
+        "The letter reads as short next to a round capital, and is corrected."
+      ]
+    },
+    {
+      "letter": "F",
+      "checks": [
+        "The top arm sits lower than the E's, to compensate for the missing middle arm.",
+        "The counter is large.",
+        "The stem carries serifs at both ends."
+      ]
+    },
+    {
+      "letter": "G",
+      "checks": [
+        "The ear, the link and the spur are consistent with the C they grow from.",
+        "The bowl may sit slightly higher than the baseline.",
+        "The lowercase g is the roman double-storey form."
+      ]
+    },
+    {
+      "letter": "H",
+      "checks": [
+        "The crossbar sits above the middle.",
+        "The two stems match the O in thickness.",
+        "The lowercase h is the H plus an arch, not a separate design."
+      ]
+    },
+    {
+      "letter": "I",
+      "checks": [
+        "The stem takes bilateral serifs.",
+        "Where the capital is dotted, the tittle is wider than the stem.",
+        "The width relates to the stem of the n."
+      ]
+    },
+    {
+      "letter": "J",
+      "checks": [
+        "The hook is the f turned over, so the two curves match.",
+        "The left serif is longer than the right.",
+        "The descender is measured, not accidental."
+      ]
+    },
+    {
+      "letter": "K",
+      "checks": [
+        "The leg is longer than the arm.",
+        "The junction is either connected or disconnected on purpose.",
+        "The leg ends in a foot that matches the rest of the serifs."
+      ]
+    },
+    {
+      "letter": "L",
+      "checks": [
+        "The bottom serif is longer on the right than on the left.",
+        "The leg is the same member as the E's arm, drawn the same way.",
+        "The letter is narrower than it looks."
+      ]
+    },
+    {
+      "letter": "M",
+      "checks": [
+        "The diagonals take no inner serifs, unlike the stems.",
+        "The diagonals are thin and tapered, forming a V.",
+        "The middle vertex behaves like the V's."
+      ]
+    },
+    {
+      "letter": "N",
+      "checks": [
+        "The diagonal takes no serif at all.",
+        "The diagonal is thin and tapered.",
+        "The letter is not narrower than the H it belongs with."
+      ]
+    },
+    {
+      "letter": "O",
+      "checks": [
+        "The axis through the thick points is deliberate.",
+        "The letter overshoots the cap height and undershoots the baseline.",
+        "The lowercase o is the same shape, scaled."
+      ]
+    },
+    {
+      "letter": "P",
+      "checks": [
+        "The lobe is narrower than the O's bowl.",
+        "The bowl is the top half of the B's.",
+        "The letter is not as wide as the O."
+      ]
+    },
+    {
+      "letter": "Q",
+      "checks": [
+        "The bowl is narrower than the O's.",
+        "The tail is the p's tail, mirrored.",
+        "The tail does not collide with the descenders of the letters beside it."
+      ]
+    },
+    {
+      "letter": "R",
+      "checks": [
+        "The leg swells: it is not a plain diagonal.",
+        "The junction with the bowl is drawn, not left to chance.",
+        "The bowl is derived from the n's arch."
+      ]
+    },
+    {
+      "letter": "S",
+      "checks": [
+        "The thickest part is not in the middle.",
+        "The lower counter is smaller than the upper.",
+        "The beak matches the terminals of the other letters."
+      ]
+    },
+    {
+      "letter": "T",
+      "checks": [
+        "The arm is compared with the E's arm.",
+        "The arm ends are a design decision, not an overshoot.",
+        "The foot sits on the baseline rather than dipping."
+      ]
+    },
+    {
+      "letter": "U",
+      "checks": [
+        "One side is thick and the other thin, following the pen.",
+        "The bowl is the n's arch inverted.",
+        "The bowl undershoots the baseline."
+      ]
+    },
+    {
+      "letter": "V",
+      "checks": [
+        "The vertex dips below the baseline when it is sharp.",
+        "The bottom is tapered.",
+        "The inner serifs are longer than the outer ones."
+      ]
+    },
+    {
+      "letter": "W",
+      "checks": [
+        "It is two V's, and they agree.",
+        "The middle apex overshoots.",
+        "The inner crotches are drawn, not left open."
+      ]
+    },
+    {
+      "letter": "X",
+      "checks": [
+        "The verticals are corrected for the Poggendorf illusion.",
+        "The inner serifs are longer than the outer ones.",
+        "The lowercase x is the same shape, scaled."
+      ]
+    },
+    {
+      "letter": "Y",
+      "checks": [
+        "The upper counter stays open.",
+        "The crotch is where it is meant to be.",
+        "The tail is measured against the descenders of other letters."
+      ]
+    },
+    {
+      "letter": "Z",
+      "checks": [
+        "The diagonal is thick, unlike the N's.",
+        "The horizontals are the E's, turned over.",
+        "The lowercase z is the same shape, scaled."
+      ]
+    }
+  ]
+}

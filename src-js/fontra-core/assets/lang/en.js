@@ -521,6 +521,7 @@ export const strings = {
  "sidebar.umarks": "U+Marks",
  "sidebar.triangle-guardian-panel": "Triangle Guardian",
  "sidebar.triangle-guardian-panel-plugin": "Triangle Guardian (Plugin)",
+ "sidebar.type-design-course": "Type Design School",
  "sidebar.user-settings.glyph.speedpunk": "Speed Punk overlay",
  "sidebar.user-settings.glyph.triangleguardian": "Triangle Guardian overlay",
  "sidebar.user-settings.glyph.curve-trajectory": "Curve trajectory overlay",

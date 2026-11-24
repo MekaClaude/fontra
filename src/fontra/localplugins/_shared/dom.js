@@ -30,11 +30,18 @@ export function el(tagName, attributes, children) {
   }
   // `children` is the rest-argument list of the helpers below, so a call
   // site usually passes ONE array of children: div(attrs, [a, b]).
-  const childList = Array.isArray(children)
-    ? children.flat()
-    : children === undefined || children === null
-      ? []
-      : [children];
+  //
+  // A null or undefined child is dropped: Element.append() would turn it
+  // into the *text* "null" or "undefined" and show it on screen. A
+  // conditional child is written as `cond ? el(...) : null`, so this
+  // matters.
+  const childList = (
+    Array.isArray(children)
+      ? children.flat()
+      : children === undefined || children === null
+        ? []
+        : [children]
+  ).filter((child) => child !== null && child !== undefined);
   for (const child of childList) {
     element.append(child);
   }

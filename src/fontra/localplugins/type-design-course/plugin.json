@@ -1,0 +1,6 @@
+{
+  "name": "Type Design School",
+  "description": "A complete course in type design, in the sidebar: ten phases from seeing a typeface to shipping a family — concepts, sketching, drawing, spacing, proofing, vectorising, the family, and release.",
+  "init": "init.js",
+  "function": "init"
+}
