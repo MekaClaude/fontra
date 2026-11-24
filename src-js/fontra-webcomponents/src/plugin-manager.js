@@ -39,7 +39,9 @@ export class PluginManager extends SimpleElement {
     this.pluginList.columnDescriptions = [
       {
         key: "address",
-        title: "Github repository",
+        // Not only GitHub repositories: a plug-in can also be a path on the
+        // server, such as the plug-ins that are built into the application.
+        title: "Address",
       },
     ];
     this.render();
