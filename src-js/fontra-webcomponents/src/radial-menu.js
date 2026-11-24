@@ -205,7 +205,11 @@ export class RadialMenu extends SimpleElement {
       gap: 0;
       background: var(--center-color);
       border: 1px solid var(--border-color);
-      pointer-events: none;
+      cursor: pointer;
+    }
+
+    .center-circle:hover {
+      filter: brightness(1.08);
     }
 
     .center-letter {
@@ -213,6 +217,14 @@ export class RadialMenu extends SimpleElement {
       font-weight: 800;
       line-height: 1;
       opacity: 0.85;
+    }
+
+    .center-letter.center-letter-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-align: center;
+      padding: 0 4px;
     }
 
     .center-hint {
@@ -249,6 +261,7 @@ export class RadialMenu extends SimpleElement {
     window.addEventListener("pointerdown", this._outsidePointerDown, true);
     window.addEventListener("keydown", this._keyDown, true);
     window.addEventListener("blur", this._windowBlur);
+    window.addEventListener("resize", this._windowResize);
     this.addEventListener("pointerdown", this._gesturePointerDown);
     // Move focus to the first available segment, so the menu is usable
     // with the keyboard right away (Tab / Enter) and is announced by
@@ -260,6 +273,7 @@ export class RadialMenu extends SimpleElement {
     window.removeEventListener("pointerdown", this._outsidePointerDown, true);
     window.removeEventListener("keydown", this._keyDown, true);
     window.removeEventListener("blur", this._windowBlur);
+    window.removeEventListener("resize", this._windowResize);
     this.removeEventListener("pointerdown", this._gesturePointerDown);
     this._removeGestureListeners();
     this._gesture = null;
@@ -288,6 +302,13 @@ export class RadialMenu extends SimpleElement {
     this.dismiss();
   };
 
+  // The menu is clamped to the viewport when it opens; if the window is
+  // resized while it is open, it has to be placed again, or part of it ends
+  // up off screen.
+  _windowResize = () => {
+    this.place();
+  };
+
   _outsidePointerDown = (event) => {
     if (event.composedPath?.().includes(this)) {
       return;
@@ -300,8 +321,81 @@ export class RadialMenu extends SimpleElement {
       event.preventDefault();
       event.stopImmediatePropagation();
       this.dismiss();
+      return;
+    }
+    if (this._navigate(event)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
     }
   };
+
+  // Keyboard navigation around the rings.
+  //
+  // A radial menu is navigated with the arrow keys, not with Tab: with
+  // thirteen segments, Tab means thirteen presses to get back to where you
+  // were. Left/Right walk the current ring, Up/Down move between the two
+  // rings, and the centre disc names the segment that has the focus.
+  _navigate(event) {
+    const rings = this._rings;
+    if (!rings) {
+      return false;
+    }
+    const focused = this.shadowRoot.activeElement;
+    let ringName = null;
+    let index = -1;
+    for (const [name, segments] of Object.entries(rings)) {
+      const position = segments.indexOf(focused);
+      if (position >= 0) {
+        ringName = name;
+        index = position;
+        break;
+      }
+    }
+    if (ringName === null) {
+      return false;
+    }
+    const segments = rings[ringName];
+    let target = null;
+    switch (event.key) {
+      case "ArrowRight":
+        target = segments[(index + 1) % segments.length];
+        break;
+      case "ArrowLeft":
+        target = segments[(index - 1 + segments.length) % segments.length];
+        break;
+      case "ArrowUp":
+        target = this._segmentInRing("outer", ringName, index);
+        break;
+      case "ArrowDown":
+        target = this._segmentInRing("inner", ringName, index);
+        break;
+      case "Home":
+        target = segments[0];
+        break;
+      case "End":
+        target = segments[segments.length - 1];
+        break;
+      default:
+        return false;
+    }
+    if (!target) {
+      return false;
+    }
+    target.focus();
+    return true;
+  }
+
+  // The segment at the same position in another ring, clamped to that ring.
+  _segmentInRing(ringName, fromRingName, index) {
+    const segments = this._rings?.[ringName];
+    if (!segments?.length) {
+      return null;
+    }
+    if (ringName === fromRingName) {
+      return segments[Math.min(index, segments.length - 1)];
+    }
+    return segments[Math.min(index, segments.length - 1)];
+  }
 
   // --- Flick gesture (Blender-style pie selection) ----------------------
   //
@@ -479,17 +573,37 @@ export class RadialMenu extends SimpleElement {
     container.appendChild(backdrop);
 
     const { inner, outer } = this.menuModel;
+    // The segments of each ring, in the order they are drawn: the keyboard
+    // navigation walks these.
+    this._rings = { inner: [], outer: [] };
     this._addRing(container, inner, INNER_RING, "inner");
     this._addRing(container, outer, OUTER_RING, "outer");
 
-    // Center disc: shows the trigger key as a subtle hint.
+    // Center disc: shows the trigger key as a subtle hint, and the name of
+    // the segment that has the focus while the menu is navigated by keyboard.
 
-    container.appendChild(
-      html.div({ class: "center-circle" }, [
-        html.div({ class: "center-letter" }, [this.centerLabel || " "]),
-        html.div({ class: "center-hint" }, [this.centerHint]),
-      ])
-    );
+    this._centerLetter = html.div({ class: "center-letter" }, [
+      this.centerLabel || " ",
+    ]);
+    // The centre disc closes the menu: it is the one part of the menu that
+    // is not a command, so it is the natural "cancel" affordance.
+    const centerCircle = html.div({ class: "center-circle" }, [
+      this._centerLetter,
+      html.div({ class: "center-hint" }, [this.centerHint]),
+    ]);
+    centerCircle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      this.dismiss();
+    });
+    container.appendChild(centerCircle);
+
+    container.addEventListener("focusout", (event) => {
+      // Only when the focus leaves the menu entirely, not when it moves from
+      // one segment to the next.
+      if (!event.currentTarget.contains(event.relatedTarget)) {
+        this._restoreCenterLabel();
+      }
+    });
 
     this.shadowRoot.appendChild(container);
   }
@@ -539,6 +653,9 @@ export class RadialMenu extends SimpleElement {
         [content]
       );
       button.setAttribute("aria-label", title);
+      // The inner ring has no visible labels, so the centre disc names the
+      // segment that has the focus.
+      button.addEventListener("focus", () => this._showCenterTitle(title));
       if (!enabled) {
         // Keep the native `disabled` attribute off, so the tooltip (title)
         // still shows on unavailable segments; the click path is guarded in
@@ -546,7 +663,27 @@ export class RadialMenu extends SimpleElement {
         button.setAttribute("aria-disabled", "true");
       }
       container.appendChild(button);
+      this._rings[ringName].push(button);
     }
+  }
+
+  // The centre disc names the segment that has the focus, so that the inner
+  // ring — which has no visible labels — is still readable by keyboard.
+  _showCenterTitle(title) {
+    if (!this._centerLetter) {
+      return;
+    }
+    const text = (title || "").split("  (")[0];
+    this._centerLetter.textContent = text.length > 12 ? `${text.slice(0, 11)}…` : text;
+    this._centerLetter.classList.add("center-letter-title");
+  }
+
+  _restoreCenterLabel() {
+    if (!this._centerLetter) {
+      return;
+    }
+    this._centerLetter.textContent = this.centerLabel || " ";
+    this._centerLetter.classList.remove("center-letter-title");
   }
 
   _titleFor(slot) {

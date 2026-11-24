@@ -130,6 +130,31 @@ const MIN_CANVAS_SPACE = 200;
 const PASTE_BEHAVIOR_REPLACE = "replace";
 const PASTE_BEHAVIOR_ADD = "add";
 
+// How long a single plugin may take to load. A plugin that hangs (an
+// unreachable CDN, a server that never answers) must not hold up the other
+// plugins, nor the deferred restore of the sidebar tabs.
+const PLUGIN_LOAD_TIMEOUT = 10000;
+
+// `AbortSignal.timeout` is not available in every browser Fontra runs in.
+function pluginLoadSignal() {
+  if (typeof AbortSignal !== "undefined" && AbortSignal.timeout) {
+    return AbortSignal.timeout(PLUGIN_LOAD_TIMEOUT);
+  }
+  return undefined;
+}
+
+// Reject when the promise takes longer than PLUGIN_LOAD_TIMEOUT.
+function withTimeout(promise, what) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(`${what} timed out after ${PLUGIN_LOAD_TIMEOUT} ms`)),
+      PLUGIN_LOAD_TIMEOUT
+    );
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export class EditorController extends ViewController {
   static titlePattern(displayName) {
     return `Glyph Editor — ${displayName}`;
@@ -278,11 +303,20 @@ export class EditorController extends ViewController {
       }
     }
 
-    this.initPlugins().then(() => {
-      for (const identifier of deferRestoreOpenTabs) {
-        this.restoreOpenTabs(identifier);
+    this.initPlugins().then(
+      () => {
+        for (const identifier of deferRestoreOpenTabs) {
+          this.restoreOpenTabs(identifier);
+        }
+      },
+      (e) => {
+        // A failure here must not stop the sidebar tabs from being restored.
+        console.error("Could not load the plugins.", e);
+        for (const identifier of deferRestoreOpenTabs) {
+          this.restoreOpenTabs(identifier);
+        }
       }
-    });
+    );
 
     window
       .matchMedia("(prefers-color-scheme: dark)")
@@ -816,20 +850,22 @@ export class EditorController extends ViewController {
       registerAction,
       registerActionCallbacks,
     };
-    for (const { address } of observablePlugins.model.plugins) {
+    const loadPlugin = async ({ address }) => {
       let pluginPath;
       try {
         pluginPath = parsePluginBasePath(address);
       } catch (e) {
         console.error(`${address} Plugin address could not be parsed.`, e);
-        continue;
+        return;
       }
       let meta;
       try {
-        meta = await fetchJSON(`${pluginPath}/plugin.json`);
+        meta = await fetchJSON(`${pluginPath}/plugin.json`, {
+          signal: pluginLoadSignal(),
+        });
       } catch (e) {
-        console.error(`${address} Plugin metadata not found.`);
-        continue;
+        console.error(`${address} Plugin metadata not found.`, e);
+        return;
       }
       const initScript = meta.init;
       const functionName = meta.function;
@@ -838,20 +874,30 @@ export class EditorController extends ViewController {
         // webpackIgnore: keep this a real dynamic import at runtime; the plug-in
         // lives outside the bundle (a URL or a server path), webpack must not
         // try to resolve it at build time.
-        module = await import(/* webpackIgnore: true */ `${pluginPath}/${initScript}`);
+        module = await withTimeout(
+          import(/* webpackIgnore: true */ `${pluginPath}/${initScript}`),
+          `Loading the plugin at ${pluginPath}`
+        );
       } catch (e) {
         console.error("Module didn't load");
         console.log(e);
-        continue;
+        return;
       }
       try {
         module[functionName](this, pluginPath);
       } catch (e) {
         console.error(`Error occured when running (${meta.name || address}) plugin.`);
         console.log(e);
-        continue;
+        return;
       }
-    }
+    };
+
+    // The plugins are loaded in parallel: one slow or unreachable plugin must
+    // not hold up the others, and must not hold up the deferred restore of
+    // the sidebar tabs either.
+    await Promise.allSettled(
+      observablePlugins.model.plugins.map((plugin) => loadPlugin(plugin))
+    );
   }
 
   async updateWithDelay() {
@@ -1408,7 +1454,11 @@ export class EditorController extends ViewController {
       );
     }
 
-    if (sidebar.panelIdentifiers.includes(panelElement.name)) {
+    // `panelElement.name` is the native HTMLElement `name` IDL attribute,
+    // which is always "" for these custom elements: the panel's identity is
+    // its `identifier`. Comparing against `name` meant the guard never
+    // fired, and the same panel could be registered twice.
+    if (sidebar.panelIdentifiers.includes(panelElement.identifier)) {
       throw new Error(
         `Panel "${panelElement.identifier}" in "${sidebarName}" sidebar exists.`
       );
@@ -1426,8 +1476,13 @@ export class EditorController extends ViewController {
   }
 
   getSidebarPanel(panelName) {
-    return document.querySelector(`.sidebar-content[data-sidebar-name="${panelName}"]`)
-      .children[0];
+    // Return null instead of throwing when the panel is not there: several
+    // callers already use `panel?.…`, and a plug-in that asks for a panel
+    // the host does not have should not take the plug-in down with it.
+    const content = document.querySelector(
+      `.sidebar-content[data-sidebar-name="${panelName}"]`
+    );
+    return content?.children[0] ?? null;
   }
 
   toggleSidebar(panelName, doFocus = false) {

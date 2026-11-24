@@ -12,6 +12,10 @@ export class VisualizationLayers {
         .filter((layer) => !layer.userSwitchable || layer.defaultOn)
         .map((layer) => layer.identifier)
     );
+    // Layers that threw while drawing. They are switched off for the rest of
+    // the session: a layer that throws would otherwise break the canvas
+    // render on every frame.
+    this._failedLayerIds = new Set();
     this.requestUpdate = () => {
       delete this.layers;
     };
@@ -66,6 +70,7 @@ export class VisualizationLayers {
         ...(this.darkTheme && layerDef.colorsDarkMode ? layerDef.colorsDarkMode : {}),
       };
       const layer = {
+        identifier: layerDef.identifier,
         selectionFunc: layerDef.selectionFunc,
         selectionFilter: layerDef.selectionFilter,
         parameters: parameters,
@@ -85,19 +90,52 @@ export class VisualizationLayers {
     const context = controller.context;
 
     for (const layer of this.layers) {
-      for (const item of layer.selectionFunc(visContext, layer)) {
+      if (this._failedLayerIds.has(layer.identifier)) {
+        continue;
+      }
+      const items = this._selectItems(layer, visContext);
+      if (items === null) {
+        continue;
+      }
+      for (const item of items) {
         withSavedState(context, () => {
           context.translate(item.x, item.y);
-          layer.draw({
-            context,
-            positionedGlyph: item,
-            parameters: layer.parameters,
-            model,
-            controller,
-          });
+          try {
+            layer.draw({
+              context,
+              positionedGlyph: item,
+              parameters: layer.parameters,
+              model,
+              controller,
+            });
+          } catch (e) {
+            this._disableLayer(layer, "draw", e);
+          }
         });
       }
     }
+  }
+
+  // Returns the items a layer wants to draw, or null if the layer failed and
+  // has been switched off.
+  _selectItems(layer, visContext) {
+    try {
+      return layer.selectionFunc(visContext, layer);
+    } catch (e) {
+      this._disableLayer(layer, "select its glyphs", e);
+      return null;
+    }
+  }
+
+  // A layer that throws must not take the whole canvas down with it: the
+  // error would otherwise repeat on every frame, leaving the editor with a
+  // half-drawn canvas. Report it once and switch the layer off.
+  _disableLayer(layer, what, error) {
+    this._failedLayerIds.add(layer.identifier);
+    console.error(
+      `Visualization layer "${layer.identifier}" failed to ${what} and has been disabled.`,
+      error
+    );
   }
 }
 

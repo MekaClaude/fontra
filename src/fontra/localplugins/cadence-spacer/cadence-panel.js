@@ -134,10 +134,16 @@ export default class CadenceSpacerPanel extends Panel {
     this._updatePreviewTable(null);
     this._updateApplyState();
     const sceneController = this.editorController.sceneController;
-    sceneController?.addCurrentGlyphChangeListener?.(() => this._updateDiagnostics());
-    sceneController?.sceneSettingsController?.addKeyListener?.("selectedGlyphName", () =>
-      this._updateDiagnostics()
-    );
+    // A glyph edit makes that glyph's measurements out of date. The plan is
+    // kept (the desired sidebearings still stand), but its "current" values
+    // are no longer drawn: the overlay must not contradict the canvas.
+    sceneController?.addCurrentGlyphChangeListener?.(() => {
+      this._markPlansStale();
+      this._scheduleDiagnosticsUpdate();
+    });
+    sceneController?.sceneSettingsController?.addKeyListener?.("selectedGlyphName", () => {
+      this._scheduleDiagnosticsUpdate();
+    });
   }
 
   getContentElement() {
@@ -202,6 +208,10 @@ export default class CadenceSpacerPanel extends Panel {
         const text = await file.text();
         this._cust = loadCustText(text, file.name);
         this._custSource = file.name;
+        // The label still named the previous preset otherwise.
+        if (this._tableSourceLabel) {
+          this._tableSourceLabel.textContent = `Using: ${this._custSource}`;
+        }
         this._adoptTableBeam();
         this._persistCust();
         this._setStatus(`Loaded spacing table "${file.name}".`, "ok");
@@ -280,6 +290,10 @@ export default class CadenceSpacerPanel extends Panel {
     this._diagnostics = div({ class: "cs-hint" }, "—");
 
     const toggles = [
+      // "enabled" gates the whole overlay, and it is persisted: without a
+      // control for it, a stale setting left the overlay blank with no way
+      // to bring it back except in the developer tools.
+      { key: "enabled", label: "Overlay on" },
       { key: "showBeam", label: "Show beam" },
       { key: "showCrossings", label: "Show stem crossings" },
       { key: "showSidebearings", label: "Show sidebearings" },
@@ -364,7 +378,18 @@ export default class CadenceSpacerPanel extends Panel {
     const title = div({ class: "cs-section-title" }, "Table editor");
 
     this._editorFilter = input({ type: "search", placeholder: "filter glyphs" });
-    this._editorFilter.addEventListener("input", () => this._refreshTableEditor());
+    // The editor rows are rebuilt from scratch, so filtering is debounced:
+    // rebuilding on every keystroke recreated five elements and four
+    // listeners per entry, for every entry in the table.
+    this._editorFilter.addEventListener("input", () => {
+      if (this._editorFilterTimer) {
+        clearTimeout(this._editorFilterTimer);
+      }
+      this._editorFilterTimer = setTimeout(() => {
+        this._editorFilterTimer = null;
+        this._refreshTableEditor();
+      }, 150);
+    });
 
     this._editorList = div({ class: "cs-editor" });
 
@@ -539,7 +564,16 @@ export default class CadenceSpacerPanel extends Panel {
     if (!this._diagnostics) {
       return;
     }
-    this._selectedGlyphInfo = await this._describeSelectedGlyph();
+    // Sequence token: two overlapping runs (a beam change and a selection
+    // change in the same event-loop turn) could otherwise land out of
+    // order, and the diagnostics box would then describe a beam or a glyph
+    // that is no longer current.
+    const token = (this._diagnosticsToken = (this._diagnosticsToken || 0) + 1);
+    const isCurrent = () => token === this._diagnosticsToken;
+    const selectedGlyphInfo = await this._describeSelectedGlyph();
+    if (!isCurrent()) {
+      return;
+    }
     try {
       const sceneController = this.editorController.sceneController;
       const primaryLayer = sceneController?.editingLayerNames?.[0] ?? null;
@@ -550,6 +584,10 @@ export default class CadenceSpacerPanel extends Panel {
         gridSteps: state.gridSteps,
         layerName: primaryLayer,
       });
+      if (!isCurrent()) {
+        return;
+      }
+      this._selectedGlyphInfo = selectedGlyphInfo;
       this._diagnostics.textContent =
         `Reference "${info.refGlyphName}": ${info.crossingCount} beam crossing(s), ` +
         `${info.stemCount} stem(s).\n` +
@@ -560,9 +598,26 @@ export default class CadenceSpacerPanel extends Panel {
         (this._selectedGlyphInfo ? `\n${this._selectedGlyphInfo}` : "");
       this._selectedGlyphInfo = null;
     } catch (e) {
+      if (!isCurrent()) {
+        return;
+      }
+      this._selectedGlyphInfo = null;
       this._diagnostics.textContent =
         `Cannot measure the reference glyph "${state.refGlyphName}": ${e.message}`;
     }
+  }
+
+  // The diagnostics do two scene lookups and two full path walks, so they
+  // are debounced: a drag-edit fires the glyph-change listener continuously
+  // and there is no point measuring on every intermediate position.
+  _scheduleDiagnosticsUpdate() {
+    if (this._diagnosticsTimer !== null) {
+      clearTimeout(this._diagnosticsTimer);
+    }
+    this._diagnosticsTimer = setTimeout(() => {
+      this._diagnosticsTimer = null;
+      this._updateDiagnostics();
+    }, 150);
   }
 
   _glyphNames() {
@@ -738,6 +793,9 @@ export default class CadenceSpacerPanel extends Panel {
           currentRight: result.currentRight,
           desiredLeft: result.desiredLeft,
           desiredRight: result.desiredRight,
+          // Set when the glyph is edited: the "current" sidebearings were
+          // measured on the old outline and are no longer true.
+          stale: false,
         });
       }
     }
@@ -745,11 +803,39 @@ export default class CadenceSpacerPanel extends Panel {
     this._requestCanvasUpdate();
   }
 
+  // A glyph edit makes the measurements of that glyph out of date. The plan
+  // is kept — the desired sidebearings are still what the designer asked
+  // for — but the stale "current" values are no longer drawn, so the overlay
+  // cannot contradict the canvas.
+  _markPlansStale() {
+    const glyphName =
+      this.editorController.sceneController?.sceneSettings?.selectedGlyphName;
+    const plan = glyphName ? state.plans.get(glyphName) : null;
+    if (!plan || plan.stale) {
+      return;
+    }
+    plan.stale = true;
+    this._requestCanvasUpdate();
+    this._setStatus(
+      `"${glyphName}" was edited: its measured sidebearings are out of date. ` +
+        `Run Preview again to measure it anew.`,
+      "warning"
+    );
+  }
+
   _updatePreviewTable(result) {
     const headRows = [];
     const bodyRows = [];
     if (result?.results?.length) {
       const isTabular = result.results[0].kind === "tabular";
+      // The table is built in one synchronous batch, nine cells per row: on
+      // a font with a thousand entries that is nine thousand DOM nodes at
+      // once, and the panel stops responding for a moment. Only the first
+      // rows are shown, and the rest is counted.
+      const MAX_PREVIEW_ROWS = 200;
+      const results = result.results;
+      const shown = results.slice(0, MAX_PREVIEW_ROWS);
+      const omitted = results.length - shown.length;
       if (isTabular) {
         headRows.push(
           tr({}, [
@@ -760,7 +846,7 @@ export default class CadenceSpacerPanel extends Panel {
             th({}, ""),
           ])
         );
-        for (const item of result.results) {
+        for (const item of shown) {
           bodyRows.push(
             tr({ class: item.status === "ok" ? "" : "cs-bad" }, [
               td({}, item.glyphName),
@@ -785,7 +871,7 @@ export default class CadenceSpacerPanel extends Panel {
             th({}, ""),
           ])
         );
-        for (const item of result.results) {
+        for (const item of shown) {
           const bad = item.status !== "ok";
           bodyRows.push(
             tr({ class: bad ? "cs-bad" : "" }, [
@@ -801,6 +887,16 @@ export default class CadenceSpacerPanel extends Panel {
             ])
           );
         }
+      }
+      if (omitted > 0) {
+        bodyRows.push(
+          tr({ class: "cs-bad" }, [
+            td(
+              { colspan: "9" },
+              `…and ${omitted} more glyph(s). The full result is in the summary above.`
+            ),
+          ])
+        );
       }
     } else {
       bodyRows.push(
@@ -894,6 +990,9 @@ export default class CadenceSpacerPanel extends Panel {
       deleteCustEntry(this._cust, key);
       this._refreshTableEditor();
       this._invalidatePreview();
+      // The removal must be written to the storage, like every other change
+      // to the table — otherwise the entry comes back on the next reload.
+      this._persistCust();
       this._setStatus(`Removed the entry for "${key}".`, "ok");
     });
 

@@ -51,8 +51,8 @@ const layerDef = {
 
   draw({ context, positionedGlyph, parameters, model, controller }) {
     const glyphName = positionedGlyph.glyphName;
-    const matches = state.matches.filter((match) => match.glyphName === glyphName);
-    if (!matches.length) {
+    const matches = state.matchesByGlyph.get(glyphName);
+    if (!matches?.length) {
       return;
     }
 

@@ -253,16 +253,38 @@ export function deleteCustEntry(cust, key) {
 // takes a pivot point, a NORMALIZED direction and an optional list of
 // extra lines (src-js/fontra-core/src/path-hit-tester.js:70-87); each hit
 // carries `.x` / `.y` (path-hit-tester.js:147-171).
+// Cache of the beam crossings, keyed by the glyph controller.
+//
+// The controller object is replaced whenever the glyph changes (the font
+// controller purges its instance cache in glyphChanged()), so a controller
+// that is still the same object still describes the same outline. The
+// crossings only depend on the outline and on the beam height, so the
+// cache is invalidated by a change of beam height.
+//
+// This matters because the canvas layer asks for the crossings of EVERY
+// glyph on EVERY repaint, and each miss walks every contour and every
+// segment of the (flattened) outline.
+const beamCrossingsCache = new WeakMap();
+
 export function beamCrossings(glyphController, beamY) {
-  const hitTester = glyphController?.flattenedPathHitTester;
+  if (!glyphController) {
+    return [];
+  }
+  const hitTester = glyphController.flattenedPathHitTester;
   if (!hitTester) {
     return [];
   }
+  const cached = beamCrossingsCache.get(glyphController);
+  if (cached && cached.beamY === beamY) {
+    return cached.xs.slice();
+  }
   const hits = hitTester.rayIntersections({ x: 0, y: beamY }, { x: 1, y: 0 });
-  return hits
+  const xs = hits
     .map((h) => h.x)
     .filter((x) => Number.isFinite(x))
     .sort((a, b) => a - b);
+  beamCrossingsCache.set(glyphController, { beamY, xs });
+  return xs.slice();
 }
 
 export function beamDiagnostics(glyphController, beamY) {
@@ -758,8 +780,22 @@ export async function applyPlan(editor, plan, { senderID, roundToInt = true } = 
   }
 
   const primary = appliedLayers.find((l) => l.status === "ok");
+  // The plan's currentLeft/currentRight are the values measured BEFORE the
+  // edit. Reporting them after the edit makes the overlay (and the preview
+  // table) contradict the glyph that is actually on the canvas. The applied
+  // deltas tell us where the sidebearings ended up: moving the outline by
+  // dLeft grows the left sidebearing by dLeft, and growing the advance
+  // width by dRight grows the right sidebearing by dRight.
+  const newCurrentLeft = primary
+    ? plan.currentLeft + primary.appliedLeft
+    : plan.currentLeft;
+  const newCurrentRight = primary
+    ? plan.currentRight + primary.appliedRight
+    : plan.currentRight;
   return {
     ...plan,
+    currentLeft: newCurrentLeft,
+    currentRight: newCurrentRight,
     applied: allApplied,
     appliedLayers,
     appliedLeft: primary?.appliedLeft ?? 0,

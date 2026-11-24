@@ -357,6 +357,14 @@ export function guessCharFromGlyphName(glyphName: string) {
 
 export async function fetchJSON(url: string, options: Parameters<typeof fetch>[1]) {
   const response = await fetch(url, options);
+  if (!response.ok) {
+    // Without this check an error response (404, 500, an HTML error page)
+    // would be handed to JSON.parse, which throws a confusing parse error
+    // instead of reporting what actually went wrong.
+    throw new Error(
+      `Request failed: ${response.status} ${response.statusText} (${url})`
+    );
+  }
   return await response.json();
 }
 

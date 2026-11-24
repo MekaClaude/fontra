@@ -87,7 +87,9 @@ const layerDef = {
     }
 
     // --- the current measured sidebearings -------------------------------
-    if (plan) {
+    // A stale plan holds measurements of an outline that has changed since:
+    // drawing them would put the wrong numbers next to the glyph.
+    if (plan && !plan.stale) {
       context.strokeStyle = parameters.currentColor;
       context.setLineDash([]);
       drawVerticalLine(context, plan.currentLeft, bounds, parameters);

@@ -343,9 +343,15 @@ function makeCheckboxController(settingsController, settingsKey) {
 
 let glyphSetPresets;
 
-fetchJSON("/data/glyphset-presets.json", { cache: "no-cache" }).then((result) => {
-  glyphSetPresets = result;
-});
+fetchJSON("/data/glyphset-presets.json", { cache: "no-cache" })
+  .then((result) => {
+    glyphSetPresets = result;
+  })
+  .catch((e) => {
+    // The presets are optional: without them the "add glyph set" dialog
+    // simply offers no presets, which is better than an unhandled rejection.
+    console.error("Could not load the glyph set presets.", e);
+  });
 
 async function runAddGlyphSetDialog(initialGlyphSets) {
   const dialog = new AddPresetGlyphSetDialog(initialGlyphSets);

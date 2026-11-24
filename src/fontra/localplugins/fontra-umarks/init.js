@@ -31,9 +31,18 @@ export function init(editorController, pluginPath) {
   const getRulesData = () => readRulesData(editorController.fontController.customData).data;
   const ghostsLayer = new GhostsLayer(editorController, getRulesData);
 
-  const Panel = Object.getPrototypeOf(
-    editorController.getSidebarPanel("glyph-note").constructor
-  );
+  // The panel class of the host: U+Marks is built on the same base class as
+  // the "Glyph Note" panel. If that panel is not there (the host changed, or
+  // the plug-in is loaded before the sidebars), say so instead of throwing:
+  // the editor catches the error and the plug-in would silently fail to load.
+  const hostPanel = editorController.getSidebarPanel?.("glyph-note");
+  if (!hostPanel) {
+    console.error(
+      "U+Marks: the \"Glyph Note\" panel is not available, so the plug-in cannot start."
+    );
+    return null;
+  }
+  const Panel = Object.getPrototypeOf(hostPanel.constructor);
   const MarksPanel = makeMarksPanel(Panel, pluginPath, ghostsLayer);
   if (!customElements.get(PANEL_ELEMENT_NAME)) {
     customElements.define(PANEL_ELEMENT_NAME, MarksPanel);

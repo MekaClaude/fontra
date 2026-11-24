@@ -85,6 +85,13 @@ export class SketchOverlay {
     this.element.addEventListener("pointercancel", (event) =>
       this._endStroke(event)
     );
+    // The pointer capture can be lost without a pointerup reaching the
+    // element (the element is removed, the capture is transferred). Without
+    // this, `_drawing` would stay true and every later pointer move would
+    // keep appending to a stroke the user believes is finished.
+    this.element.addEventListener("lostpointercapture", (event) =>
+      this._endStroke(event)
+    );
     this.element.addEventListener(
       "wheel",
       (event) => this._onWheel(event),
@@ -188,17 +195,25 @@ export class SketchOverlay {
     if (!this._active || !event.isPrimary) {
       return;
     }
+    if (this._drawing) {
+      // A stroke is already open: a second pointer (a second mouse device,
+      // or a touch that reports itself as primary) would overwrite the
+      // stroke in progress and orphan it.
+      return;
+    }
     if (event.pointerType === "mouse" && event.button !== 0) {
       return;
     }
     event.preventDefault();
     this.element.setPointerCapture?.(event.pointerId);
+    this._pointerId = event.pointerId;
     // Keep keyboard behavior identical to editing on the canvas.
     this.editor.canvasController.canvas.focus?.({ preventScroll: true });
 
     const scenePoint = this._scenePoint(event);
     const glyph = this._glyphForScenePoint(scenePoint);
     if (!glyph) {
+      this._pointerId = null;
       return; // no glyphs on the canvas
     }
     this._drawing = true;
@@ -215,6 +230,15 @@ export class SketchOverlay {
 
   _onPointerMove(event) {
     if (!this._drawing) {
+      return;
+    }
+    // Only the pointer that opened the stroke may extend it, and only while
+    // its button is down: otherwise a second finger (or a move without a
+    // press) appends stray points and the stroke jumps across the canvas.
+    if (this._pointerId !== null && event.pointerId !== this._pointerId) {
+      return;
+    }
+    if (event.buttons !== undefined && !(event.buttons & 1)) {
       return;
     }
     event.preventDefault();
@@ -243,6 +267,7 @@ export class SketchOverlay {
       return;
     }
     this._drawing = false;
+    this._pointerId = null;
     const stroke = state.activeStroke;
     state.activeStroke = null;
     if (stroke && stroke.points.length) {

@@ -51,6 +51,10 @@ export const languages = [
 
 const debugTranslation = false;
 let localizationData = {};
+// The English strings, used as a fallback for keys a translation has not
+// covered yet. Without this, a key that only exists in en.js renders as the
+// raw key ("sidebar.sketch-layer-plugin") in every other language.
+let fallbackData = {};
 
 export const languageController = new ObservableController({ language: "en" });
 languageController.synchronizeWithLocalStorage("fontra-language-");
@@ -67,14 +71,33 @@ export const ensureLanguageHasLoaded = new Promise((resolve) => {
 
 const importTimeStamp = Date.now(); /* for cache busting */
 
+// The English strings are always loaded, whatever the active language is:
+// they are the fallback for keys the active translation does not have. The
+// import is started right away so it is ready by the time the UI renders.
+const englishFallbackPromise = import(
+  /*webpackIgnore: true*/ `/lang/en.js?t=${importTimeStamp}`
+)
+  .then((mod) => {
+    fallbackData = mod.strings;
+  })
+  .catch((e) => {
+    console.log("ERROR: could not load the English language strings", e);
+  });
+
 function languageChanged(locale) {
   // Do explicit .replace() because our cache busting mechanism is simplistic,
   // and backtick strings don't work.
   const translationsPath = "/lang/locale.js".replace("locale", locale);
 
   import(/*webpackIgnore: true*/ translationsPath + `?t=${importTimeStamp}`)
-    .then((mod) => {
+    .then(async (mod) => {
       localizationData = mod.strings;
+      if (locale === "en") {
+        fallbackData = mod.strings;
+      }
+      // Don't announce the language as loaded before the English fallback is
+      // in place: the first render would otherwise show raw keys.
+      await englishFallbackPromise;
       resolveLanguageHasLoaded();
     })
     .catch((e) => {
@@ -116,7 +139,7 @@ function formatString(template, ...args) {
  * @returns {string} The translated value
  */
 export function translate(key, ...args) {
-  const translation = localizationData[key];
+  const translation = getTranslation(key);
 
   if (typeof key !== "string" || translation === undefined || debugTranslation) {
     return key;
@@ -126,19 +149,37 @@ export function translate(key, ...args) {
 }
 
 /**
+ * Look up a key in the active language, falling back to English for keys the
+ * active translation does not cover.
+ * @param {string} key
+ * @returns {string|undefined}
+ */
+function getTranslation(key) {
+  if (typeof key !== "string") {
+    return undefined;
+  }
+  const translation = localizationData[key];
+  if (translation !== undefined && translation !== null) {
+    return translation;
+  }
+  const fallback = fallbackData[key];
+  return fallback !== undefined && fallback !== null ? fallback : translation;
+}
+
+/**
  * Translate the key to the corresponding value in the localizationData, with pluralization
  * @param {string} key - The key to translate
  * @param {number} quantity - The argument to replace in the translated value
  * @returns {string} The translated value
  */
 export function translatePlural(key, quantity = 0) {
-  const translation = localizationData[key];
+  const translation = getTranslation(key);
 
   if (typeof key !== "string" || translation === undefined || debugTranslation) {
     return key;
   }
 
-  const translationPlural = localizationData[key + ".plural"];
+  const translationPlural = getTranslation(key + ".plural");
 
   if (translationPlural === undefined) {
     return formatString(translation, quantity);

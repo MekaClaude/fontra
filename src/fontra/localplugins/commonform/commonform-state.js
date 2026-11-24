@@ -201,8 +201,27 @@ state.progress = { done: 0, total: 0 };
 //   { glyphName, contourIndex, distance, rms, tier, mirrored, orientation,
 //     sameNodes, sameSize }
 state.matches = [];
+// The same matches, indexed by glyph name.
+//
+// The canvas layer draws the matches of EVERY glyph on the canvas, on every
+// frame. Filtering the whole match list per glyph costs O(glyphs × matches)
+// per frame; with this index it is O(glyphs).
+state.matchesByGlyph = new Map();
 // The summary of the last search — see `summarizeMatches()` in the engine.
 state.summary = null;
+
+settings.addKeyListener("matches", () => {
+  const index = new Map();
+  for (const match of state.matches || []) {
+    const list = index.get(match.glyphName);
+    if (list) {
+      list.push(match);
+    } else {
+      index.set(match.glyphName, [match]);
+    }
+  }
+  state.matchesByGlyph = index;
+});
 
 /**
  * Forget the last search.

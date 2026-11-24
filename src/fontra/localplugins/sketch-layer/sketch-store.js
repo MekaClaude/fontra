@@ -152,29 +152,64 @@ export function serializeProject(glyphsMap) {
   let json = JSON.stringify({ version: 1, glyphs });
   if (json.length > MAX_STORE_BYTES) {
     // Over budget: drop the heaviest glyphs (by point count) until it fits.
-    while (true) {
-      const names = Object.keys(glyphs);
-      if (!names.length) {
+    //
+    // The size and the point count of every glyph are measured *once*, and
+    // the glyphs are dropped from the heaviest down. The previous version
+    // re-counted every point of every glyph for every glyph it dropped, and
+    // re-stringified the whole project each time: that is quadratic, and
+    // the freeze landed exactly when the user was saving.
+    const sizes = new Map();
+    const counts = new Map();
+    let contentLength = 0;
+    for (const [name, strokes] of Object.entries(glyphs)) {
+      // The exact size this glyph takes in the JSON: "name":[...],
+      sizes.set(name, JSON.stringify(name).length + 1 + JSON.stringify(strokes).length);
+      counts.set(name, pointCount(strokes));
+      contentLength += sizes.get(name);
+    }
+    // One comma between each pair of glyphs.
+    contentLength += Math.max(0, sizes.size - 1);
+    let remaining = sizes.size;
+
+    const heaviest = [...sizes.keys()].sort(
+      (a, b) => counts.get(b) - counts.get(a)
+    );
+
+    const projectedLength = () =>
+      '{"version":1,"glyphs":{'.length + contentLength + "}}".length;
+
+    for (const name of heaviest) {
+      if (projectedLength() <= MAX_STORE_BYTES) {
         break;
       }
-      let largest = names[0];
-      for (const name of names) {
-        // `glyphs[name]` is an array of serialized strokes ({c,w,p}), not a
-        // stroke, so count points across all of its strokes.
-        const pointCount = (strokes) =>
-          (strokes || []).reduce((sum, s) => sum + (Array.isArray(s?.p) ? s.p.length : 0), 0);
-        if (pointCount(glyphs[name]) > pointCount(glyphs[largest])) {
-          largest = name;
-        }
+      delete glyphs[name];
+      contentLength -= sizes.get(name) + (remaining > 1 ? 1 : 0);
+      remaining -= 1;
+    }
+
+    json = JSON.stringify({ version: 1, glyphs });
+    // The projection is exact, but be safe: if the project is somehow still
+    // over budget, keep dropping the heaviest glyph and re-measure.
+    while (json.length > MAX_STORE_BYTES) {
+      const next = heaviest.find((name) => name in glyphs);
+      if (!next) {
+        break;
       }
-      delete glyphs[largest];
+      delete glyphs[next];
       json = JSON.stringify({ version: 1, glyphs });
-      if (json.length <= MAX_STORE_BYTES) {
-        break;
-      }
     }
   }
   return json;
+}
+
+// The number of points in a glyph's strokes. `glyphs[name]` is an array of
+// serialized strokes ({c,w,p}), not a stroke, so the points of all of them
+// have to be counted.
+function pointCount(strokes) {
+  return (strokes || []).reduce(
+    (sum, s) => sum + (Array.isArray(s?.p) ? s.p.length : 0),
+    0
+  );
 }
 
 function serializeStroke(stroke) {
@@ -308,6 +343,15 @@ export function schedulePersist(projectId, delay = 400) {
   );
 }
 
+// The last failed save, for the panel to show. A save that fails silently is
+// a save that loses the user's work on the next reload.
+let lastPersistError = null;
+
+/** The message of the last failed save, or null. */
+export function getPersistError() {
+  return lastPersistError;
+}
+
 /** Write the project's sketches to localStorage. Never throws. */
 export function persist(projectId) {
   if (!projectId) {
@@ -322,9 +366,24 @@ export function persist(projectId) {
     } else {
       localStorage.setItem(STORAGE_KEY_PREFIX + projectId, json);
     }
+    lastPersistError = null;
     return true;
   } catch (error) {
     console.warn("[Sketch Layer] could not save sketches:", error);
+    lastPersistError =
+      error?.name === "QuotaExceededError" || error?.code === 22
+        ? "Sketches could not be saved: this browser's storage is full. " +
+          "Clear the sketches you no longer need, or use a different browser profile."
+        : `Sketches could not be saved: ${error?.message || error}`;
+    // Tell the panel: the save happens on a timer, so it cannot report the
+    // failure by itself.
+    if (typeof window !== "undefined" && window.dispatchEvent) {
+      window.dispatchEvent(
+        new CustomEvent("fontra-sketch-layer-persist-error", {
+          detail: lastPersistError,
+        })
+      );
+    }
     return false;
   }
 }

@@ -6,6 +6,7 @@
 // DOM helpers are inlined here, mirroring the triangle-guardian plugin.
 
 import { el } from "../_shared/dom.js";
+import { getPersistError } from "./sketch-store.js";
 
 class SimpleElement extends HTMLElement {
   constructor() {
@@ -99,6 +100,11 @@ export default class SketchLayerPanel extends Panel {
     }
     .sk-button:hover { border-color: var(--ui-element-foreground-color); }
     .sk-status { font-size: 11px; opacity: .6; }
+    .sk-status.sk-status-error {
+      opacity: 1;
+      color: var(--fontra-red-color, #e22);
+      font-weight: 600;
+    }
     input[type="range"] { flex: 1; }
   `;
 
@@ -158,6 +164,15 @@ export default class SketchLayerPanel extends Panel {
       "Clear all (project)"
     );
     clearAllButton.addEventListener("click", () => {
+      // "Clear all" throws away every sketch in the project, and there is no
+      // undo for it: ask first.
+      if (
+        !window.confirm(
+          "Clear every sketch in this project?\n\nThis cannot be undone."
+        )
+      ) {
+        return;
+      }
       this.plugin.clearAll();
       this.refreshStatus();
     });
@@ -167,6 +182,12 @@ export default class SketchLayerPanel extends Panel {
     this.editorController.sceneController.sceneSettingsController.addKeyListener(
       "selectedGlyphName",
       () => this.refreshStatus()
+    );
+
+    // The save happens on a timer, so a failed save can only be reported
+    // through an event.
+    window.addEventListener("fontra-sketch-layer-persist-error", () =>
+      this.refreshStatus()
     );
 
     this._updateSwatchSelection();
@@ -232,6 +253,15 @@ export default class SketchLayerPanel extends Panel {
     if (!this._status) {
       return;
     }
+    // A failed save comes first: it is the one thing the designer has to
+    // know about — the strokes they see are not on disk.
+    const persistError = getPersistError();
+    if (persistError) {
+      this._status.textContent = persistError;
+      this._status.classList.add("sk-status-error");
+      return;
+    }
+    this._status.classList.remove("sk-status-error");
     const projectId = this.plugin.state.projectId;
     const glyphName =
       this.editorController.sceneController.sceneSettings.selectedGlyphName;

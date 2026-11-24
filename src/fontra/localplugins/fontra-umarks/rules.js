@@ -369,8 +369,36 @@ export function sameRulesData(a, b) {
   return canonicalJSON(normalizeRulesData(a).data) === canonicalJSON(normalizeRulesData(b).data);
 }
 
+// Memoized normalization.
+//
+// normalizeRulesData() rebuilds every rule, every mark and every complaint
+// from scratch. That result is read very often: the panel reads it several
+// times per render (the rules getter, the target, the row texts), and the
+// ghosts layer reads it once per glyph per canvas frame — 60 times a
+// second. Rebuilding the whole document that often dominates the plugin's
+// cost.
+//
+// The raw rules object is *replaced* (not mutated) whenever the rules are
+// written — writeRules() does `root.customData[RULES_KEY] = storable(data)`
+// — so keying the cache on the raw object's identity is enough: a changed
+// document is a new object and therefore a cache miss.
+//
+// The normalized document is treated as read-only by every caller: the
+// `with…` helpers return new objects, and editRule() clones the rule it
+// changes.
+const normalizedRulesCache = new WeakMap();
+
 export function readRulesData(customData) {
-  return normalizeRulesData(customData?.[RULES_KEY]);
+  const raw = customData?.[RULES_KEY];
+  if (!raw || typeof raw !== "object") {
+    return normalizeRulesData(raw);
+  }
+  let cached = normalizedRulesCache.get(raw);
+  if (cached === undefined) {
+    cached = normalizeRulesData(raw);
+    normalizedRulesCache.set(raw, cached);
+  }
+  return cached;
 }
 
 export function isManual(rule) {

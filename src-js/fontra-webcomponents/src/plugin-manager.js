@@ -134,6 +134,20 @@ export class PluginManager extends SimpleElement {
     if (response.status === 404) {
       return [false, translate("plugin-manager.warning.not-found")];
     }
+    if (!response.ok) {
+      // A 500, or an HTML error page served with a 200, is not a plugin
+      // manifest: registering it would only produce a plugin that fails
+      // to load later.
+      return [
+        false,
+        `${translate("plugin-manager.warning.fetching-error")} (${response.status})`,
+      ];
+    }
+    try {
+      await response.json();
+    } catch (e) {
+      return [false, translate("plugin-manager.warning.fetching-error")];
+    }
     return [true];
   }
 

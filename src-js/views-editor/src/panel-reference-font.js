@@ -237,9 +237,15 @@ export default class ReferenceFontPanel extends Panel {
   constructor(editorController) {
     super(editorController);
 
-    fetchJSON("/data/language-mapping.json").then((languageMapping) => {
-      this.languageMapping = languageMapping;
-    });
+    fetchJSON("/data/language-mapping.json")
+      .then((languageMapping) => {
+        this.languageMapping = languageMapping;
+      })
+      .catch((e) => {
+        // The mapping is optional: without it the reference font panel just
+        // cannot map characters to languages.
+        console.error("Could not load the language mapping.", e);
+      });
 
     this.controller.addKeyListener("referenceFontName", (event) => {
       if (event.newValue) {

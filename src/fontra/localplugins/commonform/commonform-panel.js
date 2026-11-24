@@ -136,7 +136,12 @@ export default class CommonformPanel extends Panel {
     const sceneController = this.editorController.sceneController;
     sceneController?.addCurrentGlyphChangeListener?.(() => {
       // Drop stale matches/highlights so they aren't shown next to a new glyph.
-      try { clearSearch(); } catch (e) { /* ignore */ }
+      try {
+        clearSearch();
+      } catch (e) {
+        /* ignore */
+      }
+      this._updateResults();
       this._scheduleQueryRefresh();
     });
     sceneController?.sceneSettingsController?.addKeyListener?.(
@@ -371,6 +376,12 @@ export default class CommonformPanel extends Panel {
     }
     state.query = query;
     state.queryError = null;
+    // The results of the last search describe the *previous* shape. Drop
+    // them, so the results table and the canvas highlights cannot disagree
+    // with the query the label now names.
+    clearSearch();
+    this._updateResults();
+    this._setStatus("", "hint");
 
     const options = this._searchOptions();
     const prepared = query.contours.map((contour) => this._prepare(contour, options));
@@ -417,12 +428,18 @@ export default class CommonformPanel extends Panel {
     if (this._busy) {
       return;
     }
+    // Flush the pending query refresh before searching. The query follows the
+    // selection with a 150 ms debounce, so without this the search runs
+    // against the *previous* shape — and the debounce that fires afterwards
+    // replaces the results with those of the new one.
+    if (this._queryTimer) {
+      clearTimeout(this._queryTimer);
+      this._queryTimer = null;
+    }
+    await this._refreshQuery();
     if (!state.query) {
-      await this._refreshQuery();
-      if (!state.query) {
-        this._setStatus(state.queryError || "Select a shape first.", "error");
-        return;
-      }
+      this._setStatus(state.queryError || "Select a shape first.", "error");
+      return;
     }
     this._busy = true;
     this._searchButton.disabled = true;
@@ -480,6 +497,11 @@ export default class CommonformPanel extends Panel {
   }
 
   _updateResults() {
+    if (!this._summary || !this._resultsTable) {
+      // The panel content does not exist yet (the constructor refreshes the
+      // query before it is built).
+      return;
+    }
     const matches = state.matches || [];
     const summary = state.summary;
 

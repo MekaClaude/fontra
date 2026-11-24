@@ -2183,8 +2183,29 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
       };
 
       // the accents a glyph is made of, for the menus of a rule
+      //
+      // The set of marks the rules name is built once, not once per glyph
+      // name: `Object.values(rules).some(...)` inside the filter rebuilt the
+      // rule list for every glyph in the font, which made this O(glyphs ×
+      // rules × marks) on every open-glyph change.
+      const ruleMarkNames = new Set();
+      for (const rule of Object.values(rules)) {
+        for (const mark of rule.marks || []) {
+          if (mark.glyph) {
+            ruleMarkNames.add(mark.glyph);
+          }
+        }
+      }
       const markNames = Object.keys(glyphMap).filter(
-        (name) => name.endsWith("comb") || glyphData?.isMark(name) || Object.values(rules).some((rule) => (rule.marks || []).some((mark) => mark.glyph === name))
+        (name) =>
+          name.endsWith("comb") ||
+          glyphData?.isMark(name) ||
+          ruleMarkNames.has(name)
+      );
+      // The legacy `…comb` names, for the same reason: the list is scanned
+      // once per rule, and the scan is over the whole glyph map.
+      const legacyCombNames = Object.keys(glyphMap).filter((name) =>
+        /comb(\.|$)/.test(name)
       );
       const loadFor = [glyphName, ...markNames];
       if (kind === "composed") {
@@ -2199,7 +2220,7 @@ export function makeMarksPanel(Panel, pluginPath, ghostsLayer) {
       const choicesFor = (rule) => ({
         // a legacy accent can be made of any `…comb` the font has
         combs: isLegacyRule(rule)
-          ? [...new Set([rule.legacy, ...Object.keys(glyphMap).filter((name) => /comb(\.|$)/.test(name))])]
+          ? [...new Set([rule.legacy, ...legacyCombNames])]
           : [],
         anchors: (rule.marks || []).map((mark) => anchorChoices(layer(mark.on || rule.base), layer(mark.glyph), mark.anchor)),
         variants: (rule.marks || []).map((mark) => variantChoices(mark.glyph, glyphMap)),

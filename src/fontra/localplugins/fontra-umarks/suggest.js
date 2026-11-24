@@ -385,7 +385,10 @@ function buildRule({ baseName, noBase, marks: markNames }, { font, glyphData, se
  */
 export function markCandidatesFor(glyphNames, font, glyphData, settings = {}) {
   const candidates = new Set();
-  const fontGlyphNames = Object.keys(font.glyphMap || {});
+  // A Set, not an array: the lookups below run once per glyph name and per
+  // prefix of its stem, so an array made this O(glyphs × prefixes × font
+  // glyphs) string comparisons per refresh.
+  const fontGlyphNames = new Set(Object.keys(font.glyphMap || {}));
 
   const addVariants = (name) => {
     if (!name) {
@@ -420,10 +423,10 @@ export function markCandidatesFor(glyphNames, font, glyphData, settings = {}) {
     // by name: every tail of the name that this font has as a glyph of its own
     for (let cut = 1; cut < stem.length; cut++) {
       const tail = stem.slice(cut);
-      if (tail.length >= 2 && fontGlyphNames.includes(tail)) {
+      if (tail.length >= 2 && fontGlyphNames.has(tail)) {
         addVariants(tail);
       }
-      if (tail.length >= 2 && fontGlyphNames.includes(tail + "comb")) {
+      if (tail.length >= 2 && fontGlyphNames.has(tail + "comb")) {
         addVariants(tail + "comb");
       }
     }
