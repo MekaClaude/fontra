@@ -80,7 +80,7 @@ const span = (attrs, ...children) => el("span", attrs, children);
 const label = (attrs, ...children) => el("label", attrs, children);
 const input = (attrs) => el("input", attrs);
 const button = (attrs, ...children) => el("button", attrs, children);
-const checkbox = (attrs) => el("input", attrs);
+// (checkbox alias removed; use input({ type: "checkbox", ... }))
 const table = (attrs, ...children) => el("table", attrs, children);
 const thead = (attrs, ...children) => el("thead", attrs, children);
 const tbody = (attrs, ...children) => el("tbody", attrs, children);
@@ -234,12 +234,12 @@ export default class CommonformPanel extends Panel {
       this._updateToleranceHint();
     });
 
-    this._scaleInvariantInput = checkbox({ type: "checkbox", checked: state.scaleInvariant });
+    this._scaleInvariantInput = input({ type: "checkbox", checked: state.scaleInvariant });
     this._scaleInvariantInput.addEventListener("change", () => {
       state.scaleInvariant = this._scaleInvariantInput.checked;
     });
 
-    this._mirroredInput = checkbox({ type: "checkbox", checked: state.allowMirrored });
+    this._mirroredInput = input({ type: "checkbox", checked: state.allowMirrored });
     this._mirroredInput.addEventListener("change", () => {
       state.allowMirrored = this._mirroredInput.checked;
     });
@@ -311,7 +311,7 @@ export default class CommonformPanel extends Panel {
       { key: "showSame", label: "Show same" },
       { key: "showNear", label: "Show near" },
     ].map(({ key, label: text }) => {
-      const chk = checkbox({ type: "checkbox", checked: state[key] });
+      const chk = input({ type: "checkbox", checked: state[key] });
       chk.addEventListener("change", () => {
         state[key] = chk.checked;
         this.editorController.canvasController?.requestUpdate();
@@ -445,7 +445,6 @@ export default class CommonformPanel extends Panel {
     this._searchButton.disabled = true;
     this._progressFill.style.width = "0%";
     this._setStatus("Searching…", "hint");
-    state.isSearching = true;
 
     try {
       const options = this._searchOptions();
@@ -459,7 +458,6 @@ export default class CommonformPanel extends Panel {
       const raw = await collectCandidates(this.editorController, {
         onProgress: (done, total) => {
           this._progressFill.style.width = `${Math.round((done / total) * 100)}%`;
-          state.progress = { done, total };
         },
       });
 

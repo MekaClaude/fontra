@@ -101,7 +101,7 @@ sidebearing at the stem, and make each of them 14 cadence units wide.
 
 | Directive | Meaning |
 |---|---|
-| `nBeam=200` | the beam height (also `mBeam=`, `fBeam=`, `gBeam=`) |
+| `nBeam=200` | the beam height |
 | `tabular=zero,one,two` | the glyphs to give a fixed width |
 | `tabularWidth=600` | the fixed width, in font units |
 

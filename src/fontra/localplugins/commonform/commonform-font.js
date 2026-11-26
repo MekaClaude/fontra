@@ -269,14 +269,12 @@ export async function buildQuery(editor) {
     };
   }
 
-  const openCount = shapes.filter((shape) => !shape.isClosed).length;
   return {
     ok: true,
     contours: shapes,
     glyphName,
     source: "points",
     layerName,
-    openCount,
   };
 }
 
@@ -296,6 +294,8 @@ export async function collectCandidates(editor, { onProgress, glyphNames } = {})
   const fontController = editor.fontController;
   const names = glyphNames || Object.keys(fontController.glyphMap || {});
   const candidates = [];
+  let failedCount = 0;
+  const failedExamples = [];
 
   for (let i = 0; i < names.length; i++) {
     const glyphName = names[i];
@@ -304,6 +304,8 @@ export async function collectCandidates(editor, { onProgress, glyphNames } = {})
       controller = await getGlyphInstance(editor, glyphName, null);
     } catch (e) {
       controller = null;
+      failedCount++;
+      if (failedExamples.length < 5) failedExamples.push(glyphName);
     }
     if (controller?.path) {
       const path = controller.path;
@@ -332,6 +334,12 @@ export async function collectCandidates(editor, { onProgress, glyphNames } = {})
     if (onProgress) {
       onProgress(i + 1, names.length);
     }
+  }
+  if (failedCount) {
+    console.warn(
+      `[commonform] ${failedCount} of ${names.length} glyphs could not be measured`,
+      failedExamples
+    );
   }
   return candidates;
 }

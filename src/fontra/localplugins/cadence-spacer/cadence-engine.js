@@ -56,7 +56,8 @@ export function isAltKey(key) {
 // Text format (one directive or entry per line, close to the original
 // LS Cadencer .csv syntax so existing tables are easy to port by hand):
 //
-//   nBeam=200            (optional: mBeam=, nBeam=, fBeam=, gBeam=)
+//   nBeam=200            (beam height; only nBeam is used — mBeam/fBeam/gBeam
+//                         are accepted for backward compatibility but ignored)
 //   tabular=zero.tf,one.tf,two.tf     (optional, glyphs to fix-width)
 //   tabularWidth=600     (required if `tabular` is present)
 //   # a comment
@@ -68,10 +69,9 @@ export function isAltKey(key) {
 export function parseCust(text) {
   const lines = (text || "").split(/\r\n|\r|\n/);
   const meta = {
-    mBeam: null,
+    // Only nBeam is used as the beam height. mBeam/fBeam/gBeam are accepted
+    // by the parser (backward compat) but not stored or serialized.
     nBeam: null,
-    fBeam: null,
-    gBeam: null,
     tabular: [],
     tabularWidth: null,
   };
@@ -88,8 +88,11 @@ export function parseCust(text) {
 
     let m;
     if ((m = /^([mnfg]Beam)\s*=\s*(-?\d+(?:\.\d+)?)$/i.exec(line))) {
-      const key = m[1][0].toLowerCase() + "Beam";
-      meta[key] = parseFloat(m[2]);
+      // Backward compatibility: accept mBeam/fBeam/gBeam lines but only nBeam
+      // is used as the beam height.
+      if (m[1].toLowerCase() === "nbeam") {
+        meta.nBeam = parseFloat(m[2]);
+      }
       return;
     }
     if ((m = /^tabularWidth\s*=\s*(-?\d+(?:\.\d+)?)$/i.exec(line))) {
@@ -159,16 +162,17 @@ export function parseCust(text) {
     entries.set(glyphKey, { key: glyphKey, sideDef, left, right, beam });
   });
 
+  // Enforce the documented contract: `tabular` requires `tabularWidth`.
+  if (meta.tabular.length && meta.tabularWidth == null) {
+    errors.push("tabular= is present but tabularWidth= is missing (required).");
+  }
   return { meta, entries, order, errors, activeVariant: {} };
 }
 
 export function serializeCust(cust) {
   const lines = [];
   const { meta, entries, order } = cust;
-  if (meta.mBeam != null) lines.push(`mBeam=${meta.mBeam}`);
   if (meta.nBeam != null) lines.push(`nBeam=${meta.nBeam}`);
-  if (meta.fBeam != null) lines.push(`fBeam=${meta.fBeam}`);
-  if (meta.gBeam != null) lines.push(`gBeam=${meta.gBeam}`);
   if (meta.tabular?.length) lines.push(`tabular=${meta.tabular.join(",")}`);
   if (meta.tabularWidth != null) lines.push(`tabularWidth=${meta.tabularWidth}`);
   for (const key of order) {
