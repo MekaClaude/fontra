@@ -1,6 +1,10 @@
 {
   "name": "Fontra Tutorials",
-  "description": "Guided tours and hands-on lessons inside the Fontra editor: around the editor, your first font, Font Info, the font overview, coming from Glyphs or RoboFont.",
+  "description": "Interactive tours that walk new users through the editor, the font info view, the font overview and the glyph editor.",
+  "identifier": "com.fontra.plugins.fontra-tutorials",
+  "version": "1.0.0",
+  "author": "U+Type / Jérémie Hornus (adapted for this fork)",
+  "license": "GPL-3.0",
   "init": "init.js",
   "function": "init"
 }

@@ -1,6 +1,10 @@
 {
   "name": "U+Marks",
+  "description": "A mark and anchor placement assistant for the edited glyph.",
+  "identifier": "com.fontra.plugins.fontra-umarks",
+  "version": "0.1.4-fork.1",
+  "author": "U+Type / Jérémie Hornus",
+  "license": "GPL-3.0",
   "init": "init.js",
-  "function": "init",
-  "version": "0.1.4"
+  "function": "init"
 }

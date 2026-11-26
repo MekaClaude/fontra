@@ -50,7 +50,13 @@ export class Sidebar {
         {
           "class": "sidebar-tab",
           "data-sidebarName": panelElement.identifier,
-          "title": translate("sidebar." + panelElement.identifier),
+          "title": (() => {
+            const key = "sidebar." + panelElement.identifier;
+            const translated = translate(key);
+            // Fall back to a humanised identifier when no translation exists,
+            // so a plugin panel never shows the raw key as its tooltip.
+            return translated === key ? panelElement.identifier : translated;
+          })(),
         },
         [iconElement]
       )

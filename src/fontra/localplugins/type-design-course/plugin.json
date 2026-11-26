@@ -1,6 +1,10 @@
 {
   "name": "Type Design School",
-  "description": "A complete course in type design, in the sidebar: ten phases from seeing a typeface to shipping a family — concepts, sketching, drawing, spacing, proofing, vectorising, the family, and release.",
+  "description": "A complete course in type design, in the sidebar: ten phases from seeing a typeface to shipping a family.",
+  "identifier": "com.fontra.plugins.type-design-course",
+  "version": "1.0.0",
+  "author": "Meka Claude",
+  "license": "MIT",
   "init": "init.js",
   "function": "init"
 }
